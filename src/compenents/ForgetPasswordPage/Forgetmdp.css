@@ -1,0 +1,86 @@
+.Forgetmdp-background {
+    background-color: #bc979eb0;
+    align-items: center ;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 700px;
+}
+
+
+.Forgetmdp-background img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    padding: 10px;
+   
+
+}
+
+.forget-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 3px solid #3a001e;
+    width: 800px;
+}
+
+.forget-container h1 {
+    color: #3a001e88;
+    font-size: 24px;
+    padding: 10px;
+    margin-top: 20px;
+  
+}
+
+.forget-container p {
+    color: #3a001e;
+    font-weight: 500;
+}
+
+
+.input-forget {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px;
+    gap: 10px;
+}
+
+.input-forget input {
+    background-color: transparent;
+    border: 2px solid #3a001e;
+    border-radius: 5px;
+    height: 30px;
+    width: 300px;
+}
+
+.input-forget input::placeholder {
+    color: #3a001e88;
+    font-weight: 600;
+}
+
+
+.input-forget a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #3a001e;
+    background-color: #3a001e72;
+    height: 15px;
+    text-decoration: none;
+    padding: 10px;
+    color: white;
+    width: 100px;
+    font-weight: 700;
+    margin-top: 20px;
+
+}
+
+
+.input-forget a:hover {
+    background-color: #3a001eb2;
+    font-weight: 800;
+}

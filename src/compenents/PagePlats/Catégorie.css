@@ -1,0 +1,73 @@
+.Plats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    background-color: #ffe5da;
+    padding: 50px;
+}
+
+
+.plats-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-height: 400px;
+
+    
+}
+
+.plats-container img:not(.plats-share img ){
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 5px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px #3a001e;
+}
+
+.plats-details {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #3a001e;
+    font-weight: 500;
+}
+
+.plats-star {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3a001e1a;
+    padding: 5px;
+    width: 240px;
+}
+
+.plats-star p {
+   margin-left: 15px;
+   background-color: #3a001e3a;
+   padding: 5px;
+}
+
+.plats-share {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.plats-share img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+   
+}

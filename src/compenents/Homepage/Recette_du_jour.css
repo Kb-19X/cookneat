@@ -1,0 +1,139 @@
+.pagejour {
+    background-color: #b47a616a;
+    height: 800px;
+    border-bottom: 2px solid #3A001E;
+    box-shadow: 0px 0px 15px black;
+}
+.recettedujour {
+    background-color: #b47a6100;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #3A001E;
+    gap: 20px;
+    
+}
+.recettedujour img {
+    width: 50px;
+    height: 50px;
+    
+    padding: 2px;
+}
+
+.recettedujour h1 {
+    border-bottom:3px dotted #3A001E;
+    padding: 5px;
+}
+.description-pagejour {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #3a001e1d;
+    color: #3A001E;
+    font-weight: 700;
+}
+
+.recetteday-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+
+.recetteday-left img {
+    width: 550px;
+    height: 300px;
+    margin-bottom: 20px;
+    margin-top: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 3px solid #EB7E68;
+    box-shadow: 0px 0px 15px #EB7E68;
+}
+
+.recetteday-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 70px;
+
+    
+}
+
+
+.recetteday-left h1 {
+    color: #3A001E;
+    border-bottom: 2px solid #3A001E;
+    border-top: 3px solid #3A001E;
+    width: 300px;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #EB7E68, #3a001e65);
+}
+
+.recetteday-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 550px;
+    margin-left: 100px;
+    margin-top: 40px;
+}
+
+.titre-recetteday {
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.stitre-recetteday {
+    font-size: 20px;
+}
+
+.stars {
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 30px;
+    background: linear-gradient(to right, #eb7e6878, #eb7e6831);
+    padding: 7px;
+   
+}
+
+
+
+.stars span {
+    
+}
+
+.first-stars {
+    border-left: 3px dotted #3A001E;
+    padding-left: 20px;
+}
+
+
+.com-recetteday {
+
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 170px;
+    gap: 20px;
+}
+
+.com-recetteday img {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+
+}
+
