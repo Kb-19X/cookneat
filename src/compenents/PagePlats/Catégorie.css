@@ -1,3 +1,54 @@
+.Plats-grid {
+    display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-template-rows: 1fr;
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+}
+
+.Pats-grid-container-left {
+    background-color: #e0a88ca8;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    border-right: 3px solid #3a001e ;
+  
+}
+
+.Pats-grid-container-left h1 {
+    color: #3a001e;
+    border-bottom: 3px dotted #3a001e ;
+    padding: 10px;
+}
+
+.filtre-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+.filtre-details a {
+    background-color: #3a001e;
+    color: #ffe5da;
+    text-decoration: none;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow:0px 0px 5px #3a001e;
+
+}
+
+.filtre-details a:hover {
+    background-color: #eb7e68d1;
+}
+
+
 .Plats {
     display: flex;
     justify-content: center;
@@ -5,7 +56,10 @@
     flex-wrap: wrap;
     gap: 50px;
     background-color: #ffe5da;
-    padding: 50px;
+    padding-top: 50px;
+    width: 1000px;
+    padding-bottom: 150px;
+    border-bottom: 3px solid #3a001e ;
 }
 
 
@@ -18,6 +72,9 @@
 
     
 }
+
+
+
 
 .plats-container img:not(.plats-share img ){
     width: 250px;
@@ -46,6 +103,19 @@
     background-color: #3a001e1a;
     padding: 5px;
     width: 240px;
+    border-radius: 10px;
+}
+
+
+
+.name-plats {
+    display: flex;
+    gap: 20px;
+    padding: 5px;
+}
+
+.plats-time {
+    font-weight: 700;
 }
 
 .plats-star p {
@@ -70,4 +140,98 @@
     height: 20px;
     margin-left: 5px;
    
+}
+
+/* ---------------------------- commentaire ------------------------------- */
+
+.share-avis-container {
+    padding: 50px 0px 0px 100px;
+    background-color: #ffe5da;
+    
+}
+
+.share-avis-container-left {
+    background-color: #ebc6b3;
+    border-right:3px solid#3a001e;
+}
+
+
+.avis-details-profil {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    background-color: #ebc6b3;
+}
+
+.avis-build {
+    display: flex;
+    align-items: center;
+    background-color: #ebc6b3;
+    width: 650px;
+    justify-content: center;
+    border-top: 2px solid #3a001e;
+    border: 2px solid #3a001e;
+    border-bottom: 0px;
+
+}
+
+.avis-build img{
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+}
+
+
+.etoile-categorie img {
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+    margin-top: 5px;
+  
+
+} 
+
+.etoile-categorie {
+    display: flex;
+    gap: 5px;
+}
+
+.favs-cat {
+    margin-left: 400px;
+    margin-bottom: 10px;
+}
+
+.favs-cat img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.titre-cat {
+    margin-bottom: 50px;
+
+}
+
+
+.text-cat-c {
+    background-color: rgba(242, 195, 171, 0.36);
+    width: 630px;
+    display: flex;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    justify-content: center;
+    border-bottom: 2px solid #3a001e;
+    border-left: 2px solid #3a001e;
+    border-right: 2px solid #3a001e;
+}
+
+.text-cat-c p {
+    color: #3a001e;
+    font-weight: 500;
+}
+
+.dateheure-avis {
+    font-size: 12px ;
 }
