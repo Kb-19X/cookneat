@@ -1,8 +1,9 @@
 .form {
     background-color:#eb7e683d ;
     width: 1550px;
-    height: 750px;
+    height: 600px;
     display: flex;
+    align-items: center;
 }
 
 .login-form {
@@ -13,7 +14,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 50px;
+   
     margin-left: 425px;
 }
 

@@ -21,6 +21,7 @@ import profil from '../../assets/ImagePlatsPage/profil.png';
 
 
 const catégorie = () => {
+  
   return (
     
     <div className='Plats-grid'>
@@ -294,7 +295,81 @@ const catégorie = () => {
     </div>
 
   <div className='share-avis-container-left'>
-    
+      <h1>Vos recettes favorites !</h1>
+      <div className='plats-container'>
+        <img src={quiche_legume} alt="" />
+        <div className='plats-details'>
+        <div className='name-plats'>
+        <p>Quiche aux légumes</p>
+        <p className='plats-time'>20 minutes</p>
+        </div>
+                <div className='plats-star'>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <p>35 avis</p>
+                <div className='plats-share'>
+                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
+                    <a href=""><img src={like} alt="" className='img-plats' /></a>
+                    <a href=""><img src={share} alt="" className='img-plats' /></a>
+                </div>
+                </div>
+                </div>
+                
+        </div>
+
+
+        <div className='plats-container'>
+        <img src={quiche_legume} alt="" />
+        <div className='plats-details'>
+        <div className='name-plats'>
+        <p>Quiche aux légumes</p>
+        <p className='plats-time'>20 minutes</p>
+        </div>
+                <div className='plats-star'>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <p>35 avis</p>
+                <div className='plats-share'>
+                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
+                    <a href=""><img src={like} alt="" className='img-plats' /></a>
+                    <a href=""><img src={share} alt="" className='img-plats' /></a>
+                </div>
+                </div>
+                </div>
+                
+        </div>
+
+
+        <div className='plats-container'>
+        <img src={quiche_legume} alt="" />
+        <div className='plats-details'>
+        <div className='name-plats'>
+        <p>Quiche aux légumes</p>
+        <p className='plats-time'>20 minutes</p>
+        </div>
+                <div className='plats-star'>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <p>35 avis</p>
+                <div className='plats-share'>
+                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
+                    <a href=""><img src={like} alt="" className='img-plats' /></a>
+                    <a href=""><img src={share} alt="" className='img-plats' /></a>
+                </div>
+                </div>
+                </div>
+                
+        </div>
+
   </div>
 
 
@@ -324,20 +399,95 @@ const catégorie = () => {
         <p className='texte-cat'>Un tiramisu absolument délicieux ! La recette est simple et le goût est incroyablement riche. Je l’ai fait pour un dîner entre amis, et tout le monde a adoré !</p>
         </div>
 
+        <div className='avis-build'>
+      <img src={profil} alt="" />
+      <div className='avis-details-profil'>
+      <p>Surname Name</p>
+      <div className='etoile-categorie'>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                 <a href=""><img src={etoilemauve} alt="" /></a>
+               
+      </div>
+      <p className='dateheure-avis'>10/11/2024 16:08</p>
+      </div>
 
 
+      <a className='favs-cat' href=""><img src={etoilejaune} alt="" /></a>
+    </div>
+    <div className='text-cat-c'>
+        <p className='texte-cat'>Un tiramisu absolument délicieux ! La recette est simple et le goût est incroyablement riche. Je l’ai fait pour un dîner entre amis, et tout le monde a adoré !</p>
+        </div>
 
 
+        <div className='avis-build'>
+      <img src={profil} alt="" />
+      <div className='avis-details-profil'>
+      <p>Surname Name</p>
+      <div className='etoile-categorie'>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                 <a href=""><img src={etoilemauve} alt="" /></a>
+               
+      </div>
+      <p className='dateheure-avis'>10/11/2024 16:08</p>
+      </div>
+
+
+      <a className='favs-cat' href=""><img src={etoilejaune} alt="" /></a>
+    </div>
+    <div className='text-cat-c'>
+        <p className='texte-cat'>Un tiramisu absolument délicieux ! La recette est simple et le goût est incroyablement riche. Je l’ai fait pour un dîner entre amis, et tout le monde a adoré !</p>
+        </div>
+
+
+        <div className='avis-build'>
+      <img src={profil} alt="" />
+      <div className='avis-details-profil'>
+      <p>Surname Name</p>
+      <div className='etoile-categorie'>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                <a href=""><img src={etoilemauve} alt="" /></a>
+                 <a href=""><img src={etoilemauve} alt="" /></a>
+               
+      </div>
+      <p className='dateheure-avis'>10/11/2024 16:08</p>
+      </div>
+
+
+      <a className='favs-cat' href=""><img src={etoilejaune} alt="" /></a>
+    </div>
+    <div className='text-cat-c'>
+        <p className='texte-cat'>Un tiramisu absolument délicieux ! La recette est simple et le goût est incroyablement riche. Je l’ai fait pour un dîner entre amis, et tout le monde a adoré !</p>
+        </div>
+        <div className='commentview-cotnainer'>
+        <a className='commentview' href="">Voir tous les commentaires</a>
+        </div>
+        <div className='notation-cadre'>
+
+          <div className='notation-container'>
+          <p>Noter cette recette !</p>
+          <a href=""><img src={etoilejaune} alt="" /></a>
+          <a href=""><img src={etoilejaune} alt="" /></a>
+          <a href=""><img src={etoilejaune} alt="" /></a>
+          <a href=""><img src={etoilemauve} alt="" /></a>
+          <a href=""><img src={etoilemauve} alt="" /></a>
+          </div>
+          <textarea className='text-notation'  name="#" id="" placeholder='Votre message ici'></textarea>
+          <div className='vld-notation-container'>
+          <a className='valider-notation-btn' href="#">Valider</a>
+          </div>
+        </div>
 
 
 
   </div>
-
-
-
-
-
-
 
 
     </div>
@@ -345,4 +495,5 @@ const catégorie = () => {
   )
 }
 
-export default catégorie
+
+export default catégorie;

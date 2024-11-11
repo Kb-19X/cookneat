@@ -153,7 +153,21 @@ grid-row-gap: 0px;
 .share-avis-container-left {
     background-color: #ebc6b3;
     border-right:3px solid#3a001e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
 }
+
+.share-avis-container-left h1 {
+    color: #3a001e;
+    padding: 30px;
+    border-bottom: 2px inset #3a001e;
+    margin-bottom: 50px;
+}
+
+
+
 
 
 .avis-details-profil {
@@ -206,6 +220,8 @@ grid-row-gap: 0px;
     width: 30px;
     height: 30px;
     object-fit: cover;
+    border: 1px solid #3a001e;
+    background-color: #3a001e;
 }
 
 .titre-cat {
@@ -225,6 +241,7 @@ grid-row-gap: 0px;
     border-bottom: 2px solid #3a001e;
     border-left: 2px solid #3a001e;
     border-right: 2px solid #3a001e;
+    margin-bottom: 50px;
 }
 
 .text-cat-c p {
@@ -234,4 +251,94 @@ grid-row-gap: 0px;
 
 .dateheure-avis {
     font-size: 12px ;
+}
+
+.notation-cadre {
+    background-color: #3a001e7e;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid #3a001e;
+    margin-bottom: 50px;
+}
+
+
+
+.notation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+
+}
+
+.notation-container img {
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+}
+
+.notation-container p {
+    font-size: 22px;
+    font-weight: 500px;
+    color: #3a001e;
+}
+
+
+.notation-cadre textarea {
+    width: 310px;
+    padding: 20px;
+    height: 100px;
+}
+
+
+.valider-notation-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #3a001e;
+    background-color: #3a001e72;
+    height: 15px;
+    text-decoration: none;
+    padding: 5px;
+    color: white;
+    width: 200px;
+    font-weight: 700;
+    
+}
+
+.vld-notation-container {
+    display: flex;
+    padding: 30px;
+    align-items: center;
+  
+}
+
+.valider-notation-btn:hover {
+    background-color: #3a001eb2;
+    font-weight: 800;
+}
+
+
+
+.commentview {
+    color: #3a001e;
+    margin-bottom: 50px;
+}
+
+.commentview-cotnainer {
+    display: flex;
+    justify-items: center;
+}
+
+.text-notation {
+    background-color: #3a001e49;
+    color: #e0c8bd;
+  
+}
+
+.text-notation::placeholder {
+    color: #e0c8bd;
 }
