@@ -23,7 +23,7 @@ const Createcompte = () => {
               <div className='create-account'>
                <p>Vous n'avez pas de compte ?</p> <a href="./Register">Créer un compte</a>
                </div>
-               <a className='login-btn' href="">S'inscire</a>
+               <a className='login-btn' href="#">S'inscire</a>
             </div>
 
 

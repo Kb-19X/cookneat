@@ -5,6 +5,7 @@ import Plats from './compenents/Plats';
 import Connexion from './compenents/Connexion';
 import Register from './compenents/Register';
 import ForgetPassword from './compenents/ForgetPassword';
+import NutritionSanté from './compenents/NutritionSanté';
 import { createBrowserRouter, RouterProvider, NavLink, Outlet } from 'react-router-dom';
 
 
@@ -18,6 +19,7 @@ function Root() {
         <NavLink to="/connexion">Connexion</NavLink> | 
         <NavLink to="/register">Register</NavLink> | 
         <NavLink to="/ForgetPassword">Forget Password</NavLink>
+        <NavLink to="/NutritionSanté">Forget Password</NavLink>
       </nav>
       {/* Permet de rendre les sous-routes ici */}
       <Outlet />
@@ -37,6 +39,7 @@ const router = createBrowserRouter([
       { path: 'connexion', element: <Connexion /> },
       { path: 'register', element: <Register /> },
       { path: 'ForgetPassword', element: <ForgetPassword /> },
+      { path: 'NutritionSanté', element: <NutritionSanté /> },
     ],
   },
 ]);

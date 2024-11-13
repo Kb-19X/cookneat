@@ -1,0 +1,55 @@
+
+.carousel {
+    margin-top: -50px;
+}
+.carousel .slide {
+    position: relative;
+  }
+  
+  .carousel .text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #3A001E; 
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #eb7e68c0;
+    border: 2px dotted #3A001E;
+    display: flex;
+    padding: 3px;
+  }
+
+
+.carousel-color {
+    background-color: #ffe5dafe;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+
+/* Cibler les chevrons existants (flèches) dans React Slick */
+.slick-prev, .slick-next {
+
+  font-size: 25px;            /* Taille de la flèche */
+  border-radius: 50%;         /* Faire des cercles autour des flèches */
+  height: 40px;               /* Taille du cercle */
+  width: 40px;                /* Largeur du cercle */
+  display: flex;              /* Utiliser flexbox pour centrer le contenu */
+  justify-content: center;    /* Centrer horizontalement */
+  z-index: 1;                 /* Assurer que les chevrons soient au-dessus des images */
+}
+
+.slick-prev {
+  left: 10px;  /* Position du chevron gauche */
+}
+
+.slick-next {
+  right: 10px; /* Position du chevron droit */
+}
+
+/* Modifier les chevrons au survol */
+
