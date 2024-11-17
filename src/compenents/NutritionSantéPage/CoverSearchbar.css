@@ -1,4 +1,6 @@
-
+.background-cover {
+    border-bottom: 5px inset #3A001E;
+}
 
 
 .Cover-Healty  {
@@ -7,12 +9,12 @@
     margin: 0px;
     padding: 0px;
     width:100%;
-    background-color: #ffe5da;
+    background: linear-gradient(180deg, #ffe5da, #eb7e686b);
 }
 
 .Cover-Healty img {
     width: 1080px;
-    height: 500px;
+    height: 501px;
     object-fit: contain;
   
 }

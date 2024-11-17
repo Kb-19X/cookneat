@@ -41,7 +41,7 @@ function MyCarousel() {
         </div>
 
          <div className="slide">
-         <a href="#"><img src={detox} alt="Slide 1" style={{ width: "480px", height: "200px", objectFit: "cover" }} /></a>
+         <a href="/detox"><img src={detox} alt="Slide 1" style={{ width: "480px", height: "200px", objectFit: "cover" }} /></a>
          <div className="text-overlay">DETOX</div>
         </div>
 
