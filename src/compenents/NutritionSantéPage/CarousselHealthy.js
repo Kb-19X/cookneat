@@ -31,12 +31,12 @@ function MyCarousel() {
         </div>
       <Slider {...settings}>
          <div className="slide">
-         <a href="#"><img src={vegan} alt="Slide 1" style={{ width: "480px", height: "200px", objectFit: "cover" }} /></a> 
+         <a href="./Vegan"><img src={vegan} alt="Slide 1" style={{ width: "480px", height: "200px", objectFit: "cover" }} /></a> 
           <div className="text-overlay">VEGAN</div>
         </div>
 
          <div className="slide">
-         <a href="#"><img src={nogluten} alt="Slide 1" style={{ width: "480px", height: "200px", objectFit: "cover" }} /></a>
+         <a href="./Nogluten"><img src={nogluten} alt="Slide 1" style={{ width: "480px", height: "200px", objectFit: "cover" }} /></a>
          <div className="text-overlay">SANS GLUTEN</div>
         </div>
 
@@ -46,7 +46,7 @@ function MyCarousel() {
         </div>
 
          <div className="slide">
-         <a href="#"><img src={proteine} alt="Slide 1" style={{ width: "480px", height: "200px", objectFit: "cover" }} /></a>
+         <a href="./Proteine"><img src={proteine} alt="Slide 1" style={{ width: "480px", height: "200px", objectFit: "cover" }} /></a>
          <div className="text-overlay">PROTEINE</div>
         </div>
 

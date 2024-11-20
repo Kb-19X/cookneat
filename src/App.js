@@ -7,6 +7,9 @@ import Register from './compenents/Register';
 import ForgetPassword from './compenents/ForgetPassword';
 import NutritionSanté from './compenents/NutritionSanté';
 import Detox from './compenents/Detox';
+import Nogluten from './compenents/Nogluten';
+import Vegan from './compenents/Vegan';
+import Proteine from './compenents/Proteine';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 function Root() {
@@ -41,6 +44,9 @@ const router = createBrowserRouter([
       { path: 'ForgetPassword', element: <ForgetPassword /> },
       { path: 'NutritionSanté', element: <NutritionSanté /> },
       { path: 'Detox', element: <Detox /> },
+      { path: 'Nogluten', element: <Nogluten /> },
+      { path: 'Vegan', element: <Vegan /> },
+      { path: 'Proteine', element: <Proteine /> },
     ],
   },
 ]);

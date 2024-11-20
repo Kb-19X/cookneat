@@ -6,9 +6,12 @@ import Soupe_legumes_curcuma from '../../assets/ImageDetoxPage/Soupe_legumes_cur
 import Soupe_lentilles_tofu from '../../assets/ImageDetoxPage/Soupe_lentilles_tofu.jpg';
 import smoothie from '../../assets/ImageDetoxPage/smoothie.jpg';
 import clock  from '../../assets/ImageHomePage/clock-one.png';
-// import celeri from '../../assets/ImageDetoxPage/celeri.png';
+import celeri from '../../assets/ImageDetoxPage/celeri.png';
 // import tofu  from '../../assets/ImageHomePage/tofu.png';
 import ginger from '../../assets/ImageDetoxPage/ginger.png';
+import curcuma from '../../assets/ImageDetoxPage/curcuma.png';
+import ananas from '../../assets/ImageDetoxPage/ananas.png';
+import lentilles from '../../assets/ImageDetoxPage/lentilles.png';
 import idea from '../../assets/ImageDetoxPage/idea.png';
 
 
@@ -23,10 +26,35 @@ const Detoxcover = () => {
             <img className='idea' src={idea} alt="" />
             <div className='tips-ingredient'>
             <img src={ginger} alt="" />
-            <p>"Le gingembre est un excellent allié pour stimuler la digestion et apaiser les maux de ventre. "</p>
+            <p>"Le gingembre est un excellent allié pour stimuler la digestion et apaiser les maux de ventre."</p>
             </div>
-          <p></p>
+           
+            <div className='tips-ingredient'>
+            <img src={celeri} alt="" />
+            <p>"Le céleri, riche en antioxydants et faible en calories, favorise la digestion, l'hydratation et aide à réduire l'inflammation tout en apportant des vitamines essentielles."</p>
+            </div>
+
+            <div className='tips-ingredient'>
+            <img src={curcuma} alt="" />
+            <p>"Le curcuma, puissant anti-inflammatoire naturel, booste le système immunitaire, favorise la digestion et protège l'organisme grâce à sa richesse en curcumine."</p>
+            </div>
+
+            <div className='tips-ingredient'>
+            <img src={ananas} alt="" />
+            <p>"L'ananas, riche en bromélaïne, facilite la digestion, combat l'inflammation et booste l'immunité tout en apportant une dose généreuse de vitamine C et d'énergie naturelle."</p>
+            </div>
+
+            <div className='tips-ingredient'>
+            <img src={lentilles} alt="" />
+            <p>
+            "Les lentilles, riches en protéines végétales, fibres et minéraux comme le fer et le magnésium, favorisent la satiété, l'énergie durable et la santé cardiovasculaire."</p>
+            </div>
+
+    
+          
         </div>
+
+        
 
 
 
@@ -63,7 +91,7 @@ const Detoxcover = () => {
         <h2>Soupe Céleri Carotte Pomme</h2>
         <p className='p-detox'>Un mélange savoureux et réconfortant, riche en vitamines et en fibres, pour nourrir votre corps tout en boostant votre bien-être au quotidien.</p>
         <div className='detail-detox'>
-        <p>Boisson - très facile</p>
+        <p>Soupe - très facile</p>
         <img src={clock} alt="" />
         <p>15 min</p>
         </div>
@@ -80,7 +108,7 @@ const Detoxcover = () => {
         <h2>Soupe aux légumes et curcuma</h2>
         <p className='p-detox'>Une combinaison parfaite de légumes frais et de curcuma épicé, pour un repas riche en saveurs et en bienfaits anti-inflammatoires, qui réchauffe le corps et apaise l'esprit.</p>
         <div className='detail-detox'>
-        <p>Boisson - très facile</p>
+        <p>Soupe - très facile</p>
         <img src={clock} alt="" />
         <p>15 min</p>
         </div>
@@ -97,7 +125,7 @@ const Detoxcover = () => {
         <h2>Soupe aux lentilles et tofu</h2>
         <p className='p-detox'>Un mélange nourrissant de lentilles riches en protéines et de tofu onctueux, pour un repas végétarien complet et savoureux, qui vous apporte énergie et bien-être à chaque cuillère.</p>
         <div className='detail-detox'>
-        <p>Boisson - très facile</p>
+        <p>Soupe - très facile</p>
         <img src={clock} alt="" />
         <p>15 min</p>
         </div>
