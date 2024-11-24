@@ -1,0 +1,149 @@
+.feculent-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: #d9b7a9;
+}
+
+.feculent-left, .feculent-mid, .feculent-right {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
+
+.feculent-left {
+    border-right: 3px dotted #3a001e2f;
+   
+}
+
+.feculent-mid {
+    border-right: 3px dotted #3a001e40;
+ 
+}
+
+/* Card container */
+.recipe-card {
+    width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Image styling */
+.recipe-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Recipe details */
+.recipe-info {
+    padding: 15px;
+    background-color: #d9b7a97f;
+}
+
+.recipe-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.recipe-time {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 10px 0 10px;
+}
+
+/* Rating and actions */
+.recipe-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #ffb400; /* Gold color for stars */
+    margin-bottom: 10px;
+}
+
+.recipe-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.recipe-actions img {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+}
+
+/* Comment section */
+.comment-section {
+    padding: 10px;
+    display: none; /* Par défaut, caché */
+    gap: 10px;
+    transition: opacity 0.3s ease-in-out; /* Transition fluide */
+    
+    
+}
+
+.comment-section.show {
+    display: flex; /* Lorsque la classe 'show' est ajoutée, on l'affiche */
+    opacity: 1;
+    align-items: center;
+    
+    justify-content: center;
+}
+
+.comment-section.show input {
+    background-color: #3a001e;
+    border: none;
+    height: 20px;
+    padding: 3px;
+}
+
+.comment-section.show button {
+    background-color: #3a001ead;
+    color: white;
+    padding: 5px;
+    border: none;
+}
+
+
+
+.comment-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #5c1a36;
+    
+}
+
+.comment-submit {
+    background-color: #3a001e;
+    
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-submit:hover {
+    background-color: #5c1a36;
+}
+

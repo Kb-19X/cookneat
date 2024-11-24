@@ -10,6 +10,7 @@ import Detox from './compenents/Detox';
 import Nogluten from './compenents/Nogluten';
 import Vegan from './compenents/Vegan';
 import Proteine from './compenents/Proteine';
+import Patesnouilles from './compenents/Patesnouilles';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 function Root() {
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
       { path: 'Nogluten', element: <Nogluten /> },
       { path: 'Vegan', element: <Vegan /> },
       { path: 'Proteine', element: <Proteine /> },
+      { path: 'Patesnouilles', element: <Patesnouilles /> },
     ],
   },
 ]);

@@ -86,7 +86,7 @@ grid-row-gap: 0px;
 }
 
 .plats-details {
-    width: 200px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -101,9 +101,8 @@ grid-row-gap: 0px;
     justify-content: center;
     align-items: center;
     background-color: #3a001e1a;
-    padding: 5px;
     width: 240px;
-    border-radius: 10px;
+   
 }
 
 
@@ -122,6 +121,7 @@ grid-row-gap: 0px;
    margin-left: 15px;
    background-color: #3a001e3a;
    padding: 5px;
+   
 }
 
 .plats-share {

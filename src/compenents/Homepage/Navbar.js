@@ -14,8 +14,7 @@ const Navbar = () => {
             <div className='container'>
             <a className='ab' href="/Plats"><li>Plats</li></a>
             <a href="/NutritionSanté"><li>Nutrition et Santé</li></a>
-            <a href=""><li>Pâtes</li></a>
-            <a href=""><li>Riz/Nouilles</li></a>
+            <a href="./patesnouilles"><li>Pâtes / Riz / Nouilles</li></a>
             <a href=""><li>Viandes/Poissons</li></a>
             <a href=""><li>Desserts</li></a>
             </div>
