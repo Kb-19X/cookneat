@@ -58,7 +58,7 @@ const Patesnouilles = () => {
   return (
     <div className="feculent-container">
       {/* Colonne gauche */}
-      <div className="feculent-left">
+  
         {recipes.map((recipe) => (
           <div key={recipe.id} className="recipe-card">
             <div className="recipe-image">
@@ -92,17 +92,8 @@ const Patesnouilles = () => {
             </div>
           </div>
         ))}
-      </div>
+     
 
-      {/* Colonne centrale */}
-      <div className="feculent-mid">
-       
-      </div>
-
-      {/* Colonne droite */}
-      <div className="feculent-right">
-        
-      </div>
     </div>
   );
 };

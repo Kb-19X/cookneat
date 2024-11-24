@@ -14,8 +14,7 @@ const CoverPates = () => {
     <div>
       <div className='coverpates-container'>
         <img src={pate} alt="" />
-        <img src={Nouilles} alt="" />
-        <img src={riz} alt="" />
+    
        
       </div>
     </div>

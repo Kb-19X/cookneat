@@ -30,7 +30,7 @@ const Footer = () => {
         <a href="">Riz/nouilles</a>
         <a href="">Viandes/poissons</a>
         <a href="">Desserts</a>
-        <p>&copy; 2024 CookNeat. Tous droits réservés.</p>
+        <p>&copy; 2025 CookNeat. Tous droits réservés.</p>
     </div>
 
     <div className='footer-right'>
