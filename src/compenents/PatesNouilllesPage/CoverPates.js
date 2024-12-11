@@ -2,7 +2,7 @@ import React from 'react';
 import './CoverPates.css';
 
 
-import pate from '../../assets/ImageNoglutenPage/pate.png';
+import pate from '../../assets/ImageFeculentPage/pesto_alla_genovese.webp';
 import Nouilles from '../../assets/ImageNoglutenPage/Nouilles.png';
 import riz from '../../assets/ImageNoglutenPage/riz.jpg';
 

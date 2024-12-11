@@ -51,8 +51,8 @@
     margin-top: 100px;
     object-fit: cover;
     border-radius: 5px;
-    border: 3px solid #EB7E68;
-    box-shadow: 0px 0px 15px #EB7E68;
+    border: 3px solid #8a606e;
+    box-shadow: 0px 0px 15px #8a606e;
 }
 
 .recetteday-left {
@@ -67,15 +67,13 @@
 
 
 .recetteday-left h1 {
-    color: #3A001E;
-    border-bottom: 2px solid #3A001E;
-    border-top: 3px solid #3A001E;
-    width: 300px;
+    color: #fee1d6;
+    width: 200px;
     font-size: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to right, #EB7E68, #3a001e65);
+    background: #8a606e;
 }
 
 .recetteday-right {
@@ -103,8 +101,9 @@
     justify-content: space-around;
     align-items: center;
     margin-top: 30px;
-    background: linear-gradient(to right, #eb7e6878, #eb7e6831);
+    background: linear-gradient(to right, #8a606e, #8a606e);
     padding: 7px;
+    color: #fee1d6;
    
 }
 

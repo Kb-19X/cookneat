@@ -38,17 +38,17 @@
 /* Recipe details */
 .recipe-info {
     padding: 15px;
-    background-color: #d9b7a97f;
+    background-color: #815362;
 }
 
 .recipe-info h3 {
     margin: 0;
     font-size: 1.2rem;
-    color: #333;
+    color: #FFE4D8;
 }
 
 .recipe-time {
-    color: #666;
+    color: #FFE4D8;
     font-size: 0.9rem;
     margin: 10px 0 10px;
 }
@@ -61,7 +61,9 @@
     gap: 10px;
     font-size: 0.9rem;
     color: #ffb400; /* Gold color for stars */
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: #8a606e;
 }
 
 .recipe-actions {
