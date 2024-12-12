@@ -139,6 +139,7 @@
     border-bottom: 3px solid #3a001e;
     padding: 10px;
     width: 600px;
+    display: flex;
 }
 
 .prepa-texte-container {

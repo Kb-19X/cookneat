@@ -159,7 +159,32 @@ const ProductDetails = () => {
                 Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
                 ajoutez-y le safran...
               </p>
-              {/* Ajoutez les autres étapes ici */}
+              <h2>ÉTAPE 2</h2>
+              <p>
+                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
+                ajoutez-y le safran...
+              </p>
+              <h2>ÉTAPE 3</h2>
+              <p>
+                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
+                ajoutez-y le safran...
+              </p>
+              <h2>ÉTAPE 4</h2>
+              <p>
+                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
+                ajoutez-y le safran...
+              </p>
+              <h2>ÉTAPE 5</h2>
+              <p>
+                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
+                ajoutez-y le safran...
+              </p>
+              <h2>ÉTAPE 6</h2>
+              <p>
+                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
+                ajoutez-y le safran...
+              </p>
+             
             </div>
           </div>
 
@@ -168,7 +193,11 @@ const ProductDetails = () => {
           </div>
           <div className="avis-product-detail">
             <img src={etoilemauve} alt="Étoile" />
-            {/* Ajoutez ici plus d'étoiles si nécessaire */}
+            <img src={etoilemauve} alt="Étoile" />
+            <img src={etoilemauve} alt="Étoile" />
+            <img src={etoilemauve} alt="Étoile" />
+            <img src={etoilemauve} alt="Étoile" />
+           
             <p className="barre-recette">|</p>
             <p className="recette-critique">Que pensez-vous de cette recette ?</p>
           </div>
