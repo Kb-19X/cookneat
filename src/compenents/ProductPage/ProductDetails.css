@@ -170,6 +170,8 @@
     align-items: center;
     gap: 10px;
     width: 600px;
+    margin: 0 auto;
+    padding: 50px;
 }   
 
 .avis-product-detail img {
@@ -193,7 +195,12 @@
     margin-top: 20px;
     background-color: #3a001e49;
     color: #e0c8bd;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 
 .textarea-avis::placeholder {
     color: #e0c8bd;
@@ -204,13 +211,15 @@
 .envoyer-avis {
     text-decoration: none;
     color: #ea694fc0;
-    margin-top: 20px;
+    margin-top: 30px;
     width: 150px;
     background-color: #3a001e;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
+    margin: 0 auto;
+    
 }
 
 .envoyer-avis:hover {

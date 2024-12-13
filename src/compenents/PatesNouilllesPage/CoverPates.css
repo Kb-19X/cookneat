@@ -1,11 +1,44 @@
 .coverpates-container {
     display: flex;
-
+    justify-content: space-between; /* Pour espacer les images sur la même ligne */
+    flex-wrap: wrap; /* Permet de passer à la ligne suivante si nécessaire */
 }
 
-.coverpates-container  img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
+.coverpates-container img {
+    width: 32%; /* Chaque image occupe environ un tiers de la largeur du conteneur */
+    height: 300px; /* Hauteur fixe pour les images */
+    object-fit: cover; /* Assure que l'image garde ses proportions */
 }
 
+.swiper {
+    width: 100%; /* Le carrousel prend toute la largeur du container */
+    height: 400px; /* Hauteur de chaque slide */
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: space-between; /* Espace entre les images */
+}
+
+.swiper-slide img {
+    width: 33.3%; /* Chaque image prend environ un tiers de la largeur de la slide */
+    height: 100%; /* Hauteur de l'image sur toute la slide */
+    object-fit: cover; /* Garde les proportions de l'image */
+}
+
+.swiper-pagination {
+    bottom: 10px; /* Position de la pagination */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #3a001e00; /* Couleur des flèches */
+    padding: 10px;
+    width: 10px;
+    height: 10px;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    /* Style au survol des flèches */
+}

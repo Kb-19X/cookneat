@@ -236,7 +236,26 @@ const Body = () => {
               <button>Envoyer</button>
             </div>
             </div>
+            
+            <div>
+            <h1 className='donnez-avis'>Donnez-nous votre avis !</h1>
+          </div>
 
+          <div className="avis-product-detail">
+            <img src={etoilemauve} alt="Étoile" />
+            <img src={etoilemauve} alt="Étoile" />
+            <img src={etoilemauve} alt="Étoile" />
+            <img src={etoilemauve} alt="Étoile" />
+            <img src={etoilemauve} alt="Étoile" />
+           
+            <p className="barre-recette">|</p>
+            <p className="recette-critique">Que pensez-vous de cette recette ?</p>
+          </div>
+          <textarea className="textarea-avis" placeholder="Votre commentaire ici"></textarea>
+          <div className='btn-envoyer-avis'>
+          <a className="envoyer-avis" href="#">Envoyer</a>
+          </div>
+   
 
 
 
