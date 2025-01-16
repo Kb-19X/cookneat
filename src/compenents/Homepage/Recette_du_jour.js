@@ -13,7 +13,7 @@ const Recette_du_jour = () => {
   return (
     <div className='pagejour'>  
     <div className='description-pagejour'>
-        <p>"Découvrez chaque jour des recettes savoureuses et faciles à réaliser pour régaler vos proches ! Inspirez-vous, cuisinez, et partagez des moments gourmands."</p>
+        <p className='pagejour-texte'>"Découvrez chaque jour des recettes savoureuses et faciles à réaliser pour régaler vos proches ! Inspirez-vous, cuisinez, et partagez des moments gourmands."</p>
     </div>
         <div className='recettedujour'>
         <img src={tool} alt="" />
@@ -37,10 +37,10 @@ const Recette_du_jour = () => {
                 <p>56</p>
                 <p className='avis'>avis</p>
                 <span className='first-stars'>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
+                <span className='starsspan'>★</span>
+                <span className='starsspan'>★</span>
+                <span className='starsspan'>★</span>
+                <span className='starsspan'>★</span>
                
                 <div className='com-recetteday'>
                 <a href="#"><img src={like} alt="" /></a>

@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "6788fe4594652cd0881bcafa"
+  },
+  "item": "abc",
+  "price": 10,
+  "quantity": 2,
+  "date": {
+    "$date": "2014-03-01T08:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6788fe4594652cd0881bcafb"
+  },
+  "item": "jkl",
+  "price": 20,
+  "quantity": 1,
+  "date": {
+    "$date": "2014-03-01T09:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6788fe4594652cd0881bcafc"
+  },
+  "item": "xyz",
+  "price": 5,
+  "quantity": 10,
+  "date": {
+    "$date": "2014-03-15T09:00:00.000Z"
+  }
+}]

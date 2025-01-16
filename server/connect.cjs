@@ -5,7 +5,7 @@ const client = new MongoClient(uri);
 async function run() {
     try {
         await client.connect();
-        const db = client.db("<dbname>");
+        const db = client.db("cookneatcluster");
         console.log("Collections in database:");
         const collections = await db.listCollections().toArray();
         collections.forEach(coll => console.log(coll.name));
