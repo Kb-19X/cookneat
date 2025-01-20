@@ -237,4 +237,41 @@
         width: 200px;
         margin-right: 10px;
     }
+
+    .donnez-avis {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+    }
+
+    .avis-product-detail img {
+        max-width: 15px;
+        max-height: 15px;
+    }
+
+
+    .recette-critique {
+        font-size: 15px;
+    }
+
+    .avis-product-detail {
+        gap: 10px;
+        width: 200px;
+        padding: 0px;
+    }
+
+
+    .textarea-avis {
+        width: 250px;
+        height: 200px;
+        margin-top: 20px;
+        background-color: #3a001e49;
+        color: #e0c8bd;
+        margin: 0 auto;
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+    }
+
 }

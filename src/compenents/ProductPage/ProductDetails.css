@@ -307,3 +307,38 @@
     right: 10px;
   }
   
+
+
+
+
+  @media only screen and (max-width: 480px) { 
+
+
+
+  .avis-product-detail img {
+    max-width: 15px;
+    max-height: 15px;
+}
+
+
+.recette-critique {
+    font-size: 15px;
+}
+
+.avis-product-detail {
+    gap: 10px;
+    width: 260px;
+    padding: 20px;
+}
+
+
+.textarea-avis {
+    width: 270px;
+    height: 200px;
+    margin-top: 40px;
+    background-color: #3a001e49;
+    color: #e0c8bd;
+
+}
+
+  }
