@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    background-color: #d9b7a9;
+    background-color: var(--secondary-color);
     padding: 100px;
 }
 
@@ -38,13 +38,13 @@
 /* Recipe details */
 .recipe-info {
     padding: 15px;
-    background-color: #815362;
+    background-color: var(--primary-color);
 }
 
 .recipe-info h3 {
     margin: 0;
     font-size: 1.2rem;
-    color: #FFE4D8;
+    color: var(--quaternary-color);
 }
 
 .recipe-time {
@@ -60,10 +60,11 @@
     align-items: center;
     gap: 10px;
     font-size: 0.9rem;
-    color: #ffb400; /* Gold color for stars */
+    color: var(--quaternary-color); /* Gold color for stars */
     margin-bottom: 20px;
     margin-top: 20px;
-    background-color: #8a606e;
+    background-color: #a5b68d94;
+    height: 40px;
 }
 
 .recipe-actions {

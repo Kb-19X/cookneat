@@ -1,5 +1,5 @@
 .pagejour {
-    background-color: #b47a616a;
+    background-color: #ECDFCC;
     height: 800px;
 
     box-shadow: 0px 0px 15px black;
@@ -30,7 +30,7 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
-    background-color: #3a001e1d;
+    background-color: #a5b68d81;
     color: #3A001E;
     font-weight: 700;
 }
@@ -51,8 +51,8 @@
     margin-top: 100px;
     object-fit: cover;
     border-radius: 5px;
-    border: 3px solid #8a606e;
-    box-shadow: 0px 0px 15px #8a606e;
+    border: 3px solid #A5B68D;
+    box-shadow: 0px 0px 15px #A5B68D;
 }
 
 .recetteday-left {
@@ -67,13 +67,16 @@
 
 
 .recetteday-left h1 {
-    color: #fee1d6;
+    color: #ECDFCC;
     width: 200px;
     font-size: 25px;
+    height: 30px;
+    padding: 5px;
     display: flex;
     align-items: center;
+    border: 3px solid #A5B68D;
     justify-content: center;
-    background: #8a606e;
+    background: #DA8359;
 }
 
 .recetteday-right {
@@ -101,7 +104,7 @@
     justify-content: space-around;
     align-items: center;
     margin-top: 30px;
-    background: linear-gradient(to right, #8a606e, #8a606e);
+    background: linear-gradient(to right, #DA8359, #DA8359);
     padding: 7px;
     color: #fee1d6;
    

@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connecter MongoDB Atlas
-const URI = 'votre_URI_MongoDB_Atlas';
+const URI = 'mongodb+srv://davidmnr571:fMnGnvu5clhYJBbm@cookneatcluster.t55e9.mongodb.net/?retryWrites=true&w=majority&appName=CookNeatClusternp';
 mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
