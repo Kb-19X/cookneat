@@ -34,7 +34,7 @@ const Footer = () => {
     </div>
 
     <div className='footer-right'>
-        <h1>Contact</h1>
+        <h1 className='contact-title'>Contact</h1>
         <p>CookNeat@gmail.com</p>
         <p>04 785 113 548</p>
         <p className='news'>Inscris-toi à notre newsletter pour ne rien rater des nouvelles recettes !</p>
