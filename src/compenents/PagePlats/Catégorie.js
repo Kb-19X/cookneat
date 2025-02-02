@@ -80,218 +80,120 @@ const catégorie = () => {
 
     <div className='Plats'>
 
-      <div className='plats-container'>
-        <img src={macaroni} alt="" />
-        <div className='plats-details'>
-        <div className='name-plats'>
-        <p>Macaroni</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
-                
-        </div>
-        <div className='plats-container'>
-        <img src={macarons} alt="" />
-        <div className='plats-details'>
-        <div className='name-plats'>
-        <p>Macarons</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
-                
-        </div>
-        <div className='plats-container'>
-        <img src={pancake} alt="" />
-        <div className='plats-details'>
-        <div className='name-plats'>
-        <p>Pancakes</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
-                
-        </div>
-        <div className='plats-container'>
-        <img src={tiramisu} alt="" />
-        <div className='plats-details'>
-        <div className='name-plats'>
-        <p>Tiramisu</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
+    <div className="feculent-container">
 
+
+        <div className="recipe-card">
+          <div className="recipe-image">
+            <img src={macarons}/>
+          </div>
+          <div className="recipe-info">
+            <h3>Pates</h3>
+            <p className="recipe-time">45 minutes</p>
+            <div className="recipe-rating">
+              <span> ★ ★ ★ ★ ★</span>
+              <span>22 avis</span>
+            </div>
+            <div className="recipe-actions">
+              <img src={like} alt="Like" />
+              <img src={share} alt="Share" />
+            </div>
+          </div>
         </div>
 
-        <div className='plats-container'>
-        <img src={bruschetta} alt="" />
-        <div className='plats-details'>
-          <div className='name-plats'>
-        <p>Bruschetta</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
-                
-        </div>
+    </div>
+  
+    <div className="feculent-container">
 
-        <div className='plats-container'>
-        <img src={ossobuco} alt="" />
-        <div className='plats-details'>
-        <div className='name-plats'>
-        <p>Ossobuco</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
-                
-        </div>
 
-        <div className='plats-container'>
-        <img src={boule_jambon_fromage} alt="" />
-        <div className='plats-details'>
-        <div className='name-plats'>
-        <p>Jambon fromage</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
-                
-        </div>
+<div className="recipe-card">
+  <div className="recipe-image">
+    <img src={macarons}/>
+  </div>
+  <div className="recipe-info">
+    <h3>Pates</h3>
+    <p className="recipe-time">45 minutes</p>
+    <div className="recipe-rating">
+      <span> ★ ★ ★ ★ ★</span>
+      <span>22 avis</span>
+    </div>
+    <div className="recipe-actions">
+      <img src={like} alt="Like" />
+      <img src={share} alt="Share" />
+    </div>
+  </div>
+</div>
 
-        <div className='plats-container'>
-        <img src={quiche_legume} alt="" />
-        <div className='plats-details'>
-        <div className='name-plats'>
-        <p>Quiche aux légumes</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
-                
-        </div>
+</div>
 
-        <div className='plats-container'>
-        <img src={muffins} alt="" />
-        <div className='plats-details'>
-        <div className='name-plats'>
-        <p>Muffins</p>
-        <p className='plats-time'>20 minutes</p>
-        </div>
-                <div className='plats-star'>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <p>35 avis</p>
-                <div className='plats-share'>
-                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
-                    <a href=""><img src={like} alt="" className='img-plats' /></a>
-                    <a href=""><img src={share} alt="" className='img-plats' /></a>
-                </div>
-                </div>
-                </div>
-                
-        </div>
+<div className="feculent-container">
+
+
+<div className="recipe-card">
+  <div className="recipe-image">
+    <img src={macarons}/>
+  </div>
+  <div className="recipe-info">
+    <h3>Pates</h3>
+    <p className="recipe-time">45 minutes</p>
+    <div className="recipe-rating">
+      <span> ★ ★ ★ ★ ★</span>
+      <span>22 avis</span>
+    </div>
+    <div className="recipe-actions">
+      <img src={like} alt="Like" />
+      <img src={share} alt="Share" />
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div className="feculent-container">
+
+
+<div className="recipe-card">
+  <div className="recipe-image">
+    <img src={macarons}/>
+  </div>
+  <div className="recipe-info">
+    <h3>Pates</h3>
+    <p className="recipe-time">45 minutes</p>
+    <div className="recipe-rating">
+      <span> ★ ★ ★ ★ ★</span>
+      <span>22 avis</span>
+    </div>
+    <div className="recipe-actions">
+      <img src={like} alt="Like" />
+      <img src={share} alt="Share" />
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div className="feculent-container">
+
+
+<div className="recipe-card">
+  <div className="recipe-image">
+    <img src={macarons}/>
+  </div>
+  <div className="recipe-info">
+    <h3>Pates</h3>
+    <p className="recipe-time">45 minutes</p>
+    <div className="recipe-rating">
+      <span> ★ ★ ★ ★ ★</span>
+      <span>22 avis</span>
+    </div>
+    <div className="recipe-actions">
+      <img src={like} alt="Like" />
+      <img src={share} alt="Share" />
+    </div>
+  </div>
+</div>
+
+</div>
     </div>
 
   <div className='share-avis-container-left'>

@@ -7,7 +7,7 @@ grid-row-gap: 0px;
 }
 
 .Pats-grid-container-left {
-    background-color: #e0a88ca8;
+    background-color: var(--secondary-color);
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -51,14 +51,15 @@ grid-row-gap: 0px;
 
 .Plats {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 50px;
-    background-color: #ffe5da;
+    background-color: var(--secondary-color);
     padding-top: 50px;
     width: 1000px;
-    padding-bottom: 150px;
+    padding-bottom: 20px;
     border-bottom: 3px solid #3a001e ;
 }
 
@@ -151,7 +152,7 @@ grid-row-gap: 0px;
 }
 
 .share-avis-container-left {
-    background-color: #ebc6b3;
+    background-color: var(--secondary-color);
     border-right:3px solid#3a001e;
     display: flex;
     flex-direction: column;
