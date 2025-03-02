@@ -31,7 +31,7 @@ const Navbar = () => {
           <span></span>
         </div>
         <ul className="menu">
-          <a href="/homepage"><img src={logo} alt="Logo" /></a>
+          <a href="/"><img src={logo} alt="Logo" /></a>
           <div className="container">
             <a className="ab" href="/Plats"><li>Plats</li></a>
             <a href="/NutritionSanté"><li>Nutrition et Santé</li></a>

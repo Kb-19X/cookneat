@@ -101,6 +101,25 @@ const catégorie = () => {
           </div>
         </div>
 
+        <div className="recipe-card">
+          <div className="recipe-image">
+            <img src={macarons}/>
+          </div>
+          <div className="recipe-info">
+            <h3>Pates</h3>
+            <p className="recipe-time">45 minutes</p>
+            <div className="recipe-rating">
+              <span> ★ ★ ★ ★ ★</span>
+              <span>22 avis</span>
+            </div>
+            <div className="recipe-actions">
+              <img src={like} alt="Like" />
+              <img src={share} alt="Share" />
+            </div>
+          </div>
+        </div>
+        
+
     </div>
   
     <div className="feculent-container">
@@ -247,6 +266,32 @@ const catégorie = () => {
                 
         </div>
 
+        <div className='plats-container'>
+        <img src={quiche_legume} alt="" />
+        <div className='plats-details'>
+        <div className='name-plats'>
+        <p>Quiche aux légumes</p>
+        <p className='plats-time'>20 minutes</p>
+        </div>
+                <div className='plats-star'>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <p>35 avis</p>
+                <div className='plats-share'>
+                    <a href=""><img src={commentimage} className='img-plats' alt="" /></a>
+                    <a href=""><img src={like} alt="" className='img-plats' /></a>
+                    <a href=""><img src={share} alt="" className='img-plats' /></a>
+                </div>
+                </div>
+                </div>
+                
+        </div>
+
+
+        
 
         <div className='plats-container'>
         <img src={quiche_legume} alt="" />

@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,  // Ajout du composant Root ici
     children: [
-      { path: 'Homepage', element: <Homepage /> },
+      { path: '/', element: <Homepage /> },
       { path: 'ProductPage', element: <ProductPage /> },
       { path: 'plats', element: <Plats /> },
       { path: 'connexion', element: <Connexion /> },
