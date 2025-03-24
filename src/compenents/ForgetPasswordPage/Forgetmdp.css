@@ -1,5 +1,5 @@
 .Forgetmdp-background {
-    background-color: #bc979eb0;
+    background-color: var(--primary-color);
     align-items: center ;
     display: flex;
     justify-content: center;

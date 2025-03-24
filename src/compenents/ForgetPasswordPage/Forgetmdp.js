@@ -16,7 +16,7 @@ const Forgetmdp = () => {
             <input type="text" placeholder='Votre e-mail' />
             <p>ou</p>
             <input type="text" placeholder='Pseudo' />
-            <a href="">Valider</a>
+            <a href="" className='btn-forget-password'>Valider</a>
         </div>
         </div>
     </div>

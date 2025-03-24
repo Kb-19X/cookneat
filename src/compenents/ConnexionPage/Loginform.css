@@ -1,5 +1,5 @@
 .form {
-    background-color:#eb7e683d ;
+    background-color:var(--secondary-color);
     width: 1550px;
     height: 600px;
     display: flex;
@@ -7,14 +7,13 @@
 }
 
 .login-form {
-    background-color:#3a001e53;
+    background-color:#A5B68D;
     width: 700px;
     height: 475px;
     justify-content: center;
     display: flex;
     align-items: center;
     flex-direction: column;
-   
     margin-left: 425px;
 }
 
@@ -22,7 +21,7 @@
 .login-form h1 {
     color: #3A001E;
     margin-bottom: 50px;
-    text-shadow: 0px 0px 15px #3a001e6f;
+    text-shadow: 0px 0px 15px var(--primary-color);
 }
 .container-form {
     display: flex;
@@ -59,13 +58,12 @@
     gap: 10px;
 }
 
-
 .login-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 4px solid #3a001e;
-    background-color: #3a001e72;
+    border: 4px solid var(--quinary-color);
+    background-color: var(--primary-color);
     height: 30px;
     text-decoration: none;
     padding: 5px;

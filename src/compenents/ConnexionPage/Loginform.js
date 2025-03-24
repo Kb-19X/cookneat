@@ -1,5 +1,5 @@
-import React from 'react'
-import './Loginform.css'
+import React from 'react';
+import './Loginform.css';
 
 
 
@@ -38,4 +38,4 @@ const Connexion = () => {
   )
 }
 
-export default Connexion
+export default Connexion;
