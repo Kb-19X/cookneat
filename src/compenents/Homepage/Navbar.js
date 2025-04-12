@@ -1,53 +1,101 @@
-import React, { useEffect } from 'react';
-import './Navbar.css';
-import logo from '../../assets/ImageHomePage/logo.png';
-import spatula from '../../assets/ImageHomePage/spatula.png';
+  import React, { useState, useEffect } from 'react';
+  import './Navbar.css';
+  import logo from '../../assets/ImageHomePage/logo.png';
+  import spatula from '../../assets/ImageHomePage/spatula.png';
+  import tiramisu from '../../assets/ImageHomePage/tiramisu.jpg';
+  import tartiflette from '../../assets/ImageHomePage/tartiflette.jpg';
+  import osoobuco from '../../assets/ImageHomePage/osoobuco.jpg';
 
-const Navbar = () => {
-  // Ajouter le script JS pour activer le menu burger
-  useEffect(() => {
-    const burger = document.querySelector('.burger-menu');
-    const menu = document.querySelector('nav ul.menu');
-    
-    const toggleMenu = () => {
-      menu.classList.toggle('active');
-      burger.classList.toggle('active');
+  const Navbar = () => {
+    const recipes = [
+      {
+        id: 1,
+        title: "tartiflette",
+        image: require('../../assets/ImageHomePage/tartiflette.jpg'),
+        time: "35 minutes",
+        rating: "★★★★★",
+        reviews: "35 avis",
+      },
+      {
+        id: 2,
+        title: "tiramisu",
+        image: require('../../assets/ImageHomePage/tiramisu.jpg'),
+        time: "35 minutes",
+        rating: "★★★★★",
+        reviews: "35 avis",
+      },
+      {
+        id: 3,
+        title: "osoobuco",
+        image: require('../../assets/ImageHomePage/osoobuco.jpg'),
+        time: "35 minutes",
+        rating: "★★★★★",
+        reviews: "35 avis",
+      },
+    ];
+
+    const [comments, setComments] = useState({});
+    const [showComment, setShowComment] = useState(null);
+
+    const handleCommentChange = (id, value) => {
+      setComments((prev) => ({ ...prev, [id]: value }));
     };
 
-    burger.addEventListener('click', toggleMenu);
-
-    // Cleanup pour éviter les erreurs si le composant est démonté
-    return () => {
-      burger.removeEventListener('click', toggleMenu);
+    const submitComment = (id) => {
+      if (!comments[id] || comments[id].trim() === '') {
+        alert('Le commentaire ne peut pas être vide.');
+        return;
+      }
+      console.log(`Commentaire pour la recette ${id} : ${comments[id]}`);
+      setComments((prev) => ({ ...prev, [id]: '' }));
     };
-  }, []);
 
-  return (
-    <div className="navbar">
-      <nav>
-        <div className="burger-menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <ul className="menu">
-          <a href="/"><img src={logo} alt="Logo" /></a>
-          <div className="container">
-            <a className="ab" href="/Plats"><li>Plats</li></a>
-            <a href="/NutritionSanté"><li>Nutrition et Santé</li></a>
-            <a href="./patesnouilles"><li>Pâtes / Riz / Nouilles</li></a>
-            <a href=""><li>Viandes/Poissons</li></a>
-            <a href=""><li>Desserts</li></a>
-          </div>
-          <div className="input-navbar-container">
-            <input className="input-navbar" type="text" placeholder="Recherche . . ." />
-            <a href=""><img src={spatula} alt="Recherche" /></a>
-            <a className="connexion-btn" href="./Connexion">Connexion</a>
-          </div>
-        </ul>
-      </nav>
-    </div>
-  );
-};
+    const toggleCommentSection = (id) => {
+      setShowComment(prev => (prev === id ? null : id));
+    };
 
-export default Navbar;
+    useEffect(() => {
+      const burger = document.querySelector('.burger-menu');
+      const menu = document.querySelector('nav ul.menu');
+
+      const toggleMenu = () => {
+        menu.classList.toggle('active');
+        burger.classList.toggle('active');
+      };
+
+      burger.addEventListener('click', toggleMenu);
+
+      return () => {
+        burger.removeEventListener('click', toggleMenu);
+      };
+    }, []);
+
+    return (
+      <div className="navbar">
+        <nav>
+          <div className="burger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <ul className="menu">
+            <li><a href="/"><img src={logo} alt="Logo" /></a></li>
+            <div className="container">
+              <li><a className="ab" href="/Plats">Plats</a></li>
+              <li><a href="/NutritionSanté">Nutrition et Santé</a></li>
+              <li><a href="/patesnouilles">Pâtes / Riz / Nouilles</a></li>
+              <li><a href="/viandespoissons">Viandes / Poissons</a></li>
+              <li><a href="/desserts">Desserts</a></li>
+            </div>
+            <div className="input-navbar-container">
+              <input className="input-navbar" type="text" placeholder="Recherche . . ." />
+              <a href="#"><img src={spatula} alt="Recherche" /></a>
+              <a className="connexion-btn" href="/Connexion">Connexion</a>
+            </div>
+          </ul>
+        </nav>
+      </div>
+    );
+  };
+
+  export default Navbar;

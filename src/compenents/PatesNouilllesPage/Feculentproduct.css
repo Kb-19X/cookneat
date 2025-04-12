@@ -1,23 +1,26 @@
 .feculent-container {
     display: flex;
     gap: 50px;
-    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
     background-color: var(--secondary-color);
     padding: 100px;
 }
 
+.recipes-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+}
 
-
-
-
-/* Card container */
 .recipe-card {
     width: 300px;
+    height: 400px; /* Hauteur fixe */
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    background-color: #fff;
+    background-color: var(--primary-color);
     overflow: hidden;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -28,17 +31,17 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Image styling */
 .recipe-image img {
-    width: 100%;
-    height: auto;
-    display: block;
+    width: 100%; /* Ou une largeur fixe */
+    height: 200px; /* Hauteur fixe */
+    object-fit: cover; /* Pour éviter la déformation */
 }
 
-/* Recipe details */
 .recipe-info {
     padding: 15px;
     background-color: var(--primary-color);
+    max-height: 150px; /* Hauteur maximale */
+    overflow: hidden; /* Masquer le contenu dépassant */
 }
 
 .recipe-info h3 {
@@ -53,14 +56,13 @@
     margin: 10px 0 10px;
 }
 
-/* Rating and actions */
 .recipe-rating {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
     font-size: 0.9rem;
-    color: var(--quaternary-color); /* Gold color for stars */
+    color: var(--quaternary-color);
     margin-bottom: 20px;
     margin-top: 20px;
     background-color: #a5b68d94;
@@ -80,18 +82,15 @@
     object-fit: cover;
 }
 
-/* Comment section */
 .comment-section {
     padding: 10px;
-    display: none; /* Par défaut, caché */
+    display: none;
     gap: 10px;
-    transition: opacity 0.3s ease-in-out; /* Transition fluide */
-    
-    
+    transition: opacity 0.3s ease-in-out;
 }
 
 .comment-section.show {
-    display: flex; /* Lorsque la classe 'show' est ajoutée, on l'affiche */
+    display: flex;
     opacity: 1;
     align-items: center;
     justify-content: center;
@@ -99,7 +98,6 @@
 }
 
 .comment-section.show input {
-   
     border: none;
     height: 20px;
     padding: 3px;
@@ -124,12 +122,10 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     color: #5c1a36;
-    
 }
 
 .comment-submit {
     background-color: #3a001e;
-    
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
@@ -138,5 +134,4 @@
 
 .comment-submit:hover {
     background-color: #5c1a36;
-}
-
+}   

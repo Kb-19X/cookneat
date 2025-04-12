@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Body.css';
 
+
 import Risotto from '../../assets/ImageHomePage/Risotto alla Milanese.jpg';
 import bruschetta from '../../assets/ImageHomePage/bruschetta.jpg';
 import ossobuco from '../../assets/ImageHomePage/osoobuco.jpg';
@@ -12,6 +13,7 @@ import commentimage from '../../assets/ImageHomePage/comment.png';
 import like from '../../assets/ImageHomePage/like.png';
 import share from '../../assets/ImageHomePage/share.png';
 import etoilemauve from '../../assets/ImageHomePage/etoilemauve.png';
+
 import countries from '../../assets/ImageHomePage/countries.png';
 import profil from '../../assets/ImagePlatsPage/profil.png';
 
@@ -93,44 +95,61 @@ const Body = () => {
         <div className="plats-titres">
             <img src={countries} alt="" />
             <h1>Plats</h1>
+            <div className="recipes-list">
+  {recipes.map((recipe) => (
+    <div key={recipe.id} className="recipe-card">
+      <div className="recipe-image">
+        <img src={recipe.image} alt={recipe.title} />
+      </div>
+      <div className="recipe-info">
+        <h3>{recipe.title}</h3>
+        <p className="recipe-time">{recipe.time}</p>
+        <div className="recipe-rating">
+          <span>{recipe.rating}</span>
+          <span>{recipe.reviews}</span>
+        </div>
+        <div className="recipe-actions">
+          <img src={like} alt="Like" />
+          <img
+            src={commentimage}
+            alt="Comment"
+            onClick={() => toggleCommentSection(recipe.id)}
+          />
+          <img src={share} alt="Share" />
+        </div>
+        {showComment === recipe.id && (
+          <div className="comment-section show">
+            <input
+              type="text"
+              value={comments[recipe.id] || ''}
+              onChange={(e) => handleCommentChange(recipe.id, e.target.value)}
+              placeholder="Écrivez un commentaire..."
+            />
+            <button onClick={() => submitComment(recipe.id)}>Envoyer</button>
+          </div>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
             <img src={countries} alt="" />
     </div>
-      <div className="feculent-container">
-        {/* Colonne gauche */}
-          {recipes.map((recipe) => (
-            <div key={recipe.id} className="recipe-card">
-              <div className="recipe-image">
-                <img src={recipe.image} alt={recipe.title} />
+          <div className='plats-container'>
+            <div className='plats-card'>
+              <img className='img-card' src={pates_thon} alt="" />
+              <h1>Pâtes</h1>
+              <p>20 minutes</p>
+              <div className='stars-container'>
+                <p>★</p>
+                <p>★</p>
+                <p>★</p>
+                <p>★</p>
+                <p>★</p>
               </div>
-              <div className="recipe-info">
-                <h3>{recipe.title}</h3>
-                <p className="recipe-time">{recipe.time}</p>
-                <div className="recipe-rating">
-                  <span>{recipe.rating}</span>
-                  <span>{recipe.reviews}</span>
-                </div>
-                <div className="recipe-actions">
-                  <img src={like} alt="Like" />
-                  <img
-                    src={commentimage}
-                    alt="Comment"
-                    onClick={() => toggleCommentSection(recipe.id)} // Toggle comment section for this recipe
-                  />
-                  <img src={share} alt="Share" />
-                </div>
-                <div className={`comment-section ${showComment === recipe.id ? 'show' : ''}`}>
-                  <input
-                    type="text"
-                    value={comments[recipe.id] || ''}
-                    onChange={(e) => handleCommentChange(recipe.id, e.target.value)}
-                    placeholder="Écrivez un commentaire..."
-                  />
-                  <button onClick={() => submitComment(recipe.id)}>Envoyer</button>
-                </div>
-              </div>
+              <a href="" >détails</a>
             </div>
-          ))}
-      </div>
+          </div>
        
           <div className='title-comment'>
           <img src={commentimage} alt="" />
