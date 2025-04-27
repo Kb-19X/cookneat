@@ -71,7 +71,7 @@ const Body = () => {
        
           <div className='title-comment'>
           <img src={comment} alt="" />
-            <h1 >Commentaires</h1>
+            <h1 className='comment-homepage' >Commentaires</h1>
             <img src={comment} alt="" />
 
           </div>

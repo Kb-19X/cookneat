@@ -11,14 +11,14 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #3A001E; 
+    color: var(--secondary-color); 
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    background-color: #eb7e68c0;
-    border: 2px dotted #3A001E;
+    background-color: #4E342E;
+    border: 2px solid var(--secondary-color);
     display: flex;
-    padding: 3px;
+    padding: 10px;
   }
 
 

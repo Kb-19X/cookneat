@@ -5,11 +5,12 @@ import bio from '../../assets/ImageNutritionSantéPage/bio.png';
 import leaf from '../../assets/ImageNutritionSantéPage/leaf.png';
 import wheat from '../../assets/ImageNutritionSantéPage/wheat.png';
 
+import cover from '../../assets/ImageNutritionSantéPage/cover.png'
 
 const CoverSearchbar = () => {
   return (
     <div className='background-cover'>
-    <div className='Cover-Healty'>
+    {/* <div className='Cover-Healty'>
         <img src={healthy} alt="" />
         <div className='details-cover-text'>
         <h1>Découvrez notre sélection de recettes 100% nutrition ! </h1>
@@ -21,6 +22,9 @@ const CoverSearchbar = () => {
             <img src={wheat} alt="" />
        
         </div>
+    </div> */}
+    <div>
+      <img src={cover} alt="" className='cover' />
     </div>
     </div>
   )
