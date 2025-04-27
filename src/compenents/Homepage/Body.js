@@ -9,66 +9,20 @@ import pesto_alla_genovese from '../../assets/ImageFeculentPage/pesto_alla_genov
 import pates_thon from '../../assets/ImageFeculentPage/pates_thon.jpg';
 import pate_ricotta from '../../assets/ImageFeculentPage/pate_ricotta.jpeg';
 import etoilejaune from '../../assets/ImageHomePage/etoilejaune.png';
-import commentimage from '../../assets/ImageHomePage/comment.png';
-import like from '../../assets/ImageHomePage/like.png';
-import share from '../../assets/ImageHomePage/share.png';
+
+
 import etoilemauve from '../../assets/ImageHomePage/etoilemauve.png';
 
 import countries from '../../assets/ImageHomePage/countries.png';
 import profil from '../../assets/ImagePlatsPage/profil.png';
 
 
+import comment from '../../assets/ImagePlatsPage/comment.png';
+import like from '../../assets/ImagePlatsPage/like.png';
+import share  from '../../assets/ImagePlatsPage/share.png';
+
 const Body = () => {
-  const recipes = [
-    {
-        id: 1,
-        title: "Pesto alla Genovese",
-        image: pesto_alla_genovese,
-        time: "35 minutes",
-        rating: "★★★★★",
-        reviews: "35 avis",
-      },
-      {
-        id: 2,
-        title: "Pâtes au Thon",
-        image: pates_thon,
-        time: "35 minutes",
-        rating: "★★★★★",
-        reviews: "35 avis",
-      },
-      {
-        id: 3,
-        title: "Pâtes Ricotta",
-        image: pate_ricotta,
-        time: "35 minutes",
-        rating: "★★★★★",
-        reviews: "35 avis",
-      },
-      {
-        id: 4,
-        title: "Pâtes Ricotta",
-        image: pate_ricotta,
-        time: "35 minutes",
-        rating: "★★★★★",
-        reviews: "35 avis",
-      },
-      {
-        id: 5,
-        title: "Pâtes Ricotta",
-        image: pate_ricotta,
-        time: "35 minutes",
-        rating: "★★★★★",
-        reviews: "35 avis",
-      },
-      {
-        id: 6,
-        title: "Pâtes Ricotta",
-        image: pate_ricotta,
-        time: "35 minutes",
-        rating: "★★★★★",
-        reviews: "35 avis",
-      },
-    ];
+ 
   
     const [comments, setComments] = useState({});
     const [showComment, setShowComment] = useState(null); // On garde un seul ID actif
@@ -95,43 +49,7 @@ const Body = () => {
         <div className="plats-titres">
             <img src={countries} alt="" />
             <h1>Plats</h1>
-            <div className="recipes-list">
-  {recipes.map((recipe) => (
-    <div key={recipe.id} className="recipe-card">
-      <div className="recipe-image">
-        <img src={recipe.image} alt={recipe.title} />
-      </div>
-      <div className="recipe-info">
-        <h3>{recipe.title}</h3>
-        <p className="recipe-time">{recipe.time}</p>
-        <div className="recipe-rating">
-          <span>{recipe.rating}</span>
-          <span>{recipe.reviews}</span>
-        </div>
-        <div className="recipe-actions">
-          <img src={like} alt="Like" />
-          <img
-            src={commentimage}
-            alt="Comment"
-            onClick={() => toggleCommentSection(recipe.id)}
-          />
-          <img src={share} alt="Share" />
-        </div>
-        {showComment === recipe.id && (
-          <div className="comment-section show">
-            <input
-              type="text"
-              value={comments[recipe.id] || ''}
-              onChange={(e) => handleCommentChange(recipe.id, e.target.value)}
-              placeholder="Écrivez un commentaire..."
-            />
-            <button onClick={() => submitComment(recipe.id)}>Envoyer</button>
-          </div>
-        )}
-      </div>
-    </div>
-  ))}
-</div>
+            
 
             <img src={countries} alt="" />
     </div>
@@ -152,9 +70,9 @@ const Body = () => {
           </div>
        
           <div className='title-comment'>
-          <img src={commentimage} alt="" />
+          <img src={comment} alt="" />
             <h1 >Commentaires</h1>
-            <img src={commentimage} alt="" />
+            <img src={comment} alt="" />
 
           </div>
 

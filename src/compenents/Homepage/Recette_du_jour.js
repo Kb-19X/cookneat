@@ -3,11 +3,17 @@ import './Recette_du_jour.css';
 import bruschetta from '../../assets/ImageHomePage/bruschetta.jpg';
 import coeur from '../../assets/ImageHomePage/coeur.png';
 import ossobuco from '../../assets/ImageHomePage/osoobuco.jpg';
-import comment from '../../assets/ImageHomePage/comment.png';
-import like from '../../assets/ImageHomePage/like.png';
-import share from '../../assets/ImageHomePage/share.png';
+;
 import tool from '../../assets/ImageHomePage/tool.png';
 import chef from '../../assets/ImageHomePage/chef.png';
+
+
+
+
+import comment from '../../assets/ImagePlatsPage/comment.png';
+import like from '../../assets/ImagePlatsPage/like.png';
+import share  from '../../assets/ImagePlatsPage/share.png';
+
 
 const Recette_du_jour = () => {
   return (

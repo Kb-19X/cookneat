@@ -11,8 +11,8 @@
     justify-content: center;
     flex-wrap: wrap;
     align-items: center;
-    gap: 40px;
-    padding: 20px;
+    gap: 50px;
+    padding: 84px;
 }
 
 .recipe-card {
@@ -20,7 +20,7 @@
     height: 400px; /* Hauteur fixe */
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    background-color: var(--primary-color);
+    background-color: #4E342E ;
     overflow: hidden;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -39,9 +39,14 @@
 
 .recipe-info {
     padding: 15px;
-    background-color: var(--primary-color);
+    background-color: #4E342E ;
     max-height: 150px; /* Hauteur maximale */
     overflow: hidden; /* Masquer le contenu dépassant */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .recipe-info h3 {
@@ -53,7 +58,7 @@
 .recipe-time {
     color: #FFE4D8;
     font-size: 0.9rem;
-    margin: 10px 0 10px;
+    /* margin: 10px 0 10px; */
 }
 
 .recipe-rating {
@@ -63,10 +68,10 @@
     gap: 10px;
     font-size: 0.9rem;
     color: var(--quaternary-color);
-    margin-bottom: 20px;
-    margin-top: 20px;
-    background-color: #a5b68d94;
-    height: 40px;
+    background-color: var(--primary-color);
+    height: 30px;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .recipe-actions {

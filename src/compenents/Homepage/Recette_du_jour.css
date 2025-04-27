@@ -1,3 +1,5 @@
+
+
 .pagejour {
     background-color: #ECDFCC;
     height: 800px;
@@ -24,6 +26,7 @@
 .recettedujour h1 {
     border-bottom:3px dotted #3A001E;
     padding: 5px;
+    color: #4E342E;
 }
 .description-pagejour {
     display: flex;
@@ -92,10 +95,13 @@
     font-size: 25px;
     font-weight: 600;
     margin-bottom: 20px;
+    color: #4E342E;
 }
 
 .stitre-recetteday {
     font-size: 20px;
+    color: #4E342E;
+    font-weight: 500;
 }
 
 .stars {

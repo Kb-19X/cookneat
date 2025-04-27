@@ -7,11 +7,14 @@ import Risotto5 from '../../assets/ImageHomePage/Risotto5.webp';
 import clock from '../../assets/ImageHomePage/clock-one.png';
 import hat from '../../assets/ImageHomePage/chef-hat.png';
 import coin from '../../assets/ImageHomePage/coin.png';
-import comment from '../../assets/ImageHomePage/comment.png';
-import like from '../../assets/ImageHomePage/like.png';
-import share from '../../assets/ImageHomePage/share.png';
+
 import etoilejaune from '../../assets/ImageHomePage/etoilejaune.png';
 import etoilemauve from '../../assets/ImageHomePage/etoilemauve.png';
+
+
+import comment from '../../assets/ImagePlatsPage/comment.png';
+import like from '../../assets/ImagePlatsPage/like.png';
+import share from '../../assets/ImagePlatsPage/share.png';
 
 const ProductDetails = () => {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);

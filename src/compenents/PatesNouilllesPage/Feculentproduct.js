@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './Feculentproduct.css';
-import commentimage from '../../assets/ImageHomePage/comment.png';
-import like from '../../assets/ImageHomePage/like.png';
-import share from '../../assets/ImageHomePage/share.png';
+
+
 import pesto_alla_genovese from '../../assets/ImageFeculentPage/pesto_alla_genovese.webp';
 import pates_thon from '../../assets/ImageFeculentPage/pates_thon.jpg';
 import pate_ricotta from '../../assets/ImageFeculentPage/pate_ricotta.jpeg';
+
+import comment from '../../assets/ImagePlatsPage/comment.png';
+import like from '../../assets/ImagePlatsPage/like.png';
+import share  from '../../assets/ImagePlatsPage/share.png';
 
 const Patesnouilles = () => {
   const recipes = [
@@ -74,7 +77,7 @@ const Patesnouilles = () => {
               <div className="recipe-actions">
                 <img src={like} alt="Like" />
                 <img
-                  src={commentimage}
+                  src={comment}
                   alt="Comment"
                   onClick={() => toggleCommentSection(recipe.id)} // Toggle comment section for this recipe
                 />

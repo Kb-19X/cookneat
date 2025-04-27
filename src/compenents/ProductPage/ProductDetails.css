@@ -1,25 +1,25 @@
 .ProductDetails {
-    background-color: #b47a616a;
-    height: 3500px;
+    background-color: var(--secondary-color);
+    margin: 0 auto;
+    padding: 0;
     
 }
 
 
 
 .Product-container {
-    background-color: #b47a616a;
-    height: 3500px;
+    background-color: var(--secondary-color);
+   
     width: 1000px;
     display: flex;
     flex-direction: column;
     align-items: center;
- 
     margin: 0 auto;
  
 }
 
 .Product-container h1 {
-    color: #3a001e;
+    color: #4E342E;
     margin-bottom: 30px;
     margin-top: 50px;
 }
@@ -29,11 +29,8 @@
     width: 610px;
     height: 400px;
     object-fit: cover;
-    border: 4px solid #3a001e;
+    border: 4px solid var(--tertiary-color);
 
-    border-top: 4px solid #3a001e9d;
-    border-bottom: 4px solid #3a001e9d;
-    
 }
 
 .bank-img-details {
@@ -77,10 +74,10 @@
     justify-content: center;
     align-items: center;
     gap: 40px;
-    background: linear-gradient(to right, #3a001e44, #3a001e0e);
-    border-top: 3px solid #3a001e;
+    background: linear-gradient(to right, #da8459f5, #da845993);
+    border-top: 3px solid  var(--tertiary-color);
     padding: 10px;
-    border-bottom: 3px solid #3a001e;
+    border-bottom: 3px solid var(--tertiary-color);
 }
 
 .info-time-product img {
@@ -90,7 +87,7 @@
 }
 
 .info-time-product p {
-    color: #3a001e;
+    color: #4E342E;
     font-weight: 500;
 
 }
@@ -109,8 +106,10 @@
 
 .ingredient-container h1 {
     margin-top: 50px;
-    border-bottom: 3px solid #3a001e;
+    border-bottom: 3px solid var(--tertiary-color);
     padding: 10px;
+    color: #4E342E;
+    
 }
 
 .ingredients-grid {
@@ -125,21 +124,31 @@
     color: #3a001e;
     font-weight: 600;
     font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
 
 .ingredients-left {
     color: #3a001e;
     font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 
 
 .prepa-container h1 {
     margin-top: 50px;
-    border-bottom: 3px solid #3a001e;
+    border-bottom: 3px solid var(--tertiary-color);
     padding: 10px;
-    width: 600px;
+    width: 1000px;
     display: flex;
+    color: #4E342E;
 }
 
 .prepa-texte-container {
@@ -147,12 +156,12 @@
     justify-content: center;
     flex-direction: column;
     align-items: center ;
-    width: 600px;
+    width: 1000px;
 }
 
 .prepa-texte-container h2 {
     padding: 10px;
-    background: linear-gradient(to right, #3a001e, #3a001ea5); /* dégradé de couleur */
+    background: linear-gradient(to right, #4E342E, #4e342e96); /* dégradé de couleur */
     -webkit-background-clip: text;
     color: transparent;
 }
@@ -182,26 +191,30 @@
 
 }
 
-
+.ingredient-container {
+    width: 1000px;
+}
 .barre-recette {
     font-size: 30px;
 }
 
 .recette-critique {
     font-size: 20px;
+    color: #4E342E;
 }
 
 .textarea-avis {
     width: 600px;
     height: 200px;
     margin-top: 20px;
-    background-color: var(--primary-color);
+    background-color: var(--tertiary-color);
     color: var(--primary-color);
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     border: none;
+    padding: 20px;
 }
 
 
@@ -216,17 +229,20 @@
     color: var(--quaternary-color);
     margin-top: 15px;
     width: 150px;
-    background-color: #A5B68D;
+  
     display: flex;
     justify-content: center;
     align-items: center;
     height: 40px;
-    margin: 0 auto;
+    margin: 50px;
+    border: 4px solid var(--primary-color);
+    background-color: var(--tertiary-color);
     
 }
 
 .envoyer-avis:hover {
     background-color: #da845995;
+    border: 4px dotted var(--primary-color);
 }
 
 

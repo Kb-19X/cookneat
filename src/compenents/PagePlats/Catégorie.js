@@ -1,18 +1,25 @@
 import './Catégorie.css'
 import React, { useState } from 'react';
 
-import commentimage from '../../assets/ImageHomePage/comment.png';
-import like from '../../assets/ImageHomePage/like.png';
-import share from '../../assets/ImageHomePage/share.png';
 import bruschetta from '../../assets/ImageHomePage/bruschetta.jpg';
 import pizza4fromages from '../../assets/ImageHomePage/pizza4fromages.jpeg';
 import blanquette_veau from '../../assets/ImageHomePage/blanquette_veau.jpg';
+
+import comment from '../../assets/ImagePlatsPage/comment.png';
+import like from '../../assets/ImagePlatsPage/like.png';
+import share from '../../assets/ImagePlatsPage/share.png'
 
 const Catégorie = () => { // Nom du composant corrigé ici
   const recipes = [
     { id: 1, title: "blanquette_veau", image: blanquette_veau, time: "35 minutes", rating: "★★★★★", reviews: "35 avis" },
     { id: 2, title: "bruschetta", image: bruschetta, time: "35 minutes", rating: "★★★★★", reviews: "35 avis" },
     { id: 3, title: "pizza4fromages", image: pizza4fromages, time: "35 minutes", rating: "★★★★★", reviews: "35 avis" },
+    { id: 4, title: "pizza4fromages", image: pizza4fromages, time: "35 minutes", rating: "★★★★★", reviews: "35 avis" },
+    { id: 5, title: "pizza4fromages", image: pizza4fromages, time: "35 minutes", rating: "★★★★★", reviews: "35 avis" },
+    { id: 6, title: "pizza4fromages", image: pizza4fromages, time: "35 minutes", rating: "★★★★★", reviews: "35 avis" },
+    { id: 7, title: "pizza4fromages", image: pizza4fromages, time: "35 minutes", rating: "★★★★★", reviews: "35 avis" },
+    { id: 8, title: "pizza4fromages", image: pizza4fromages, time: "35 minutes", rating: "★★★★★", reviews: "35 avis" }
+    
   ];
 
   const [comments, setComments] = useState({});
@@ -37,10 +44,12 @@ const Catégorie = () => { // Nom du composant corrigé ici
 
   return (
     <div className='plats-body-container'>
-      <div className="plats-titres">
-        <h1>Plats</h1>
+      <div>
+        {/*    */}
       </div>
-
+      <div>
+        <p></p>
+      </div>
       <div className="recipes-list">
         {recipes.map((recipe) => (
           <div key={recipe.id} className="recipe-card">
@@ -57,7 +66,7 @@ const Catégorie = () => { // Nom du composant corrigé ici
               <div className="recipe-actions">
                 <img src={like} alt="Like" />
                 <img
-                  src={commentimage}
+                  src={comment}
                   alt="Comment"
                   onClick={() => toggleCommentSection(recipe.id)} // Afficher/masquer les commentaires
                 />

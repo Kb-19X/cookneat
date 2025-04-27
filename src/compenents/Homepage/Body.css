@@ -3,8 +3,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 125px;
-    height: 100px;
+    gap: 50px;
+    height: 50px;
     color: #3A001F;
 }
 
@@ -17,10 +17,21 @@
 
 .plats-titres h1 {
     color: #3A001F;
+    background-color: #a5b68db6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    height: 30px;
+    padding: 10px;
+    width: 120px;
+    color: #3A001F;
+    
 }
 
+
 .plats-body-container {
-    background-color: var(--secondary-color);
+    background-color: #ECDFCC;
 }
 
 
