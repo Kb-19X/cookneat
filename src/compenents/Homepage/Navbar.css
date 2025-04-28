@@ -17,7 +17,7 @@ nav ul {
     list-style: none;
     gap: 40px;
     /* background-color: #EB7E68; */
-    height: 150px;
+    height: 130px;
     font-weight: 500;
     border-bottom: 4px solid  #4E342E;
     
@@ -126,7 +126,7 @@ input:focus {
 
 nav {
 position: relative;
-height: 150px;
+height: 130px;
 padding: 0 0px;
 }
 
