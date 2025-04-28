@@ -67,6 +67,9 @@
         
       }
       
+      .toggle-button:hover {
+        color: white;
+      }
       .comments-hidden {
         max-height: 0;
         overflow: hidden;
