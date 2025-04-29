@@ -84,7 +84,7 @@
               <li><a className="ab" href="/Plats">Plats</a></li>
               <li><a href="/NutritionSanté">Nutrition et Santé</a></li>
               <li><a href="/patesnouilles">Pâtes / Riz / Nouilles</a></li>
-              <li><a href="/viandespoissons">Viandes / Poissons</a></li>
+              <li><a href="/Viandes">Viandes / Poissons</a></li>
               <li><a href="/desserts">Desserts</a></li>
             </div>
             <div className="input-navbar-container">

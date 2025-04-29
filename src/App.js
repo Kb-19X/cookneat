@@ -1,4 +1,6 @@
 import React from 'react';
+import { createBrowserRouter, RouterProvider, Outlet, NavLink } from 'react-router-dom';
+
 import Homepage from './compenents/Homepage/Homepage';
 import ProductPage from './compenents/ProductPage';
 import Plats from './compenents/Plats';
@@ -9,33 +11,32 @@ import NutritionSanté from './compenents/NutritionSanté';
 import Detox from './compenents/Detox';
 import Nogluten from './compenents/Nogluten';
 import Vegan from './compenents/Vegan';
+import Viandes from './compenents/ViandesPage/Viandes';
 import Proteine from './compenents/Proteine';
 import Patesnouilles from './compenents/Patesnouilles';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 function Root() {
   return (
     <div>
       {/* <nav>
-        <NavLink to="/Homepage">Home</NavLink> | 
+        <NavLink to="/">Home</NavLink> | 
         <NavLink to="/ProductPage">Product</NavLink> | 
         <NavLink to="/plats">Plats</NavLink> | 
         <NavLink to="/connexion">Connexion</NavLink> | 
         <NavLink to="/register">Register</NavLink> | 
         <NavLink to="/ForgetPassword">Forget Password</NavLink> | 
-        <NavLink to="/NutritionSanté">NutritionSanté</NavLink>
+        <NavLink to="/NutritionSanté">Nutrition Santé</NavLink>
       </nav> */}
-      {/* Permet de rendre les sous-routes ici */}
+      {/* Outlet sert à afficher la route enfant correspondante */}
       <Outlet />
     </div>
   );
 }
 
-// Définir les routes dans createBrowserRouter avec Root comme layout
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,  // Ajout du composant Root ici
+    element: <Root />,
     children: [
       { path: '/', element: <Homepage /> },
       { path: 'ProductPage', element: <ProductPage /> },
@@ -49,11 +50,11 @@ const router = createBrowserRouter([
       { path: 'Vegan', element: <Vegan /> },
       { path: 'Proteine', element: <Proteine /> },
       { path: 'Patesnouilles', element: <Patesnouilles /> },
+      { path: 'Viandes', element: <Viandes /> },
     ],
   },
 ]);
 
-// Fonction principale App
 function App() {
   return <RouterProvider router={router} />;
 }
