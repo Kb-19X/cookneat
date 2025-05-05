@@ -62,40 +62,40 @@ const Patesnouilles = () => {
     <div className="feculent-container">
       {/* Colonne gauche */}
   
-        {recipes.map((recipe) => (
-          <div key={recipe.id} className="recipe-card">
-            <div className="recipe-image">
-              <img src={recipe.image} alt={recipe.title} />
+          {recipes.map((recipe) => (
+            <div key={recipe.id} className="recipe-card">
+              <div className="recipe-image">
+                <img src={recipe.image} alt={recipe.title} />
+              </div>
+              <div className="recipe-info">
+                <h3>{recipe.title}</h3>
+                <p className="recipe-time">{recipe.time}</p>
+                <div className="recipe-rating">
+                  <span>{recipe.rating}</span>
+                  <span>{recipe.reviews}</span>
+                </div>
+                <div className="recipe-actions">
+                  <img src={like} alt="Like" />
+                  <img
+                    src={comment}
+                    alt="Comment"
+                    onClick={() => toggleCommentSection(recipe.id)} // Toggle comment section for this recipe
+                  />
+                  <img src={share} alt="Share" />
+                </div>
+                <div className={`comment-section ${showComment === recipe.id ? 'show' : ''}`}>
+                  <input
+                    type="text"
+                    value={comments[recipe.id] || ''}
+                    onChange={(e) => handleCommentChange(recipe.id, e.target.value)}
+                    placeholder="Écrivez un commentaire..."
+                  />
+                  <button onClick={() => submitComment(recipe.id)}>Envoyer</button>
+                </div>
+              </div>
             </div>
-            <div className="recipe-info">
-              <h3>{recipe.title}</h3>
-              <p className="recipe-time">{recipe.time}</p>
-              <div className="recipe-rating">
-                <span>{recipe.rating}</span>
-                <span>{recipe.reviews}</span>
-              </div>
-              <div className="recipe-actions">
-                <img src={like} alt="Like" />
-                <img
-                  src={comment}
-                  alt="Comment"
-                  onClick={() => toggleCommentSection(recipe.id)} // Toggle comment section for this recipe
-                />
-                <img src={share} alt="Share" />
-              </div>
-              <div className={`comment-section ${showComment === recipe.id ? 'show' : ''}`}>
-                <input
-                  type="text"
-                  value={comments[recipe.id] || ''}
-                  onChange={(e) => handleCommentChange(recipe.id, e.target.value)}
-                  placeholder="Écrivez un commentaire..."
-                />
-                <button onClick={() => submitComment(recipe.id)}>Envoyer</button>
-              </div>
-            </div>
-          </div>
-          
-        ))}
+            
+          ))}
      
 
     </div>
