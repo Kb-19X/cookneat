@@ -23,23 +23,32 @@ const CoverPates = () => {
 
   const styles = {
     wrapper: {
-      padding: "50px",
+      padding: "20px",
       fontFamily: "Arial, sans-serif",
       backgroundColor: "var(--secondary-color)",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      flexDirection:"column",
+    
+      
     },
     link: {
       textDecoration: "none",
       color: "var(--senary-color)",
       cursor: "pointer",
-      marginBottom: "30px",
+      marginBottom: "20px",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       fontWeight: "bold",
       fontSize: "18px",
+      marginTop:"50px",
+     
+   
     },
     filters: {
-      marginBottom: "20px",
+      
       display: "flex",
       flexDirection: "row", // Afficher les boutons en colonne
       alignItems: "center",
@@ -59,8 +68,8 @@ const CoverPates = () => {
       color: "white",
     },
     grid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+      display: "flex",
+      justifyContent:"center",
       gap: "10px",
       marginTop: "20px",
     },
@@ -71,6 +80,7 @@ const CoverPates = () => {
       borderRadius: "10px",
       color: "var(--secondary-color)",
       fontWeight: "600",
+      width:"150px"
     },
     noProducts: {
       textAlign: "center",
@@ -82,6 +92,9 @@ const CoverPates = () => {
 
   return (
     <div style={styles.wrapper}>
+      <div className='titre-detox'>
+            <h1> Recettes  Pâtes / Riz / Nouilles</h1>
+          </div> 
       <a style={styles.link} onClick={toggleFilters}>
         {showFilters ? 'Masquer les filtres' : 'Afficher les filtres'}
       </a>

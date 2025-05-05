@@ -1,16 +1,13 @@
 .detox-container {
     background-color: var(--secondary-color);
-    width: 1200px;
+    width: 100%;
 }
 
 
 .detox {
     background-color: var(--tertiary-color);
-    display: grid;
-grid-template-columns: repeat(2, 1fr);
-grid-template-rows: 1fr;
-grid-column-gap: 0px;
-grid-row-gap: 0px;
+    display: flex;
+    flex-direction: column;
 
 }
 
