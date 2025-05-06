@@ -25,9 +25,23 @@
     align-items: center;
     padding: 30px;
     background-color: #4e342e91;
-    width: auto;
+    width: 100%;
     margin: 0 auto; /* Centrer l'élément */
+    margin-bottom: 50px;
     
+
+}
+
+.titre-detox2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background-color: #4e342e91;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    color: var(--secondary-color);
 
 }
 

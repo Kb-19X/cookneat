@@ -85,6 +85,8 @@ const Viandes = () => {
       cursor: "pointer",
       borderRadius: "5px",
       color: "var(--secondary-color)",
+      fontWeight: "bold",
+      fontSize: "16px",
     },
     activeButton: {
       backgroundColor: "var(--tertiary-color)",
@@ -305,6 +307,7 @@ const Viandes = () => {
         <a href=""><img src={twitter} alt="" /></a>
     </div>
 </div>
+
 
 
  </div>

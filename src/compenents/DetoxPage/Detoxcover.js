@@ -21,48 +21,9 @@ const Detoxcover = () => {
     <div className='detox'>
 
 
-
-        <div className='tips-detox'>
-            <img className='idea' src={idea} alt="" />
-            <div className='tips-ingredient'>
-            <img src={ginger} alt="" />
-            <p>"Le gingembre est un excellent allié pour stimuler la digestion et apaiser les maux de ventre."</p>
-            </div>
-           
-            <div className='tips-ingredient'>
-            <img src={celeri} alt="" />
-            <p>"Le céleri, riche en antioxydants et faible en calories, favorise la digestion, l'hydratation et aide à réduire l'inflammation tout en apportant des vitamines essentielles."</p>
-            </div>
-
-            <div className='tips-ingredient'>
-            <img src={curcuma} alt="" />
-            <p>"Le curcuma, puissant anti-inflammatoire naturel, booste le système immunitaire, favorise la digestion et protège l'organisme grâce à sa richesse en curcumine."</p>
-            </div>
-
-            <div className='tips-ingredient'>
-            <img src={ananas} alt="" />
-            <p>"L'ananas, riche en bromélaïne, facilite la digestion, combat l'inflammation et booste l'immunité tout en apportant une dose généreuse de vitamine C et d'énergie naturelle."</p>
-            </div>
-
-            <div className='tips-ingredient'>
-            <img src={lentilles} alt="" />
-            <p>
-            "Les lentilles, riches en protéines végétales, fibres et minéraux comme le fer et le magnésium, favorisent la satiété, l'énergie durable et la santé cardiovasculaire."</p>
-            </div>
-
-    
-          
-        </div>
-
-        
-
-
-
-
-
       <div className='detox-container'>
 
-        <div className='titre-detox'>
+        <div className='titre-detox2'>
         <h1>Recettes détox</h1>
         </div>
 

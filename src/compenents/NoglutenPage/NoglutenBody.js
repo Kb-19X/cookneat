@@ -29,34 +29,6 @@ const NoglutenBody = () => {
   return (
     <div className='detox'>
 
-
-
-    <div className='tips-detox'>
-        <img className='idea' src={idea} alt="" />
-        <div className='tips-ingredient'>
-        <img src={oeuf} alt="" />
-        <p>"Riches en protéines de haute qualité, vitamines essentielles et minéraux, soutiennent la santé musculaire, cérébrale et apportent une énergie durable."</p>
-        </div>
-       
-        <div className='tips-ingredient'>
-        <img src={douce} alt="" />
-        <p>"Riches en fibres, vitamines A et C, antioxydants et minéraux, favorisent la digestion, renforcent le système immunitaire et apportent une énergie durable."</p>
-        </div>
-
-        <div className='tips-ingredient'>
-        <img src={amande} alt="" />
-        <p>"Riches en bonnes graisses, protéines, fibres, vitamines E et minéraux, boostent l'énergie, protègent le cœur et favorisent une belle peau et des os solides."</p>
-        </div>
-
-
-
-
-      
-    </div>
-
-    
-
-
   <div className='detox-container'>
 
     <div className='titre-detox'>
