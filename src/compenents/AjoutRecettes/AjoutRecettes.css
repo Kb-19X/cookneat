@@ -1,0 +1,217 @@
+:root {
+    --primary-color: #DA8359;
+    --secondary-color: #ECDFCC;
+    --tertiary-color: #A5B68D;
+    --quaternary-color: #FCFAEE;
+    --quinary-color: #da8459b2;
+    --senary-color: #4E342E;
+    }
+    
+    .ajout-recettes {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+    margin: 0 auto;
+   
+    background: var(--secondary-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.1);
+    }
+    
+    .form-recette label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: var(--senary-color);
+    }
+    .titre-ajout-recettes {
+        font-size: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80px;
+        color: #927e72;
+        background-color: #a5b68dad;
+        width: 100%;
+    }
+  
+    .form-recette
+    .form-recette textarea,
+    .form-recette {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    
+    border-radius: 0.25rem;
+    font-size: 1.3rem;
+    background: var(--secondary-color);
+    color: var(--senary-color);
+    }
+
+    input {
+        width: 300px;
+        height: 30px;
+       
+        
+    }
+    .form-recette textarea {
+        background-color: var(--tertiary-color);
+        width: 700px;
+        height: 250px;
+        padding: 10px;
+        border: none;
+        color: var(--secondary-color);
+    }
+
+    .form-recette textarea:focus {
+        background-color: var(--senary-color);
+        padding: 10px;
+        width: 700px;
+        height: 250px;
+        border: none;
+        color: var(--secondary-color);
+    }
+    
+    
+    button {
+        height: 45px;
+        padding: 10px;
+        border: none;
+        font-weight: 800;
+        max-width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--tertiary-color);
+        color: var(--senary-color);
+        cursor: pointer;
+    }
+    .preview-main {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+    border-radius: 0.25rem;
+    border: 0.0625rem solid var(--tertiary-color);
+    }
+    
+    .ingredients-section, .steps-section {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    }
+    
+    .ingredient-item, .step-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3rem;
+    margin-bottom: 0.5rem;
+    }
+    
+    .ingredient-item input, .step-item textarea {
+    flex: 1;
+    background: var(--senary-color);
+    border: none;
+    height: 30px;
+    padding: 0.5rem;
+    color: var(--secondary-color);
+
+    }
+
+    .ingredient-item input::placeholder,
+.step-item textarea::placeholder {
+  color: var(--secondary-color);
+}
+    
+    .ingredient-item input:focus {
+        color: var(--secondary-color);
+    }
+  
+    .preview-step {
+    display: block;
+    max-width: 12rem;
+    margin-top: 0.5rem;
+    border-radius: 0.25rem;
+    border: 0.0625rem solid var(--tertiary-color);
+    }
+    
+    .btn-submit {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.125rem;
+    background: var(--primary-color);
+    color: var(--quaternary-color);
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    }
+    
+    .btn-submit\:hover {
+    background: var(--quinary-color);
+    }
+    
+
+
+
+    .titre-de-recettes {
+        padding: 20px;
+        font-size: 1.5rem;
+       
+    }
+
+
+    .input-recette-1 {
+        width: 700px;
+        border: none;
+        background-color: var(--tertiary-color);
+        padding-left: 10px;
+    }
+
+    
+    .input-recette-1:focus {
+        
+        
+        background-color: var(--senary-color);
+    }
+
+
+
+    .form-recette label {
+        color: var(--senary-color);
+        
+    }
+
+
+
+   .input-img-p {
+    padding: 10px;
+    width: 700px;
+    margin: 30px;
+    font-size: 16px;
+    background-color: var(--tertiary-color);
+   }
+
+
+   
+   .input-img-p:hover {
+    padding: 10px;
+    font-size: 16px;
+    background-color: var(--senary-color);
+   }
+    

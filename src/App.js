@@ -14,6 +14,7 @@ import Vegan from './compenents/Vegan';
 import Viandes from './compenents/ViandesPage/Viandes';
 import Proteine from './compenents/Proteine';
 import Patesnouilles from './compenents/Patesnouilles';
+import AjoutRecettes from './compenents/AjoutRecette';
 
 function Root() {
   return (
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
       { path: 'Proteine', element: <Proteine /> },
       { path: 'Patesnouilles', element: <Patesnouilles /> },
       { path: 'Viandes', element: <Viandes /> },
+      { path: 'AjoutRecettes', element: <AjoutRecettes /> }
     ],
   },
 ]);
