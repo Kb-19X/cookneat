@@ -6,13 +6,13 @@ import Soupe_legumes_curcuma from '../../assets/ImageDetoxPage/Soupe_legumes_cur
 import Soupe_lentilles_tofu from '../../assets/ImageDetoxPage/Soupe_lentilles_tofu.jpg';
 import smoothie from '../../assets/ImageDetoxPage/smoothie.jpg';
 import clock  from '../../assets/ImageHomePage/clock-one.png';
-import celeri from '../../assets/ImageDetoxPage/celeri.png';
+// import celeri from '../../assets/ImageDetoxPage/celeri.png';
 // import tofu  from '../../assets/ImageHomePage/tofu.png';
-import ginger from '../../assets/ImageDetoxPage/ginger.png';
-import curcuma from '../../assets/ImageDetoxPage/curcuma.png';
-import ananas from '../../assets/ImageDetoxPage/ananas.png';
-import lentilles from '../../assets/ImageDetoxPage/lentilles.png';
-import idea from '../../assets/ImageDetoxPage/idea.png';
+// import ginger from '../../assets/ImageDetoxPage/ginger.png';
+// import curcuma from '../../assets/ImageDetoxPage/curcuma.png';
+// import ananas from '../../assets/ImageDetoxPage/ananas.png';
+// import lentilles from '../../assets/ImageDetoxPage/lentilles.png';
+// import idea from '../../assets/ImageDetoxPage/idea.png';
 
 
 

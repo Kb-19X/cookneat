@@ -5,15 +5,15 @@ import insta from '../../assets/ImageHomePage/instagram.png';
 import reddit from '../../assets/ImageHomePage/reddit.png';
 import twitter from '../../assets/ImageHomePage/twitter.png';
 import bowl_quinoa from '../../assets/ImageVeganPage/bowl_quinoa.webp';
-import curry from '../../assets/ImageVeganPage/curry.png';
-import nouilles from '../../assets/ImageVeganPage/nouilles.webp';
-import Padthai from '../../assets/ImageVeganPage/Padthai.jpg';
+// import curry from '../../assets/ImageVeganPage/curry.png';
+// import nouilles from '../../assets/ImageVeganPage/nouilles.webp';
+// import Padthai from '../../assets/ImageVeganPage/Padthai.jpg';
 import clock from '../../assets/ImageHomePage/clock-one.png';
-import celeri from '../../assets/ImageDetoxPage/celeri.png';
-import idea from '../../assets/ImageDetoxPage/idea.png';
-import oeuf from '../../assets/ImageNoglutenPage/oeuf.png';
-import douce from '../../assets/ImageNoglutenPage/douce.png';
-import amande from '../../assets/ImageNoglutenPage/amande.png';
+// import celeri from '../../assets/ImageDetoxPage/celeri.png';
+// import idea from '../../assets/ImageDetoxPage/idea.png';
+// import oeuf from '../../assets/ImageNoglutenPage/oeuf.png';
+// import douce from '../../assets/ImageNoglutenPage/douce.png';
+// import amande from '../../assets/ImageNoglutenPage/amande.png';
 import comment from '../../assets/ImagePlatsPage/comment.png';
 import like from '../../assets/ImagePlatsPage/like.png';
 import share from '../../assets/ImagePlatsPage/share.png';
@@ -135,7 +135,7 @@ const Viandes = () => {
             </div>
             <div className="input-navbar-container">
               <input className="input-navbar" type="text" placeholder="Recherche . . ." />
-              <a href="#"><img src={spatula} alt="Recherche" /></a>
+              <a href="/"><img src={spatula} alt="Recherche" /></a>
               <a className="connexion-btn" href="/Connexion">Connexion</a>
             </div>
           </ul>
@@ -145,7 +145,7 @@ const Viandes = () => {
           <div className='titre-detox'>
             <h1>Recettes Viandes / Poissons</h1>
           </div>  {/* Filtres */}
-          <a style={styles.link} onClick={toggleFilters} className='afficher-filtres'>
+          <a style={styles.link} onClick={toggleFilters} className='afficher-filtres' href='/'>
             {showFilters ? 'Masquer les filtres' : 'Afficher les filtres'}
           </a>
           {showFilters && (
@@ -284,11 +284,11 @@ const Viandes = () => {
 
 <div className='footer-mid'>
     <h1>Catégories</h1>
-    <a href="">Nutrition et santé</a>
-    <a href="">Pâtes</a>
-    <a href="">Riz/nouilles</a>
-    <a href="">Viandes/poissons</a>
-    <a href="">Desserts</a>
+    <a href="/">Nutrition et santé</a>
+    <a href="/">Pâtes</a>
+    <a href="/">Riz/nouilles</a>
+    <a href="/">Viandes/poissons</a>
+    <a href="/">Desserts</a>
     <p>&copy; 2025 CookNeat. Tous droits réservés.</p>
 </div>
 
@@ -299,12 +299,12 @@ const Viandes = () => {
     <p className='news'>Inscris-toi à notre newsletter pour ne rien rater des nouvelles recettes !</p>
     <div className='newletter'>
     <input className='input-navbar' type="text" placeholder='E-mail' />
-    <a href="">Valider</a>
+    <a href="/">Valider</a>
     </div>
     <div className='rsx'>
-        <a href=""><img src={insta} alt="" /></a>
-        <a href=""><img src={reddit} alt="" /></a>
-        <a href=""><img src={twitter} alt="" /></a>
+        <a href="/"><img src={insta} alt="" /></a>
+        <a href="/"><img src={reddit} alt="" /></a>
+        <a href="/"><img src={twitter} alt="" /></a>
     </div>
 </div>
 

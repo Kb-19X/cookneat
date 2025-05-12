@@ -12,14 +12,14 @@ import scone from '../../assets/ImageNoglutenPage/scone.jpg';
 
 
 import clock  from '../../assets/ImageHomePage/clock-one.png';
-import celeri from '../../assets/ImageDetoxPage/celeri.png';
+// import celeri from '../../assets/ImageDetoxPage/celeri.png';
 // import tofu  from '../../assets/ImageHomePage/tofu.png';
-import idea from '../../assets/ImageDetoxPage/idea.png';
+// import idea from '../../assets/ImageDetoxPage/idea.png';
 
 
-import oeuf from '../../assets/ImageNoglutenPage/oeuf.png';
-import douce from '../../assets/ImageNoglutenPage/douce.png';
-import amande from '../../assets/ImageNoglutenPage/amande.png';
+// import oeuf from '../../assets/ImageNoglutenPage/oeuf.png';
+// import douce from '../../assets/ImageNoglutenPage/douce.png';
+// import amande from '../../assets/ImageNoglutenPage/amande.png';
 
 
 
