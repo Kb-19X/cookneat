@@ -121,7 +121,7 @@ const CoverPates = () => {
         <h1>Recettes Pâtes / Riz / Nouilles</h1>
       </div>
 
-      <a style={styles.link} onClick={toggleFilters}>
+      <a style={styles.link} onClick={toggleFilters} href='/'>
         {showFilters ? 'Masquer les filtres' : 'Afficher les filtres'}
       </a>
 

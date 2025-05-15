@@ -40,17 +40,4 @@
     color: #666;
   }
   
-  /* Styles Navbar (optionnel, pour le lien de la navbar) */
-  .navbar {
-    background-color: #333;
-    color: white;
-  }
-  
-  .navbar a {
-    color: white;
-  }
-  
-  .navbar a:hover {
-    color: #ff6347;
-  }
-  
+

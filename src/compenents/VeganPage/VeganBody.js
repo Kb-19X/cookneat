@@ -1,5 +1,6 @@
-import React, { useState } from 'react'; // AJOUTER useState pour ouvrir/fermer
-import './VeganBody.css'
+import React, { useState } from 'react';
+import './VeganBody.css';
+
 
 import bowl_quinoa from '../../assets/ImageVeganPage/bowl_quinoa.webp';
 import curry from '../../assets/ImageVeganPage/curry.png';
@@ -12,52 +13,38 @@ import like from '../../assets/ImagePlatsPage/like.png';
 import share from '../../assets/ImagePlatsPage/share.png';
 
 const recipes = [
-  { id: 1, image: bowl_quinoa, title: "Bowl de quinoa et légumes d'hiver", description: "Un classique revisité sans gluten, avec du riz parfumé, des légumes croquants, une touche d’exotisme.", time: "15 min" },
-  { id: 2, image: curry, title: "Curry de légumes (végétalien)", description: "Un curry épicé et crémeux, riche en légumes de saison.", time: "30 min" },
-  { id: 3, image: nouilles, title: "Nouilles aux légumes", description: "Nouilles sautées aux légumes croquants, assaisonnées d'une sauce soja légère.", time: "40 min" },
-  { id: 4, image: Padthai, title: "Pad Thai", description: "Classique thaïlandais à base de nouilles de riz, tofu et cacahuètes.", time: "20 min" },
-  { id: 5, image: bowl_quinoa, title: "Smoothie vert", description: "Un smoothie détox plein de vitamines.", time: "5 min" },
-  { id: 6, image: curry, title: "Soupe miso améliorée", description: "Soupe miso aux champignons et wakamé.", time: "15 min" },
-  { id: 7, image: nouilles, title: "Salade de lentilles", description: "Salade de lentilles tièdes au vinaigre balsamique.", time: "25 min" },
-  { id: 8, image: Padthai, title: "Tacos vegan", description: "Tacos garnis de haricots noirs et avocat.", time: "30 min" },
-  { id: 9, image: bowl_quinoa, title: "Risotto crémeux", description: "Risotto aux champignons sans produits laitiers.", time: "45 min" },
-  { id: 10, image: curry, title: "Chili sin carne", description: "Chili sin carne épicé aux haricots rouges.", time: "50 min" },
+  { id: 1, image: bowl_quinoa, title: "Bowl de quinoa et légumes d'hiver", description: "Un classique revisité sans gluten, avec du riz parfumé, des légumes croquants, une touche d’exotisme.", category: "Entrée", time: "15 min" },
+  { id: 2, image: curry, title: "Curry de légumes (végétalien)", description: "Un curry épicé et crémeux, riche en légumes de saison.", category: "Plat principal", time: "30 min" },
+  { id: 3, image: nouilles, title: "Nouilles aux légumes", description: "Nouilles sautées aux légumes croquants, assaisonnées d'une sauce soja légère.", category: "Plat principal", time: "40 min" },
+  { id: 4, image: Padthai, title: "Pad Thai", description: "Classique thaïlandais à base de nouilles de riz, tofu et cacahuètes.", category: "Plat principal", time: "20 min" },
+  { id: 5, image: bowl_quinoa, title: "Smoothie vert", description: "Un smoothie détox plein de vitamines.", category: "Boisson", time: "5 min" },
+  { id: 6, image: curry, title: "Soupe miso améliorée", description: "Soupe miso aux champignons et wakamé.", category: "Entrée", time: "15 min" },
+  { id: 7, image: nouilles, title: "Salade de lentilles", description: "Salade de lentilles tièdes au vinaigre balsamique.", category: "Entrée", time: "25 min" },
+  { id: 8, image: Padthai, title: "Tacos vegan", description: "Tacos garnis de haricots noirs et avocat.", category: "Plat principal", time: "30 min" },
+  { id: 9, image: bowl_quinoa, title: "Risotto crémeux", description: "Risotto aux champignons sans produits laitiers.", category: "Plat principal", time: "45 min" },
+  { id: 10, image: curry, title: "Chili sin carne", description: "Chili sin carne épicé aux haricots rouges.", category: "Plat principal", time: "50 min" },
 ];
 
 const VeganBody = () => {
-  const [showComments, setShowComments] = useState(recipes.map(() => false));
-  const [showInput, setShowInput] = useState(recipes.map(() => false));
-  const [newComment, setNewComment] = useState(recipes.map(() => ""));
-  const [comments, setComments] = useState(
-    recipes.map(() => [
-      { author: 'Jean', text: 'Super recette !' },
-      { author: 'Marie', text: 'Très bon et facile à faire.' },
-      { author: 'Paul', text: "J'ai ajouté du poulet, excellent !" }
-    ])
-  );
+  const [selectedCategory, setSelectedCategory] = useState('Toutes');
 
-  const toggleComments = (index) => {
-    setShowComments(prev => prev.map((v, i) => i === index ? !v : v));
-  };
-  const toggleInput = (index) => {
-    setShowInput(prev => prev.map((v, i) => i === index ? !v : v));
-  };
-  const handleCommentChange = (index, value) => {
-    setNewComment(prev => prev.map((v, i) => i === index ? value : v));
-  };
-  const addComment = (index) => {
-    if (!newComment[index].trim()) return;
-    setComments(prev => prev.map((list, i) => i === index ? [...list, { author: 'Vous', text: newComment[index] }] : list));
-    setNewComment(prev => prev.map((v, i) => i === index ? '' : v));
-    setShowInput(prev => prev.map((v, i) => i === index ? false : v));
-    setShowComments(prev => prev.map((v, i) => i === index ? true : v));
-  };
+  const filteredRecipes = selectedCategory === 'Toutes' ? recipes : recipes.filter(recipe => recipe.category === selectedCategory);
 
   return (
     <div className="detox">
       <div className="detox-container">
         <div className="titre-detox"><h1>Recettes Vegan</h1></div>
-        {recipes.map((recipe, idx) => (
+
+        <div className="filter-container mb-4">
+          <select className="form-select" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+            <option value="Toutes">Toutes les catégories</option>
+            <option value="Entrée">Entrée</option>
+            <option value="Plat principal">Plat principal</option>
+            <option value="Boisson">Boisson</option>
+          </select>
+        </div>
+
+        {filteredRecipes.map((recipe) => (
           <div className="detox-product" key={recipe.id}>
             <img src={recipe.image} alt={recipe.title} />
             <div className="detail-detox-product">
@@ -70,31 +57,8 @@ const VeganBody = () => {
                 </div>
                 <div className="btn-vegan">
                   <img src={like} alt="Like" />
-                  <img src={commentIcon} alt="Commenter" onClick={() => toggleInput(idx)} style={{ cursor: 'pointer' }} />
+                  <img src={commentIcon} alt="Commenter" />
                   <img src={share} alt="Partager" />
-                </div>
-              </div>
-
-              {showInput[idx] && (
-                <div className="new-comment">
-                  <input
-                    type="text"
-                    value={newComment[idx]}
-                    onChange={(e) => handleCommentChange(idx, e.target.value)}
-                    placeholder="Écrire un commentaire..."
-                  />
-                  <button onClick={() => addComment(idx)}>Valider</button>
-                </div>
-              )}
-
-              <div className="comments-section">
-                <button className="toggle-button" onClick={() => toggleComments(idx)}>
-                  {showComments[idx] ? 'Masquer les commentaires' : 'Voir les commentaires'}
-                </button>
-                <div className={`comments-hidden ${showComments[idx] ? 'open' : ''}`}>
-                  {comments[idx].map((c, i) => (
-                    <p key={i}><strong>{c.author} :</strong> {c.text}</p>
-                  ))}
                 </div>
               </div>
             </div>

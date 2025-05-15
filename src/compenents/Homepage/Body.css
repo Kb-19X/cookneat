@@ -16,8 +16,7 @@
 }
 
 .plats-titres h1 {
-    color: #4E342E;
-  
+    color: var(--secondary-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +24,7 @@
     height: 30px;
     padding: 10px;
     width: 120px;
-    color: #3A001F;
+  
     
 }
 
@@ -298,7 +297,15 @@
     align-items: center;
     padding: 50px;
 }
-
+.recipes-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding:70px;
+    
+}
 
 .plats-card {
     display: flex;
@@ -338,4 +345,146 @@
     background-color: var(--tertiary-color);
     padding: 5px;
     border-radius: 10px;
+}
+
+
+
+/* -------------------------------------------------------------------------------------------------------- */
+
+
+
+
+:root {
+    --primary-color: #DA8359;
+    --secondary-color: #ECDFCC;
+    --tertiary-color: #A5B68D;
+    --quaternary-color: #FCFAEE;
+    --quinary-color: #da8459b2;
+    --senary-color: #4E342E;
+}
+
+/* .plats-body-container {
+    padding-left: 100px;
+      padding-right: 100px;
+} */
+
+
+
+
+
+
+
+.plats-titres {
+    text-align: center;
+    margin-bottom: 40px;
+  color: var(--secondary-color);
+   background-color:#4e342e91;
+     height: 100px;
+}
+
+.comment-section-global {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.comment-section-global h2 {
+    color: var(--secondary-color);
+    margin-bottom: 50px;
+    font-size: 24px;
+    background-color:#4e342e91;
+    width: 1535px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.comment-section-global select,
+.comment-section-global input,
+.comment-section-global textarea {
+    
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: var(--tertiary-color);
+    color: var(--senary-color);
+}
+
+.comment-section-global input {
+    width: 800px;
+}
+
+
+
+.comment-section-global textarea {
+   width: 800px;
+}
+
+.comment-section-global select {
+      width: 830px;
+}
+
+.comment-section-global button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-section-global button:hover {
+    background-color: var(--quinary-color);
+    border: none;
+}
+
+.comments-list {
+    background-color: #4e342e91;
+    color: var(--secondary-color);
+    width: 1535px;
+
+}
+
+.comment-item {
+    display: flex;
+    gap: 15px;
+    background-color: var(--secondary-color);
+    padding: 15px;
+    border: 1px solid var(--senary-color);
+   
+  
+}
+
+.comment-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.comment-item div p {
+    margin: 5px 0;
+    color: var(--senary-color);
+}
+
+.comment-item div p strong {
+    color: var(--primary-color);
+}
+
+
+
+.commentaires-add {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
 }

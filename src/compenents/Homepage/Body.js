@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Body.css';
 
-
 import Risotto from '../../assets/ImageHomePage/Risotto alla Milanese.jpg';
 import bruschetta from '../../assets/ImageHomePage/bruschetta.jpg';
 import ossobuco from '../../assets/ImageHomePage/osoobuco.jpg';
@@ -9,195 +8,120 @@ import pesto_alla_genovese from '../../assets/ImageFeculentPage/pesto_alla_genov
 import pates_thon from '../../assets/ImageFeculentPage/pates_thon.jpg';
 import pate_ricotta from '../../assets/ImageFeculentPage/pate_ricotta.jpeg';
 import etoilejaune from '../../assets/ImageHomePage/etoilejaune.png';
-
-
 import etoilemauve from '../../assets/ImageHomePage/etoilemauve.png';
-
 import countries from '../../assets/ImageHomePage/countries.png';
 import profil from '../../assets/ImagePlatsPage/profil.png';
-
-
-import comment from '../../assets/ImagePlatsPage/comment.png';
+import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import like from '../../assets/ImagePlatsPage/like.png';
-import share  from '../../assets/ImagePlatsPage/share.png';
+import share from '../../assets/ImagePlatsPage/share.png';
+
+const recipes = [
+    { id: 1, image: Risotto, title: "Risotto alla Milanese", time: "30 minutes", rating: 5, reviews: 12 },
+    { id: 2, image: bruschetta, title: "Bruschetta", time: "15 minutes", rating: 4, reviews: 8 },
+    { id: 3, image: ossobuco, title: "Ossobuco", time: "2 heures", rating: 5, reviews: 15 },
+    { id: 4, image: pesto_alla_genovese, title: "Pesto alla Genovese", time: "20 minutes", rating: 5, reviews: 10 },
+    { id: 5, image: pates_thon, title: "Pâtes au thon", time: "25 minutes", rating: 4, reviews: 7 },
+    { id: 6, image: pate_ricotta, title: "Pâtes à la ricotta", time: "30 minutes", rating: 5, reviews: 9 }
+];
 
 const Body = () => {
- 
-  
-    const [comments, setComments] = useState({});
-    const [showComment, setShowComment] = useState(null); // On garde un seul ID actif
-  
-    const handleCommentChange = (id, value) => {
-      setComments((prev) => ({ ...prev, [id]: value }));
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState({ name: '', rating: 5, text: '', recipeId: null });
+
+    const handleCommentChange = (field, value) => {
+        setNewComment((prev) => ({ ...prev, [field]: value }));
     };
-  
-    const submitComment = (id) => {
-      if (!comments[id] || comments[id].trim() === '') {
-        alert('Le commentaire ne peut pas être vide.');
-        return;
-      }
-      console.log(`Commentaire pour la recette ${id} : ${comments[id]}`);
-      setComments((prev) => ({ ...prev, [id]: '' })); // Efface le commentaire après soumission
+
+    const submitComment = () => {
+        if (!newComment.name.trim() || !newComment.text.trim()) {
+            alert('Le nom et le commentaire ne peuvent pas être vides.');
+            return;
+        }
+        const recipeTitle = recipes.find(r => r.id === newComment.recipeId)?.title || 'Inconnu';
+        const newEntry = {
+            ...newComment,
+            id: Date.now(),
+            date: new Date().toLocaleDateString(),
+            recipeTitle,
+        };
+        setComments((prev) => [...prev, newEntry]);
+        setNewComment({ name: '', rating: 5, text: '', recipeId: null });
     };
-  
-    const toggleCommentSection = (id) => {
-      setShowComment(prev => prev === id ? null : id); // Si on clique sur la même recette, on cache la section
-    };
-  
+
     return (
         <div className='plats-body-container'>
-        <div className="plats-titres">
-            <img src={countries} alt="" />
-            <h1>Plats</h1>
-            
-
-            <img src={countries} alt="" />
-    </div>
-          <div className='plats-container'>
-            <div className='plats-card'>
-              <img className='img-card' src={pates_thon} alt="" />
-              <h1>Pâtes</h1>
-              <p>20 minutes</p>
-              <div className='stars-container'>
-                <p>★</p>
-                <p>★</p>
-                <p>★</p>
-                <p>★</p>
-                <p>★</p>
-              </div>
-              <a href="" >détails</a>
+            <div className="plats-titres">
+                <img src={countries} alt="Countries" />
+                <h1>Plats</h1>
+                <img src={countries} alt="Countries" />
             </div>
-          </div>
-       
-          <div className='title-comment'>
-          <img src={comment} alt="" />
-            <h1 className='comment-homepage' >Commentaires</h1>
-            <img src={comment} alt="" />
-
-          </div>
-
-
-          <div className='comment-container'>
-            <div className='profil-comment'>
-            <img src={profil} alt="" />
+            <div className="recipes-container">
+                {recipes.map((recipe) => (
+                    <div key={recipe.id} className="recipe-card">
+                        <div className="recipe-image">
+                            <img src={recipe.image} alt={recipe.title} />
+                        </div>
+                        <div className="recipe-info">
+                            <h3>{recipe.title}</h3>
+                            <p className="recipe-time">{recipe.time}</p>
+                            <div className="recipe-rating">
+                                {Array(recipe.rating).fill().map((_, index) => (
+                                    <img key={index} src={etoilejaune} alt="Star" style={{ width: '20px', marginRight: '5px' }} />
+                                ))}
+                                <span> ({recipe.reviews} reviews)</span>
+                            </div>
+                            <div className="recipe-actions">
+                                <img src={like} alt="Like" />
+                                <img src={commentIcon} alt="Comment" />
+                                <img src={share} alt="Share" />
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
-            <div className='infos-comment'>
-              <p>surname name</p>
-              <div className='etoile-container'>
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              </div>
-              <p>12/12/2024</p>
+            <div className="comment-section-global">
+                <h2 className='plats-commentez'>Commentez un plat !</h2>
+                <select onChange={(e) => handleCommentChange('recipeId', parseInt(e.target.value))} value={newComment.recipeId || ''}>
+                    <option value="">Sélectionnez un plat</option>
+                    {recipes.map((recipe) => (
+                        <option key={recipe.id} value={recipe.id}>{recipe.title}</option>
+                    ))}
+                </select>
+                <input
+                    type="text"
+                    placeholder="Votre nom"
+                    value={newComment.name}
+                    onChange={(e) => handleCommentChange('name', e.target.value)}
+                />
+                <textarea
+                    placeholder="Votre commentaire"
+                    value={newComment.text}
+                    onChange={(e) => handleCommentChange('text', e.target.value)}
+                ></textarea>
+                <label>Note :</label>
+                <select value={newComment.rating} onChange={(e) => handleCommentChange('rating', parseInt(e.target.value))}>
+                    {[1, 2, 3, 4, 5].map((n) => (
+                        <option key={n} value={n}>{n} étoile{n > 1 ? 's' : ''}</option>
+                    ))}
+                </select>
+                <button onClick={submitComment}>Envoyer</button>
             </div>
-            <div className='fav-icon'>
-              <img src={etoilemauve} alt="" />
+            <div className="comments-list">
+                <h2 className='commentaires-add'>Commentaires</h2>
+                {comments.map((comment) => (
+                    <div key={comment.id} className="comment-item">
+                        <img src={profil} alt="User" />
+                        <div>
+                            <p><strong>{comment.name}</strong> - {comment.date}</p>
+                            <p>Plat : <strong>{comment.recipeTitle}</strong></p>
+                            <p>Note : {'⭐'.repeat(comment.rating)}</p>
+                            <p>{comment.text}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
-            <div className='comment-zone'>
-              <div className='comment-recette'>
-              <p>Vous avez commentez la recette :</p>
-              <a href="/productpage">Risotto alla Milanese </a>
-              </div>
-             
-              <p>Un tiramisu absolument délicieux ! La recette est simple et le goût est incroyablement riche. Je l’ai fait pour un dîner entre amis, et tout le monde a adoré !</p>
-              <div className='add-comment'>
-              <input type="text" placeholder='Ajoutez un commentaire' />
-              <button>Envoyer</button>
-            </div>
-            </div>
-
-            <div className='comment-container'>
-            <div className='profil-comment'>
-            <img src={profil} alt="" />
-            </div>
-            <div className='infos-comment'>
-              <p>surname name</p>
-              <div className='etoile-container'>
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              </div>
-              <p>12/12/2024</p>
-            </div>
-            <div className='fav-icon'>
-              <img src={etoilemauve} alt="" />
-            </div>
-          </div>
-            <div className='comment-zone'>
-              <div className='comment-recette'>
-              <p>Vous avez commentez la recette :</p>
-              <a href="/productpage">Risotto alla Milanese </a>
-              </div>
-             
-              <p>Un tiramisu absolument délicieux ! La recette est simple et le goût est incroyablement riche. Je l’ai fait pour un dîner entre amis, et tout le monde a adoré !</p>
-              
-              <div className='add-comment'>
-              <input type="text" placeholder='Ajoutez un commentaire' />
-              <button>Envoyer</button>
-            </div>
-            </div>
-
-            <div className='comment-container'>
-            <div className='profil-comment'>
-            <img src={profil} alt="" />
-            </div>
-            <div className='infos-comment'>
-              <p>surname name</p>
-              <div className='etoile-container'>
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              <img src={etoilemauve} alt="" />
-              </div>
-              <p>12/12/2024</p>
-            </div>
-            <div className='fav-icon'>
-              <img src={etoilemauve} alt="" />
-            </div>
-          </div>
-            <div className='comment-zone'>
-              <div className='comment-recette'>
-              <p>Vous avez commentez la recette :</p>
-              <a href="/productpage">Risotto alla Milanese </a>
-              </div>
-              
-             
-              <p>Un tiramisu absolument délicieux ! La recette est simple et le goût est incroyablement riche. Je l’ai fait pour un dîner entre amis, et tout le monde a adoré !</p>
-            <div className='add-comment'>
-              <input type="text" placeholder='Ajoutez un commentaire' />
-              <button>Envoyer</button>
-            </div>
-            </div>
-            
-            <div>
-            <h1 className='donnez-avis'>Donnez-nous votre avis !</h1>
-          </div>
-
-          <div className="avis-product-detail">
-            <img src={etoilemauve} alt="Étoile" />
-            <img src={etoilemauve} alt="Étoile" />
-            <img src={etoilemauve} alt="Étoile" />
-            <img src={etoilemauve} alt="Étoile" />
-            <img src={etoilemauve} alt="Étoile" />
-           
-            <p className="barre-recette">|</p>
-            <p className="recette-critique">Que pensez-vous de cette recette ?</p>
-          </div>
-          <textarea className="textarea-avis" placeholder="Votre commentaire ici"></textarea>
-          <div className='btn-envoyer-avis'>
-          <a className="envoyer-avis" href="#">Envoyer</a>
-          </div>
-   
-
-
-
-      </div>
+        </div>
     );
-  };
+};
+
 export default Body;

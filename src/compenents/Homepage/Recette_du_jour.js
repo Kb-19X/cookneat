@@ -1,18 +1,12 @@
 import React from 'react';
 import './Recette_du_jour.css';
-import bruschetta from '../../assets/ImageHomePage/bruschetta.jpg';
-import coeur from '../../assets/ImageHomePage/coeur.png';
-import ossobuco from '../../assets/ImageHomePage/osoobuco.jpg';
-;
-import tool from '../../assets/ImageHomePage/tool.png';
-import chef from '../../assets/ImageHomePage/chef.png';
-
-
 
 
 import comment from '../../assets/ImagePlatsPage/comment.png';
 import like from '../../assets/ImagePlatsPage/like.png';
 import share  from '../../assets/ImagePlatsPage/share.png';
+import tool from '../../assets/ImageHomePage/tool.png';
+import ossobuco from '../../assets/ImageHomePage/osoobuco.jpg';
 
 
 const Recette_du_jour = () => {
@@ -49,9 +43,9 @@ const Recette_du_jour = () => {
                 <span className='starsspan'>★</span>
                
                 <div className='com-recetteday'>
-                <a href="#"><img src={like} alt="" /></a>
-                <a href="#"><img src={comment} alt="" /></a>
-                <a href="#"><img src={share} alt="" /></a>
+                <a href="/"><img src={like} alt="" /></a>
+                <a href="/"><img src={comment} alt="" /></a>
+                <a href="/"><img src={share} alt="" /></a>
                 </div>
             </div>
             
