@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import './VeganBody.css';
 
-
 import bowl_quinoa from '../../assets/ImageVeganPage/bowl_quinoa.webp';
 import curry from '../../assets/ImageVeganPage/curry.png';
 import nouilles from '../../assets/ImageVeganPage/nouilles.webp';
 import Padthai from '../../assets/ImageVeganPage/Padthai.jpg';
-
+import likeActived from '../../assets/ImageFeculentPage/likeActived.png';
 import clock from '../../assets/ImageHomePage/clock-one.png';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import like from '../../assets/ImagePlatsPage/like.png';
 import share from '../../assets/ImagePlatsPage/share.png';
+import commentActived from '../../assets/ImageFeculentPage/commentActived.png';
+import shareActived from '../../assets/ImageFeculentPage/shareActived.png';
 
 const recipes = [
   { id: 1, image: bowl_quinoa, title: "Bowl de quinoa et légumes d'hiver", description: "Un classique revisité sans gluten, avec du riz parfumé, des légumes croquants, une touche d’exotisme.", category: "Entrée", time: "15 min" },
@@ -27,22 +28,24 @@ const recipes = [
 
 const VeganBody = () => {
   const [selectedCategory, setSelectedCategory] = useState('Toutes');
+  const [likedRecipes, setLikedRecipes] = useState([]);
 
-  const filteredRecipes = selectedCategory === 'Toutes' ? recipes : recipes.filter(recipe => recipe.category === selectedCategory);
+  const toggleLike = (id) => {
+    setLikedRecipes((prevLiked) =>
+      prevLiked.includes(id)
+        ? prevLiked.filter((likedId) => likedId !== id)
+        : [...prevLiked, id]
+    );
+  };
+
+  const filteredRecipes = selectedCategory === 'Toutes'
+    ? recipes
+    : recipes.filter((recipe) => recipe.category === selectedCategory);
 
   return (
     <div className="detox">
       <div className="detox-container">
         <div className="titre-detox"><h1>Recettes Vegan</h1></div>
-
-        <div className="filter-container mb-4">
-          <select className="form-select" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            <option value="Toutes">Toutes les catégories</option>
-            <option value="Entrée">Entrée</option>
-            <option value="Plat principal">Plat principal</option>
-            <option value="Boisson">Boisson</option>
-          </select>
-        </div>
 
         {filteredRecipes.map((recipe) => (
           <div className="detox-product" key={recipe.id}>
@@ -55,11 +58,22 @@ const VeganBody = () => {
                   <img src={clock} alt="Temps" />
                   <p>{recipe.time}</p>
                 </div>
-                <div className="btn-vegan">
-                  <img src={like} alt="Like" />
-                  <img src={commentIcon} alt="Commenter" />
-                  <img src={share} alt="Partager" />
-                </div>
+<div className="btn-vegan">
+  <div className="like-container">
+    <img
+      src={likedRecipes.includes(recipe.id) ? likeActived : like}
+      alt="Like"
+      onClick={() => toggleLike(recipe.id)}
+      className="like-icon"
+    />
+    <p className="like-count">{likedRecipes.includes(recipe.id) ? 1 : 0}</p>
+  </div>
+
+  <img src={commentIcon} alt="Commenter" />
+  <img src={share} alt="Partager" />
+</div>
+
+
               </div>
             </div>
           </div>

@@ -110,7 +110,7 @@
 }
 
 .detail-detox p {
-    color:var(--senary-color);
+    color:var(--primary-color);
     text-shadow: 0px 0px 10px var(--tertiary-color);
 }
 
@@ -126,7 +126,9 @@
     
 }
 
-
+.timing-recette {
+    color: var(--senary-color);
+}
 
 
 .tips-ingredient img {

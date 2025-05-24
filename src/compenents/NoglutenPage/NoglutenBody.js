@@ -45,7 +45,7 @@ const NoglutenBody = () => {
     <div className='detail-detox'>
     <p>Plat - très facile</p>
     <img src={clock} alt="" />
-    <p>15 min</p>
+    <p className='timing-recette'>15 min</p>
     </div>
     </div>
 
