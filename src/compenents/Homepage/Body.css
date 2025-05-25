@@ -388,7 +388,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     align-items: center;
     border-radius: 15px;
     margin-bottom: 30px;
@@ -425,11 +425,22 @@
 
 
 .comment-section-global textarea {
-   width: 800px;
+     width: 800px !important;
+   color: white;
+    resize: none;
+     outline: none;
+  border: none; /* si tu veux aussi enlever une éventuelle bordure */
+  box-shadow: none; /* optionnel, au cas où */
+}
+
+.comment-section-global textarea::placeholder {
+ 
+   color: white;
 }
 
 .comment-section-global select {
       width: 830px;
+       color: white;
 }
 
 .comment-section-global button {
