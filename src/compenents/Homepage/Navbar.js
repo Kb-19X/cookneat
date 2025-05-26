@@ -1,6 +1,7 @@
   import React, { useState, useEffect } from 'react';
   import './Navbar.css';
   import logo from '../../assets/ImageHomePage/logo.png';
+  import logo2 from '../../assets/ImageHomePage/logo2.svg';
   import spatula from '../../assets/ImageHomePage/spatula.png';
   import tiramisu from '../../assets/ImageHomePage/tiramisu.jpg';
   import tartiflette from '../../assets/ImageHomePage/tartiflette.jpg';
@@ -79,7 +80,7 @@
             <span></span>
           </div>
           <ul className="menu">
-            <li><a href="/"><img src={logo} alt="Logo" /></a></li>
+           <li><a href="/" className="logo-link"><img src={logo2} alt="Logo" /></a></li>
             <div className="container">
               <li><a className="ab" href="/Plats">Plats</a></li>
               <li><a href="/NutritionSanté">Nutrition et Santé</a></li>
@@ -89,7 +90,7 @@
             </div>
             <div className="input-navbar-container">
               <input className="input-navbar" type="text" placeholder="Recherche . . ." />
-              <a href="#"><img src={spatula} alt="Recherche" /></a>
+              <a href="/"><img src={spatula} alt="Recherche" /></a>
               <a className="connexion-btn" href="/Connexion">Connexion</a>
             </div>
           </ul>

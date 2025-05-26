@@ -16,7 +16,7 @@ nav ul {
  
     list-style: none;
     gap: 40px;
-    /* background-color: #EB7E68; */
+    background-color: #EB7E68;
     height: 130px;
     font-weight: 500;
     border-bottom: 4px solid  #4E342E;
@@ -28,29 +28,32 @@ nav ul {
     display: flex;
     justify-items: center;
     align-items: center;
-    gap: 60px;
+    gap: 40px;
+    font-size: 16px;
+    font-weight: 800;
 }
 
 
 .container a {
     text-decoration: none;
-    color: whitesmoke;
-    border-bottom: 3px solid var(--tertiary-color);
+    color: var(--secondary-color);
+    font-weight: 800;
     padding: 5px;
 }
 
 
 .container a:hover {
-    border-bottom: 3px solid #a5b68d82;
+   
     padding-bottom: 5px;
+  
    
 }   
 
 
 nav ul img {
     object-fit: contain;
-    height: 120px;
     width: 120px;
+    height: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,7 +64,7 @@ nav ul img {
 
 
 .input-navbar {
-    height: 30px;
+    height: 40px;
     border: none;
     width: 200px;
     background-color: #a5b68d7b;;    
@@ -133,23 +136,25 @@ padding: 0 0px;
 
 nav ul.menu {
 display: flex;
+width: 100vw;
+position: fixed;
 align-items: center;
 justify-content: center;
 list-style: none;
-gap: 40px;
+gap: 20px;
 background-color: #DA8359  ;
 }
 
 nav ul.menu li a {
-color: #ffe5da;
+color: var(--senary-color);
 text-decoration: none;
-font-weight: 500;
+font-weight: 700;
 padding: 5px 10px;
 }
 
 nav ul.menu li a:hover {
-color: #ffffff;
-border-bottom: 2px solid #3a001e;
+color: var(--tertiary-color);
+
 }
 
 /* Burger menu (masqué par défaut) */

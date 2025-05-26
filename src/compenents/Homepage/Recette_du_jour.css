@@ -34,7 +34,7 @@
     align-items: center;
     padding: 10px;
     background-color: #a5b68d81;
-    color: #3A001E;
+    color: var(--senary-color);
     font-weight: 700;
 }
 
