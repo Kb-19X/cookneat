@@ -1,107 +1,100 @@
-
-
 .pagejour {
-    background-color: #ECDFCC;
-    height: 800px;
+  background-color: #ecdfcc;
+  height: 800px;
 
-    box-shadow: 0px 0px 15px black;
+  box-shadow: 0px 0px 15px black;
 }
 .recettedujour {
-    background-color: #b47a6100;
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #3A001E;
-    gap: 20px;
-    
+  background-color: #b47a6100;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #3a001e;
+  gap: 20px;
 }
 .recettedujour img {
-    width: 50px;
-    height: 50px;
-    
-    padding: 2px;
+  width: 50px;
+  height: 50px;
+
+  padding: 2px;
 }
 
 .recettedujour h1 {
-    border-bottom:3px dotted #3A001E;
-    padding: 5px;
-    color: #4E342E;
+  border-bottom: 3px dotted #3a001e;
+  padding: 5px;
+  color: #4e342e;
 }
 .description-pagejour {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    background-color: #a5b68d81;
-    color: var(--senary-color);
-    font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #a5b68d81;
+  color: var(--senary-color);
+  font-weight: 700;
 }
 
 .recetteday-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
 
-
 .recetteday-left img {
-    width: 550px;
-    height: 300px;
-    margin-bottom: 20px;
-    margin-top: 100px;
-    object-fit: cover;
-    border-radius: 5px;
-    border: 3px solid #A5B68D;
-    box-shadow: 0px 0px 15px #A5B68D;
+  width: 550px;
+  height: 300px;
+  margin-bottom: 20px;
+  margin-top: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 3px solid #a5b68d;
+  box-shadow: 0px 0px 15px #a5b68d;
 }
 
 .recetteday-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 70px;
-
-    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 70px;
 }
 
-
 .recetteday-left h1 {
-    color: #ECDFCC;
-    width: 200px;
-    font-size: 25px;
-    height: 30px;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    border: 3px solid #A5B68D;
-    justify-content: center;
-    background: #DA8359;
+  color: #ecdfcc;
+  width: 200px;
+  font-size: 25px;
+  height: 30px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  border: 3px solid #a5b68d;
+  justify-content: center;
+  background: #da8359;
 }
 
 .recetteday-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 550px;
-    margin-left: 100px;
-    margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 550px;
+  margin-left: 100px;
+  margin-top: 40px;
 }
 
 .titre-recetteday {
-    font-size: 25px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #4E342E;
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #4e342e;
 }
 
 .stitre-recetteday {
-    font-size: 20px;
-    color: #4E342E;
-    font-weight: 500;
+  font-size: 20px;
+  color: #4e342e;
+  font-weight: 500;
 }
 
 .stars {
@@ -110,71 +103,53 @@
   align-items: center;
   justify-content: center;
   margin-top: 30px;
-  background: linear-gradient(to right, #DA8359, #DA8359);
-      border: 3px solid #A5B68D;
+  background: linear-gradient(to right, #da8359, #da8359);
+  border: 3px solid #a5b68d;
   padding: 10px;
   color: #fee1d6;
   gap: 10px;
- 
 }
 
-
-
-
-
-
-
 .com-recetteday {
-
-    object-fit: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 170px;
-    gap: 20px;
+  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 170px;
+  gap: 20px;
 }
 
 .com-recetteday img {
-    width: 20px;
-    height: 20px;
-    object-fit: cover;
-
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
 }
 
 @media only screen and (max-width: 480px) {
+  .pagejour-texte {
+    font-size: 14px;
+    height: 70px;
+    width: 330px;
+  }
 
-        .pagejour-texte {
-            font-size: 14px;
-            height: 70px;
-            width: 330px;
-        }
-
-    
-.description-pagejour {
+  .description-pagejour {
     height: 75px;
- 
- 
- }
+  }
 
-
- .recetteday-container {
+  .recetteday-container {
     display: flex;
     flex-direction: column;
-    
-}
+  }
 
+  .recettedujour {
+    margin-top: 30px;
+  }
 
- 
- .recettedujour {
-     margin-top: 30px;
- }
- 
-.recettedujour h1 {
+  .recettedujour h1 {
     font-size: 18px;
-}
+  }
 
-
-.recetteday-left img {
+  .recetteday-left img {
     width: 300px;
     height: 200px;
     margin-bottom: 20px;
@@ -183,89 +158,73 @@
     border-radius: 5px;
     border: 3px solid #8a606e;
     box-shadow: 0px 0px 15px #8a606e;
-}
+  }
 
-
-
-.recetteday-left {
-    
+  .recetteday-left {
     margin-right: 63px;
-}
+  }
 
-.recetteday-right {
+  .recetteday-right {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 300px;
     margin-left: 40px;
     margin-top: 40px;
-    
+  }
 
-}
-
-.titre-recetteday {
+  .titre-recetteday {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 20px;
-}
+  }
 
-
-.stitre-recetteday {
+  .stitre-recetteday {
     font-size: 14px;
-}
+  }
 
-.stars {
-
+  .stars {
     margin-top: 15px;
     padding: 7px;
-}
+  }
 
-.com-recetteday {
-  
-    margin-left:0px;
+  .com-recetteday {
+    margin-left: 0px;
     gap: 10px;
-}
+  }
 
-.first-stars {
-    border-left: 3px dotted #3A001E;
+  .first-stars {
+    border-left: 3px dotted #3a001e;
     padding-left: 10px;
-}
-    .stars p {
-   font-size: 13px;
-}
+  }
+  .stars p {
+    font-size: 13px;
+  }
 
-
-.com-recetteday img {
+  .com-recetteday img {
     width: 15px;
     height: 15px;
-}
+  }
 
-
-.plats-titres {
+  .plats-titres {
     background-color: #8a606e9d;
     gap: 75px;
     height: 50px;
-    color: #3A001F;
+    color: #3a001f;
+  }
+
+  .feculent-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: #d9b7a9;
+    gap: 50px;
+    padding: 40px;
+  }
 }
 
-.feculent-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        background-color: #d9b7a9;
-        gap: 50px;
-        padding: 40px;
-}
-
-
- }
-
-
-
-
-
- .carte-recette {
+.carte-recette {
   background-color: #f0e7db;
   padding: 20px;
   max-width: 700px;
@@ -327,7 +286,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
 }
 
 .stars-left {
@@ -375,7 +333,7 @@
   padding: 10px;
   width: 270px;
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   z-index: 20;
 }
 
@@ -412,8 +370,6 @@
   margin-bottom: 5px;
 }
 
-
-
 .com-recetteday-with-popup {
   display: flex;
   flex-direction: column;
@@ -425,15 +381,13 @@
 .comment-popup {
   margin-top: -35px;
   background: var(--tertiary-color);
-border: none;
-  padding: 10px;
+  border: none;
+
   width: 101%;
   max-width: 532px;
- 
 
   position: relative; /* plus de absolute ! */
 }
-
 
 .comment-input {
   width: 100%;
@@ -445,10 +399,13 @@ border: none;
 
 .comment-btn {
   padding: 6px 12px;
-  background-color: #DA8359;
-  color: white;
+  background-color: #da8359;
+  height: 30px;
+  width: 100px;
+  margin-top: 15px;
+  color: var(--secondary-color);
   border: none;
-  border-radius: 4px;
+
   cursor: pointer;
 }
 
@@ -456,11 +413,72 @@ border: none;
   background-color: #c56a47;
 }
 
-
-
 .form-comment {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+
+.toggle-comments-btn {
+  background-color: #da8359;
+  border: none;
+ padding: 6px 12px;
+  color: white;
+  font-weight: bold;
+  margin-top: 10px;
+    height: 30px;
+  width: 200px;
+ 
+  cursor: pointer;
+  color: var(--secondary-color);
+
+}
+
+.comment-btn {
+  padding: 6px 12px;
+  background-color: #da8359;
+  height: 30px;
+  width: 100px;
+  margin-top: 15px;
+  color: var(--secondary-color);
+  border: none;
+  cursor: pointer;
+}
+
+
+
+.comment-scroll-container {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comment-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.toggle-comments-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
 }

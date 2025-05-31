@@ -1,142 +1,153 @@
 .feculent-container {
-    display: flex;
-    gap: 50px;
-    justify-content: center;
-    background-color: var(--secondary-color);
-    padding: 30px;
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  background-color: var(--secondary-color);
+  padding: 30px;
 }
 
 .recipes-list {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 50px;
-    padding: 84px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 50px;
+  padding: 84px;
 }
 
 .recipe-card {
-    width: 300px;
-    height: 400px; /* Hauteur fixe */
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    background-color: #4E342E ;
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px;
+  height: 400px; /* Hauteur fixe */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #4e342e;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .recipe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 .recipe-image img {
-    width: 100%; /* Ou une largeur fixe */
-    height: 200px; /* Hauteur fixe */
-    object-fit: cover; /* Pour éviter la déformation */
+  width: 100%; /* Ou une largeur fixe */
+  height: 200px; /* Hauteur fixe */
+  object-fit: cover; /* Pour éviter la déformation */
 }
 
 .recipe-info {
-    padding: 15px;
-    background-color: #4E342E ;
-    max-height: 150px; /* Hauteur maximale */
-    overflow: hidden; /* Masquer le contenu dépassant */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
+  padding: 15px;
+  background-color: #4e342e;
+  max-height: 150px; /* Hauteur maximale */
+  overflow: hidden; /* Masquer le contenu dépassant */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .recipe-info h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    color: var(--quaternary-color);
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--quaternary-color);
 }
 
 .recipe-time {
-    color: #FFE4D8;
-    font-size: 0.9rem;
-    /* margin: 10px 0 10px; */
+  color: #ffe4d8;
+  font-size: 0.9rem;
+  /* margin: 10px 0 10px; */
 }
 
 .recipe-rating {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.9rem;
-    color: var(--quaternary-color);
-    background-color: var(--primary-color);
-    height: 30px;
-    border-radius: 10px;
-    padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--quaternary-color);
+  background-color: var(--primary-color);
+  height: 30px;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .recipe-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 .recipe-actions img {
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    object-fit: cover;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
 }
 
 .comment-section {
-    padding: 10px;
-    display: none;
-    gap: 10px;
-    transition: opacity 0.3s ease-in-out;
+  padding: 10px;
+  display: none;
+  gap: 10px;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .comment-section.show {
-    display: flex;
-    opacity: 1;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  display: flex;
+  opacity: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .comment-section.show input {
-    border: none;
-    height: 20px;
-    padding: 3px;
-    background-color: #a5b68dc2;
+  border: none;
+  height: 20px;
+  padding: 3px;
+  background-color: #a5b68dc2;
 }
 
 .comment-section.show button {
-    background-color: #ecdfcc8c;
-    color: white;
-    padding: 5px;
-    border: none;
+  background-color: #ecdfcc8c;
+  color: white;
+  padding: 5px;
+  border: none;
 }
 
 .comment-section.show button:hover {
-    background-color: #a5b68d61;
-    cursor: pointer;
+  background-color: var(--senary-color);
+  cursor: pointer;
 }
 
 .comment-input {
-    flex: 1;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color: #5c1a36;
+  padding: 5px;
+  margin-top: 10px;
+  width: 300px;
+  height: 20px;
+  border: 1px solid var(--tertiary-color);
+
+  background-color: var(--senary-color);
+  color: var(--primary-color);
+}
+
+.comment-input:hover {
+  background-color: var(--senary-color);
+}
+
+.comment-input::placeholder {
+  color: var(--secondary-color);
 }
 
 .comment-submit {
-    background-color: #3a001e;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: #3a001e;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .comment-submit:hover {
-    background-color: #5c1a36;
-}   
+  background-color: var(--senary-color);
+}

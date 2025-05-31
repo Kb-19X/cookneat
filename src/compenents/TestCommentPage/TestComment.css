@@ -70,11 +70,12 @@
 }
 
 .comment-list li {
-  background-color: white;
+  background-color: var(--senary-color);
   padding: 8px;
-  border-radius: 4px;
+
   margin-bottom: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--primary-color);
+  color: var(--secondary-color);
 }
 
 

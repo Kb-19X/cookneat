@@ -1,31 +1,43 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Comment = require('../models/Comment');
+const Comment = require("../models/Comment");
 
-// 👉 GET : récupérer tous les commentaires
-router.get('/', async (req, res) => {
+// GET /api/comments/ — retourne tous les commentaires
+router.get("/", async (req, res) => {
   try {
-    const comments = await Comment.find().sort({ createdAt: -1 });
-    res.json(comments);
+    const allComments = await Comment.find();
+    res.json(allComments);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Erreur serveur" });
   }
 });
 
-// 👉 POST : ajouter un commentaire
-router.post('/', async (req, res) => {
-  const { recipeId, name, text, rating } = req.body;
-
-  if (!recipeId || !name || !text || !rating) {
-    return res.status(400).json({ error: 'Champs requis manquants' });
-  }
-
+// GET /api/comments/:recipeId — commentaires d'une recette spécifique
+router.get("/:recipeId", async (req, res) => {
   try {
-    const comment = new Comment({ recipeId, name, text, rating });
-    await comment.save();
-    res.status(201).json(comment);
+    const comments = await Comment.find({ recipeId: req.params.recipeId });
+    res.json(comments);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// POST /api/comments/:recipeId — ajouter un commentaire à une recette
+router.post("/:recipeId", async (req, res) => {
+  try {
+    const { name, text, rating } = req.body;
+
+    const newComment = new Comment({
+      recipeId: req.params.recipeId,
+      name,
+      text,
+      rating,
+    });
+
+    const saved = await newComment.save();
+    res.json(saved);
+  } catch (err) {
+    res.status(500).json({ error: "Erreur serveur" });
   }
 });
 
