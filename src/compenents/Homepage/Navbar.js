@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import logo2 from "../../assets/ImageHomePage/logo2.svg";
-import spatula from "../../assets/ImageHomePage/spatula.png";
+// import spatula from "../../assets/ImageHomePage/spatula.png";
 import user from "../../assets/ImageHomePage/user.png"; // ← à ajouter dans ton dossier
-import tartiflette from "../../assets/ImageHomePage/tartiflette.jpg";
-import tiramisu from "../../assets/ImageHomePage/tiramisu.jpg";
-import osoobuco from "../../assets/ImageHomePage/osoobuco.jpg";
+// import tartiflette from "../../assets/ImageHomePage/tartiflette.jpg";
+// import tiramisu from "../../assets/ImageHomePage/tiramisu.jpg";
+// import osoobuco from "../../assets/ImageHomePage/osoobuco.jpg";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -82,7 +82,7 @@ const Navbar = () => {
               </a>
             ) : (
               <div title={username}>
-                <a href="/">
+                <a href="/profilPage">
             
                   <img className="user-icon" src={user} alt="user" />
                 </a>

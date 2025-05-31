@@ -1,5 +1,10 @@
+// src/App.jsx
+
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Outlet, NavLink } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+
+import Navbar from './compenents/Homepage/Navbar';
+import Footer from './compenents/Homepage/Footer';
 
 import Homepage from './compenents/Homepage/Homepage';
 import ProductPage from './compenents/ProductPage';
@@ -16,22 +21,15 @@ import Proteine from './compenents/Proteine';
 import Patesnouilles from './compenents/Patesnouilles';
 import AjoutRecettes from './compenents/AjoutRecette';
 import TestComment from './compenents/TestCommentPage/TestComment';
+import ProfilPage from './compenents/ProfilPage/Profil';
 
 function Root() {
   return (
-    <div>
-      {/* <nav>
-        <NavLink to="/">Home</NavLink> | 
-        <NavLink to="/ProductPage">Product</NavLink> | 
-        <NavLink to="/plats">Plats</NavLink> | 
-        <NavLink to="/connexion">Connexion</NavLink> | 
-        <NavLink to="/register">Register</NavLink> | 
-        <NavLink to="/ForgetPassword">Forget Password</NavLink> | 
-        <NavLink to="/NutritionSanté">Nutrition Santé</NavLink>
-      </nav> */}
-      {/* Outlet sert à afficher la route enfant correspondante */}
+    <>
+      <Navbar />
       <Outlet />
-    </div>
+      <Footer />
+    </>
   );
 }
 
@@ -47,6 +45,7 @@ const router = createBrowserRouter([
       { path: 'register', element: <Register /> },
       { path: 'ForgetPassword', element: <ForgetPassword /> },
       { path: 'NutritionSanté', element: <NutritionSanté /> },
+      { path: 'profilPage', element: <ProfilPage /> },
       { path: 'Detox', element: <Detox /> },
       { path: 'Nogluten', element: <Nogluten /> },
       { path: 'Vegan', element: <Vegan /> },
@@ -54,14 +53,13 @@ const router = createBrowserRouter([
       { path: 'Patesnouilles', element: <Patesnouilles /> },
       { path: 'Viandes', element: <Viandes /> },
       { path: 'AjoutRecettes', element: <AjoutRecettes /> },
-       { path: 'TestComment', element: <TestComment /> }
+      { path: 'TestComment', element: <TestComment /> },
     ],
   },
 ]);
 
 function App() {
   return <RouterProvider router={router} />;
-  
 }
 
 export default App;
