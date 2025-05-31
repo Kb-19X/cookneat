@@ -15,6 +15,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/comments', require('./routes/comments'));
 
+app.use('/api/recettes', recettesRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

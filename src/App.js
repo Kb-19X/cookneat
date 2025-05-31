@@ -15,6 +15,7 @@ import Viandes from './compenents/ViandesPage/Viandes';
 import Proteine from './compenents/Proteine';
 import Patesnouilles from './compenents/Patesnouilles';
 import AjoutRecettes from './compenents/AjoutRecette';
+import TestComment from './compenents/TestCommentPage/TestComment';
 
 function Root() {
   return (
@@ -52,7 +53,8 @@ const router = createBrowserRouter([
       { path: 'Proteine', element: <Proteine /> },
       { path: 'Patesnouilles', element: <Patesnouilles /> },
       { path: 'Viandes', element: <Viandes /> },
-      { path: 'AjoutRecettes', element: <AjoutRecettes /> }
+      { path: 'AjoutRecettes', element: <AjoutRecettes /> },
+       { path: 'TestComment', element: <TestComment /> }
     ],
   },
 ]);
