@@ -8,7 +8,9 @@
 }
 
 .profil-page {
-  padding: 100px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 50px;
   background-color: var(--secondary-color);
 
   margin: auto;
@@ -54,6 +56,10 @@
   border-bottom: 1px solid #ddd;
 }
 
+
+
+
+
 .my-recipes-btn {
   display: inline-block;
   margin-top: 10px;
@@ -87,4 +93,57 @@
     color: var(--secondary-color);
     font-size: 30px;
      margin-bottom: 20px;
+}
+
+
+
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background: var(--tertiary-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--senary-color);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: var(--secondary-color);
+}
+
+.card-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.card-link:hover {
+  text-decoration: underline;
 }

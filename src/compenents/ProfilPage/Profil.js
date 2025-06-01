@@ -1,26 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import './Profil.css';
-import user from "../../assets/ImageHomePage/user.png"; // ← à ajouter dans ton dossier
+import user from "../../assets/ImageHomePage/user.png";
+
+import pizza4fromages from "../../assets/ImageHomePage/pizza4fromages.jpeg";
 
 const Profil = () => {
   const [username, setUsername] = useState('');
-  const [likedRecipes, setLikedRecipes] = useState([]);
-  const [myComments, setMyComments] = useState([]);
+  const [likedRecipes, setLikedRecipes] = useState([
+    {
+      id: 1,
+      title: 'Osso Buco',
+      image: 'https://via.placeholder.com/300x200',
+    },
+    {
+      id: 2,
+      title: 'Tartiflette',
+      image: 'https://via.placeholder.com/300x200',
+    },
+  ]);
+  const [myComments, setMyComments] = useState([
+    {
+      recipeTitle: 'Osso Buco',
+      text: 'Délicieux, je recommande ! ⭐⭐⭐⭐',
+    },
+    {
+      recipeTitle: 'Tartiflette',
+      text: 'Trop bon 😋 ⭐⭐⭐⭐⭐',
+    },
+  ]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('username');
     if (storedUser) {
       setUsername(storedUser);
     }
-
-    // Tu pourras ajouter ici la logique pour charger les recettes likées et les commentaires
-    // via des requêtes axios si tu veux aller plus loin
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    window.location.href = '/'; // ou navigate('/')
+    window.location.href = '/';
   };
 
   return (
@@ -34,24 +53,34 @@ const Profil = () => {
       </div>
 
       <div className="profil-section">
-        <h3 className="recettes-likés"> Recettes likées </h3>
-        <ul className="liked-list">
-          {/* À remplacer par map sur likedRecipes */}
-          <li>Osso Buco</li>
-          <li>Tartiflette</li>
-        </ul>
+        <h3 className="recettes-likés">💖 Recettes likées</h3>
+        <div className="cards-grid">
+          {likedRecipes.map((recipe) => (
+            <div key={recipe.id} className="card">
+              <img
+                src={pizza4fromages}
+                alt={recipe.title}
+                className="card-img"
+              />
+              <div className="card-body">
+                <h4 className="card-title">{recipe.title}</h4>
+                <a href={`/recette/${recipe.id}`} className="card-link">
+                  Voir la recette
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="profil-section">
         <h3 className="commentaires-likés">💬 Mes commentaires</h3>
         <ul className="comment-list">
-          {/* À remplacer par map sur myComments */}
-          <li>
-            <strong>Osso Buco</strong> : Délicieux, je recommande ! ⭐⭐⭐⭐
-          </li>
-          <li>
-            <strong>Tartiflette</strong> : Trop bon 😋 ⭐⭐⭐⭐⭐
-          </li>
+          {myComments.map((comment, index) => (
+            <li key={index}>
+              <strong>{comment.recipeTitle}</strong> : {comment.text}
+            </li>
+          ))}
         </ul>
       </div>
 
