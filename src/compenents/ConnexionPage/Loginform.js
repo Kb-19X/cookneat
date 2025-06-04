@@ -14,16 +14,22 @@ const Connexion = () => {
     setError('');
 
     try {
-      const res = await axios.post('/api/auth/login', { email, password });
+      const res = await axios.post('http://localhost:5000/api/auth/login', {
+        email,
+        password,
+      });
 
-      // Stockage du token en local
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('username', res.data.username);
+      const { token, username } = res.data;
 
-      // Redirection vers la page d'accueil ou autre
-      navigate('/');
+      // ✅ Enregistre le token et le username
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
+
+      console.log("✅ Connexion réussie !");
+      navigate('/ProfilPage'); // Redirige vers Profil
+
     } catch (err) {
-      console.error(err);
+      console.error('❌ Erreur de connexion :', err.response?.data || err.message);
       setError("Email ou mot de passe incorrect.");
     }
   };

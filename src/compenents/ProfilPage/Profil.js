@@ -84,9 +84,9 @@ const Profil = () => {
         </ul>
       </div>
 
-      <div className="profil-section">
+      <div className="ajout-recettes-container">
         <a href="/AjoutRecettes" className="my-recipes-btn">
-          + Créer ma recette
+          Ajouter une recette +
         </a>
       </div>
     </div>
