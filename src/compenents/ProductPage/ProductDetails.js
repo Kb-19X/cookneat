@@ -1,215 +1,184 @@
+// DynamicRecipePage.jsx – version optimisée sans espace inutile
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ProductDetails.css';
-import Risotto2 from '../../assets/ImageHomePage/Risotto2.webp';
-import Risotto3 from '../../assets/ImageHomePage/Risotto3.webp';
-import Risotto4 from '../../assets/ImageHomePage/Risotto4.jpg';
-import Risotto5 from '../../assets/ImageHomePage/Risotto5.webp';
-import clock from '../../assets/ImageHomePage/clock-one.png';
-import hat from '../../assets/ImageHomePage/chef-hat.png';
-import coin from '../../assets/ImageHomePage/coin.png';
+import {
+  AccessTime, Schedule, Timer, Group,
+  FavoriteBorder, Favorite, Star, ArrowBack
+} from '@mui/icons-material';
+import {
+  Typography, Box, Table, TableBody,
+  TableCell, TableContainer, TableHead,
+  TableRow, TextField, Divider, IconButton,
+  Rating, Button
+} from '@mui/material';
+import { motion } from 'framer-motion';
 
-import etoilejaune from '../../assets/ImageHomePage/etoilejaune.png';
-import etoilemauve from '../../assets/ImageHomePage/etoilemauve.png';
+const recipe = {
+  title: "Ginger Zucchini Sauté",
+  servings: 4,
+  prepTime: "20 min",
+  cookTime: "10 min",
+  totalTime: "30 min",
+  description: "Un plat léger, parfumé et parfaitement équilibré pour un soir de semaine.",
+  quote: "“Une façon simple et délicieuse de cuisiner la courgette.”",
+  ingredients: [
+    "1 c. à s. d'huile d'olive",
+    "450 g de courgettes, tranchées",
+    "1 c. à s. de gingembre émincé",
+    "2 gousses d’ail hachées",
+    "Sel et poivre"
+  ],
+  steps: [
+    "Chauffer l’huile dans une poêle à feu moyen.",
+    "Ajouter courgettes et gingembre, faire sauter 6-8 min.",
+    "Ajouter l’ail, saler, poivrer.",
+    "Servir chaud, accompagné si souhaité."
+  ],
+  nutrition: {
+    calories: "180 kcal",
+    protein: "5g",
+    fat: "12g",
+    carbs: "10g"
+  },
+  favorites: [
+    { day: 1, meal: "Légumes sautés" },
+    { day: 2, meal: "Salade de quinoa" },
+    { day: 3, meal: "Pâtes aux champignons" }
+  ]
+};
+
+const suggestions = [
+  { name: "Salade de quinoa", img: "https://source.unsplash.com/120x90/?quinoa" },
+  { name: "Soupe légère", img: "https://source.unsplash.com/120x90/?soup" },
+  { name: "Pain aux céréales", img: "https://source.unsplash.com/120x90/?bread" }
+];
+
+const DynamicRecipePage = () => {
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [rating, setRating] = useState(4);
+  const [checkedSteps, setCheckedSteps] = useState([]);
+  const [showStepsOnly, setShowStepsOnly] = useState(false);
 
 
-import comment from '../../assets/ImagePlatsPage/comment.png';
-import like from '../../assets/ImagePlatsPage/like.png';
-import share from '../../assets/ImagePlatsPage/share.png';
-
-const ProductDetails = () => {
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(null);
-
-  // Fonction pour ouvrir la lightbox
-  const openLightbox = (image) => {
-    setCurrentImage(image);
-    setIsLightboxOpen(true);
-  };
-
-  // Fonction pour fermer la lightbox
-  const closeLightbox = () => {
-    setIsLightboxOpen(false);
-  };
-
-  // Fonction pour naviguer entre les images dans la lightbox
-  const moveSlide = (direction) => {
-    const images = [Risotto2, Risotto3, Risotto4, Risotto5];
-    const currentIndex = images.indexOf(currentImage);
-    let newIndex = currentIndex + direction;
-
-    if (newIndex < 0) newIndex = images.length - 1;
-    if (newIndex >= images.length) newIndex = 0;
-
-    setCurrentImage(images[newIndex]);
+  const toggleFavorite = () => setIsFavorite(!isFavorite);
+  const toggleStep = (index) => {
+    setCheckedSteps(prev =>
+      prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
+    );
   };
 
   return (
-    <div>
-      <div className="ProductDetails">
-        <div className="Product-container">
-          <h1>Risotto alla Milanese</h1>
-          <div className="details-cadre-container">
-            <img
-              className="img-principal-details"
-              src={Risotto2}
-              alt="Risotto"
-              onClick={() => openLightbox(Risotto2)}
-            />
-            <div className="bank-img-details">
-              <img
-                src={Risotto3}
-                alt="Risotto 3"
-                className="gallery-image"
-                onClick={() => openLightbox(Risotto3)}
-              />
-              <img
-                src={Risotto4}
-                alt="Risotto 4"
-                className="gallery-image"
-                onClick={() => openLightbox(Risotto4)}
-              />
-              <img
-                src={Risotto5}
-                alt="Risotto 5"
-                className="gallery-image"
-                onClick={() => openLightbox(Risotto5)}
-              />
-            </div>
-          </div>
-
-          {/* Lightbox */}
-          {isLightboxOpen && (
-            <div className="lightbox">
-              <span className="close" onClick={closeLightbox}>
-                &times;
-              </span>
-              <div className="lightbox-content">
-                <img className="lightbox-image" src={currentImage} alt="Agrandir l'image" />
-              </div>
-              <a className="prev" onClick={() => moveSlide(-1)}>
-                &#10094;
-              </a>
-              <a className="next" onClick={() => moveSlide(1)}>
-                &#10095;
-              </a>
-            </div>
-          )}
-
-          <div className="info-time-product">
-            <img src={clock} alt="Temps" />
-            <p>50 min</p>
-            <img src={hat} alt="Difficulté" />
-            <p>Moyen</p>
-            <img src={coin} alt="Coût" />
-            <p>Bon marché</p>
-          </div>
-
-          <div className="stars-product">
-            <p>56</p>
-            <p className="avis">avis</p>
-            <span className="first-stars">★</span>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-            <div className="com-recetteday">
-              <a href="#">
-                <img src={like} alt="Like" />
-              </a>
-              <a href="#">
-                <img src={comment} alt="Commentaire" />
-              </a>
-              <a href="#">
-                <img src={share} alt="Partager" />
-              </a>
-            </div>
-          </div>
-
-          <div className="ingredient-container">
-            <h1>Ingrédients</h1>
-            <div className="ingredients-grid">
-              <div className="ingredients-left">
-                <p>Riz à risotto</p>
-                <p>Bouillon de bœuf</p>
-                <p>Beurre</p>
-                <p>Oignon(s) jaune émincé</p>
-                <p>Poivre du moulin</p>
-                <p>Parmesan râpé</p>
-                <p>Moelle de bœuf</p>
-                <p>Vin blanc sec</p>
-                <p>Filament de Safran</p>
-              </div>
-
-              <div className="ingredients-right">
-                <p>300 g</p>
-                <p>80 cl</p>
-                <p>45 g</p>
-                <p>1</p>
-                <p>/</p>
-                <p>80 g</p>
-                <p>50 g</p>
-                <p>10 cl</p>
-                <p>1 g</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="prepa-container">
-            <h1>Préparation</h1>
-            <div className="prepa-texte-container">
-              <h2>ÉTAPE 1</h2>
-              <p>
-                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
-                ajoutez-y le safran...
-              </p>
-              <h2>ÉTAPE 2</h2>
-              <p>
-                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
-                ajoutez-y le safran...
-              </p>
-              <h2>ÉTAPE 3</h2>
-              <p>
-                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
-                ajoutez-y le safran...
-              </p>
-              <h2>ÉTAPE 4</h2>
-              <p>
-                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
-                ajoutez-y le safran...
-              </p>
-              <h2>ÉTAPE 5</h2>
-              <p>
-                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
-                ajoutez-y le safran...
-              </p>
-              <h2>ÉTAPE 6</h2>
-              <p>
-                Faites chauffer le bouillon de bœuf dans une petite casserole. Prélevez-en l’équivalent d’un verre, et
-                ajoutez-y le safran...
-              </p>
-             
-            </div>
-          </div>
-
-          <div>
-            <h1>Donnez-nous votre avis !</h1>
-          </div>
-          <div className="avis-product-detail">
-            <img src={etoilemauve} alt="Étoile" />
-            <img src={etoilemauve} alt="Étoile" />
-            <img src={etoilemauve} alt="Étoile" />
-            <img src={etoilemauve} alt="Étoile" />
-            <img src={etoilemauve} alt="Étoile" />
-           
-            <p className="barre-recette">|</p>
-            <p className="recette-critique">Que pensez-vous de cette recette ?</p>
-          </div>
-          <textarea className="textarea-avis" placeholder="Votre commentaire ici"></textarea>
-          <a className="envoyer-avis" href="#">Envoyer</a>
+    <Box className="dark-recipe-theme">
+      <Box className="recipe-banner">
+        <div className="banner-overlay">
+          <img src="" alt="" />
+          <Typography variant="h2" className="banner-title">{recipe.title}</Typography>
+          <Typography variant="subtitle1" className="banner-desc">{recipe.description}</Typography>
         </div>
-      </div>
-    </div>
+      </Box>
+      <Box className="recipe-page">
+        <header className="recipe-header">
+          <Typography variant="h4" className="recipe-quote">{recipe.quote}</Typography>
+          <IconButton onClick={toggleFavorite}>
+            {isFavorite ? <Favorite color="error" /> : <FavoriteBorder />}
+          </IconButton>
+        </header>
+        <Box className="meta">
+          <span><Group /> {recipe.servings} pers</span>
+          <span><AccessTime /> {recipe.prepTime}</span>
+          <span><Timer /> {recipe.cookTime}</span>
+          <span><Schedule /> {recipe.totalTime}</span>
+        </Box>
+        <Box className="nutrition-box">
+          <Typography variant="h6">Infos nutritionnelles :</Typography>
+          <ul>
+            <li>🔋 {recipe.nutrition.calories}</li>
+            <li>🍗 {recipe.nutrition.protein} protéines</li>
+            <li>🥑 {recipe.nutrition.fat} lipides</li>
+            <li>🍞 {recipe.nutrition.carbs} glucides</li>
+          </ul>
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <Button variant="outlined" onClick={() => setShowStepsOnly(!showStepsOnly)}>
+            {showStepsOnly ? "Voir tout" : "Mode lecture"}
+          </Button>
+        </Box>
+        {!showStepsOnly && (
+          <>
+            <motion.div className="section" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+              <Typography variant="h5" className="section-title">📝 Ingrédients</Typography>
+              <div className="ingredients-grid">
+                {recipe.ingredients.map((item, i) => (
+                  <motion.div key={i} className="ingredient-card" whileHover={{ scale: 1.05, rotate: -1 }} whileTap={{ scale: 0.97 }}>{item}</motion.div>
+                ))}
+              </div>
+            </motion.div>
+            <motion.div className="section chef-tip-box" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+              <Typography variant="h5" className="section-title">👨‍🍳 Astuce du chef</Typography>
+              <p>Ajoutez une touche de citron ou de menthe fraîche pour encore plus de fraîcheur !</p>
+            </motion.div>
+          </>
+        )}
+        <motion.div className="section" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+          <Typography variant="h5" className="section-title">👨‍🍳 Étapes</Typography>
+          <ol className="checklist">
+            {recipe.steps.map((step, index) => (
+              <li key={index} className={checkedSteps.includes(index) ? 'checked' : ''} onClick={() => toggleStep(index)}>
+                <input type="checkbox" readOnly checked={checkedSteps.includes(index)} />
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </motion.div>
+        {!showStepsOnly && (
+          <>
+            <motion.div className="section" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+              <Typography variant="h5" className="section-title">⭐ Votre note</Typography>
+              <Rating value={rating} onChange={(e, newValue) => setRating(newValue)} precision={0.5} icon={<Star fontSize="inherit" htmlColor="#DA8359" />} />
+            </motion.div>
+            <motion.div className="section" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+              <Typography variant="h5" className="section-title">🗒️ Vos notes</Typography>
+              <TextField placeholder="Écrivez vos astuces ou variantes..." multiline rows={4} fullWidth variant="outlined" />
+            </motion.div>
+            <motion.div className="section suggestions-box" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+              <Typography variant="h5" className="section-title">🍽️ Ce plat va bien avec :</Typography>
+              <div className="suggestions-list">
+                {suggestions.map((sugg, i) => (
+                  <div className="suggestion-card" key={i}>
+                    <img src={sugg.img} alt={sugg.name} />
+                    <span>{sugg.name}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+            <motion.div className="section" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+              <Typography variant="h5" className="section-title">📅 Recettes favorites</Typography>
+              <Divider sx={{ margin: '1rem 0' }} />
+              <TableContainer>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Jour</TableCell>
+                      <TableCell>Menu</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {recipe.favorites.map((fav, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{fav.day}</TableCell>
+                        <TableCell>{fav.meal}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </motion.div>
+          </>
+        )}
+      </Box>
+    </Box>
   );
 };
 
-export default ProductDetails;
+export default DynamicRecipePage;

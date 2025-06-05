@@ -20,7 +20,7 @@
   height: 400px; /* Hauteur fixe */
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  background-color: #4e342e;
+  background-color: var(--primary-color);
   overflow: hidden;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -39,7 +39,7 @@
 
 .recipe-info {
   padding: 15px;
-  background-color: #4e342e;
+  background-color: var(--primary-color);
   max-height: 150px; /* Hauteur maximale */
   overflow: hidden; /* Masquer le contenu dépassant */
   display: flex;

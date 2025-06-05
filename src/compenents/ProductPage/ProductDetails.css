@@ -1,363 +1,234 @@
-.ProductDetails {
-    background-color: var(--secondary-color);
-    margin: 0 auto;
-    padding: 0;
-    
+
+:root {
+  --primary-color: #DA8359;
+  --secondary-color: #ECDFCC;
+  --tertiary-color: #A5B68D;
+  --quaternary-color: #FCFAEE;
+  --quinary-color: #da8459b2;
+  --senary-color: #4E342E;
+  --dark-bg: #2C2C2C;
+  --dark-paper: #3B3B3B;
+  --dark-text: #F5F5F5;
+  --accent-color: #DA8359;
 }
 
-
-
-.Product-container {
-    background-color: var(--secondary-color);
-   
-    width: 1000px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
- 
+.dark-recipe-theme {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.Product-container h1 {
-    color: #4E342E;
-    margin-bottom: 30px;
-    margin-top: 50px;
+.recipe-banner {
+  position: relative;
+  background-image: url('https://images.unsplash.com/photo-1601050690597-54f42f7c33b7?auto=format&fit=crop&w=1350&q=80');
+  background-size: cover;
+  background-position: center;
+  height: 240px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-
-.img-principal-details {
-    width: 610px;
-    height: 400px;
-    object-fit: cover;
-    border: 4px solid var(--tertiary-color);
-
+.recipe-banner::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 75%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+  z-index: 0;
 }
 
-.bank-img-details {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    gap: 40px;
-    margin-bottom: 10px;
- 
-
-    height: 120px;
+.banner-title,
+.banner-desc,
+.back-button {
+  position: relative;
+  z-index: 1;
+  color: white;
 }
 
-
-
-.bank-img-details img {
-    width: 120px;
-    height: 80px;
-    display: flex;
-    object-fit: cover;
-  
-    transition: transform 0.7s ease; /* Ajout de la transition pour un zoom lent */
-
-
+.banner-title {
+  font-size: 2.6rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-.bank-img-details img:hover {
-
-    transition: transform 0.3s ease;
-    transform: scale(1.1); /* Applique un zoom de 10% lorsqu'on survole l'image */
-  cursor: pointer; /* Change le curseur pour indiquer que l'image est interactive */
-
-
+.banner-desc {
+  font-size: 1.1rem;
+  opacity: 0.9;
 }
 
-
-
-.info-time-product {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    background: linear-gradient(to right, #da8459f5, #da845993);
-    border-top: 3px solid  var(--tertiary-color);
-    padding: 10px;
-    border-bottom: 3px solid var(--tertiary-color);
+.recipe-page {
+  padding: 2rem 1.5rem;
+  max-width: 1000px;
+  margin: auto;
+  box-sizing: border-box;
 }
 
-.info-time-product img {
-    width: 30px;
-    height: 30px;
-    object-fit: cover;
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.info-time-product p {
-    color: #4E342E;
-    font-weight: 500;
-
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #ccc;
+  text-align: center;
 }
 
-
-.stars-product {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 10px;
-    padding: 7px;
-    width: 504px;
-    
+.section {
+  background-color: var(--dark-paper);
+  color: var(--dark-text);
+  padding: 1.5rem 2rem;
+  border-radius: 14px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  border-left: 6px solid var(--accent-color);
 }
 
-
-.ingredient-container h1 {
-    margin-top: 50px;
-    border-bottom: 3px solid var(--tertiary-color);
-    padding: 10px;
-    color: #4E342E;
-    
+.section-title {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1.4rem;
+  text-align: center;
 }
 
 .ingredients-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
 }
 
-.ingredients-right {
-    color: #3a001e;
-    font-weight: 600;
-    font-size: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.ingredient-card {
+  background-color: #454545;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--dark-text);
+  text-align: center;
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
-
-.ingredients-left {
-    color: #3a001e;
-    font-size: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.ingredient-card:hover {
+  transform: scale(1.05);
 }
 
-
-
-.prepa-container h1 {
-    margin-top: 50px;
-    border-bottom: 3px solid var(--tertiary-color);
-    padding: 10px;
-    width: 1000px;
-    display: flex;
-    color: #4E342E;
+.checklist {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
 }
 
-.prepa-texte-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center ;
-    width: 1000px;
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #444;
+  transition: all 0.3s ease;
 }
 
-.prepa-texte-container h2 {
-    padding: 10px;
-    background: linear-gradient(to right, #4E342E, #4e342e96); /* dégradé de couleur */
-    -webkit-background-clip: text;
-    color: transparent;
+.checklist li input[type="checkbox"] {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--primary-color);
 }
 
-
-.prepa-texte-container p {
-    padding: 20px;
-    color: #3a001e;
-    font-size: 20px;
+.checklist li.checked span {
+  text-decoration: line-through;
+  color: #aaa;
+  opacity: 0.6;
 }
 
-
-.avis-product-detail {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 600px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    
-}   
-
-.avis-product-detail img {
-    width: 20px;
-    height: 20px;
-
+.nutrition-box {
+  background: #393939;
+  border-left: 5px solid var(--tertiary-color);
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
 }
 
-.ingredient-container {
-    width: 1000px;
-}
-.barre-recette {
-    font-size: 30px;
+.nutrition-box ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
 }
 
-.recette-critique {
-    font-size: 20px;
-    color: #4E342E;
+.nutrition-box li {
+  margin: 0.3rem 0;
 }
 
-.textarea-avis {
-    width: 600px;
-    height: 200px;
-    margin-top: 20px;
-    background-color: var(--tertiary-color);
-    color: var(--primary-color);
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    padding: 20px;
+.back-button {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
 }
 
-
-.textarea-avis::placeholder {
-    color: var(--quaternary-color);
-    padding: 10px;
-    font-size: 18px;
+.suggestions-box {
+  background: var(--dark-paper);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
 }
 
-.envoyer-avis {
-    text-decoration: none;
-    color: var(--quaternary-color);
-    margin-top: 15px;
-    width: 150px;
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    margin: 50px;
-    border: 4px solid var(--primary-color);
-    background-color: var(--tertiary-color);
-    
+.suggestions-list {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.envoyer-avis:hover {
-    background-color: #da845995;
-    border: 4px dotted var(--primary-color);
+.suggestion-card {
+  background: #444;
+  border-radius: 10px;
+  padding: 0.75rem;
+  text-align: center;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
 }
 
-
-.astuce-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 570px;
-    background-color: #ea694f58;
-    margin-top: 100px;
-    padding: 20px;
+.suggestion-card img {
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  max-width: 100px;
 }
 
-.astuce-texte {
-    font-size: 30px;
-    margin-bottom: 20px;
+.suggestion-card:hover {
+  transform: scale(1.05);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .lightbox-content {
-    position: relative;
-  }
-  
-  .lightbox-image {
-    max-width: 100%;
-    max-height: 100%;
-    width: 800px;
-    height: 600px;
-    object-fit: cover;
-  }
-  
-  .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-  }
-  
-  .prev, .next {
-    position: absolute;
-    top: 50%;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    transform: translateY(-50%);
-  }
-  
-  .prev {
-    left: 10px;
-  }
-  
-  .next {
-    right: 10px;
-  }
-  
-
-
-
-
-  @media only screen and (max-width: 480px) { 
-
-
-
-  .avis-product-detail img {
-    max-width: 15px;
-    max-height: 15px;
+.chef-tip-box {
+  background: linear-gradient(135deg, #4E342E, #DA8359);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  font-style: italic;
+  font-size: 1.1rem;
+  text-align: center;
 }
-
-
-.recette-critique {
-    font-size: 15px;
-}
-
-.avis-product-detail {
-    gap: 10px;
-    width: 260px;
-    padding: 20px;
-}
-
-
-.textarea-avis {
-    width: 270px;
-    height: 200px;
-    margin-top: 40px;
-    background-color: #3a001e49;
-    color: #e0c8bd;
-
-}
-
-  }

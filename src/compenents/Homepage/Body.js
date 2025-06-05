@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './Body.css';
-
 import Risotto from '../../assets/ImageHomePage/Risotto alla Milanese.jpg';
 import bruschetta from '../../assets/ImageHomePage/bruschetta.jpg';
 import ossobuco from '../../assets/ImageHomePage/osoobuco.jpg';
@@ -97,7 +96,7 @@ const Body = () => {
               </div>
               <div className="recipe-info">
                 <h3>{recipe.title}</h3>
-                <p className="recipe-time">{recipe.time}</p>
+                <p className="recipe-time">⏱ {recipe.time}</p>
                 <div className="recipe-rating">
                   {[...Array(averageRating)].map((_, i) => (
                     <img key={i} src={etoilejaune} alt="Star" style={{ width: '20px', marginRight: '5px' }} />
@@ -109,8 +108,6 @@ const Body = () => {
                   <img src={commentIcon} alt="Comment" />
                   <img src={share} alt="Share" />
                 </div>
-
-                {/* Affichage des commentaires liés à cette recette */}
                 <div className="comments-list">
                   {recipeComments.map((comment) => (
                     <div key={comment._id} className="comment-item">
