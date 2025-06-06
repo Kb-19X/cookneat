@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductDetails.css';
+import pate_ricotta from '../../assets/ImageFeculentPage/pate_ricotta.jpeg';
 import {
   AccessTime, Schedule, Timer, Group,
   FavoriteBorder, Favorite, Star, ArrowBack
@@ -72,7 +73,7 @@ const DynamicRecipePage = () => {
     <Box className="dark-recipe-theme">
       <Box className="recipe-banner">
         <div className="banner-overlay">
-          <img src="" alt="" />
+          <img className='banner-img' src={pate_ricotta} alt="/" />
           <Typography variant="h2" className="banner-title">{recipe.title}</Typography>
           <Typography variant="subtitle1" className="banner-desc">{recipe.description}</Typography>
         </div>
@@ -137,16 +138,13 @@ const DynamicRecipePage = () => {
               <Typography variant="h5" className="section-title">⭐ Votre note</Typography>
               <Rating value={rating} onChange={(e, newValue) => setRating(newValue)} precision={0.5} icon={<Star fontSize="inherit" htmlColor="#DA8359" />} />
             </motion.div>
-            <motion.div className="section" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
-              <Typography variant="h5" className="section-title">🗒️ Vos notes</Typography>
-              <TextField placeholder="Écrivez vos astuces ou variantes..." multiline rows={4} fullWidth variant="outlined" />
-            </motion.div>
+           
             <motion.div className="section suggestions-box" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.6 }}>
               <Typography variant="h5" className="section-title">🍽️ Ce plat va bien avec :</Typography>
               <div className="suggestions-list">
                 {suggestions.map((sugg, i) => (
                   <div className="suggestion-card" key={i}>
-                    <img src={sugg.img} alt={sugg.name} />
+                    <img src={pate_ricotta} alt={sugg.name} />
                     <span>{sugg.name}</span>
                   </div>
                 ))}
