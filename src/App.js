@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navbar from './compenents/Homepage/Navbar';
 import Footer from './compenents/Homepage/Footer';
 
+
+import ProductDetails from './compenents/ProductPage/ProductDetails';
 import Homepage from './compenents/Homepage/Homepage';
 import ProductPage from './compenents/ProductPage';
 import Plats from './compenents/Plats';
@@ -48,6 +50,7 @@ const router = createBrowserRouter([
       { path: 'profilPage', element: <ProfilPage /> },
       { path: 'Detox', element: <Detox /> },
       { path: 'Nogluten', element: <Nogluten /> },
+      { path: 'recette/:id', element: <ProductDetails /> },
       { path: 'Vegan', element: <Vegan /> },
       { path: 'Proteine', element: <Proteine /> },
       { path: 'Patesnouilles', element: <Patesnouilles /> },

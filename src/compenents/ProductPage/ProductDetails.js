@@ -55,7 +55,7 @@ const suggestions = [
   { name: "Pain aux céréales", img: "https://source.unsplash.com/120x90/?bread" }
 ];
 
-const DynamicRecipePage = () => {
+const ProductDetails = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [rating, setRating] = useState(4);
   const [checkedSteps, setCheckedSteps] = useState([]);
@@ -179,4 +179,4 @@ const DynamicRecipePage = () => {
   );
 };
 
-export default DynamicRecipePage;
+export default ProductDetails;

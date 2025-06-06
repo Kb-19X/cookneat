@@ -14,12 +14,7 @@ const Catégorie = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/recipes/me', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const res = await axios.get('http://localhost:5000/api/recipes');
         setRecipes(res.data);
       } catch (err) {
         console.error('Erreur lors de la récupération des recettes :', err);
@@ -53,14 +48,24 @@ const Catégorie = () => {
           <div key={recipe._id} className="recipe-card">
             <div className="recipe-image">
               <img
-                src={recipe.imageUrl ? `http://localhost:5000${recipe.imageUrl}` : 'https://via.placeholder.com/300'}
+                src={
+                  recipe.imageUrl?.startsWith('http')
+                    ? recipe.imageUrl
+                    : `http://localhost:5000${recipe.imageUrl}`
+                }
                 alt={recipe.title}
               />
             </div>
             <div className="recipe-info">
               <h3>{recipe.title}</h3>
-              <p className="recipe-time">{recipe.time}</p>
-              {recipe.description && <p className="recipe-description">{recipe.description}</p>}
+              <p className="recipe-time">
+                ⏱️ Préparation : {recipe.prepTime || '10 min'} <br />
+                🔥 Cuisson : {recipe.cookTime || '15 min'} <br />
+                ⏳ Total : {recipe.totalTime || '25 min'}
+              </p>
+              {recipe.description && (
+                <p className="recipe-description">{recipe.description}</p>
+              )}
 
               <div className="recipe-actions">
                 <img src={likeIcon} alt="Like" />
@@ -77,10 +82,14 @@ const Catégorie = () => {
                   <input
                     type="text"
                     value={comments[recipe._id] || ''}
-                    onChange={(e) => handleCommentChange(recipe._id, e.target.value)}
+                    onChange={(e) =>
+                      handleCommentChange(recipe._id, e.target.value)
+                    }
                     placeholder="Écrivez un commentaire..."
                   />
-                  <button onClick={() => submitComment(recipe._id)}>Envoyer</button>
+                  <button onClick={() => submitComment(recipe._id)}>
+                    Envoyer
+                  </button>
                 </div>
               )}
             </div>

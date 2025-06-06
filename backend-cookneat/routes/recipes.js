@@ -1,42 +1,42 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const auth = require('../middleware/auth');
 const Recipe = require('../models/Recipe');
+const auth = require('../middleware/auth');
+const upload = require('../middleware/multer');
 
-// Storage images
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
-});
-const upload = multer({ storage });
-
-// Route POST pour ajouter une recette
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
-    const { title, time, description } = req.body;
-    if (!req.file) return res.status(400).json({ error: 'Image manquante' });
+    const { title, description, imageUrl, ingredients, steps } = req.body;
+
+    // ✅ Accepte soit un fichier uploadé, soit une URL
+    if (!req.file && !imageUrl) {
+      return res.status(400).json({ error: 'Image manquante' });
+    }
 
     const newRecipe = new Recipe({
       title,
-      time,
       description,
-      imageUrl: `/uploads/${req.file.filename}`,
-      userId: req.user.id,
+      imageUrl: req.file ? `/uploads/${req.file.filename}` : imageUrl,
+      ingredients,
+      steps,
+      userId: req.user.id
     });
 
-    const saved = await newRecipe.save();
-    res.status(201).json(saved);
+    const savedRecipe = await newRecipe.save();
+    res.status(201).json(savedRecipe);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+// GET /api/recipes – Toutes les recettes
+router.get('/', async (req, res) => {
+  try {
+    const recipes = await Recipe.find().sort({ createdAt: -1 });
+    res.json(recipes);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
-
-// Route GET pour afficher mes recettes
-router.get('/me', auth, async (req, res) => {
-  const recipes = await Recipe.find({ userId: req.user.id });
-  res.json(recipes);
 });
 
 module.exports = router;
