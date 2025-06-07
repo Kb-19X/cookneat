@@ -10,6 +10,7 @@ const Catégorie = () => {
   const [recipes, setRecipes] = useState([]);
   const [comments, setComments] = useState({});
   const [showComment, setShowComment] = useState(null);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -20,7 +21,6 @@ const Catégorie = () => {
         console.error('Erreur lors de la récupération des recettes :', err);
       }
     };
-
     fetchRecipes();
   }, []);
 
@@ -41,60 +41,73 @@ const Catégorie = () => {
     setShowComment((prev) => (prev === id ? null : id));
   };
 
+  // 🔍 Filtrage en fonction de la recherche
+  const filteredRecipes = recipes.filter((recipe) =>
+    recipe.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="plats-body-container">
+      {/* 🔍 Barre de recherche */}
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Rechercher une recette..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      {/* 🧑‍🍳 Liste des recettes */}
       <div className="recipes-list">
-        {recipes.map((recipe) => (
-          <div key={recipe._id} className="recipe-card">
-            <div className="recipe-image">
-              <img
-                src={
-                  recipe.imageUrl?.startsWith('http')
-                    ? recipe.imageUrl
-                    : `http://localhost:5000${recipe.imageUrl}`
-                }
-                alt={recipe.title}
-              />
-            </div>
-            <div className="recipe-info">
-              <h3>{recipe.title}</h3>
-              <p className="recipe-time">
-                ⏱️ Préparation : {recipe.prepTime || '10 min'} <br />
-                🔥 Cuisson : {recipe.cookTime || '15 min'} <br />
-                ⏳ Total : {recipe.totalTime || '25 min'}
-              </p>
-              {recipe.description && (
-                <p className="recipe-description">{recipe.description}</p>
-              )}
-
-              <div className="recipe-actions">
-                <img src={likeIcon} alt="Like" />
-                <img
-                  src={commentIcon}
-                  alt="Comment"
-                  onClick={() => toggleCommentSection(recipe._id)}
-                />
-                <img src={shareIcon} alt="Share" />
+        {filteredRecipes.length > 0 ? (
+          filteredRecipes.map((recipe) => (
+            <div key={recipe._id} className="recipe-card">
+              <div className="recipe-image">
+                <img src={recipe.imageUrl} alt={recipe.title} />
               </div>
+              <div className="recipe-info">
+                <h3>{recipe.title}</h3>
+                <p className="recipe-time">
+                  ⏱️ Préparation : {recipe.prepTime || '10 min'} <br />
+                  🔥 Cuisson : {recipe.cookTime || '15 min'} <br />
+                  ⏳ Total : {recipe.totalTime || '25 min'}
+                </p>
+                {recipe.description && (
+                  <p className="recipe-description">{recipe.description}</p>
+                )}
 
-              {showComment === recipe._id && (
-                <div className="comment-section show">
-                  <input
-                    type="text"
-                    value={comments[recipe._id] || ''}
-                    onChange={(e) =>
-                      handleCommentChange(recipe._id, e.target.value)
-                    }
-                    placeholder="Écrivez un commentaire..."
+                <div className="recipe-actions">
+                  <img src={likeIcon} alt="Like" />
+                  <img
+                    src={commentIcon}
+                    alt="Comment"
+                    onClick={() => toggleCommentSection(recipe._id)}
                   />
-                  <button onClick={() => submitComment(recipe._id)}>
-                    Envoyer
-                  </button>
+                  <img src={shareIcon} alt="Share" />
                 </div>
-              )}
+
+                {showComment === recipe._id && (
+                  <div className="comment-section show">
+                    <input
+                      type="text"
+                      value={comments[recipe._id] || ''}
+                      onChange={(e) =>
+                        handleCommentChange(recipe._id, e.target.value)
+                      }
+                      placeholder="Écrivez un commentaire..."
+                    />
+                    <button onClick={() => submitComment(recipe._id)}>
+                      Envoyer
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="no-results">Aucune recette trouvée.</p>
+        )}
       </div>
     </div>
   );

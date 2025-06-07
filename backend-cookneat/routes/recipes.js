@@ -38,5 +38,20 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedRecipe = await Recipe.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...req.body,
+        imageUrl: `/uploads/${req.body.imageName}` // ou imageUrl directement
+      },
+      { new: true }
+    );
+    res.json(updatedRecipe);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 module.exports = router;
