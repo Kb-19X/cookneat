@@ -10,6 +10,7 @@ const Catégorie = () => {
   const [recipes, setRecipes] = useState([]);
   const [comments, setComments] = useState({});
   const [showComment, setShowComment] = useState(null);
+  const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -24,31 +25,69 @@ const Catégorie = () => {
     fetchRecipes();
   }, []);
 
-  const handleCommentChange = (id, value) => {
-    setComments((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const submitComment = (id) => {
-    if (!comments[id] || comments[id].trim() === '') {
-      alert('Le commentaire ne peut pas être vide.');
-      return;
+  const fetchRecipeComments = async (recipeId) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/comments?recipeId=${recipeId}`);
+      setComments((prev) => ({ ...prev, [recipeId]: res.data }));
+    } catch (err) {
+      console.error('Erreur lors de la récupération des commentaires :', err);
     }
-    console.log(`Commentaire pour la recette ${id} : ${comments[id]}`);
-    setComments((prev) => ({ ...prev, [id]: '' }));
   };
 
   const toggleCommentSection = (id) => {
-    setShowComment((prev) => (prev === id ? null : id));
+    if (showComment === id) {
+      setShowComment(null);
+    } else {
+      setShowComment(id);
+      fetchRecipeComments(id);
+    }
   };
 
-  // 🔍 Filtrage en fonction de la recherche
+  const handleCommentInputChange = (id, value) => {
+    setCommentInput((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const submitComment = async (recipeId) => {
+    const text = commentInput[recipeId]?.trim();
+    if (!text) {
+      alert("Le commentaire ne peut pas être vide.");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Vous devez être connecté pour commenter.");
+        return;
+      }
+
+      const newComment = {
+        recipeId,
+        text,
+        rating: 5
+      };
+
+      await axios.post("http://localhost:5000/api/comments", newComment, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      setCommentInput((prev) => ({ ...prev, [recipeId]: '' }));
+      fetchRecipeComments(recipeId);
+    } catch (err) {
+      console.error("Erreur lors de l'envoi du commentaire :", err.response?.data || err.message);
+      alert("Erreur lors de l'envoi du commentaire : " + (err.response?.data?.error || err.message));
+    }
+  };
+
   const filteredRecipes = recipes.filter((recipe) =>
     recipe.title.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="plats-body-container">
-      {/* 🔍 Barre de recherche */}
       <div className="search-bar">
         <input
           type="text"
@@ -58,13 +97,19 @@ const Catégorie = () => {
         />
       </div>
 
-      {/* 🧑‍🍳 Liste des recettes */}
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
             <div key={recipe._id} className="recipe-card">
               <div className="recipe-image">
-                <img src={recipe.imageUrl} alt={recipe.title} />
+                <img
+                  src={
+                    recipe.imageUrl.startsWith('http')
+                      ? recipe.imageUrl
+                      : `http://localhost:5000${recipe.imageUrl}`
+                  }
+                  alt={recipe.title}
+                />
               </div>
               <div className="recipe-info">
                 <h3>{recipe.title}</h3>
@@ -91,15 +136,27 @@ const Catégorie = () => {
                   <div className="comment-section show">
                     <input
                       type="text"
-                      value={comments[recipe._id] || ''}
+                      value={commentInput[recipe._id] || ''}
                       onChange={(e) =>
-                        handleCommentChange(recipe._id, e.target.value)
+                        handleCommentInputChange(recipe._id, e.target.value)
                       }
                       placeholder="Écrivez un commentaire..."
                     />
                     <button onClick={() => submitComment(recipe._id)}>
                       Envoyer
                     </button>
+
+                    <div className="comments-display">
+                      {comments[recipe._id]?.length > 0 ? (
+                        comments[recipe._id].map((c, index) => (
+                          <div key={index} className="single-comment">
+                            <strong>{c.name}</strong> ({c.rating}⭐) : {c.text}
+                          </div>
+                        ))
+                      ) : (
+                        <p>Aucun commentaire encore.</p>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

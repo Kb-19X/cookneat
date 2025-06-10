@@ -2,31 +2,30 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const User = require('./models/User');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
-//  User
+// Routes
 const authRoutes = require('./routes/auth');
-app.use('/api/auth', authRoutes);
-
-// recettes
 const recipeRoutes = require('./routes/recipes');
+const commentRoutes = require('./routes/comments');
+
+app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
+app.use('/api/comments', commentRoutes);
 
-
+// Images
 app.use('/uploads', express.static('uploads'));
 
+// Test
 app.get('/', (req, res) => {
   res.send('✅ API CookNeat opérationnelle');
 });
-
-// Routes
-const commentsRoutes = require('./routes/comments');
-app.use('/api/comments', commentsRoutes);
 
 // Connexion MongoDB
 mongoose.connect(process.env.MONGO_URI)

@@ -245,7 +245,7 @@ const data = [
     "prepTime": "20 min",
     "cookTime": "24 min",
     "totalTime": "44 min",
-    "imageUrl": "https://source.unsplash.com/800x600/?soup",
+    "imageUrl": "./uploads/Blanquette de veau.jpg",
     "ingredients": [
       "tomates",
       "poivron",

@@ -72,7 +72,7 @@
   font-size: 0.85rem;
   color: var(--tertiary-color);
   line-height: 1.4;
-  max-height: 3.5em;
+  max-height: 4em;
   overflow: hidden;
   text-overflow: ellipsis;
 }

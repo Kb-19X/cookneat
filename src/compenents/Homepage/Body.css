@@ -499,3 +499,21 @@
     justify-content: center;
     
 }
+
+
+
+.all-comments-section {
+  margin-top: 40px;
+  background-color: var(--senary-color);
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+.comment-card {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}

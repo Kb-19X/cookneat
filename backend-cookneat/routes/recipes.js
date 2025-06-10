@@ -3,7 +3,16 @@ const router = express.Router();
 const Recipe = require('../models/Recipe');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/multer');
-
+router.get("/", async (req, res) => {
+  try {
+    const { recipeId } = req.query;
+    const filter = recipeId ? { recipeId } : {};
+    const comments = await Comment.find(filter).sort({ createdAt: -1 });
+    res.json(comments);
+  } catch (err) {
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { title, description, imageUrl, ingredients, steps } = req.body;
@@ -51,6 +60,17 @@ router.put("/:id", async (req, res) => {
     res.json(updatedRecipe);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+router.delete('/deleteNonLocalImages', async (req, res) => {
+  try {
+    const result = await Recipe.deleteMany({
+      imageUrl: { $not: { $regex: "^/uploads" } }
+    });
+    res.status(200).json({ deletedCount: result.deletedCount });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
