@@ -1,30 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 // Middleware de vérification du token
-module.exports = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  
-  if (!authHeader) {
-    return res.status(401).json({ message: 'Token manquant' });
-  }
 
-  const token = authHeader.split(' ')[1];
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = {
-      id: decoded.id,
-      name: decoded.name // Le nom est disponible depuis le token
-    };
-    next();
-  } catch (err) {
-    return res.status(401).json({ message: 'Token invalide' });
-  }
-};
 
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/User');
+const User = require('../models/User');
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
