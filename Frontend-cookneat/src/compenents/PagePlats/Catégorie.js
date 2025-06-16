@@ -64,7 +64,7 @@ const Catégorie = () => {
       const newComment = {
         recipeId,
         text,
-        rating: 5
+        rating: 5 // Tu peux adapter la notation plus tard
       };
 
       await axios.post("http://localhost:5000/api/comments", newComment, {
@@ -74,6 +74,7 @@ const Catégorie = () => {
         }
       });
 
+      // Vide l'input après envoi
       setCommentInput((prev) => ({ ...prev, [recipeId]: '' }));
       fetchRecipeComments(recipeId);
     } catch (err) {
@@ -104,9 +105,11 @@ const Catégorie = () => {
               <div className="recipe-image">
                 <img
                   src={
-                    recipe.imageUrl.startsWith('http')
+                    recipe.imageUrl && recipe.imageUrl.startsWith('http')
                       ? recipe.imageUrl
-                      : `http://localhost:5000${recipe.imageUrl}`
+                      : recipe.imageUrl
+                        ? `http://localhost:5000${recipe.imageUrl}`
+                        : 'https://via.placeholder.com/300x200?text=Pas+d\'image'
                   }
                   alt={recipe.title}
                 />
@@ -128,6 +131,7 @@ const Catégorie = () => {
                     src={commentIcon}
                     alt="Comment"
                     onClick={() => toggleCommentSection(recipe._id)}
+                    style={{ cursor: 'pointer' }}
                   />
                   <img src={shareIcon} alt="Share" />
                 </div>
@@ -148,9 +152,9 @@ const Catégorie = () => {
 
                     <div className="comments-display">
                       {comments[recipe._id]?.length > 0 ? (
-                        comments[recipe._id].map((c, index) => (
-                          <div key={index} className="single-comment">
-                            <strong>{c.name}</strong> ({c.rating}⭐) : {c.text}
+                        comments[recipe._id].map((c) => (
+                          <div key={c._id || c.id || Math.random()} className="single-comment">
+                            <strong>{c.name || 'Anonyme'}</strong> ({c.rating}⭐) : {c.text}
                           </div>
                         ))
                       ) : (

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const User = require('../models/user'); 
+const User = require('../../backend-cookneat/models/User');
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;

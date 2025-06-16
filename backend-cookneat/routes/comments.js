@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Comment = require('../models/Comment');
-const verifyToken = require('../middlewares/auth'); // Si tu veux protéger avec auth
+const verifyToken = require('../../backend-cookneat/middleware/verifyToken'); // Si tu veux protéger avec auth
 
 // 🔹 GET /api/comments — tous les commentaires ou ceux d'une recette
 router.get('/', async (req, res) => {
