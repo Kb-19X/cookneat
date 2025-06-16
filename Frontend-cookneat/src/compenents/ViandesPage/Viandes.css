@@ -1,0 +1,43 @@
+/* Viandes.css */
+
+/* Section de filtrage */
+.filter-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-section .form-select {
+    padding: 5px;
+    font-size: 16px;
+  }
+  
+  .filter-section .btn {
+    padding: 5px 15px;
+    font-size: 16px;
+  }
+  
+  /* Card des produits */
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+

@@ -1,0 +1,199 @@
+:root {
+  --primary-color: #DA8359;       /* Orange doux */
+  --secondary-color: #ECDFCC;     /* Beige clair */
+  --tertiary-color: #A5B68D;      /* Vert sauge */
+  --quaternary-color: #FCFAEE;    /* Blanc cassé */
+  --quinary-color: #da8459b2;     /* Orange transparent */
+  --senary-color: #4E342E;        /* Brun foncé */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--secondary-color);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--senary-color);
+}
+
+/* ---- Container principal ---- */
+.ajout-recettes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1rem;
+  background-color: var(--secondary-color);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ---- Titre principal ---- */
+.titre-ajout-recettes {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: var(--quaternary-color);
+  background-color: var(--tertiary-color);
+  padding: 1rem 2rem;
+  width: 100%;
+ 
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  margin-bottom: 3rem;
+}
+
+/* ---- Formulaire ---- */
+.form-recette {
+  width: 100%;
+  max-width: 1200px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  
+  
+}
+
+/* ---- Labels ---- */
+.form-recette label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--senary-color);
+}
+
+/* ---- Champs texte ---- */
+input[type="text"],
+input[type="file"],
+textarea {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: none;
+  
+  background-color: var(--tertiary-color);
+  color: var(--senary-color);
+  box-sizing: border-box;
+  transition: background 0.3s ease;
+}
+
+/* ---- Focus & Hover ---- */
+input:focus,
+textarea:focus {
+  outline: none;
+  background-color: var(--senary-color);
+  color: var(--quaternary-color);
+}
+
+input[type="file"] {
+  background-color: var(--primary-color);
+}
+
+/* ---- Textarea ---- */
+textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+/* ---- Image preview ---- */
+.preview-main,
+.preview-step {
+  max-width: 100%;
+  margin-top: 1rem;
+  border-radius: 12px;
+  border: 2px solid var(--tertiary-color);
+  object-fit: cover;
+}
+
+/* ---- Sections d'ingrédients & étapes ---- */
+.ingredients-section,
+.steps-section {
+  background-color: var(--tertiary-color);
+  padding: 2rem;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* ---- Items individuels ---- */
+.ingredient-item,
+.step-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--senary-color);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.ingredient-item input,
+.step-item textarea {
+  background-color: var(--senary-color);
+  color: var(--quaternary-color);
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+}
+
+.ingredient-item input::placeholder,
+.step-item textarea::placeholder {
+  color: var(--quaternary-color);
+}
+
+/* ---- Bouton Submit ---- */
+.btn-submit {
+  align-self: center;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: var(--primary-color);
+  color: var(--quaternary-color);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-submit:hover {
+  background-color: var(--quinary-color);
+  transform: scale(1.04);
+}
+.input-img-p-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.input-img-p {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.custom-file-label {
+  background-color: var(--primary-color);
+  color: var(--quaternary-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-label:hover {
+  background-color: var(--quinary-color);
+}

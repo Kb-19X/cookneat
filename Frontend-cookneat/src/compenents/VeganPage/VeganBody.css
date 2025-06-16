@@ -1,0 +1,171 @@
+.time-vegan {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+/* VeganBody.css */
+.vegan-container {
+  all: unset;
+  display: block;
+}
+.time-vegan p {
+    font-weight: 500;
+    color: var(--senary-color);
+}
+
+
+.time-vegan img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.btn-vegan {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.comments-section {
+    background-color: #d6d5c1; /* même couleur que ta barre verte */
+    padding: 10px;
+   
+    overflow: hidden;
+    
+  }
+  
+  .toggle-button {
+    background: none;
+    border: none;
+    color: #5c3b3b;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  #comments {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease; }
+
+
+.comments-section {
+    background-color: #927e72;
+    padding: 0px;
+    overflow: hidden;
+    width: 640px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row; 
+    margin: 0 auto;
+    border: 3px solid #b8c09d93;
+}
+
+.toggle-button {
+    background: none;
+    padding: 0px;
+    border: none;
+      margin: 0 auto;
+    color: var(--secondary-color);
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap; 
+}
+
+      .toggle-button:hover {
+        color: var(--tertiary-color);
+      }
+      .comments-hidden {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.0s ease;
+      }
+      
+      .comments-hidden.open {
+        max-height: 500px;
+        margin-top: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+      
+
+      .comments-hidden.open p {
+        background-color: #ecdfcc;
+        margin-bottom: 5px;
+        padding: 5px;
+        color: #4E342E;
+      }
+
+
+      .comments-hidden.open strong {
+        color: var(--sinary-color);
+      }
+
+
+      .new-comment {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       gap: 10px;
+        
+      }
+
+
+      .new-comment input {
+        width: 300px;
+        height: 35px;
+        border: none;
+        background-color: var(--senary-color) ;
+        color: var(--secondary-color);
+        margin-left: 10px;
+        
+      }
+
+      .new-comment button {
+          width: 100px;
+          height: 35px;
+          border: none;
+          background-color: var(--quinary-color);
+          cursor: pointer;
+          border: 3px solid var(--senary-color);
+      }
+
+      .new-comment button:hover {
+          border: 3px solid var(--secondary-color);
+          color: var(--secondary-color);
+      }
+      
+
+      .new-comment input::placeholder {
+        color: var(--secondary-color);
+        padding: 5px;
+      }
+
+      .new-comment input:focus {
+        padding-left: 10px;    /* même padding quand l’input est actif */
+          /* optionnel : retire le contour par défaut */
+      }
+      
+
+
+      .like-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px; /* espace entre les icônes si besoin */
+}
+
+.like-icon {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.like-count {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: #555;
+}

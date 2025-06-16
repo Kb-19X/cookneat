@@ -1,0 +1,177 @@
+.container-profil {
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+ 
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f5f5f5; /* ou n'importe quelle couleur de fond que tu veux */
+}
+
+.profil-page {
+  min-height: 100vh;
+  background-color: #f5f5f5; /* même couleur que le body si tu veux un fond uni */
+  padding-bottom: 50px; /* Pour éviter que le contenu touche le bas */
+}
+
+.profil-page {
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 50px;
+  background-color: var(--secondary-color);
+
+  margin: auto;
+  font-family: sans-serif;
+}
+
+.profil-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profil-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logout-btn {
+  margin-left: auto;
+  padding: 8px 16px;
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.profil-section {
+  margin-top: 30px;
+}
+
+.liked-list,
+.comment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.liked-list li,
+.comment-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.ajout-recettes-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+
+}
+
+
+.my-recipes-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  border: 3px solid var(--senary-color);
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  width: 200px;
+  background-color: var(--primary-color);
+  color: var(--senary-color);
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.my-recipes-btn:hover {
+  background-color: #4e342e88;
+}
+
+
+
+.recettes-likés {
+    background-color: var(--tertiary-color);
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--secondary-color);
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+
+.commentaires-likés {
+        background-color: var(--tertiary-color);
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--secondary-color);
+    font-size: 30px;
+     margin-bottom: 20px;
+}
+
+
+
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background: var(--tertiary-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--senary-color);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: var(--secondary-color);
+}
+
+.card-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}

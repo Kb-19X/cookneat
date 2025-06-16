@@ -1,0 +1,58 @@
+/* Barre de recherche */
+.search-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+   padding-bottom: 50px;
+
+}
+
+.search-bar input {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 80%;
+  max-width: 400px;
+  transition: border 0.3s ease;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border: 1px solid var(--quaternary-color);
+}
+
+/* Message si aucune recette */
+.no-results {
+  color: var(--senary-color);
+  font-style: bold;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+
+
+.comments-display {
+  margin-top: 15px;
+  background-color: #fff4f0;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.single-comment {
+  padding: 6px 8px;
+  border-bottom: 1px solid #ffe0d6;
+  font-size: 0.9rem;
+  color: #3a001e;
+}
+
+.single-comment:last-child {
+  border-bottom: none;
+}
