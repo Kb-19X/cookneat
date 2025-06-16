@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
-
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/cookneatproject';
 const cors = require('cors');
 
 const app = express();
