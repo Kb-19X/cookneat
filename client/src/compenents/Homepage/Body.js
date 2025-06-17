@@ -25,14 +25,16 @@ const Body = () => {
   }, []);
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const res = await axios.get('http://localhost:5000/api/recipes');
-        setRecipes(res.data);
-      } catch (err) {
-        console.error('Erreur lors de la récupération des recettes :', err);
-      }
-    };
+ const fetchRecipes = async () => {
+  try {
+    // Utilisez l'URL de votre serveur Render
+    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    const res = await axios.get(`${API_URL}/api/recipes`);
+    setRecipes(res.data);
+  } catch (err) {
+    console.error('Erreur lors de la récupération des recettes :', err);
+  }
+};
     fetchRecipes();
   }, []);
 
