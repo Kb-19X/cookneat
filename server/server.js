@@ -40,3 +40,13 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => {
     console.error('❌ Erreur MongoDB :', err.message);
   });
+// Si vous utilisez Express
+const cors = require('cors');
+
+app.use(cors({
+  origin: [
+    'https://cookneat.onrender.com',
+    'http://localhost:3000' // pour le développement
+  ],
+  credentials: true
+}));

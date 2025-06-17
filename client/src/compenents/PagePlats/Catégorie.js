@@ -6,6 +6,8 @@ import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Catégorie = () => {
   const [recipes, setRecipes] = useState([]);
   const [comments, setComments] = useState({});
@@ -16,7 +18,7 @@ const Catégorie = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/recipes');
+        const res = await axios.get(`${API_URL}/api/recipes`);
         setRecipes(res.data);
       } catch (err) {
         console.error('Erreur lors de la récupération des recettes :', err);
@@ -27,7 +29,7 @@ const Catégorie = () => {
 
   const fetchRecipeComments = async (recipeId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/comments?recipeId=${recipeId}`);
+      const res = await axios.get(`${API_URL}/api/comments?recipeId=${recipeId}`);
       setComments((prev) => ({ ...prev, [recipeId]: res.data }));
     } catch (err) {
       console.error('Erreur lors de la récupération des commentaires :', err);
@@ -67,14 +69,13 @@ const Catégorie = () => {
         rating: 5 // Tu peux adapter la notation plus tard
       };
 
-      await axios.post("http://localhost:5000/api/comments", newComment, {
+      await axios.post(`${API_URL}/api/comments`, newComment, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
 
-      // Vide l'input après envoi
       setCommentInput((prev) => ({ ...prev, [recipeId]: '' }));
       fetchRecipeComments(recipeId);
     } catch (err) {
@@ -108,7 +109,7 @@ const Catégorie = () => {
                     recipe.imageUrl && recipe.imageUrl.startsWith('http')
                       ? recipe.imageUrl
                       : recipe.imageUrl
-                        ? `http://localhost:5000${recipe.imageUrl}`
+                        ? `${API_URL}${recipe.imageUrl}`
                         : 'https://via.placeholder.com/300x200?text=Pas+d\'image'
                   }
                   alt={recipe.title}
