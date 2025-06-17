@@ -40,8 +40,7 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => {
     console.error('❌ Erreur MongoDB :', err.message);
   });
-// Si vous utilisez Express
-const cors = require('cors');
+
 
 app.use(cors({
   origin: [
