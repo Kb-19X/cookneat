@@ -12,31 +12,32 @@ const Body = () => {
   const [newComment, setNewComment] = useState({ recipeId: '', name: '', text: '', rating: 1 });
   const [allComments, setAllComments] = useState([]);
 
+  // Base URL API centralisée
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/comments');
+        const res = await axios.get(`${API_URL}/api/comments`);
         setAllComments(res.data);
       } catch (err) {
         console.error('Erreur lors de la récupération des commentaires :', err);
       }
     };
     fetchComments();
-  }, []);
+  }, [API_URL]);
 
   useEffect(() => {
- const fetchRecipes = async () => {
-  try {
-    // Utilisez l'URL de votre serveur Render
-    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-    const res = await axios.get(`${API_URL}/api/recipes`);
-    setRecipes(res.data);
-  } catch (err) {
-    console.error('Erreur lors de la récupération des recettes :', err);
-  }
-};
+    const fetchRecipes = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/recipes`);
+        setRecipes(res.data);
+      } catch (err) {
+        console.error('Erreur lors de la récupération des recettes :', err);
+      }
+    };
     fetchRecipes();
-  }, []);
+  }, [API_URL]);
 
   const featuredTitles = ["Pad Thaï", "Shawarma de poulet", "Poulet yassa", "Choucroute garnie"];
   const featuredRecipes = recipes.filter((r) => featuredTitles.includes(r.title));
@@ -57,6 +58,7 @@ const Body = () => {
       }
       console.log(`Commentaire pour la recette ${id} : ${comments[id]}`);
       setComments((prev) => ({ ...prev, [id]: '' }));
+      // Ici, tu peux faire un POST axios pour enregistrer le commentaire côté serveur
     } else {
       const { recipeId, name, text, rating } = newComment;
       if (!recipeId || !name || !text || !rating) {
@@ -65,6 +67,7 @@ const Body = () => {
       }
       console.log('Commentaire global envoyé :', newComment);
       setNewComment({ recipeId: '', name: '', text: '', rating: 1 });
+      // Ici aussi, tu peux faire un POST axios pour envoyer le commentaire
     }
   };
 
@@ -86,7 +89,7 @@ const Body = () => {
                 src={
                   recipe.imageUrl.startsWith('http')
                     ? recipe.imageUrl
-                    : `http://localhost:5000${recipe.imageUrl}`
+                    : `${API_URL}${recipe.imageUrl}`
                 }
                 alt={recipe.title}
               />
@@ -150,13 +153,15 @@ const Body = () => {
           placeholder="Votre commentaire"
           value={newComment.text}
           onChange={(e) => handleCommentChange('text', e.target.value)}
-        ></textarea>
+        />
         <select value={newComment.rating} onChange={(e) => handleCommentChange('rating', parseInt(e.target.value))}>
           {[1, 2, 3, 4, 5].map((n) => (
             <option key={n} value={n}>{n} étoile{n > 1 ? 's' : ''}</option>
           ))}
         </select>
-        <button onClick={submitComment}>Envoyer</button>
+        <button onClick={() => submitComment()}>
+          Envoyer
+        </button>
       </div>
 
       <div className="all-comments-section">
@@ -164,7 +169,9 @@ const Body = () => {
         {allComments.length > 0 ? (
           allComments.slice(0, 10).map((comment) => (
             <div key={comment._id} className="comment-card">
-              <p><strong>{comment.name}</strong> sur <em>{recipes.find(r => r._id === comment.recipeId)?.title || 'Recette inconnue'}</em> :</p>
+              <p>
+                <strong>{comment.name}</strong> sur <em>{recipes.find(r => r._id === comment.recipeId)?.title || 'Recette inconnue'}</em> :
+              </p>
               <p>{comment.text}</p>
               <p>⭐ {comment.rating} / 5</p>
             </div>
