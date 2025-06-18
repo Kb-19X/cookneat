@@ -14,13 +14,10 @@ const Connexion = () => {
     setError('');
 
     try {
-      const res = await axios.post(
-        'https://cookneat-server.onrender.com/api/auth/login',
-        { email, password },
-        {
-          withCredentials: true, // seulement si ton backend utilise des cookies
-        }
-      );
+      const res = await axios.post('https://cookneat-server.onrender.com/api/auth/login', {
+        email,
+        password,
+      });
 
       const { token, username } = res.data;
 
