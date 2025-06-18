@@ -4,9 +4,6 @@ import logo from '../../assets/ImageHomePage/logo.png';
 import insta from '../../assets/ImageHomePage/instagram.png';
 import twitter from '../../assets/ImageHomePage/twitter.png';
 import reddit from '../../assets/ImageHomePage/reddit.png';
-import API_URL from '../config';
-
-fetch(`${API_URL}/recipes`)
 
 
 

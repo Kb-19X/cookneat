@@ -4,9 +4,6 @@ import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 import './Body.css';
-import API_URL from '../config';
-
-fetch(`${API_URL}/recipes`)
 
 const Body = () => {
   const [recipes, setRecipes] = useState([]);

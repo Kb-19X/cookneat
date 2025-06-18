@@ -6,9 +6,6 @@ import user from "../../assets/ImageHomePage/user.png"; // ← à ajouter dans t
 // import tartiflette from "../../assets/ImageHomePage/tartiflette.jpg";
 // import tiramisu from "../../assets/ImageHomePage/tiramisu.jpg";
 // import osoobuco from "../../assets/ImageHomePage/osoobuco.jpg";
-import API_URL from '../config';
-
-fetch(`${API_URL}/recipes`)
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
