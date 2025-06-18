@@ -29,9 +29,10 @@ const Connexion = () => {
       navigate('/ProfilPage');
 
     } catch (err) {
-      console.error('❌ Erreur de connexion :', err.response?.data || err.message);
-      setError("Email ou mot de passe incorrect.");
-    }
+  console.error("❌ Détail de l'erreur : ", err);
+  console.error("Réponse du serveur : ", err.response?.data);
+  setError("Email ou mot de passe incorrect.");
+}
   };
 
   return (
