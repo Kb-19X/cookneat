@@ -6,15 +6,18 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware CORS
 app.use(cors({
   origin: [
-    'https://cookneat.onrender.com',
-    'http://localhost:3000'
+    'https://cookneat.x75.form.efp.be', // ton frontend depuis l'EFP
+    'https://cookneat.onrender.com',    // ton frontend en production
+    'http://localhost:3000'             // ton frontend local
   ],
   credentials: true
 }));
-
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 app.use(express.json());
 
 // Routes

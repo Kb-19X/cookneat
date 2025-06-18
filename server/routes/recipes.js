@@ -3,21 +3,23 @@ const router = express.Router();
 const Recipe = require('../models/Recipe');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/multer');
-router.get("/", async (req, res) => {
+
+// ✅ GET toutes les recettes
+router.get('/', async (req, res) => {
   try {
-    const { recipeId } = req.query;
-    const filter = recipeId ? { recipeId } : {};
-    const comments = await Comment.find(filter).sort({ createdAt: -1 });
-    res.json(comments);
-  } catch (err) {
-    res.status(500).json({ error: "Erreur serveur" });
+    const recipes = await Recipe.find().sort({ createdAt: -1 });
+    res.json(recipes);
+  } catch (error) {
+    console.error('❌ Erreur dans GET /api/recipes :', error.message);
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
+// ✅ POST nouvelle recette (avec image ou URL)
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { title, description, imageUrl, ingredients, steps } = req.body;
 
-    // ✅ Accepte soit un fichier uploadé, soit une URL
     if (!req.file && !imageUrl) {
       return res.status(400).json({ error: 'Image manquante' });
     }
@@ -34,26 +36,19 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     const savedRecipe = await newRecipe.save();
     res.status(201).json(savedRecipe);
   } catch (err) {
-    console.error(err);
+    console.error('❌ Erreur dans POST /api/recipes :', err.message);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
-// GET /api/recipes – Toutes les recettes
-router.get('/', async (req, res) => {
-  try {
-    const recipes = await Recipe.find().sort({ createdAt: -1 });
-    res.json(recipes);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+
+// ✅ PUT mettre à jour une recette
 router.put("/:id", async (req, res) => {
   try {
     const updatedRecipe = await Recipe.findByIdAndUpdate(
       req.params.id,
       {
         ...req.body,
-        imageUrl: `/uploads/${req.body.imageName}` // ou imageUrl directement
+        imageUrl: `/uploads/${req.body.imageName}`
       },
       { new: true }
     );
@@ -63,6 +58,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// ✅ DELETE toutes les recettes sans images locales
 router.delete('/deleteNonLocalImages', async (req, res) => {
   try {
     const result = await Recipe.deleteMany({

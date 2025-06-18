@@ -7,6 +7,9 @@ import like from "../../assets/ImagePlatsPage/like.png";
 import share from "../../assets/ImagePlatsPage/share.png";
 import tool from "../../assets/ImageHomePage/tool.png";
 import ossobuco from "../../assets/ImageHomePage/osoobuco.jpg";
+import API_URL from '../config';
+
+fetch(`${API_URL}/recipes`)
 
 const Recette_du_jour = () => {
   const [liked, setLiked] = useState(false);
