@@ -8,15 +8,23 @@ const PORT = process.env.PORT || 5000;
 
 // CORS - accepte frontend local et distant
 const allowedOrigins = [
-  'https://cookneat.x75.form.efp.be', // Frontend EFP
-  'https://cookneat.onrender.com',   // Frontend production
-  'http://localhost:3000'            // Frontend local
+  'https://cookneat.x75.form.efp.be',
+  'https://cookneat.onrender.com',
+  'http://localhost:3000'
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Autorise les requêtes sans origin (Postman, etc.)
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
+
+app.use(express.json());
 
 // Logger de requêtes
 app.use((req, res, next) => {
@@ -24,21 +32,20 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-
-// Routes
+// Import des routes
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
 const commentRoutes = require('./routes/comments');
 
+// Utilisation des routes
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/comments', commentRoutes);
 
-// Fichiers statiques (images)
+// Fichiers statiques
 app.use('/uploads', express.static('uploads'));
 
-// Route de test
+// Route test
 app.get('/', (req, res) => {
   res.send('✅ API CookNeat opérationnelle');
 });
