@@ -25,11 +25,11 @@ const Footer = () => {
 
     <div className='footer-mid'>
         <h1>Catégories</h1>
-        <a href="">Nutrition et santé</a>
-        <a href="">Pâtes</a>
-        <a href="">Riz/nouilles</a>
-        <a href="">Viandes/poissons</a>
-        <a href="">Desserts</a>
+        <a href="/">Nutrition et santé</a>
+        <a href="/">Pâtes</a>
+        <a href="/">Riz/nouilles</a>
+        <a href="/">Viandes/poissons</a>
+        <a href="/">Desserts</a>
         <p>&copy; 2025 CookNeat. Tous droits réservés.</p>
     </div>
 
@@ -40,12 +40,12 @@ const Footer = () => {
         <p className='news'>Inscris-toi à notre newsletter pour ne rien rater des nouvelles recettes !</p>
         <div className='newletter'>
         <input className='input-navbar' type="text" placeholder='E-mail' />
-        <a href="">Valider</a>
+        <a href="/">Valider</a>
         </div>
         <div className='rsx'>
-            <a href=""><img src={insta} alt="" /></a>
-            <a href=""><img src={reddit} alt="" /></a>
-            <a href=""><img src={twitter} alt="" /></a>
+            <a href="/"><img src={insta} alt="" /></a>
+            <a href="/"><img src={reddit} alt="" /></a>
+            <a href="/"><img src={twitter} alt="" /></a>
         </div>
     </div>
 

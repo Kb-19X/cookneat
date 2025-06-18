@@ -14,10 +14,13 @@ const Connexion = () => {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        'https://cookneat-server.onrender.com/api/auth/login',
+        { email, password },
+        {
+          withCredentials: true, // seulement si ton backend utilise des cookies
+        }
+      );
 
       const { token, username } = res.data;
 
@@ -26,7 +29,7 @@ const Connexion = () => {
       localStorage.setItem('username', username);
 
       console.log("✅ Connexion réussie !");
-      navigate('/ProfilPage'); // Redirige vers Profil
+      navigate('/ProfilPage');
 
     } catch (err) {
       console.error('❌ Erreur de connexion :', err.response?.data || err.message);

@@ -10,18 +10,32 @@ const Createcompte = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setMessage(""); // reset message à chaque tentative
+
     try {
-      await axios.post("/api/auth/register", {
-        username,
-        email,
-        password,
-      });
+      await axios.post(
+        'https://cookneat-server.onrender.com/api/auth/register',
+        {
+          username,
+          email,
+          password,
+        },
+        {
+          withCredentials: true, // seulement si tu utilises des cookies ou sessions
+        }
+      );
+
       setMessage("✅ Inscription réussie !");
       setUsername("");
       setEmail("");
       setPassword("");
+
     } catch (err) {
-      setMessage("❌ Erreur : " + err.response?.data?.error || "Serveur");
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data ||
+        "❌ Erreur du serveur.";
+      setMessage("❌ " + errorMessage);
     }
   };
 
@@ -31,11 +45,33 @@ const Createcompte = () => {
         <form className='login-form' onSubmit={handleRegister}>
           <h1>Inscription</h1>
           <div className='container-form'>
-            <input type="text" placeholder='Pseudo' value={username} onChange={(e) => setUsername(e.target.value)} />
-            <input type="text" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder='Mot de passe' value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input
+              type="text"
+              placeholder='Pseudo'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              type="email"
+              placeholder='Email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder='Mot de passe'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
             <button className='login-btn' type="submit">S'inscrire</button>
-            {message && <p style={{ marginTop: '10px', color: 'white' }}>{message}</p>}
+            {message && (
+              <p style={{ marginTop: '10px', color: message.startsWith("✅") ? 'lightgreen' : 'salmon' }}>
+                {message}
+              </p>
+            )}
           </div>
         </form>
       </div>

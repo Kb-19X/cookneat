@@ -19,7 +19,21 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
+// Exemple dans ton fichier server.js ou app.js
+const cors = require('cors');
 
+const allowedOrigins = [
+  'https://cookneat.x75.form.efp.be', // Remplace par l'URL réelle de ton frontend
+];// Mauvais (en production) :
+fetch("http://localhost:5000/api/auth/login")
+
+// Bon :
+fetch("https://ton-backend-render.onrender.com/api/auth/login")
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true, // si tu envoies des cookies ou des headers d'authentification
+}));
 // Routes
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
