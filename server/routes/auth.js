@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
+// Route d'inscription
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -24,3 +25,6 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
+// 👇 Cette ligne est essentielle pour que le routeur soit utilisable
+module.exports = router;

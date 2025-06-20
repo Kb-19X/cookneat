@@ -6,16 +6,16 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS - accepte frontend local et distant
+// 🌐 Liste des origines autorisées
 const allowedOrigins = [
   'https://cookneat.x75.form.efp.be',
   'https://cookneat.onrender.com',
   'http://localhost:3000'
 ];
 
+// 🛡️ Middleware CORS
 app.use(cors({
   origin: (origin, callback) => {
-    // Autorise les requêtes sans origin (Postman, etc.)
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
@@ -24,34 +24,39 @@ app.use(cors({
   credentials: true
 }));
 
+// 📦 Middleware pour parser le JSON
 app.use(express.json());
 
-// Logger de requêtes
+// 📄 Logger simple
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
-// Import des routes
+// 📁 Imports de routes
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
 const commentRoutes = require('./routes/comments');
 
-// Utilisation des routes
+// 🚦 Utilisation des routes
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/comments', commentRoutes);
 
-// Fichiers statiques
+// 🖼️ Fichiers statiques
 app.use('/uploads', express.static('uploads'));
 
-// Route test
+// 🧪 Route de test
 app.get('/', (req, res) => {
   res.send('✅ API CookNeat opérationnelle');
 });
 
-// Connexion MongoDB
+// 📡 Connexion MongoDB
 const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+  console.error("❌ Erreur : MONGO_URI non défini dans le fichier .env");
+  process.exit(1);
+}
 
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
