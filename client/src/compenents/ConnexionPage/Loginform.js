@@ -14,25 +14,38 @@ const Connexion = () => {
     setError('');
 
     try {
-      const res = await axios.post('https://cookneat-server.onrender.com/api/auth/login', {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        'https://cookneat-server.onrender.com/api/auth/login',
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          // Si ton backend utilise des cookies : withCredentials: true
+        }
+      );
 
-      const { token, username } = res.data;
+      console.log('✅ Réponse backend:', res.data);
 
-      // ✅ Enregistre le token et le username
+      const { token, name } = res.data;
+
+      // Enregistre le token et le nom d'utilisateur dans le localStorage
       localStorage.setItem('token', token);
-      localStorage.setItem('username', username);
+      localStorage.setItem('username', name);
 
       console.log("✅ Connexion réussie !");
       navigate('/ProfilPage');
 
     } catch (err) {
-  console.error("❌ Détail de l'erreur : ", err);
-  console.error("Réponse du serveur : ", err.response?.data);
-  setError("Email ou mot de passe incorrect.");
-}
+      console.error("❌ Erreur de connexion : ", err);
+
+      if (err.response) {
+        console.error("Détails : ", err.response.data);
+        setError(err.response.data.message || "Erreur de connexion.");
+      } else {
+        setError("Erreur réseau. Veuillez réessayer.");
+      }
+    }
   };
 
   return (

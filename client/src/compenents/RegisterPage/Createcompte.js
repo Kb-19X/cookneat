@@ -12,8 +12,11 @@ const Createcompte = () => {
     e.preventDefault();
     setMessage(""); // reset message à chaque tentative
 
+    // Affiche les données dans la console
+    console.log("Données envoyées :", { username, email, password });
+
     try {
-      await axios.post(
+      const response = await axios.post(
         'https://cookneat-server.onrender.com/api/auth/register',
         {
           username,
@@ -21,7 +24,10 @@ const Createcompte = () => {
           password,
         },
         {
-          withCredentials: true, // seulement si tu utilises des cookies ou sessions
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: false, // mets true si tu utilises des cookies
         }
       );
 
@@ -33,9 +39,10 @@ const Createcompte = () => {
     } catch (err) {
       const errorMessage =
         err.response?.data?.error ||
-        err.response?.data ||
+        err.response?.data?.message || // ← utile si tu renvoies { message: "..."}
         "❌ Erreur du serveur.";
       setMessage("❌ " + errorMessage);
+      console.error("Erreur d'inscription :", err.response || err);
     }
   };
 
