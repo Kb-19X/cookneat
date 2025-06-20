@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Loginform.css';
 import { useNavigate } from 'react-router-dom';
 
-const Connexion = () => {
+const Loginform = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,30 +20,29 @@ const Connexion = () => {
         {
           headers: {
             'Content-Type': 'application/json',
-          },
-          // Si ton backend utilise des cookies : withCredentials: true
+          }
         }
       );
 
       console.log('✅ Réponse backend:', res.data);
 
-      const { token, name } = res.data;
+      // Récupère les données du backend
+      const { token, user } = res.data;
 
-      // Enregistre le token et le nom d'utilisateur dans le localStorage
+      // Stocke dans le localStorage
       localStorage.setItem('token', token);
-      localStorage.setItem('username', name);
+      localStorage.setItem('user', JSON.stringify(user));
 
       console.log("✅ Connexion réussie !");
       navigate('/ProfilPage');
 
     } catch (err) {
-      console.error("❌ Erreur de connexion : ", err);
+      console.error("❌ Erreur de connexion :", err);
 
-      if (err.response) {
-        console.error("Détails : ", err.response.data);
-        setError(err.response.data.message || "Erreur de connexion.");
+      if (err.response?.data?.message) {
+        setError("❌ " + err.response.data.message);
       } else {
-        setError("Erreur réseau. Veuillez réessayer.");
+        setError("❌ Erreur réseau. Veuillez réessayer.");
       }
     }
   };
@@ -90,4 +89,4 @@ const Connexion = () => {
   );
 };
 
-export default Connexion;
+export default Loginform;

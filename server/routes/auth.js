@@ -1,30 +1,50 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Route d'inscription
-router.post('/register', async (req, res) => {
+// Connexion
+router.post('/login', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    console.log("📥 Données reçues :", { name, email, password });
+    const { email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ message: 'Email déjà utilisé' });
+    // Vérifie les champs
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Champs manquants' });
     }
 
-    const newUser = new User({ name, email, password });
-    console.log("📦 Nouvel utilisateur créé, enregistrement en cours...");
+    // Recherche de l'utilisateur
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: 'Utilisateur non trouvé' });
+    }
 
-    await newUser.save();
+    // ⚠️ Mot de passe : ici tu dois comparer (plus tard on le hash avec bcrypt)
+    if (user.password !== password) {
+      return res.status(401).json({ message: 'Mot de passe incorrect' });
+    }
 
-    console.log("✅ Utilisateur enregistré en base !");
-    res.status(201).json({ message: 'Utilisateur enregistré avec succès' });
+    // Génère un token JWT
+    const token = jwt.sign(
+      { id: user._id, name: user.username }, // infos utiles dans le token
+      process.env.JWT_SECRET || "supersecret", // remplace par une vraie clé en prod
+      { expiresIn: '2h' }
+    );
+
+    res.status(200).json({
+      message: 'Connexion réussie',
+      token,
+      user: {
+        id: user._id,
+        name: user.username,
+        email: user.email
+      }
+    });
+
   } catch (err) {
-    console.error('❌ Erreur dans /register :', err);
+    console.error('❌ Erreur dans /login :', err.message);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
 
-// 👇 Cette ligne est essentielle pour que le routeur soit utilisable
 module.exports = router;

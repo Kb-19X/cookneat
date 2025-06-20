@@ -4,16 +4,13 @@ import './Createcompte.css';
 
 const Createcompte = () => {
   const [username, setUsername] = useState("");
-  const [email, setEmail]     = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setMessage(""); // reset message à chaque tentative
-
-    // Affiche les données dans la console
-    console.log("Données envoyées :", { username, email, password });
+    setMessage(""); // Réinitialise le message à chaque tentative
 
     try {
       const response = await axios.post(
@@ -21,28 +18,30 @@ const Createcompte = () => {
         {
           username,
           email,
-          password,
+          password
         },
         {
           headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: false, // mets true si tu utilises des cookies
+            'Content-Type': 'application/json'
+          }
         }
       );
 
-      setMessage("✅ Inscription réussie !");
+      console.log("✅ Inscription réussie :", response.data);
+      setMessage("✅ " + response.data.message);
+
+      // Réinitialise les champs
       setUsername("");
       setEmail("");
       setPassword("");
 
     } catch (err) {
+      console.error("❌ Erreur axios :", err);
       const errorMessage =
+        err.response?.data?.message ||
         err.response?.data?.error ||
-        err.response?.data?.message || // ← utile si tu renvoies { message: "..."}
-        "❌ Erreur du serveur.";
+        "❌ Erreur serveur.";
       setMessage("❌ " + errorMessage);
-      console.error("Erreur d'inscription :", err.response || err);
     }
   };
 
