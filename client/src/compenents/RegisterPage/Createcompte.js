@@ -15,11 +15,7 @@ const Createcompte = () => {
     try {
       const response = await axios.post(
         'https://cookneat-server.onrender.com/api/auth/register',
-        {
-          username,
-          email,
-          password
-        },
+        { username, email, password },
         {
           headers: {
             'Content-Type': 'application/json'
@@ -28,7 +24,7 @@ const Createcompte = () => {
       );
 
       console.log("✅ Inscription réussie :", response.data);
-      setMessage("✅ " + response.data.message);
+      setMessage("✅ " + (response.data.message || "Compte créé avec succès."));
 
       // Réinitialise les champs
       setUsername("");
@@ -46,33 +42,33 @@ const Createcompte = () => {
   };
 
   return (
-    <div className='form'>
-      <div className='login-container'>
-        <form className='login-form' onSubmit={handleRegister}>
+    <div className="form">
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleRegister}>
           <h1>Inscription</h1>
-          <div className='container-form'>
+          <div className="container-form">
             <input
               type="text"
-              placeholder='Pseudo'
+              placeholder="Pseudo"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
             <input
               type="email"
-              placeholder='Email'
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <input
               type="password"
-              placeholder='Mot de passe'
+              placeholder="Mot de passe"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <button className='login-btn' type="submit">S'inscrire</button>
+            <button className="login-btn" type="submit">S'inscrire</button>
             {message && (
               <p style={{ marginTop: '10px', color: message.startsWith("✅") ? 'lightgreen' : 'salmon' }}>
                 {message}
