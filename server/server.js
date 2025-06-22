@@ -12,8 +12,7 @@ const allowedOrigins = [
   'https://cookneat.onrender.com',
   'http://localhost:3000'
 ];
-const authRoutes = require('./routes/auth');
-app.use('/api/auth', authRoutes);
+
 // 🛡️ Middleware CORS
 app.use(cors({
   origin: (origin, callback) => {
