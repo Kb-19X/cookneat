@@ -50,7 +50,7 @@ app.use('/uploads', express.static('uploads'));
 app.get('/', (req, res) => {
   res.send('✅ API CookNeat opérationnelle');
 });
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
 // 📡 Connexion MongoDB
 const mongoUri = process.env.MONGO_URI;
 if (!mongoUri) {
@@ -58,16 +58,13 @@ if (!mongoUri) {
   process.exit(1);
 }
 
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log('✅ Connexion MongoDB réussie');
-  app.listen(PORT, () => {
-    console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+mongoose.connect(mongoUri)
+  .then(() => {
+    console.log('✅ Connexion MongoDB réussie');
+    app.listen(PORT, () => {
+      console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ Erreur MongoDB :', err.message);
   });
-})
-.catch((err) => {
-  console.error('❌ Erreur MongoDB :', err.message);
-});
