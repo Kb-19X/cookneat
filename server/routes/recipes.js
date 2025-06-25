@@ -32,12 +32,55 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
       steps,
       userId: req.user.id
     });
-
+likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
     const savedRecipe = await newRecipe.save();
     res.status(201).json(savedRecipe);
   } catch (err) {
     console.error('❌ Erreur dans POST /api/recipes :', err.message);
     res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+// 🔒 Voir ses propres recettes
+router.get('/mes-recettes', auth, async (req, res) => {
+  try {
+    const recettes = await Recipe.find({ userId: req.user.id });
+    res.json(recettes);
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
+// 🔐 Récupérer les recettes likées par l’utilisateur connecté
+router.get('/liked', auth, async (req, res) => {
+  try {
+    const recipes = await Recipe.find({ likes: req.user.id }).sort({ createdAt: -1 });
+    res.json(recipes);
+  } catch (err) {
+    console.error("❌ Erreur dans /recipes/liked :", err.message);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
+// ❤️ Liker ou unliker une recette
+router.post('/:id/like', auth, async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ message: 'Recette non trouvée.' });
+
+    const userId = req.user.id;
+    const alreadyLiked = recipe.likes?.includes(userId);
+
+    if (alreadyLiked) {
+      recipe.likes = recipe.likes.filter(id => id.toString() !== userId);
+    } else {
+      recipe.likes = [...(recipe.likes || []), userId];
+    }
+
+    await recipe.save();
+    res.json({
+      message: alreadyLiked ? 'Like retiré' : 'Recette likée',
+      likes: recipe.likes.length
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 });
 

@@ -14,7 +14,20 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
-
+// Récupérer les commentaires de l’utilisateur connecté
+router.get('/mine', auth, async (req, res) => {
+  try {
+    const comments = await Comment.find({ userId: req.user.id }).populate('recipeId', 'title');
+    const formatted = comments.map(c => ({
+      text: c.text,
+      recipeTitle: c.recipeId.title
+    }));
+    res.json(formatted);
+  } catch (err) {
+    console.error("❌ Erreur dans /comments/mine :", err.message);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
 // 🔹 POST /api/comments — créer un commentaire (auth requis)
 router.post('/', verifyToken, async (req, res) => {
   try {

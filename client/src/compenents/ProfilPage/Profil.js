@@ -1,39 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import './Profil.css';
 import user from "../../assets/ImageHomePage/user.png";
-
-import pizza4fromages from "../../assets/ImageHomePage/pizza4fromages.jpeg";
+import axios from 'axios';
 
 const Profil = () => {
   const [username, setUsername] = useState('');
-  const [likedRecipes, setLikedRecipes] = useState([
-    {
-      id: 1,
-      title: 'Osso Buco',
-      image: 'https://via.placeholder.com/300x200',
-    },
-    {
-      id: 2,
-      title: 'Tartiflette',
-      image: 'https://via.placeholder.com/300x200',
-    },
-  ]);
-  const [myComments, setMyComments] = useState([
-    {
-      recipeTitle: 'Osso Buco',
-      text: 'Délicieux, je recommande ! ⭐⭐⭐⭐',
-    },
-    {
-      recipeTitle: 'Tartiflette',
-      text: 'Trop bon 😋 ⭐⭐⭐⭐⭐',
-    },
-  ]);
+  const [likedRecipes, setLikedRecipes] = useState([]);
+  const [myComments, setMyComments] = useState([]);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('username');
-    if (storedUser) {
-      setUsername(storedUser);
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
     }
+
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    // 🔥 Charger les recettes likées
+    axios.get('https://cookneat-server.onrender.com/api/recipes/liked', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => setLikedRecipes(res.data))
+      .catch(err => console.error('Erreur chargement recettes likées :', err));
+
+    // 🔥 Charger les commentaires de l’utilisateur
+    axios.get('https://cookneat-server.onrender.com/api/comments/mine', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => setMyComments(res.data))
+      .catch(err => console.error('Erreur chargement commentaires :', err));
   }, []);
 
   const handleLogout = () => {
@@ -55,32 +51,40 @@ const Profil = () => {
       <div className="profil-section">
         <h3 className="recettes-likés">💖 Recettes likées</h3>
         <div className="cards-grid">
-          {likedRecipes.map((recipe) => (
-            <div key={recipe.id} className="card">
-              <img
-                src={pizza4fromages}
-                alt={recipe.title}
-                className="card-img"
-              />
-              <div className="card-body">
-                <h4 className="card-title">{recipe.title}</h4>
-                <a href={`/recette/${recipe.id}`} className="card-link">
-                  Voir la recette
-                </a>
+          {likedRecipes.length === 0 ? (
+            <p>Aucune recette likée pour le moment.</p>
+          ) : (
+            likedRecipes.map((recipe) => (
+              <div key={recipe._id} className="card">
+                <img
+                  src={recipe.imageUrl}
+                  alt={recipe.title}
+                  className="card-img"
+                />
+                <div className="card-body">
+                  <h4 className="card-title">{recipe.title}</h4>
+                  <a href={`/recette/${recipe._id}`} className="card-link">
+                    Voir la recette
+                  </a>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
       <div className="profil-section">
         <h3 className="commentaires-likés">💬 Mes commentaires</h3>
         <ul className="comment-list">
-          {myComments.map((comment, index) => (
-            <li key={index}>
-              <strong>{comment.recipeTitle}</strong> : {comment.text}
-            </li>
-          ))}
+          {myComments.length === 0 ? (
+            <p>Tu n’as pas encore écrit de commentaire.</p>
+          ) : (
+            myComments.map((comment, index) => (
+              <li key={index}>
+                <strong>{comment.recipeTitle}</strong> : {comment.text}
+              </li>
+            ))
+          )}
         </ul>
       </div>
 
