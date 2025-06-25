@@ -20,14 +20,7 @@ const Catégorie = () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
         console.log("Toutes les recettes reçues :", res.data);
-
-        const filtered = res.data.filter((recipe) => {
-          const category = recipe.category?.toLowerCase().trim();
-          return category === 'rapide' || category === 'facile';
-        });
-
-        console.log("Recettes rapides & faciles :", filtered);
-        setRecipes(filtered);
+        setRecipes(res.data); // ✅ plus de filtre par catégorie
       } catch (err) {
         console.error("❌ Erreur lors de la récupération des recettes :", err);
       }
@@ -102,7 +95,7 @@ const Catégorie = () => {
       <div className="search-bar">
         <input
           type="text"
-          placeholder="Rechercher un plat rapide ou facile..."
+          placeholder="Rechercher un plat..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -171,7 +164,7 @@ const Catégorie = () => {
             </div>
           ))
         ) : (
-          <p className="no-results">Aucun plat rapide ou facile trouvé.</p>
+          <p className="no-results">Aucun plat trouvé.</p>
         )}
       </div>
     </div>
