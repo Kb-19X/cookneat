@@ -1,22 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import logo2 from "../../assets/ImageHomePage/logo2.svg";
-import user from "../../assets/ImageHomePage/user.png";
+import userIcon from "../../assets/ImageHomePage/user.png";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  const { user, isAuthenticated, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const name = localStorage.getItem("username");
-    if (token && name) {
-      setIsLoggedIn(true);
-      setUsername(name);
-    }
-  }, []);
 
   useEffect(() => {
     const burger = document.querySelector(".burger-menu");
@@ -28,26 +18,14 @@ const Navbar = () => {
     };
 
     burger.addEventListener("click", toggleMenu);
+
     return () => {
       burger.removeEventListener("click", toggleMenu);
     };
   }, []);
 
-  // Ferme le menu dropdown quand on clique à l’extérieur
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    window.location.href = "/"; // redirection vers accueil
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
   };
 
   return (
@@ -58,12 +36,14 @@ const Navbar = () => {
           <span></span>
           <span></span>
         </div>
+
         <ul className="menu">
           <li>
             <a href="/" className="logo-link">
               <img src={logo2} alt="Logo" />
             </a>
           </li>
+
           <div className="container">
             <li><a className="ab" href="/Plats">Rapide & facile</a></li>
             <li><a href="/NutritionSanté">Healthy</a></li>
@@ -79,21 +59,22 @@ const Navbar = () => {
               placeholder="Recherche . . ."
             />
 
-            {!isLoggedIn ? (
-              <a className="connexion-btn" href="/Connexion">Connexion</a>
+            {!isAuthenticated ? (
+              <a className="connexion-btn" href="/Connexion">
+                Connexion
+              </a>
             ) : (
-              <div
-                className="connected-user"
-                ref={dropdownRef}
-                onClick={() => setDropdownOpen((prev) => !prev)}
-              >
-                <div className="status-dot" />
-                <img className="user-icon" src={user} alt="Profil" />
-
+              <div className="user-profile" onClick={toggleDropdown}>
+                <div className="status-indicator" />
+                <img
+                  className="user-icon"
+                  src={user?.image || userIcon}
+                  alt="Profil"
+                />
                 {dropdownOpen && (
                   <div className="dropdown-menu">
-                    <a href="/profilPage">Mon profil</a>
-                    <button onClick={handleLogout}>Se déconnecter</button>
+                    <a href="/profilPage">👤 Profil</a>
+                    <button onClick={logout}>🚪 Déconnexion</button>
                   </div>
                 )}
               </div>
