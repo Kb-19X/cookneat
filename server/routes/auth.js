@@ -4,18 +4,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// 🔐 Route inscription
+// 🔐 Inscription
 router.post('/register', async (req, res) => {
   try {
     console.log("📥 Données reçues pour l'inscription :", req.body);
-
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
       return res.status(400).json({ message: "Tous les champs sont requis." });
     }
 
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email: email.trim().toLowerCase() });
     if (userExists) {
       return res.status(400).json({ message: "Email déjà utilisé." });
     }
@@ -29,7 +28,6 @@ router.post('/register', async (req, res) => {
     });
 
     await newUser.save();
-
     res.status(201).json({ message: "Inscription réussie !" });
 
   } catch (err) {
@@ -38,7 +36,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// 🔑 Route login
+// 🔑 Connexion
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -57,17 +55,17 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: "Email ou mot de passe incorrect." });
     }
 
+    // ✅ On encode bien `id` et `username` dans le token
     const token = jwt.sign(
-      { id: user._id, name: user.username || user.name },
+      { id: user._id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
-    // ✅ Envoie `username` à plat pour le frontend
     res.status(200).json({
       message: "Connexion réussie",
       token,
-      username: user.username || user.name
+      username: user.username
     });
 
   } catch (err) {
