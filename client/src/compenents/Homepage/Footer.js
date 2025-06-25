@@ -1,11 +1,11 @@
 import React from 'react';
 import './Footer.css';
-import logo from '../../assets/ImageHomePage/logo.png';
+
 import insta from '../../assets/ImageHomePage/instagram.png';
 import twitter from '../../assets/ImageHomePage/twitter.png';
 import reddit from '../../assets/ImageHomePage/reddit.png';
 
-
+import logo2 from "../../assets/ImageHomePage/logo2.svg";
 
 const Footer = () => {
   return (
@@ -13,7 +13,7 @@ const Footer = () => {
      <div className='footer-container'>
 
     <div className='footer-left'>
-    <img src={logo} alt="" />
+    <img src={logo2} alt="" />
     <h1>Liens Utiles</h1>
     <p>Bien être et santé</p>
     <a href="https://www.nutrition.fr/">https://www.nutrition.fr/</a>
