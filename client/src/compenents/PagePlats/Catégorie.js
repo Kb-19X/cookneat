@@ -101,14 +101,16 @@ const handleLike = async (recipeId) => {
     }
 
     const res = await axios.post(
-      `${API_URL}/api/recipes/${recipeId}/like`,
-      null, // ✅ correction ici : pas de body à envoyer
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  `${API_URL}/api/recipes/${recipeId}/like`,
+  null,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  }
+);
+
 
     setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
   } catch (err) {
