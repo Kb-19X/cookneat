@@ -32,7 +32,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
       ingredients,
       steps,
       userId: req.user.id,
-      likes: [] // 👍 Initialisation ici si ton modèle ne l'a pas par défaut
+      likes: [] // Initialisation facultative mais propre
     });
 
     const savedRecipe = await newRecipe.save();
@@ -64,19 +64,25 @@ router.get('/liked', auth, async (req, res) => {
   }
 });
 
-// ❤️ Liker ou unliker une recette
+// ❤️ Liker ou unliker une recette (corrigé)
 router.post('/:id/like', auth, async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) return res.status(404).json({ message: 'Recette non trouvée.' });
 
-    const userId = req.user.id;
-    const alreadyLiked = recipe.likes?.includes(userId);
+    const userId = req.user.id.toString();
+
+    // Sécurité : s'assurer que recipe.likes est un tableau
+    if (!Array.isArray(recipe.likes)) {
+      recipe.likes = [];
+    }
+
+    const alreadyLiked = recipe.likes.map(id => id.toString()).includes(userId);
 
     if (alreadyLiked) {
       recipe.likes = recipe.likes.filter(id => id.toString() !== userId);
     } else {
-      recipe.likes = [...(recipe.likes || []), userId];
+      recipe.likes.push(userId);
     }
 
     await recipe.save();
@@ -85,6 +91,7 @@ router.post('/:id/like', auth, async (req, res) => {
       likes: recipe.likes.length
     });
   } catch (err) {
+    console.error("❌ Erreur dans POST /:id/like :", err.message);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
