@@ -87,7 +87,7 @@ const Recette_du_jour = () => {
 
       <div className="recettedujour">
         <img src={tool} alt="outil" />
-        <h1>La recette du jour</h1>
+        <h1 className="titre-recetteday">👨‍🍳 Inspiration du jour : Osso Buco </h1>
         <img src={tool} alt="outil" />
       </div>
 
@@ -98,7 +98,7 @@ const Recette_du_jour = () => {
         </div>
 
         <div className="recetteday-right">
-          <p className="titre-recetteday">
+          <p className="titre-recetteday-2">
             Plongez dans les saveurs de l'Italie avec notre recette du jour,
             l'Osso Buco !
           </p>

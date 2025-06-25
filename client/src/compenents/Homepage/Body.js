@@ -77,7 +77,7 @@ const Body = () => {
 
   return (
     <div className="plats-body-container">
-      <h2 style={{ color: 'white', textAlign: 'center', marginBottom: '30px' }}>
+      <h2 className='plats-populaires'>
         🍽️ Nos plats populaires
       </h2>
 

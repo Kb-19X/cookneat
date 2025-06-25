@@ -42,7 +42,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 });
 
 // ✅ PUT mettre à jour une recette
-router.put("/:id", async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const updatedRecipe = await Recipe.findByIdAndUpdate(
       req.params.id,

@@ -53,20 +53,20 @@ const Navbar = () => {
           <div className="container">
             <li>
               <a className="ab" href="/Plats">
-                Plats
+                Rapide & facile
               </a>
             </li>
             <li>
-              <a href="/NutritionSanté">Nutrition et Santé</a>
+              <a href="/NutritionSanté">Healthy</a>
             </li>
             <li>
-              <a href="/patesnouilles">Pâtes / Riz / Nouilles</a>
+              <a href="/patesnouilles">  Confort food </a>
             </li>
             <li>
-              <a href="/Viandes">Viandes / Poissons</a>
+              <a href="/Viandes"> Saveurs du monde</a>
             </li>
             <li>
-              <a href="/desserts">Desserts</a>
+              <a href="/desserts"> Recettes du chef</a>
             </li>
           </div>
           <div className="input-navbar-container">

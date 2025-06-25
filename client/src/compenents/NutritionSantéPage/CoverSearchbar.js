@@ -1,11 +1,11 @@
 import React from 'react';
 import './CoverSearchbar.css';
-import healthy from '../../assets/ImageNutritionSantéPage/healthy.png';
-import bio from '../../assets/ImageNutritionSantéPage/bio.png';
-import leaf from '../../assets/ImageNutritionSantéPage/leaf.png';
-import wheat from '../../assets/ImageNutritionSantéPage/wheat.png';
+// import healthy from '../../assets/ImageNutritionSantéPage/healthy.png';
+// import bio from '../../assets/ImageNutritionSantéPage/bio.png';
+// import leaf from '../../assets/ImageNutritionSantéPage/leaf.png';
+// import wheat from '../../assets/ImageNutritionSantéPage/wheat.png';
 
-import cover from '../../assets/ImageNutritionSantéPage/cover.png'
+import coverh from '../../assets/ImageHomePage/coverh.png';
 
 const CoverSearchbar = () => {
   return (
@@ -24,7 +24,7 @@ const CoverSearchbar = () => {
         </div>
     </div> */}
     <div>
-      <img src={cover} alt="" className='cover' />
+      <img src={coverh} alt="" className='cover' />
     </div>
     </div>
   )

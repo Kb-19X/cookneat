@@ -393,7 +393,17 @@
     border-radius: 15px;
  
 }
-
+.plats-populaires {
+       color: var(--secondary-color);
+    margin-bottom: 50px;
+    font-size: 24px;
+    background-color:#4e342e91;
+    width: 1535px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
 .comment-section-global h2 {
     color: var(--secondary-color);
     margin-bottom: 50px;
