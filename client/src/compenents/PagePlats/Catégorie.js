@@ -92,30 +92,30 @@ const Catégorie = () => {
     }
   };
 
-  const handleLike = async (recipeId) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour liker.");
-        return;
-      }
-
-      const res = await axios.post(
-        `${API_URL}/api/recipes/${recipeId}/like`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
-    } catch (err) {
-      console.error("Erreur lors du like :", err.response?.data || err.message);
-      alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
+const handleLike = async (recipeId) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Vous devez être connecté pour liker.");
+      return;
     }
-  };
+
+    const res = await axios.post(
+      `${API_URL}/api/recipes/${recipeId}/like`,
+      null, // ✅ correction ici : pas de body à envoyer
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
+  } catch (err) {
+    console.error("Erreur lors du like :", err.response?.data || err.message);
+    alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
+  }
+};
 
   const filteredRecipes = recipes.filter((recipe) =>
     recipe.title.toLowerCase().includes(search.toLowerCase())
