@@ -1,30 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // 🔐 Route inscription
 router.post('/register', async (req, res) => {
   try {
-    console.log("📥 Données reçues pour l'inscription :", req.body); // DEBUG
+    console.log("📥 Données reçues pour l'inscription :", req.body);
 
     const { username, email, password } = req.body;
 
-    // Vérifie que tous les champs sont présents
     if (!username || !email || !password) {
       return res.status(400).json({ message: "Tous les champs sont requis." });
     }
 
-    // Vérifie si l'email est déjà utilisé
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "Email déjà utilisé." });
     }
 
-    // Hash du mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Création du nouvel utilisateur
     const newUser = new User({
       username: username.trim(),
       email: email.trim().toLowerCase(),
@@ -36,7 +33,48 @@ router.post('/register', async (req, res) => {
     res.status(201).json({ message: "Inscription réussie !" });
 
   } catch (err) {
-    console.error("❌ Erreur dans /register :", err); // Affiche toute l'erreur
+    console.error("❌ Erreur dans /register :", err);
+    res.status(500).json({ message: "Erreur serveur." });
+  }
+});
+
+// 🔑 Route login
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Champs manquants." });
+    }
+
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
+    if (!user) {
+      return res.status(400).json({ message: "Email ou mot de passe incorrect." });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Email ou mot de passe incorrect." });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, name: user.username || user.name },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.status(200).json({
+      message: "Connexion réussie",
+      token,
+      user: {
+        id: user._id,
+        name: user.username || user.name,
+        email: user.email
+      }
+    });
+
+  } catch (err) {
+    console.error("❌ Erreur dans /login :", err);
     res.status(500).json({ message: "Erreur serveur." });
   }
 });

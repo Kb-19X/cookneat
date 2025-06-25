@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Loginform.css';
 
@@ -6,6 +7,7 @@ const Loginform = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // ✅ hook de redirection
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,8 +27,11 @@ const Loginform = () => {
       console.log('✅ Connexion réussie', response.data);
       setMessage('✅ Connexion réussie');
 
-      // Stockage du token si besoin
+      // Stocke le token
       localStorage.setItem('token', response.data.token);
+
+      // ✅ Redirection sans recharger la page
+      navigate('/profil');
 
       // Réinitialise les champs
       setEmail('');
