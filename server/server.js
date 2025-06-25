@@ -17,15 +17,19 @@ const allowedOrigins = [
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
-    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
 
 // 📦 Middleware pour parser le JSON
 app.use(express.json());
+
+// 🖼️ Fichiers statiques
+app.use('/uploads', express.static('uploads'));
 
 // 📄 Logger simple
 app.use((req, res, next) => {
@@ -43,9 +47,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/comments', commentRoutes);
 
-// 🖼️ Fichiers statiques
-app.use('/uploads', express.static('uploads'));
-
 // 🧪 Route de test
 app.get('/', (req, res) => {
   res.send('✅ API CookNeat opérationnelle');
@@ -54,15 +55,18 @@ app.get('/', (req, res) => {
 // 📡 Connexion MongoDB
 const mongoUri = process.env.MONGO_URI;
 if (!mongoUri) {
-  console.error("❌ Erreur : MONGO_URI non défini dans le fichier .env");
+  console.error("❌ Erreur : MONGO_URI non défini dans .env");
   process.exit(1);
 }
 
-mongoose.connect(mongoUri)
+mongoose.connect(mongoUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
   .then(() => {
     console.log('✅ Connexion MongoDB réussie');
     app.listen(PORT, () => {
-      console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+      console.log(`🚀 Serveur en ligne sur http://localhost:${PORT}`);
     });
   })
   .catch((err) => {
