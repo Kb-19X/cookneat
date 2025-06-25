@@ -30,7 +30,7 @@ app.use(express.json());
 
 // 🖼️ Fichiers statiques
 app.use('/uploads', express.static('uploads'));
-
+app.use('/api/recipes', require('./routes/recipes'));
 // 📄 Logger simple
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
