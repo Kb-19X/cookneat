@@ -10,6 +10,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrend
 
 const Catégorie = () => {
   const [recipes, setRecipes] = useState([]);
+  const [likes, setLikes] = useState({});
   const [comments, setComments] = useState({});
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
@@ -20,7 +21,13 @@ const Catégorie = () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
         console.log("Toutes les recettes reçues :", res.data);
-        setRecipes(res.data); // ✅ plus de filtre par catégorie
+        setRecipes(res.data);
+        // Initialiser les likes à partir des données des recettes
+        const initialLikes = {};
+        res.data.forEach((r) => {
+          initialLikes[r._id] = r.likes || 0;
+        });
+        setLikes(initialLikes);
       } catch (err) {
         console.error("❌ Erreur lors de la récupération des recettes :", err);
       }
@@ -86,6 +93,16 @@ const Catégorie = () => {
     }
   };
 
+  const handleLike = async (recipeId) => {
+    try {
+      const res = await axios.post(`${API_URL}/api/recipes/${recipeId}/like`);
+      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
+    } catch (err) {
+      console.error('Erreur lors du like :', err);
+      alert('Erreur lors du like.');
+    }
+  };
+
   const filteredRecipes = recipes.filter((recipe) =>
     recipe.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -125,7 +142,13 @@ const Catégorie = () => {
                 {recipe.description && <p className="recipe-description">{recipe.description}</p>}
 
                 <div className="recipe-actions">
-                  <img src={likeIcon} alt="Like" />
+                  <img
+                    src={likeIcon}
+                    alt="Like"
+                    onClick={() => handleLike(recipe._id)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  <span>{likes[recipe._id] || 0}</span>
                   <img
                     src={commentIcon}
                     alt="Comment"
