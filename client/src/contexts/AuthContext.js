@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
 export const AuthContext = createContext();
@@ -26,12 +25,13 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const isAuthenticated = !!user;
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// ✅ Cette ligne est indispensable pour corriger ton erreur :
 export const useAuth = () => useContext(AuthContext);
