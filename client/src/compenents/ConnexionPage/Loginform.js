@@ -28,15 +28,15 @@ const Loginform = () => {
       console.log('✅ Connexion réussie', response.data);
       setMessage('✅ Connexion réussie');
 
-      // Stockage du token si besoin
+      // Stockage du token
       localStorage.setItem('token', response.data.token);
 
       // Réinitialise les champs
       setEmail('');
       setPassword('');
 
-      // ✅ Redirection vers la page profil
-      navigate('/profil');
+      // ✅ Redirection vers la bonne page profil
+      navigate('/profilpage');
 
     } catch (err) {
       console.error('❌ Erreur login :', err);
