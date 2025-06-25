@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Loginform.css';
+import { useNavigate } from 'react-router-dom'; // ✅ Import de useNavigate
 
 const Loginform = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // ✅ hook de redirection
+
+  const navigate = useNavigate(); // ✅ Initialisation
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,15 +28,15 @@ const Loginform = () => {
       console.log('✅ Connexion réussie', response.data);
       setMessage('✅ Connexion réussie');
 
-      // Stocke le token
+      // Stockage du token si besoin
       localStorage.setItem('token', response.data.token);
-
-      // ✅ Redirection sans recharger la page
-      navigate('/profil');
 
       // Réinitialise les champs
       setEmail('');
       setPassword('');
+
+      // ✅ Redirection vers la page profil
+      navigate('/profil');
 
     } catch (err) {
       console.error('❌ Erreur login :', err);
