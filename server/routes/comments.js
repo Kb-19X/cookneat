@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Comment = require('../models/Comment');
 const verifyToken = require('../middleware/verifyToken'); // Si tu veux protéger avec auth
-
+const auth = require('../middleware/auth');
 // 🔹 GET /api/comments — tous les commentaires ou ceux d'une recette
 router.get('/', async (req, res) => {
   try {
