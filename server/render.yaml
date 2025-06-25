@@ -1,12 +1,12 @@
 services:
-  - type: web 
+  - type: web
     name: cookneat-backend
     env: node
     plan: free
-    buildCommand: cd server && npm install
-    startCommand: cd server && npm start
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
-      - key: MONGODB_URI
+      - key: MONGO_URI
         sync: false
       - key: JWT_SECRET
         sync: false
