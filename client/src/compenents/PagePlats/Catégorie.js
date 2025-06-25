@@ -22,10 +22,9 @@ const Catégorie = () => {
         const res = await axios.get(`${API_URL}/api/recipes`);
         console.log("Toutes les recettes reçues :", res.data);
         setRecipes(res.data);
-        // Initialiser les likes à partir des données des recettes
         const initialLikes = {};
         res.data.forEach((r) => {
-          initialLikes[r._id] = r.likes || 0;
+          initialLikes[r._id] = r.likes?.length || 0;
         });
         setLikes(initialLikes);
       } catch (err) {
@@ -95,11 +94,26 @@ const Catégorie = () => {
 
   const handleLike = async (recipeId) => {
     try {
-      const res = await axios.post(`${API_URL}/api/recipes/${recipeId}/like`);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Vous devez être connecté pour liker.");
+        return;
+      }
+
+      const res = await axios.post(
+        `${API_URL}/api/recipes/${recipeId}/like`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
     } catch (err) {
-      console.error('Erreur lors du like :', err);
-      alert('Erreur lors du like.');
+      console.error("Erreur lors du like :", err.response?.data || err.message);
+      alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
     }
   };
 
