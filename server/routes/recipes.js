@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Recipe = require('../models/Recipe');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/multer');
@@ -30,9 +31,10 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
       imageUrl: req.file ? `/uploads/${req.file.filename}` : imageUrl,
       ingredients,
       steps,
-      userId: req.user.id
+      userId: req.user.id,
+      likes: [] // 👍 Initialisation ici si ton modèle ne l'a pas par défaut
     });
-likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+
     const savedRecipe = await newRecipe.save();
     res.status(201).json(savedRecipe);
   } catch (err) {
@@ -40,6 +42,7 @@ likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
+
 // 🔒 Voir ses propres recettes
 router.get('/mes-recettes', auth, async (req, res) => {
   try {
@@ -49,6 +52,7 @@ router.get('/mes-recettes', auth, async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
 // 🔐 Récupérer les recettes likées par l’utilisateur connecté
 router.get('/liked', auth, async (req, res) => {
   try {
@@ -59,6 +63,7 @@ router.get('/liked', auth, async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
 // ❤️ Liker ou unliker une recette
 router.post('/:id/like', auth, async (req, res) => {
   try {
