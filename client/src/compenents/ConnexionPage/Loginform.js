@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import './Loginform.css';
-import { useNavigate } from 'react-router-dom'; // ✅ Import de useNavigate
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext'; // ✅ import contexte
 
 const Loginform = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const navigate = useNavigate(); // ✅ Initialisation
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // ✅ récupère la fonction login du contexte
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,17 +27,13 @@ const Loginform = () => {
         }
       );
 
-      console.log('✅ Connexion réussie', response.data);
+      const token = response.data.token;
+      login(token); // ✅ utilise le contexte pour se connecter
+
       setMessage('✅ Connexion réussie');
-
-      // Stockage du token
-      localStorage.setItem('token', response.data.token);
-
-      // Réinitialise les champs
       setEmail('');
       setPassword('');
 
-      // ✅ Redirection vers la bonne page profil
       navigate('/profilpage');
 
     } catch (err) {

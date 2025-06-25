@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Navbar.css";
 import logo2 from "../../assets/ImageHomePage/logo2.svg";
-// import spatula from "../../assets/ImageHomePage/spatula.png";
-import user from "../../assets/ImageHomePage/user.png"; // ← à ajouter dans ton dossier
-// import tartiflette from "../../assets/ImageHomePage/tartiflette.jpg";
-// import tiramisu from "../../assets/ImageHomePage/tiramisu.jpg";
-// import osoobuco from "../../assets/ImageHomePage/osoobuco.jpg";
+import user from "../../assets/ImageHomePage/user.png";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -30,11 +28,27 @@ const Navbar = () => {
     };
 
     burger.addEventListener("click", toggleMenu);
-
     return () => {
       burger.removeEventListener("click", toggleMenu);
     };
   }, []);
+
+  // Ferme le menu dropdown quand on clique à l’extérieur
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    window.location.href = "/"; // redirection vers accueil
+  };
 
   return (
     <div className="navbar">
@@ -51,24 +65,13 @@ const Navbar = () => {
             </a>
           </li>
           <div className="container">
-            <li>
-              <a className="ab" href="/Plats">
-                Rapide & facile
-              </a>
-            </li>
-            <li>
-              <a href="/NutritionSanté">Healthy</a>
-            </li>
-            <li>
-              <a href="/patesnouilles">  Confort food </a>
-            </li>
-            <li>
-              <a href="/Viandes"> Saveurs du monde</a>
-            </li>
-            <li>
-              <a href="/desserts"> Recettes du chef</a>
-            </li>
+            <li><a className="ab" href="/Plats">Rapide & facile</a></li>
+            <li><a href="/NutritionSanté">Healthy</a></li>
+            <li><a href="/patesnouilles">Confort food</a></li>
+            <li><a href="/Viandes">Saveurs du monde</a></li>
+            <li><a href="/desserts">Recettes du chef</a></li>
           </div>
+
           <div className="input-navbar-container">
             <input
               className="input-navbar"
@@ -77,15 +80,22 @@ const Navbar = () => {
             />
 
             {!isLoggedIn ? (
-              <a className="connexion-btn" href="/Connexion">
-                Connexion
-              </a>
+              <a className="connexion-btn" href="/Connexion">Connexion</a>
             ) : (
-              <div title={username}>
-                <a href="/profilPage">
-            
-                  <img className="user-icon" src={user} alt="user" />
-                </a>
+              <div
+                className="connected-user"
+                ref={dropdownRef}
+                onClick={() => setDropdownOpen((prev) => !prev)}
+              >
+                <div className="status-dot" />
+                <img className="user-icon" src={user} alt="Profil" />
+
+                {dropdownOpen && (
+                  <div className="dropdown-menu">
+                    <a href="/profilPage">Mon profil</a>
+                    <button onClick={handleLogout}>Se déconnecter</button>
+                  </div>
+                )}
               </div>
             )}
           </div>
