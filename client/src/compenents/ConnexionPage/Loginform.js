@@ -27,13 +27,16 @@ const Loginform = () => {
         }
       );
 
-      const token = response.data.token;
-      login(token); // ✅ utilise le contexte pour se connecter
+      const { token, username } = response.data;
+
+      // ✅ utilise le contexte pour se connecter
+      login({ token, username });
 
       setMessage('✅ Connexion réussie');
       setEmail('');
       setPassword('');
 
+      // ✅ Redirige vers la page profil
       navigate('/profilpage');
 
     } catch (err) {

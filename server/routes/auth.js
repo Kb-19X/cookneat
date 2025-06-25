@@ -63,14 +63,11 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
 
+    // ✅ Envoie `username` à plat pour le frontend
     res.status(200).json({
       message: "Connexion réussie",
       token,
-      user: {
-        id: user._id,
-        name: user.username || user.name,
-        email: user.email
-      }
+      username: user.username || user.name
     });
 
   } catch (err) {
