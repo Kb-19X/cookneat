@@ -1,5 +1,9 @@
 .background-cover {
     border-bottom: 5px inset var(--senary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1000px;
 }
 
 
@@ -23,7 +27,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 800px;
     object-fit: cover;
 }
 

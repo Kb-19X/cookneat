@@ -5,7 +5,7 @@ import './CoverSearchbar.css';
 // import leaf from '../../assets/ImageNutritionSantéPage/leaf.png';
 // import wheat from '../../assets/ImageNutritionSantéPage/wheat.png';
 
-import coverh from '../../assets/ImageHomePage/coverh.png';
+import coverf from '../../assets/ImageHomePage/coverf.jpg';
 
 const CoverSearchbar = () => {
   return (
@@ -24,7 +24,7 @@ const CoverSearchbar = () => {
         </div>
     </div> */}
     <div>
-      <img src={coverh} alt="" className='cover' />
+      <img src={coverf} alt="" className='cover' />
     </div>
     </div>
   )
