@@ -137,9 +137,9 @@ const ChefRecipe = () => {
             </div>
           </div>
           <div className="banner-right">
-            <h2>Entrez dans la cuisine du chef et découvrez ses créations exclusives</h2>
+            <h2>Découvrez l’univers du chef en recettes. </h2>
             <p>
-              Des plats raffinés, équilibrés et testés avec soin : <span className='mot-color'>le goût</span> à l’état pur.
+           <p>"Des plats raffinés, créatifs et inspirés, imaginés par nos chefs pour éveiller vos papilles et sublimer votre quotidien."</p>
             </p>
           </div>
         </div>

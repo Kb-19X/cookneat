@@ -135,14 +135,14 @@ const Viandes = () => {
   <div className="banner-left">
     <img src={burger} alt="fruits et légumes" />
     <div className="banner-overlay-heal">
-      <h1>Rapide & Facile</h1>
-      <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
+      <h1>Saveurs du monde</h1>
+      Voyagez à travers les cuisines du monde avec des recettes authentiques
     </div>
   </div>
   <div className="banner-right">
-    <h2> Découvrez notre sélection de plats 100% simples et rapides !</h2>
+    <h2> Explorez les cuisines du monde avec des recettes pleines de goût.</h2>
     <p>
-     Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine.
+     "Des saveurs venues d’ailleurs pour éveiller vos sens : embarquez pour un tour du monde culinaire sans quitter votre cuisine."
     </p>
   </div>
 

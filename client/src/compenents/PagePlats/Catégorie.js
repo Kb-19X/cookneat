@@ -140,9 +140,9 @@ const Catégorie = () => {
     </div>
   </div>
   <div className="banner-right">
-    <h2> Découvrez notre sélection de plats 100% simples et rapides !</h2>
+    <h2> Des recettes rapides et faciles à préparer, idéales pour tous les jours !</h2>
     <p>
-     Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine.
+     "Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine."
     </p>
   </div>
 

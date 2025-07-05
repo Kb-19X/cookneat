@@ -135,14 +135,14 @@ const Feculentproduct = () => {
   <div className="banner-left">
     <img src={burger} alt="fruits et légumes" />
     <div className="banner-overlay-heal">
-      <h1>Rapide & Facile</h1>
+      <h1> confort food</h1>
       <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
     </div>
   </div>
   <div className="banner-right">
-    <h2> Découvrez notre sélection de plats 100% simples et rapides !</h2>
+    <h2> Des plats réconfortants pour se faire plaisir !</h2>
     <p>
-     Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine.
+ <p>"Des plats réconfortants, faciles à préparer et parfaits pour se faire plaisir !"</p>
     </p>
   </div>
 

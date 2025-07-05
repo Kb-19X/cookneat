@@ -88,14 +88,14 @@ const CoverSearchbar = () => {
           <div className="banner-left">
             <img src={burger} alt="fruits et légumes" />
             <div className="banner-overlay-heal">
-              <h1>Rapide & Facile</h1>
-              <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
+              <h1> Healthy</h1>
+            <p> des plats sains, équilibrés et pleins de saveurs.</p>
             </div>
           </div>
           <div className="banner-right">
-            <h2> Découvrez notre sélection de plats 100% simples et rapides !</h2>
+            <h2>Des plats healthy, faciles à préparer et bons pour votre santé !</h2>
             <p>
-              Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine.
+            "Explorez des recettes healthy inspirées du monde entier : un tour du monde savoureux et bon pour votre santé, depuis votre cuisine."
             </p>
           </div>
         </div>
@@ -103,7 +103,7 @@ const CoverSearchbar = () => {
 
       <div className="rapide-header-section">
         <div className="rapide-text">
-          <h1>🥗 Recettes Rapides & Faciles</h1>
+          <h1>🥗 Recettes Healthy</h1>
           <p>
             Moins de 20 minutes, zéro stress, 100% goût.
             Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.

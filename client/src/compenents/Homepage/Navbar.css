@@ -25,7 +25,7 @@ nav ul {
   justify-items: center;
   align-items: center;
   gap: 40px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -42,8 +42,8 @@ nav ul {
 
 nav ul img {
   object-fit: contain;
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,14 +96,14 @@ input:focus {
 
 nav {
   position: relative;
-  height: 120px;
+  height: 110px;
   padding: 0 0px;
 }
 
 nav ul.menu {
   display: flex;
   width: 100vw;
-  height: 120px;
+  height: 110px;
   position: fixed;
   align-items: center;
   justify-content: center;

@@ -67,10 +67,10 @@ input[type="text"],
 input[type="file"],
 textarea {
   width: 100%;
-  padding: 1rem;
+  padding: 5px;
   font-size: 1rem;
   border: none;
-  
+  height: 25px;
   background-color: var(--tertiary-color);
   color: var(--senary-color);
   box-sizing: border-box;
