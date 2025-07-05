@@ -24,6 +24,7 @@ import Patesnouilles from './compenents/Patesnouilles';
 import AjoutRecettes from './compenents/AjoutRecette';
 import TestComment from './compenents/TestCommentPage/TestComment';
 import ProfilPage from './compenents/ProfilPage/Profil';
+import ChefRecipe from './compenents/ChefRecipesPage/ChefRecipe';
 
 function Root() {
   return (
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       { path: '/', element: <Homepage /> },
       { path: 'ProductPage', element: <ProductPage /> },
       { path: 'plats', element: <Plats /> },
+         { path: 'ChefRecipe', element: <ChefRecipe/> },
       { path: 'connexion', element: <Connexion /> },
       { path: 'register', element: <Register /> },
       { path: 'ForgetPassword', element: <ForgetPassword /> },

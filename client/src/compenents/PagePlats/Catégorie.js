@@ -5,7 +5,7 @@ import axios from 'axios';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
-
+import burger from '../../assets/ImageHomePage/burger.jpg';
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
 const Catégorie = () => {
@@ -92,39 +92,79 @@ const Catégorie = () => {
     }
   };
 
-const handleLike = async (recipeId) => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Vous devez être connecté pour liker.");
-      return;
+  const handleLike = async (recipeId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Vous devez être connecté pour liker.");
+        return;
+      }
+
+      const res = await axios.post(
+        `${API_URL}/api/recipes/${recipeId}/like`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
+    } catch (err) {
+      console.error("Erreur lors du like :", err.response?.data || err.message);
+      alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
     }
+  };
 
-    const res = await axios.post(
-  `${API_URL}/api/recipes/${recipeId}/like`,
-  null,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  }
-);
+  // Filtrage des recettes Rapides & Faciles
+  const rapideFacile = recipes.filter((r) => {
+    const totalTime = parseInt(r.totalTime) || 0;
+    return totalTime <= 20 && (r.difficulty === 'facile' || !r.difficulty);
+  });
 
-
-    setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
-  } catch (err) {
-    console.error("Erreur lors du like :", err.response?.data || err.message);
-    alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
-  }
-};
-
-  const filteredRecipes = recipes.filter((recipe) =>
+  const filteredRecipes = rapideFacile.filter((recipe) =>
     recipe.title.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="plats-body-container">
+      <div className='background-cover'>
+   <div className="banner-container">
+  <div className="banner-left">
+    <img src={burger} alt="fruits et légumes" />
+    <div className="banner-overlay-heal">
+      <h1>Rapide & Facile</h1>
+      <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
+    </div>
+  </div>
+  <div className="banner-right">
+    <h2> Découvrez notre sélection de plats 100% simples et rapides !</h2>
+    <p>
+     Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine.
+    </p>
+  </div>
+
+</div>
+
+
+    </div>
+<div className="rapide-header-section">
+  <div className="rapide-text">
+    <h1>🥗 Recettes Rapides & Faciles</h1>
+    <p>
+      Moins de 20 minutes, zéro stress, 100% goût.  
+      Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
+    </p>
+    <div className="rapide-benefits">
+      <div className="benefit-box">⏱️ Prêtes en 20 min</div>
+      <div className="benefit-box">👨‍🍳 Simples à réaliser</div>
+      <div className="benefit-box">💡 Ingrédients faciles à trouver</div>
+    </div>
+  </div>
+</div>
+
       <div className="search-bar">
         <input
           type="text"

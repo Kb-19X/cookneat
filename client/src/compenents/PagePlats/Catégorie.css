@@ -56,3 +56,125 @@
 .single-comment:last-child {
   border-bottom: none;
 }
+
+
+
+.intro-rapide-facile {
+  text-align: center;
+ 
+  background: var(--secondary-color);
+  padding: 30px 20px;
+ 
+
+}
+
+.intro-rapide-facile h1 {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #3A001E;
+}
+
+.intro-rapide-facile p {
+  font-size: 18px;
+  max-width: 700px;
+  margin: 0 auto 20px;
+}
+
+.intro-rapide-facile ul {
+  list-style: none;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+
+
+.rapide-header-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--tertiary-color);
+  padding: 50px 20px;
+  
+ 
+
+}
+
+.rapide-text {
+  max-width: 800px;
+  text-align: center;
+}
+
+.rapide-text h1 {
+  font-size: 40px;
+  margin-bottom: 16px;
+  color: #3A001E;
+}
+
+.rapide-text p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #4c2c2c;
+}
+
+.rapide-benefits {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.benefit-box {
+  background-color: var(--senary-color);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+
+  font-size: 15px;
+  color: var(--quaternary-color);
+}
+
+.benefit-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.banner-gradient-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+  z-index: 1;
+}
+.banner-overlay-heal {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--quaternary-color);
+   background-color: rgba(78, 52, 46, 0.629); /* couleur + transparence douce */
+  padding: 20px 30px;
+  border-radius: 8px;
+
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.banner-overlay-heal h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.banner-overlay-heal p {
+  font-size: 17px;
+  line-height: 1.5;
+  color:  var(--quaternary-color);
+}
+
+
+.mot-color {
+  color: var(--quaternary-color);
+  
+}

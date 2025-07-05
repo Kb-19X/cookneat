@@ -62,7 +62,7 @@ const Navbar = () => {
             <li><a href="/NutritionSanté">Healthy</a></li>
             <li><a href="/patesnouilles">Confort food</a></li>
             <li><a href="/Viandes">Saveurs du monde</a></li>
-            <li><a href="/desserts">Recettes du chef</a></li>
+            <li><a href="/ChefRecipe">Recettes du chef</a></li>
           </div>
 
           <div className="input-navbar-container">
