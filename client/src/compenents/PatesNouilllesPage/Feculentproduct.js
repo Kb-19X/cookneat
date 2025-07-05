@@ -152,7 +152,7 @@ const Feculentproduct = () => {
     </div>
 <div className="rapide-header-section">
   <div className="rapide-text">
-    <h1>🥗 Recettes Rapides & Faciles</h1>
+    <h1>🍔 Recettes Confort Food 🍔 </h1>
     <p>
       Moins de 20 minutes, zéro stress, 100% goût.  
       Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.

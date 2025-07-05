@@ -5,7 +5,7 @@ import axios from 'axios';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
-import burger from '../../assets/ImageHomePage/burger.jpg';
+import plat from '../../assets/ImageHomePage/plat.jpg';
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
 const Catégorie = () => {
@@ -133,7 +133,7 @@ const Catégorie = () => {
       <div className='background-cover'>
    <div className="banner-container">
   <div className="banner-left">
-    <img src={burger} alt="fruits et légumes" />
+    <img src={plat} alt="fruits et légumes" />
     <div className="banner-overlay-heal">
       <h1>Rapide & Facile</h1>
       <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
@@ -152,7 +152,7 @@ const Catégorie = () => {
     </div>
 <div className="rapide-header-section">
   <div className="rapide-text">
-    <h1>🥗 Recettes Rapides & Faciles</h1>
+    <h1>⚡ Recettes Rapides & Faciles ⚡</h1>
     <p>
       Moins de 20 minutes, zéro stress, 100% goût.  
       Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.

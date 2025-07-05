@@ -5,7 +5,7 @@ import axios from 'axios';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
-import burger from '../../assets/ImageHomePage/burger.jpg';
+import chef from '../../assets/ImageHomePage/chef.jpeg';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
@@ -130,7 +130,7 @@ const ChefRecipe = () => {
       <div className='background-cover'>
         <div className="banner-container">
           <div className="banner-left">
-            <img src={burger} alt="plats du chef" />
+            <img src={chef} alt="plats du chef" />
             <div className="banner-overlay-heal">
               <h1>Recettes du Chef</h1>
               <p><strong>Inspirées</strong> par la tradition, <em>réinventées</em> avec passion.</p>
@@ -147,7 +147,7 @@ const ChefRecipe = () => {
 
       <div className="rapide-header-section">
         <div className="rapide-text">
-          <h1>👨‍🍳 Les Recettes du Chef</h1>
+          <h1>👨‍🍳 Les Recettes du Chef 👨‍🍳</h1>
           <p>
             Une sélection unique de recettes pensées pour vous impressionner, inspirées de la grande cuisine et faciles à refaire chez vous.
           </p>

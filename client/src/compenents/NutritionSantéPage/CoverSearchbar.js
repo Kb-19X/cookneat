@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import burger from '../../assets/ImageHomePage/burger.jpg';
+import sante from '../../assets/ImageHomePage/sante.jpg';
 // import bruschetta from '../../assets/ImageHomePage/bruschetta.jpg';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
@@ -86,7 +86,7 @@ const CoverSearchbar = () => {
       <div className='background-cover'>
         <div className="banner-container">
           <div className="banner-left">
-            <img src={burger} alt="fruits et légumes" />
+            <img src={sante} alt="fruits et légumes" />
             <div className="banner-overlay-heal">
               <h1> Healthy</h1>
             <p> des plats sains, équilibrés et pleins de saveurs.</p>
@@ -103,7 +103,7 @@ const CoverSearchbar = () => {
 
       <div className="rapide-header-section">
         <div className="rapide-text">
-          <h1>🥗 Recettes Healthy</h1>
+          <h1>🥗 Recettes Healthy 🥗</h1>
           <p>
             Moins de 20 minutes, zéro stress, 100% goût.
             Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.

@@ -2,6 +2,7 @@ import '../PatesNouilllesPage/Feculentproduct.css'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import saveurdumonde from '../../assets/ImageHomePage/saveurdumonde.jpg';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
@@ -133,7 +134,7 @@ const Viandes = () => {
       <div className='background-cover'>
    <div className="banner-container">
   <div className="banner-left">
-    <img src={burger} alt="fruits et légumes" />
+    <img src={saveurdumonde} alt="fruits et légumes" />
     <div className="banner-overlay-heal">
       <h1>Saveurs du monde</h1>
       Voyagez à travers les cuisines du monde avec des recettes authentiques
@@ -152,7 +153,7 @@ const Viandes = () => {
     </div>
 <div className="rapide-header-section">
   <div className="rapide-text">
-    <h1>🥗 Recettes Rapides & Faciles</h1>
+    <h1>🌍 Saveurs du Monde 🌍</h1>
     <p>
       Moins de 20 minutes, zéro stress, 100% goût.  
       Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
