@@ -1,22 +1,24 @@
+// middleware/auth.js
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader) {
-    return res.status(401).json({ message: 'Token manquant' });
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Token manquant ou invalide' });
   }
 
-  const token = authHeader.split(' ')[1]; // format: "Bearer <token>"
+  const token = authHeader.split(' ')[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = {
       id: decoded.id,
-      name: decoded.name // on stocke bien le nom
+      name: decoded.name || 'Anonyme',
     };
     next();
   } catch (err) {
+    console.error("Erreur de vérification du token :", err.message);
     return res.status(401).json({ message: 'Token invalide' });
   }
 };

@@ -513,14 +513,14 @@
 
 
 .all-comments-section {
-  margin-top: 40px;
-  background-color: var(--senary-color);
+
+  background-color: var(--tertiary-color);
   padding: 30px;
-  border-radius: 12px;
-  max-width: 800px;
+
+
   margin-left: auto;
   margin-right: auto;
-  color: white;
+  color: var(--quaternary-color);
 }
 .comment-card {
   margin-bottom: 20px;

@@ -14,9 +14,9 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: "Email ou mot de passe incorrect" });
     }
 
-    // ✅ Correction ici : on utilise user.username dans le token
+    // ✅ On envoie bien le nom dans le token (cohérent avec verifyToken)
     const token = jwt.sign(
-      { id: user._id, username: user.username },
+      { id: user._id, name: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );

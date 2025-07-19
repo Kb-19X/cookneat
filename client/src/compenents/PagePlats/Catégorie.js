@@ -2,10 +2,12 @@ import './Catégorie.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import { jwtDecode } from 'jwt-decode';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 import plat from '../../assets/ImageHomePage/plat.jpg';
+
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
 const Catégorie = () => {
@@ -20,8 +22,8 @@ const Catégorie = () => {
     const fetchRecipes = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
-        console.log("Toutes les recettes reçues :", res.data);
         setRecipes(res.data);
+
         const initialLikes = {};
         res.data.forEach((r) => {
           initialLikes[r._id] = r.likes?.length || 0;
@@ -65,16 +67,25 @@ const Catégorie = () => {
     }
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour commenter.");
-        return;
+     const token = localStorage.getItem("token");
+if (token) {
+  const decoded = jwtDecode(token);
+  console.log(decoded.name); // ou decoded.email etc.
+}
+
+      let name = "Anonyme";
+      try {
+        const decoded = jwtDecode(token);
+        name = decoded.name || "Anonyme";
+      } catch (err) {
+        console.error("Erreur de décodage du token", err);
       }
 
       const newComment = {
         recipeId,
         text,
         rating: 5,
+        name,
       };
 
       await axios.post(`${API_URL}/api/comments`, newComment, {
@@ -131,39 +142,37 @@ const Catégorie = () => {
   return (
     <div className="plats-body-container">
       <div className='background-cover'>
-   <div className="banner-container">
-  <div className="banner-left">
-    <img src={plat} alt="fruits et légumes" />
-    <div className="banner-overlay-heal">
-      <h1>Rapide & Facile</h1>
-      <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
-    </div>
-  </div>
-  <div className="banner-right">
-    <h2> Des recettes rapides et faciles à préparer, idéales pour tous les jours !</h2>
-    <p>
-     "Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine."
-    </p>
-  </div>
+        <div className="banner-container">
+          <div className="banner-left">
+            <img src={plat} alt="fruits et légumes" />
+            <div className="banner-overlay-heal">
+              <h1>Rapide & Facile</h1>
+              <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
+            </div>
+          </div>
+          <div className="banner-right">
+            <h2> Des recettes rapides et faciles à préparer, idéales pour tous les jours !</h2>
+            <p>
+              "Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine."
+            </p>
+          </div>
+        </div>
+      </div>
 
-</div>
-
-
-    </div>
-<div className="rapide-header-section">
-  <div className="rapide-text">
-    <h1>⚡ Recettes Rapides & Faciles ⚡</h1>
-    <p>
-      Moins de 20 minutes, zéro stress, 100% goût.  
-      Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
-    </p>
-    <div className="rapide-benefits">
-      <div className="benefit-box">⏱️ Prêtes en 20 min</div>
-      <div className="benefit-box">👨‍🍳 Simples à réaliser</div>
-      <div className="benefit-box">💡 Ingrédients faciles à trouver</div>
-    </div>
-  </div>
-</div>
+      <div className="rapide-header-section">
+        <div className="rapide-text">
+          <h1>⚡ Recettes Rapides & Faciles ⚡</h1>
+          <p>
+            Moins de 20 minutes, zéro stress, 100% goût.  
+            Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
+          </p>
+          <div className="rapide-benefits">
+            <div className="benefit-box">⏱️ Prêtes en 20 min</div>
+            <div className="benefit-box">👨‍🍳 Simples à réaliser</div>
+            <div className="benefit-box">💡 Ingrédients faciles à trouver</div>
+          </div>
+        </div>
+      </div>
 
       <div className="search-bar">
         <input

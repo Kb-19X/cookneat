@@ -28,7 +28,7 @@ router.get('/mine', auth, async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
-// 🔹 POST /api/comments — créer un commentaire (auth requis)
+
 router.post('/', verifyToken, async (req, res) => {
   try {
     const { recipeId, text, rating } = req.body;
@@ -45,5 +45,6 @@ router.post('/', verifyToken, async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
+
 
 module.exports = router;
