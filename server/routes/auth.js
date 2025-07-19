@@ -55,9 +55,9 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: "Email ou mot de passe incorrect." });
     }
 
-    // ✅ On encode bien `id` et `username` dans le token
+    // ✅ Corrigé ici : on encode "name" pour les commentaires
     const token = jwt.sign(
-      { id: user._id, username: user.username },
+      { id: user._id, name: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );

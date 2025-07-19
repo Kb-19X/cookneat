@@ -72,14 +72,13 @@ const Catégorie = () => {
       return;
     }
 
-    let name = "Anonyme";
-    try {
-      const decoded = jwtDecode(token);
-      name = decoded.name || "Anonyme";
-    } catch (err) {
-      console.error("Erreur de décodage du token :", err);
-    }
-
+  let name = "Anonyme";
+try {
+  const decoded = jwtDecode(token);
+  name = decoded.username || "Anonyme";  // 👈 ici on utilise username
+} catch (err) {
+  console.error("Erreur de décodage du token", err);
+}
     const newComment = {
       recipeId,
       text,
