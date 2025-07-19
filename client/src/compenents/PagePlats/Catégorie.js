@@ -1,8 +1,8 @@
 import './Catégorie.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import { jwtDecode } from 'jwt-decode';
+
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
@@ -66,28 +66,28 @@ const Catégorie = () => {
       return;
     }
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Vous devez être connecté pour commenter.");
+      return;
+    }
+
+    let name = "Anonyme";
     try {
-     const token = localStorage.getItem("token");
-if (token) {
-  const decoded = jwtDecode(token);
-  console.log(decoded.name); // ou decoded.email etc.
-}
+      const decoded = jwtDecode(token);
+      name = decoded.name || "Anonyme";
+    } catch (err) {
+      console.error("Erreur de décodage du token :", err);
+    }
 
-      let name = "Anonyme";
-      try {
-        const decoded = jwtDecode(token);
-        name = decoded.name || "Anonyme";
-      } catch (err) {
-        console.error("Erreur de décodage du token", err);
-      }
+    const newComment = {
+      recipeId,
+      text,
+      rating: 5,
+      name,
+    };
 
-      const newComment = {
-        recipeId,
-        text,
-        rating: 5,
-        name,
-      };
-
+    try {
       await axios.post(`${API_URL}/api/comments`, newComment, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -129,7 +129,6 @@ if (token) {
     }
   };
 
-  // Filtrage des recettes Rapides & Faciles
   const rapideFacile = recipes.filter((r) => {
     const totalTime = parseInt(r.totalTime) || 0;
     return totalTime <= 20 && (r.difficulty === 'facile' || !r.difficulty);
