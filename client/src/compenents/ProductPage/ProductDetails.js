@@ -19,6 +19,8 @@ import jambonImg from "../../assets/ImageHomePage/jambon.jpg";
 import oeufImg from "../../assets/ImageHomePage/oeufs.webp";
 import huileImg from "../../assets/ImageHomePage/huile.jpg";
 
+const API_URL = process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
+
 const ProductDetails = () => {
   const [liked, setLiked] = useState(false);
   const [personnes, setPersonnes] = useState(4);
@@ -79,7 +81,7 @@ const ProductDetails = () => {
 
   const fetchAllComments = async () => {
     try {
-      const res = await axios.get("/api/comments");
+      const res = await axios.get(`${API_URL}/api/comments`);
       setAllComments(res.data);
     } catch (err) {
       console.error("Erreur chargement commentaires :", err);
@@ -88,7 +90,7 @@ const ProductDetails = () => {
 
   const fetchAllRecipes = async () => {
     try {
-      const res = await axios.get("/api/recipes");
+      const res = await axios.get(`${API_URL}/api/recipes`);
       setRecipes(res.data);
     } catch (err) {
       console.error("Erreur chargement recettes :", err);
@@ -171,10 +173,9 @@ const ProductDetails = () => {
           ))}
         </motion.div>
 
-        {/* SECTION COMMENTAIRES GLOBALE */}
         <div id="commentaires" className="all-comments-section">
           <h2 className="plats-commentez">🗣️ Derniers commentaires</h2>
-          {allComments.length > 0 ? (
+          {Array.isArray(allComments) && allComments.length > 0 ? (
             allComments.slice(0, 10).map((comment) => {
               const recipe = recipes.find((r) => r._id === comment.recipeId);
               return (
@@ -184,7 +185,7 @@ const ProductDetails = () => {
                     <em>{recipe?.title || "Recette inconnue"}</em> :
                   </p>
                   <p>{comment.text}</p>
-                  <p>⭐ {comment.rating} / 5</p>
+                  <p>⭐ {comment.rating || 5} / 5</p>
                 </div>
               );
             })
