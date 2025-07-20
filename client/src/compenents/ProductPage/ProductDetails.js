@@ -8,7 +8,6 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { motion } from "framer-motion";
 
 const API_URL =
   process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
@@ -26,12 +25,13 @@ const ProductDetails = () => {
         const res = await axios.get(`${API_URL}/api/recipes/${id}`);
         const data = res.data;
 
-        // ✅ Sécurisation finale du champ steps
-        const rawSteps = data.steps;
-        if (Array.isArray(rawSteps)) {
-          data.steps = rawSteps.filter((s) => typeof s === "string" && s.trim().length > 0);
-        } else if (typeof rawSteps === "string") {
-          data.steps = rawSteps
+        // Sécurisation du champ steps
+        if (Array.isArray(data.steps)) {
+          data.steps = data.steps.filter(
+            (s) => typeof s === "string" && s.trim().length > 0
+          );
+        } else if (typeof data.steps === "string") {
+          data.steps = data.steps
             .split(/\r?\n/)
             .map((s) => s.trim())
             .filter((s) => s.length > 0);
@@ -41,7 +41,7 @@ const ProductDetails = () => {
 
         setRecette(data);
       } catch (err) {
-        console.error("❌ Erreur chargement recette :", err);
+        console.error("Erreur chargement recette :", err);
       }
     };
 
@@ -50,7 +50,7 @@ const ProductDetails = () => {
         const res = await axios.get(`${API_URL}/api/comments`);
         setAllComments(res.data);
       } catch (err) {
-        console.error("❌ Erreur chargement commentaires :", err);
+        console.error("Erreur chargement commentaires :", err);
       }
     };
 
@@ -136,11 +136,7 @@ const ProductDetails = () => {
           </Tooltip>
         </div>
 
-        <motion.div
-          className="product-ingredients"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
+        <div className="product-ingredients">
           <div className="product-ingredients-header">
             <h2>Ingrédients</h2>
             <div className="product-personnes-control">
@@ -167,35 +163,31 @@ const ProductDetails = () => {
 
           <div className="product-ingredients-grid">
             {adjustedIngredients.map((item, i) => (
-              <motion.div
-                className="product-ingredient-card"
-                key={i}
-                whileHover={{ scale: 1.05 }}
-              >
+              <div className="product-ingredient-card" key={i}>
                 <p className="product-ingredient-quantity">
                   <strong>
                     {item.adjustedQuantity} {item.unit}
                   </strong>
                 </p>
                 <p className="product-ingredient-name">de {item.name}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-  <div className="product-preparation-section">
-  <h2 className="product-preparation-title">Préparation</h2>
-  {recette.steps.length > 0 ? (
-    recette.steps.map((step, i) => (
-      <div key={i} className="preparation-step">
-        <h3 className="preparation-step-title">Étape {i + 1}</h3>
-        <p className="preparation-step-text">{step}</p>
-      </div>
-    ))
-  ) : (
-    <p>Aucune étape définie.</p>
-  )}
-</div>
+        <div className="product-preparation-section">
+          <h2 className="product-preparation-title">Préparation</h2>
+          {recette.steps && recette.steps.length > 0 ? (
+            recette.steps.map((step, i) => (
+              <div key={i} className="preparation-step">
+                <h3 className="preparation-step-title">Étape {i + 1}</h3>
+                <p className="preparation-step-text">{step}</p>
+              </div>
+            ))
+          ) : (
+            <p>Aucune étape définie.</p>
+          )}
+        </div>
 
         <div id="commentaires" className="all-comments-section">
           <h2 className="plats-commentez">🗣️ Derniers commentaires</h2>
