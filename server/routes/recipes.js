@@ -5,6 +5,18 @@ const Recipe = require('../models/Recipe');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/multer');
 
+
+
+// ✅ GET recettes filtrées par catégorie : healthy
+router.get('/healthy', async (req, res) => {
+  try {
+    const recipes = await Recipe.find({ category: 'healthy' }).sort({ createdAt: -1 });
+    res.json(recipes);
+  } catch (err) {
+    console.error("❌ Erreur dans GET /recipes/healthy :", err.message);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
 // ✅ GET toutes les recettes
 router.get('/', async (req, res) => {
   try {
