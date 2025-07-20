@@ -1,11 +1,8 @@
-// src/App.jsx
-
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 import Navbar from './compenents/Homepage/Navbar';
 import Footer from './compenents/Homepage/Footer';
-
 
 import ProductDetails from './compenents/ProductPage/ProductDetails';
 import Homepage from './compenents/Homepage/Homepage';
@@ -43,8 +40,9 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Homepage /> },
       { path: 'ProductPage', element: <ProductPage /> },
+      { path: 'ProductPage/:id', element: <ProductDetails /> }, // ✅ Route dynamique ajoutée
       { path: 'plats', element: <Plats /> },
-         { path: 'ChefRecipe', element: <ChefRecipe/> },
+      { path: 'ChefRecipe', element: <ChefRecipe /> },
       { path: 'connexion', element: <Connexion /> },
       { path: 'register', element: <Register /> },
       { path: 'ForgetPassword', element: <ForgetPassword /> },
@@ -52,7 +50,7 @@ const router = createBrowserRouter([
       { path: 'profilPage', element: <ProfilPage /> },
       { path: 'Detox', element: <Detox /> },
       { path: 'Nogluten', element: <Nogluten /> },
-      { path: 'recette/:id', element: <ProductDetails /> },
+      { path: 'recette/:id', element: <ProductDetails /> }, // 🔁 Tu peux garder cette route si tu veux deux variantes d'URL
       { path: 'Vegan', element: <Vegan /> },
       { path: 'Proteine', element: <Proteine /> },
       { path: 'Patesnouilles', element: <Patesnouilles /> },
