@@ -10,7 +10,7 @@ import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
 const NoGlutenBody = () => {
   const [recipes, setRecipes] = useState([]);
