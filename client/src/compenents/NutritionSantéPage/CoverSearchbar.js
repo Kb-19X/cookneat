@@ -158,6 +158,19 @@ const CoverSearchbar = () => {
                 </p>
                 {recipe.description && <p className="recipe-description">{recipe.description}</p>}
 
+                {/* 👇👇 ÉTAPES DE PRÉPARATION 👇👇 */}
+                {Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
+                  <div className="recipe-steps">
+                    <h4>Préparation :</h4>
+                    <ol>
+                      {recipe.steps.slice(0, 3).map((step, idx) => (
+                        <li key={idx}>{step}</li>
+                      ))}
+                    </ol>
+                    {recipe.steps.length > 3 && <p>...</p>}
+                  </div>
+                )}
+
                 <div className="recipe-actions" onClick={(e) => e.stopPropagation()}>
                   <img
                     src={likeIcon}
