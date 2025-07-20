@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CoverSearchbar.css';
+import { useNavigate } from 'react-router-dom';
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -20,7 +21,8 @@ const CoverSearchbar = () => {
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
 
-  // 🔁 Fetch réel des recettes healthy
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetch(`${API_URL}/api/recipes/healthy`)
       .then(res => res.json())
@@ -63,6 +65,10 @@ const CoverSearchbar = () => {
     }));
 
     setCommentInput(prev => ({ ...prev, [id]: '' }));
+  };
+
+  const handleRecipeClick = (id) => {
+    navigate(`/product/${id}`);
   };
 
   const filteredRecipes = recipes.filter(recipe =>
@@ -127,7 +133,12 @@ const CoverSearchbar = () => {
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
-            <div key={recipe._id} className="recipe-card">
+            <div
+              key={recipe._id}
+              className="recipe-card"
+              onClick={() => handleRecipeClick(recipe._id)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="recipe-image">
                 <img
                   src={
@@ -147,7 +158,7 @@ const CoverSearchbar = () => {
                 </p>
                 {recipe.description && <p className="recipe-description">{recipe.description}</p>}
 
-                <div className="recipe-actions">
+                <div className="recipe-actions" onClick={(e) => e.stopPropagation()}>
                   <img
                     src={likeIcon}
                     alt="Like"
@@ -165,7 +176,7 @@ const CoverSearchbar = () => {
                 </div>
 
                 {showComment === recipe._id && (
-                  <div className="comment-section show">
+                  <div className="comment-section show" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="text"
                       value={commentInput[recipe._id] || ''}

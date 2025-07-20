@@ -10,7 +10,7 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { motion } from "framer-motion";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_URL = process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -120,7 +120,11 @@ const ProductDetails = () => {
           </Tooltip>
         </div>
 
-        <motion.div className="product-ingredients" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <motion.div
+          className="product-ingredients"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           <div className="product-ingredients-header">
             <h2>Ingrédients</h2>
             <div className="product-personnes-control">
@@ -148,14 +152,22 @@ const ProductDetails = () => {
           </div>
         </motion.div>
 
-        <motion.div className="product-preparation-section" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
+        <motion.div
+          className="product-preparation-section"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+        >
           <h2 className="product-preparation-title">Préparation</h2>
-          {recette.steps.map((step, i) => (
-            <div key={i} className="preparation-step">
-              <h3 className="preparation-step-title">Étape {i + 1}</h3>
-              <p className="preparation-step-text">{step}</p>
-            </div>
-          ))}
+          {Array.isArray(recette.steps) && recette.steps.length > 0 ? (
+            recette.steps.map((step, i) => (
+              <div key={i} className="preparation-step">
+                <h3 className="preparation-step-title">Étape {i + 1}</h3>
+                <p className="preparation-step-text">{step}</p>
+              </div>
+            ))
+          ) : (
+            <p>Aucune étape définie.</p>
+          )}
         </motion.div>
 
         <div id="commentaires" className="all-comments-section">
