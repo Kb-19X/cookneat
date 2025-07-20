@@ -127,6 +127,7 @@ router.get('/proteine', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+console.log("🌐 URL appelée :", `${API_URL}/api/recipes/proteine`);
 // ✅ PUT mettre à jour une recette
 router.put('/:id', async (req, res) => {
   try {
