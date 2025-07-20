@@ -68,7 +68,7 @@ const CoverSearchbar = () => {
   };
 
   const handleRecipeClick = (id) => {
-    navigate(`/product/${id}`);
+    navigate(`/ProductPage/${id}`);
   };
 
   const filteredRecipes = recipes.filter(recipe =>
