@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Homepage /> },
       { path: 'ProductPage', element: <ProductPage /> },
-      { path: 'ProductPage/:id', element: <ProductDetails /> }, // ✅ Route dynamique ajoutée
+      { path: 'ProductPage/:id', element: <ProductPage /> }, // ✅ Route dynamique ajoutée
       { path: 'plats', element: <Plats /> },
       { path: 'ChefRecipe', element: <ChefRecipe /> },
       { path: 'connexion', element: <Connexion /> },
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
       { path: 'profilPage', element: <ProfilPage /> },
       { path: 'Detox', element: <Detox /> },
       { path: 'Nogluten', element: <Nogluten /> },
-      { path: 'recette/:id', element: <ProductDetails /> }, // 🔁 Tu peux garder cette route si tu veux deux variantes d'URL
+      { path: 'recette/:id', element: <ProductPage /> }, // 🔁 Tu peux garder cette route si tu veux deux variantes d'URL
       { path: 'Vegan', element: <Vegan /> },
       { path: 'Proteine', element: <Proteine /> },
       { path: 'Patesnouilles', element: <Patesnouilles /> },
