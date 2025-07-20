@@ -22,45 +22,62 @@ const ProteineBody = () => {
     const fetchRecipes = async () => {
       try {
         const res = await fetch(`${API_URL}/api/recipes/proteine`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         console.log('✅ Données reçues (proteine):', data);
         setRecipes(Array.isArray(data) ? data : []);
       } catch (error) {
-        console.error('❌ Erreur chargement recettes protéinées :', error.message);
+        console.error('❌ Erreur lors du chargement des recettes protéinées :', error);
         setRecipes([]);
       }
     };
     fetchRecipes();
   }, []);
 
-  const handleLike = (id) =>
-    setLikes(prev => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+  const handleLike = (id) => {
+    setLikes(prev => ({
+      ...prev,
+      [id]: (prev[id] || 0) + 1
+    }));
+  };
 
-  const toggleCommentSection = (id) =>
+  const toggleCommentSection = (id) => {
     setShowComment(prev => (prev === id ? null : id));
+  };
 
-  const handleCommentInputChange = (id, value) =>
-    setCommentInput(prev => ({ ...prev, [id]: value }));
+  const handleCommentInputChange = (id, value) => {
+    setCommentInput(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
 
   const submitComment = (id) => {
     const text = commentInput[id];
     if (!text) return;
-    const newComment = { _id: Math.random().toString(36).slice(2), name: 'Utilisateur', rating: 5, text };
+
+    const newComment = {
+      _id: Math.random().toString(36).substring(7),
+      name: 'Utilisateur',
+      rating: 5,
+      text
+    };
+
     setComments(prev => ({
       ...prev,
-      [id]: [...(prev[id] || []), newComment],
+      [id]: [...(prev[id] || []), newComment]
     }));
+
     setCommentInput(prev => ({ ...prev, [id]: '' }));
   };
 
-  const filteredRecipes = recipes.filter(r =>
-    r.title?.toLowerCase().includes(search.trim().toLowerCase())
-  );
+  const filteredRecipes = Array.isArray(recipes)
+    ? recipes.filter(recipe =>
+        recipe.title?.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
   return (
     <div className="plats-body-container">
-      {/* Bannière haut de page */}
       <div className='background-cover'>
         <div className="banner-container">
           <div className="banner-left">
@@ -71,7 +88,7 @@ const ProteineBody = () => {
             </div>
           </div>
           <div className="banner-right">
-            <h2>Repas boostés en protéines, bons pour les muscles et le moral !</h2>
+            <h2>Des repas boostés en protéines, bons pour les muscles et le moral !</h2>
             <p>
               Que ce soit pour la muscu, l'endurance ou une meilleure satiété, ces plats riches en protéines vous aideront à atteindre vos objectifs !
             </p>
@@ -91,25 +108,19 @@ const ProteineBody = () => {
         </div>
       </div>
 
-      {/* Barre de recherche */}
       <div className="search-bar">
         <input
           type="text"
           placeholder="Rechercher une recette protéinée..."
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
-      {/* Affichage des recettes */}
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
-          filteredRecipes.map(recipe => (
-            <div
-              key={recipe._id}
-              className="recipe-card"
-              onClick={() => navigate(`/recette/${recipe._id}`)}
-            >
+          filteredRecipes.map((recipe) => (
+            <div key={recipe._id} className="recipe-card" onClick={() => navigate(`/recette/${recipe._id}`)}>
               <div className="recipe-image">
                 <img
                   src={
@@ -127,14 +138,9 @@ const ProteineBody = () => {
                   🔥 Cuisson : {recipe.cookTime || '15 min'} <br />
                   ⏳ Total : {recipe.totalTime || '25 min'}
                 </p>
-                {recipe.description && (
-                  <p className="recipe-description">{recipe.description}</p>
-                )}
+                {recipe.description && <p className="recipe-description">{recipe.description}</p>}
 
-                <div
-                  className="recipe-actions"
-                  onClick={e => e.stopPropagation()}
-                >
+                <div className="recipe-actions" onClick={(e) => e.stopPropagation()}>
                   <img
                     src={likeIcon}
                     alt="Like"
@@ -156,21 +162,16 @@ const ProteineBody = () => {
                     <input
                       type="text"
                       value={commentInput[recipe._id] || ''}
-                      onChange={e =>
-                        handleCommentInputChange(recipe._id, e.target.value)
-                      }
+                      onChange={(e) => handleCommentInputChange(recipe._id, e.target.value)}
                       placeholder="Écrivez un commentaire..."
                     />
-                    <button onClick={() => submitComment(recipe._id)}>
-                      Envoyer
-                    </button>
+                    <button onClick={() => submitComment(recipe._id)}>Envoyer</button>
 
                     <div className="comments-display">
                       {comments[recipe._id]?.length > 0 ? (
-                        comments[recipe._id].map(c => (
+                        comments[recipe._id].map((c) => (
                           <div key={c._id} className="single-comment">
-                            <strong>{c.name || 'Anonyme'}</strong> ({c.rating}⭐) :{' '}
-                            {c.text}
+                            <strong>{c.name || 'Anonyme'}</strong> ({c.rating}⭐) : {c.text}
                           </div>
                         ))
                       ) : (
@@ -183,11 +184,7 @@ const ProteineBody = () => {
             </div>
           ))
         ) : (
-          <p className="no-results">
-            {recipes.length === 0
-              ? 'Chargement ou aucune recette trouvée.'
-              : 'Aucune recette correspondante.'}
-          </p>
+          <p className="no-results">Aucune recette trouvée.</p>
         )}
       </div>
     </div>
