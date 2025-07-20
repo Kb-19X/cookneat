@@ -21,7 +21,7 @@ const ProteineBody = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/recipes?category=proteine`);
+       const res = await fetch(`${API_URL}/api/recipes/proteine`);
         const data = await res.json();
         setRecipes(data);
       } catch (error) {
