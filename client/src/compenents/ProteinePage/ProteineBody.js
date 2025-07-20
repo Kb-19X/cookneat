@@ -21,11 +21,13 @@ const ProteineBody = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-       const res = await fetch(`${API_URL}/api/recipes/proteine`);
+        const res = await fetch(`${API_URL}/api/recipes/proteine`);
         const data = await res.json();
-        setRecipes(data);
+        console.log('✅ Données reçues (proteine):', data);
+        setRecipes(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('❌ Erreur lors du chargement des recettes protéinées :', error);
+        setRecipes([]);
       }
     };
     fetchRecipes();
@@ -68,9 +70,11 @@ const ProteineBody = () => {
     setCommentInput(prev => ({ ...prev, [id]: '' }));
   };
 
-  const filteredRecipes = recipes.filter(recipe =>
-    recipe.title?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredRecipes = Array.isArray(recipes)
+    ? recipes.filter(recipe =>
+        recipe.title?.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
   return (
     <div className="plats-body-container">
