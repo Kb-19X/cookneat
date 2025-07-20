@@ -10,7 +10,7 @@ import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 
-const API_URL = 'http://localhost:5000'; // adapte selon ton back
+const API_URL = 'mongodb+srv://cookadmin:cookneat123@cookneat-db.anbbadf.mongodb.net/cookneat?retryWrites=true&w=majority&appName=cookneat-db'; // adapte selon ton back
 
 const CoverSearchbar = () => {
   const [recipes, setRecipes] = useState([]);
