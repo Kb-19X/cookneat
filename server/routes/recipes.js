@@ -5,8 +5,6 @@ const Recipe = require('../models/Recipe');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/multer');
 
-
-
 // ✅ GET recettes filtrées par catégorie : healthy
 router.get('/healthy', async (req, res) => {
   try {
@@ -17,6 +15,7 @@ router.get('/healthy', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
 // ✅ GET toutes les recettes
 router.get('/', async (req, res) => {
   try {
@@ -24,6 +23,18 @@ router.get('/', async (req, res) => {
     res.json(recipes);
   } catch (error) {
     console.error('❌ Erreur dans GET /api/recipes :', error.message);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
+
+// ✅ GET une recette par ID (corrige l'erreur 404)
+router.get('/:id', async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ message: 'Recette non trouvée' });
+    res.json(recipe);
+  } catch (err) {
+    console.error("❌ Erreur dans GET /api/recipes/:id :", err.message);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
@@ -44,7 +55,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
       ingredients,
       steps,
       userId: req.user.id,
-      likes: [] // Initialisation facultative mais propre
+      likes: []
     });
 
     const savedRecipe = await newRecipe.save();
@@ -76,7 +87,7 @@ router.get('/liked', auth, async (req, res) => {
   }
 });
 
-// ❤️ Liker ou unliker une recette (corrigé)
+// ❤️ Liker ou unliker une recette
 router.post('/:id/like', auth, async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);
@@ -84,7 +95,6 @@ router.post('/:id/like', auth, async (req, res) => {
 
     const userId = req.user.id.toString();
 
-    // Sécurité : s'assurer que recipe.likes est un tableau
     if (!Array.isArray(recipe.likes)) {
       recipe.likes = [];
     }
