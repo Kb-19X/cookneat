@@ -10,7 +10,8 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { motion } from "framer-motion";
 
-const API_URL = process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
+const API_URL =
+  process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -25,19 +26,23 @@ const ProductDetails = () => {
         const res = await axios.get(`${API_URL}/api/recipes/${id}`);
         const data = res.data;
 
-        // 🔍 Vérifie si steps est une string → transforme en tableau
-        if (typeof data.steps === "string") {
-          data.steps = data.steps.split("\n").filter((line) => line.trim() !== "");
+        // ✅ Forçage radical : steps devient TOUJOURS un tableau
+        let stepsArray = [];
+
+        if (Array.isArray(data.steps)) {
+          stepsArray = data.steps;
+        } else if (typeof data.steps === "string") {
+          stepsArray = data.steps
+            .split(/[\r\n]+/)
+            .map((s) => s.trim())
+            .filter((s) => s.length > 0);
         }
 
-        // 🔍 Si steps est null → initialise vide
-        if (!Array.isArray(data.steps)) {
-          data.steps = [];
-        }
+        data.steps = stepsArray;
 
         setRecette(data);
       } catch (err) {
-        console.error("Erreur chargement recette :", err);
+        console.error("❌ Erreur chargement recette :", err);
       }
     };
 
@@ -46,7 +51,7 @@ const ProductDetails = () => {
         const res = await axios.get(`${API_URL}/api/comments`);
         setAllComments(res.data);
       } catch (err) {
-        console.error("Erreur chargement commentaires :", err);
+        console.error("❌ Erreur chargement commentaires :", err);
       }
     };
 
@@ -147,16 +152,31 @@ const ProductDetails = () => {
           </div>
 
           <div className="product-time">
-            <p><AccessTimeIcon fontSize="small" /> <strong>Préparation :</strong> {recette.prepTime || "?"} min</p>
-            <p><AccessTimeIcon fontSize="small" /> <strong>Cuisson :</strong> {recette.cookTime || "?"} min</p>
-            <p><AccessTimeIcon fontSize="small" /> <strong>Total :</strong> {recette.totalTime || "?"} min</p>
+            <p>
+              <AccessTimeIcon fontSize="small" /> <strong>Préparation :</strong>{" "}
+              {recette.prepTime || "?"} min
+            </p>
+            <p>
+              <AccessTimeIcon fontSize="small" /> <strong>Cuisson :</strong>{" "}
+              {recette.cookTime || "?"} min
+            </p>
+            <p>
+              <AccessTimeIcon fontSize="small" /> <strong>Total :</strong>{" "}
+              {recette.totalTime || "?"} min
+            </p>
           </div>
 
           <div className="product-ingredients-grid">
             {adjustedIngredients.map((item, i) => (
-              <motion.div className="product-ingredient-card" key={i} whileHover={{ scale: 1.05 }}>
+              <motion.div
+                className="product-ingredient-card"
+                key={i}
+                whileHover={{ scale: 1.05 }}
+              >
                 <p className="product-ingredient-quantity">
-                  <strong>{item.adjustedQuantity} {item.unit}</strong>
+                  <strong>
+                    {item.adjustedQuantity} {item.unit}
+                  </strong>
                 </p>
                 <p className="product-ingredient-name">de {item.name}</p>
               </motion.div>
@@ -190,7 +210,9 @@ const ProductDetails = () => {
               .slice(0, 10)
               .map((comment) => (
                 <div key={comment._id} className="comment-card">
-                  <p><strong>{comment.name}</strong> :</p>
+                  <p>
+                    <strong>{comment.name}</strong> :
+                  </p>
                   <p>{comment.text}</p>
                   <p>⭐ {comment.rating || 5} / 5</p>
                 </div>
