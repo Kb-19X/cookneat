@@ -23,7 +23,19 @@ const ProductDetails = () => {
     const fetchRecipe = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes/${id}`);
-        setRecette(res.data);
+        const data = res.data;
+
+        // 🔍 Vérifie si steps est une string → transforme en tableau
+        if (typeof data.steps === "string") {
+          data.steps = data.steps.split("\n").filter((line) => line.trim() !== "");
+        }
+
+        // 🔍 Si steps est null → initialise vide
+        if (!Array.isArray(data.steps)) {
+          data.steps = [];
+        }
+
+        setRecette(data);
       } catch (err) {
         console.error("Erreur chargement recette :", err);
       }
@@ -158,7 +170,7 @@ const ProductDetails = () => {
           whileInView={{ opacity: 1 }}
         >
           <h2 className="product-preparation-title">Préparation</h2>
-          {Array.isArray(recette.steps) && recette.steps.length > 0 ? (
+          {recette.steps.length > 0 ? (
             recette.steps.map((step, i) => (
               <div key={i} className="preparation-step">
                 <h3 className="preparation-step-title">Étape {i + 1}</h3>
