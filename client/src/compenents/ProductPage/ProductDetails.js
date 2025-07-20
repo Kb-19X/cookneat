@@ -183,23 +183,19 @@ const ProductDetails = () => {
           </div>
         </motion.div>
 
-        <motion.div
-          className="product-preparation-section"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-        >
-          <h2 className="product-preparation-title">Préparation</h2>
-          {recette.steps.length > 0 ? (
-            recette.steps.map((step, i) => (
-              <div key={i} className="preparation-step">
-                <h3 className="preparation-step-title">Étape {i + 1}</h3>
-                <p className="preparation-step-text">{step}</p>
-              </div>
-            ))
-          ) : (
-            <p>Aucune étape définie.</p>
-          )}
-        </motion.div>
+  <div className="product-preparation-section">
+  <h2 className="product-preparation-title">Préparation</h2>
+  {recette.steps.length > 0 ? (
+    recette.steps.map((step, i) => (
+      <div key={i} className="preparation-step">
+        <h3 className="preparation-step-title">Étape {i + 1}</h3>
+        <p className="preparation-step-text">{step}</p>
+      </div>
+    ))
+  ) : (
+    <p>Aucune étape définie.</p>
+  )}
+</div>
 
         <div id="commentaires" className="all-comments-section">
           <h2 className="plats-commentez">🗣️ Derniers commentaires</h2>
