@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { useParams } from "react-router-dom";
 import "./ProductDetails.css";
 import axios from "axios";
 import { IconButton, Tooltip } from "@mui/material";
@@ -9,65 +10,65 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { motion } from "framer-motion";
 
-import burger from "../../assets/ImageHomePage/burger.jpg";
-import lardonsImg from "../../assets/ImageHomePage/lardons.png";
-import farineImg from "../../assets/ImageHomePage/farine.jpg";
-import levureImg from "../../assets/ImageHomePage/levure.jpg";
-import beurreImg from "../../assets/ImageHomePage/beurre.webp";
-import tomateImg from "../../assets/ImageHomePage/tomate.jpg";
-import jambonImg from "../../assets/ImageHomePage/jambon.jpg";
-import oeufImg from "../../assets/ImageHomePage/oeufs.webp";
-import huileImg from "../../assets/ImageHomePage/huile.jpg";
-
-const API_URL = process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 const ProductDetails = () => {
+  const { id } = useParams();
   const [liked, setLiked] = useState(false);
   const [personnes, setPersonnes] = useState(4);
+  const [recette, setRecette] = useState(null);
   const [allComments, setAllComments] = useState([]);
-  const [recipes, setRecipes] = useState([]);
 
-  const recipeId = "cake-sale-lardons";
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/recipes/${id}`);
+        setRecette(res.data);
+      } catch (err) {
+        console.error("Erreur chargement recette :", err);
+      }
+    };
 
-  const tempsPreparation = 15;
-  const tempsCuisson = 30;
+    const fetchAllComments = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/comments`);
+        setAllComments(res.data);
+      } catch (err) {
+        console.error("Erreur chargement commentaires :", err);
+      }
+    };
 
-  const recette = {
-    image: burger,
-    title: "Cake salé aux lardons",
-    description: "Un cake moelleux, parfait pour un apéritif ou un repas léger.",
-    steps: [
-      "Préchauffer le four à 180°C.",
-      "Mélanger la farine, la levure et les œufs.",
-      "Ajouter les lardons, la tomate et le jambon.",
-      "Verser dans un moule beurré.",
-      "Cuire 30 min et laisser refroidir.",
-    ],
-  };
+    fetchRecipe();
+    fetchAllComments();
+  }, [id]);
 
-  const baseIngredients = [
-    { name: "lardons en lamelles", quantity: 100, unit: "g", image: lardonsImg },
-    { name: "farine", quantity: 200, unit: "g", image: farineImg },
-    { name: "levure chimique", quantity: 1, unit: "sachet", image: levureImg },
-    { name: "beurre pour le moule", quantity: 1, unit: "noisette", image: beurreImg },
-    { name: "tomate coupée", quantity: 1, unit: "", image: tomateImg },
-    { name: "dés de jambon", quantity: 100, unit: "g", image: jambonImg },
-    { name: "œufs", quantity: 3, unit: "", image: oeufImg },
-    { name: "huile d'olive", quantity: 7, unit: "cl", image: huileImg },
-  ];
+  const incrementPersonnes = () => setPersonnes((p) => p + 1);
+  const decrementPersonnes = () => setPersonnes((p) => (p > 1 ? p - 1 : 1));
 
   const adjustedIngredients = useMemo(() => {
-    return baseIngredients.map((ing) => ({
-      ...ing,
-      adjustedQuantity: (ing.quantity * personnes) / 4,
-    }));
-  }, [personnes]);
+    if (!recette?.ingredients || recette.ingredients.length === 0) return [];
+
+    return recette.ingredients.map((ing) => {
+      const match = ing.match(/^([\d.,]+)\s*(\w*)\s*de\s+(.*)/i);
+      if (!match) return { name: ing, quantity: null, unit: null };
+
+      const quantity = parseFloat(match[1].replace(",", ".")) || 0;
+      const unit = match[2] || "";
+      const name = match[3];
+
+      return {
+        name,
+        unit,
+        adjustedQuantity: ((quantity * personnes) / 4).toFixed(1),
+      };
+    });
+  }, [recette, personnes]);
 
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: recette.title,
-        text: recette.description,
+        title: recette?.title,
+        text: recette?.description,
         url: window.location.href,
       });
     } else {
@@ -76,36 +77,21 @@ const ProductDetails = () => {
     }
   };
 
-  const incrementPersonnes = () => setPersonnes((p) => p + 1);
-  const decrementPersonnes = () => setPersonnes((p) => (p > 1 ? p - 1 : 1));
-
-  const fetchAllComments = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/comments`);
-      setAllComments(res.data);
-    } catch (err) {
-      console.error("Erreur chargement commentaires :", err);
-    }
-  };
-
-  const fetchAllRecipes = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/recipes`);
-      setRecipes(res.data);
-    } catch (err) {
-      console.error("Erreur chargement recettes :", err);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllComments();
-    fetchAllRecipes();
-  }, []);
+  if (!recette) return <p className="loading">Chargement...</p>;
 
   return (
     <div className="background-product">
       <div className="recette-page">
-        <img src={recette.image} alt={recette.title} className="recette-img" />
+        <img
+          src={
+            recette.imageUrl?.startsWith("http")
+              ? recette.imageUrl
+              : `${API_URL}${recette.imageUrl}`
+          }
+          alt={recette.title}
+          className="recette-img"
+        />
+
         <div className="product-desc">
           <h1>{recette.title}</h1>
           <p>{recette.description}</p>
@@ -145,15 +131,14 @@ const ProductDetails = () => {
           </div>
 
           <div className="product-time">
-            <p><AccessTimeIcon fontSize="small" /> <strong>Préparation :</strong> {tempsPreparation} min</p>
-            <p><AccessTimeIcon fontSize="small" /> <strong>Cuisson :</strong> {tempsCuisson} min</p>
-            <p><AccessTimeIcon fontSize="small" /> <strong>Total :</strong> {tempsPreparation + tempsCuisson} min</p>
+            <p><AccessTimeIcon fontSize="small" /> <strong>Préparation :</strong> {recette.prepTime || "?"} min</p>
+            <p><AccessTimeIcon fontSize="small" /> <strong>Cuisson :</strong> {recette.cookTime || "?"} min</p>
+            <p><AccessTimeIcon fontSize="small" /> <strong>Total :</strong> {recette.totalTime || "?"} min</p>
           </div>
 
           <div className="product-ingredients-grid">
             {adjustedIngredients.map((item, i) => (
               <motion.div className="product-ingredient-card" key={i} whileHover={{ scale: 1.05 }}>
-                <img src={item.image} alt={item.name} />
                 <p className="product-ingredient-quantity">
                   <strong>{item.adjustedQuantity} {item.unit}</strong>
                 </p>
@@ -176,19 +161,16 @@ const ProductDetails = () => {
         <div id="commentaires" className="all-comments-section">
           <h2 className="plats-commentez">🗣️ Derniers commentaires</h2>
           {Array.isArray(allComments) && allComments.length > 0 ? (
-            allComments.slice(0, 10).map((comment) => {
-              const recipe = recipes.find((r) => r._id === comment.recipeId);
-              return (
+            allComments
+              .filter((c) => c.recipeId === recette._id)
+              .slice(0, 10)
+              .map((comment) => (
                 <div key={comment._id} className="comment-card">
-                  <p>
-                    <strong>{comment.name}</strong> sur{" "}
-                    <em>{recipe?.title || "Recette inconnue"}</em> :
-                  </p>
+                  <p><strong>{comment.name}</strong> :</p>
                   <p>{comment.text}</p>
                   <p>⭐ {comment.rating || 5} / 5</p>
                 </div>
-              );
-            })
+              ))
           ) : (
             <p>Aucun commentaire pour le moment.</p>
           )}
