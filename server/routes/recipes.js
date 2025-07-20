@@ -117,7 +117,16 @@ router.post('/:id/like', auth, async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
-
+// ✅ GET recettes filtrées par catégorie : proteine
+router.get('/proteine', async (req, res) => {
+  try {
+    const recipes = await Recipe.find({ category: 'proteine' }).sort({ createdAt: -1 });
+    res.json(recipes);
+  } catch (err) {
+    console.error("❌ Erreur dans GET /recipes/proteine :", err.message);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
 // ✅ PUT mettre à jour une recette
 router.put('/:id', async (req, res) => {
   try {
