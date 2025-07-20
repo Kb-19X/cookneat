@@ -26,19 +26,18 @@ const ProductDetails = () => {
         const res = await axios.get(`${API_URL}/api/recipes/${id}`);
         const data = res.data;
 
-        // ✅ Forçage radical : steps devient TOUJOURS un tableau
-        let stepsArray = [];
-
-        if (Array.isArray(data.steps)) {
-          stepsArray = data.steps;
-        } else if (typeof data.steps === "string") {
-          stepsArray = data.steps
-            .split(/[\r\n]+/)
+        // ✅ Sécurisation finale du champ steps
+        const rawSteps = data.steps;
+        if (Array.isArray(rawSteps)) {
+          data.steps = rawSteps.filter((s) => typeof s === "string" && s.trim().length > 0);
+        } else if (typeof rawSteps === "string") {
+          data.steps = rawSteps
+            .split(/\r?\n/)
             .map((s) => s.trim())
             .filter((s) => s.length > 0);
+        } else {
+          data.steps = [];
         }
-
-        data.steps = stepsArray;
 
         setRecette(data);
       } catch (err) {
