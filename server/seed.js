@@ -8,132 +8,125 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://cookadmin:cookneat
 
 const recipes = [
   {
-    title: "Salade de quinoa aux légumes croquants",
-    description: "Une salade saine et colorée à base de quinoa, idéale pour l'été.",
+    title: "Poulet grillé aux légumes",
+    description: "Un plat riche en protéines parfait pour la prise de masse.",
     ingredients: [
-      "100 g de quinoa",
+      "2 filets de poulet",
+      "1 courgette",
       "1 poivron rouge",
-      "1/2 concombre",
-      "1 carotte râpée",
-      "Quelques feuilles de menthe fraîche"
+      "1 cuillère à soupe d'huile d'olive",
+      "Épices au choix (paprika, ail, poivre)"
     ],
     steps: [
-      "Rincer le quinoa et le cuire selon les instructions du paquet.",
-      "Couper le poivron, le concombre et la carotte en petits morceaux.",
-      "Égoutter le quinoa et le laisser refroidir.",
-      "Dans un saladier, mélanger le quinoa avec les légumes coupés.",
-      "Ajouter la menthe ciselée, un filet de jus de citron, de l'huile d'olive, sel et poivre.",
-      "Servir frais."
+      "Couper les légumes en morceaux.",
+      "Faire griller le poulet avec un peu d’huile d’olive.",
+      "Ajouter les légumes dans la poêle et cuire 10 minutes.",
+      "Servir chaud avec un filet de citron."
     ],
     prepTime: "10",
     cookTime: "15",
     totalTime: "25",
     difficulty: "facile",
-    category: "healthy",
-    tags: ["sain", "léger", "été"],
-    imageUrl: "https://source.unsplash.com/800x600/?quinoa,salad"
+    category: "proteine",
+    tags: ["musculation", "protéiné", "rapide"],
+    imageUrl: "https://source.unsplash.com/800x600/?grilled,chicken"
   },
   {
-    title: "Bol de smoothie aux fruits rouges",
-    description: "Un petit-déjeuner vitaminé et rafraîchissant.",
+    title: "Omelette aux épinards et fromage",
+    description: "Un petit déjeuner riche en protéines et facile à préparer.",
     ingredients: [
-      "1 banane",
-      "100 g de fruits rouges surgelés",
-      "1 yaourt nature",
-      "1 cuillère à soupe de graines de chia",
-      "Quelques amandes"
+      "3 œufs",
+      "1 poignée d'épinards frais",
+      "30 g de fromage râpé",
+      "Sel, poivre",
+      "1 cuillère à café d’huile d’olive"
     ],
     steps: [
-      "Mixer la banane, les fruits rouges et le yaourt jusqu'à consistance lisse.",
-      "Verser dans un bol.",
-      "Ajouter les graines de chia et les amandes sur le dessus.",
-      "Déguster immédiatement."
+      "Battre les œufs avec sel et poivre.",
+      "Faire revenir les épinards dans une poêle avec un peu d’huile.",
+      "Verser les œufs battus et saupoudrer de fromage.",
+      "Cuire quelques minutes jusqu’à ce que l’omelette soit prise."
+    ],
+    prepTime: "5",
+    cookTime: "7",
+    totalTime: "12",
+    difficulty: "facile",
+    category: "proteine",
+    tags: ["petit-déjeuner", "musculation", "rapide"],
+    imageUrl: "https://source.unsplash.com/800x600/?omelette,protein"
+  },
+  {
+    title: "Bowl de riz au thon et avocat",
+    description: "Un bol complet et protéiné à base de thon, avocat et riz.",
+    ingredients: [
+      "100 g de riz complet",
+      "1 boîte de thon naturel",
+      "1/2 avocat",
+      "Quelques feuilles de coriandre",
+      "Jus de citron"
+    ],
+    steps: [
+      "Cuire le riz selon les instructions.",
+      "Égoutter le thon et couper l’avocat en dés.",
+      "Assembler le tout dans un bol.",
+      "Ajouter coriandre, jus de citron, sel et poivre."
+    ],
+    prepTime: "10",
+    cookTime: "15",
+    totalTime: "25",
+    difficulty: "facile",
+    category: "proteine",
+    tags: ["équilibré", "rapide", "riche en protéines"],
+    imageUrl: "https://source.unsplash.com/800x600/?tuna,avocado"
+  },
+  {
+    title: "Shake protéiné maison",
+    description: "Un shake simple et efficace pour la récupération post-entraînement.",
+    ingredients: [
+      "300 ml de lait",
+      "1 banane",
+      "2 cuillères à soupe de beurre de cacahuète",
+      "30 g de flocons d’avoine",
+      "1 cuillère de whey (optionnelle)"
+    ],
+    steps: [
+      "Mettre tous les ingrédients dans un mixeur.",
+      "Mixer jusqu’à obtenir une texture lisse.",
+      "Boire immédiatement après l’effort."
     ],
     prepTime: "5",
     cookTime: "0",
     totalTime: "5",
     difficulty: "facile",
-    category: "healthy",
-    tags: ["vitaminé", "rapide", "frais"],
-    imageUrl: "https://source.unsplash.com/800x600/?smoothie,bowl"
+    category: "proteine",
+    tags: ["shake", "post-training", "rapide"],
+    imageUrl: "https://source.unsplash.com/800x600/?protein,shake"
   },
   {
-    title: "Wok de légumes croquants au tofu",
-    description: "Un plat végétarien équilibré et savoureux.",
+    title: "Lentilles corail au tofu",
+    description: "Une recette végétarienne riche en protéines végétales.",
     ingredients: [
-      "200 g de tofu ferme",
-      "1 poivron",
-      "1 courgette",
-      "1 carotte",
-      "2 cuillères à soupe de sauce soja"
-    ],
-    steps: [
-      "Couper le tofu en dés et le faire dorer dans une poêle.",
-      "Ajouter les légumes émincés et faire sauter à feu vif.",
-      "Verser la sauce soja et cuire encore 5 minutes.",
-      "Servir chaud avec du riz ou des nouilles."
-    ],
-    prepTime: "10",
-    cookTime: "10",
-    totalTime: "20",
-    difficulty: "moyenne",
-    category: "healthy",
-    tags: ["végétarien", "rapide", "équilibré"],
-    imageUrl: "https://source.unsplash.com/800x600/?tofu,vegetables"
-  },
-  {
-    title: "Soupe détox au brocoli",
-    description: "Une soupe légère parfaite pour se remettre en forme.",
-    ingredients: [
-      "1 brocoli",
-      "1 pomme de terre",
+      "100 g de lentilles corail",
+      "150 g de tofu ferme",
       "1 oignon",
-      "75 cl d'eau",
-      "Sel, poivre"
+      "1 tomate",
+      "Épices (curcuma, cumin, paprika)"
     ],
     steps: [
-      "Faire revenir l'oignon émincé dans une casserole.",
-      "Ajouter les légumes coupés et l'eau.",
-      "Cuire pendant 20 minutes.",
-      "Mixer la soupe.",
-      "Assaisonner et servir chaud."
+      "Faire revenir l’oignon et les épices dans une casserole.",
+      "Ajouter les lentilles et la tomate coupée en dés.",
+      "Couvrir d’eau et cuire 20 minutes.",
+      "Ajouter le tofu doré à la poêle avant de servir."
     ],
     prepTime: "10",
     cookTime: "20",
     totalTime: "30",
-    difficulty: "facile",
-    category: "healthy",
-    tags: ["détox", "léger", "hiver"],
-    imageUrl: "https://source.unsplash.com/800x600/?broccoli,soup"
-  },
-  {
-    title: "Wraps de laitue au poulet",
-    description: "Des wraps sains et délicieux, parfaits pour un déjeuner léger.",
-    ingredients: [
-      "2 blancs de poulet",
-      "Feuilles de laitue",
-      "1 carotte râpée",
-      "Quelques feuilles de coriandre",
-      "Sauce au yaourt"
-    ],
-    steps: [
-      "Cuire et émincer le poulet.",
-      "Disposer une feuille de laitue, garnir de poulet, carottes et coriandre.",
-      "Ajouter un peu de sauce au yaourt.",
-      "Rouler et déguster."
-    ],
-    prepTime: "10",
-    cookTime: "10",
-    totalTime: "20",
-    difficulty: "facile",
-    category: "healthy",
-    tags: ["léger", "protéiné", "rapide"],
-    imageUrl: "https://source.unsplash.com/800x600/?lettuce,wrap"
+    difficulty: "moyenne",
+    category: "proteine",
+    tags: ["végétarien", "équilibré", "protéines végétales"],
+    imageUrl: "https://source.unsplash.com/800x600/?lentils,tofu"
   }
 ];
-
-
-
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -150,11 +143,11 @@ mongoose.connect(MONGODB_URI, {
 
 async function seedData() {
   try {
-    await Recipe.deleteMany({ category: 'healthy' }); // ✅ Supprime uniquement les anciennes recettes 'healthy'
-    console.log('🗑️ Anciennes recettes "Healthy" supprimées');
+    await Recipe.deleteMany({ category: 'proteine' });
+    console.log('🗑️ Anciennes recettes "proteine" supprimées');
 
     await Recipe.insertMany(recipes);
-    console.log('🥗 Nouvelles recettes "Healthy" insérées avec succès');
+    console.log('🍗 Nouvelles recettes "proteine" insérées avec succès');
 
     mongoose.connection.close(() => {
       console.log('🔌 Connexion MongoDB fermée');
