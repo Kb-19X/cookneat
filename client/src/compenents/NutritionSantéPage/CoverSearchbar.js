@@ -6,7 +6,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import sante from '../../assets/ImageHomePage/sante.jpg';
-// import bruschetta from '../../assets/ImageHomePage/bruschetta.jpg';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
@@ -21,12 +20,12 @@ const CoverSearchbar = () => {
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
 
-  // Simulation des recettes (à remplacer par un useEffect de fetch réel)
+  // 🔁 Fetch réel des recettes healthy
   useEffect(() => {
-    // Exemple : fetch depuis une API
-    // fetch(`${API_URL}/api/recipes`)
-    //   .then(res => res.json())
-    //   .then(data => setRecipes(data));
+    fetch(`${API_URL}/api/recipes/healthy`)
+      .then(res => res.json())
+      .then(data => setRecipes(data))
+      .catch(err => console.error('❌ Erreur de chargement des recettes :', err));
   }, []);
 
   const handleLike = (id) => {
@@ -89,13 +88,13 @@ const CoverSearchbar = () => {
             <img src={sante} alt="fruits et légumes" />
             <div className="banner-overlay-heal">
               <h1> Healthy</h1>
-            <p> des plats sains, équilibrés et pleins de saveurs.</p>
+              <p>Des plats sains, équilibrés et pleins de saveurs.</p>
             </div>
           </div>
           <div className="banner-right">
             <h2>Des plats healthy, faciles à préparer et bons pour votre santé !</h2>
             <p>
-            "Explorez des recettes healthy inspirées du monde entier : un tour du monde savoureux et bon pour votre santé, depuis votre cuisine."
+              "Explorez des recettes healthy inspirées du monde entier : un tour du monde savoureux et bon pour votre santé, depuis votre cuisine."
             </p>
           </div>
         </div>
