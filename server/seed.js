@@ -1,12 +1,195 @@
-
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const Recipe = require('./models/recipe.model'); // ajuste le chemin si besoin
+const Recipe = require('./models/recipe.model');
 
 dotenv.config();
 
-// 🔐 URI explicite si process.env.MONGODB_URI est undefined
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://cookadmin:cookneat123@cookneat-db.anbbadf.mongodb.net/cookneat?retryWrites=true&w=majority&appName=cookneat-db';
+const MONGODB_URI = process.env.MONGODB_URI ||
+  'mongodb+srv://cookadmin:cookneat123@cookneat-db.anbbadf.mongodb.net/cookneat?retryWrites=true&w=majority&appName=cookneat-db';
+
+const recipes = [
+  {
+    title: "Salade de quinoa aux légumes croquants",
+    description: "Une salade saine et colorée à base de quinoa, idéale pour l'été.",
+    ingredients: ["quinoa", "poivron rouge", "concombre", "carotte râpée", "menthe fraîche"],
+    steps: [
+      "Faites cuire le quinoa selon les instructions.",
+      "Coupez les légumes en petits morceaux.",
+      "Mélangez tous les ingrédients avec la menthe hachée.",
+      "Assaisonnez à votre goût avec citron et huile d’olive.",
+      "Servez frais."
+    ],
+    prepTime: "10 min",
+    cookTime: "15 min",
+    totalTime: "25 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["sain", "léger", "été"],
+    imageUrl: "https://source.unsplash.com/800x600/?quinoa,salad"
+  },
+  {
+    title: "Bol smoothie aux fruits rouges",
+    description: "Un petit-déjeuner riche en antioxydants et en goût.",
+    ingredients: ["banane", "fruits rouges congelés", "lait d’amande", "graines de chia", "noix"],
+    steps: [
+      "Mixez la banane et les fruits rouges avec le lait d’amande.",
+      "Versez dans un bol.",
+      "Ajoutez les graines de chia et les noix en topping.",
+      "Servez frais."
+    ],
+    prepTime: "5 min",
+    cookTime: "0 min",
+    totalTime: "5 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["sain", "rapide", "fruits"],
+    imageUrl: "https://source.unsplash.com/800x600/?smoothie,bowl"
+  },
+  {
+    title: "Soupe de lentilles corail et carottes",
+    description: "Une soupe nourrissante et légère, parfaite pour l'hiver.",
+    ingredients: ["lentilles corail", "carottes", "oignon", "ail", "cumin"],
+    steps: [
+      "Faites revenir l’oignon et l’ail dans un peu d’huile.",
+      "Ajoutez les carottes coupées et les lentilles.",
+      "Couvrez d’eau et laissez mijoter 20 minutes.",
+      "Mixez et assaisonnez avec du cumin.",
+      "Servez chaud."
+    ],
+    prepTime: "10 min",
+    cookTime: "20 min",
+    totalTime: "30 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["soupe", "hiver", "végétarien"],
+    imageUrl: "https://source.unsplash.com/800x600/?lentil,soup"
+  },
+  {
+    title: "Wraps de laitue au poulet",
+    description: "Des wraps sans pain, frais et riches en protéines.",
+    ingredients: ["blanc de poulet", "laitue romaine", "carottes râpées", "avocat", "sauce soja légère"],
+    steps: [
+      "Faites cuire et émincez le poulet.",
+      "Lavez les feuilles de laitue.",
+      "Garnissez-les avec le poulet, carottes, avocat.",
+      "Ajoutez un filet de sauce soja.",
+      "Roulez et servez."
+    ],
+    prepTime: "10 min",
+    cookTime: "10 min",
+    totalTime: "20 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["protéiné", "léger", "rapide"],
+    imageUrl: "https://source.unsplash.com/800x600/?lettuce,wraps"
+  },
+  {
+    title: "Omelette aux épinards et champignons",
+    description: "Une omelette saine et savoureuse pour le déjeuner.",
+    ingredients: ["oeufs", "épinards frais", "champignons", "oignon", "huile d’olive"],
+    steps: [
+      "Faites revenir les légumes dans l’huile.",
+      "Battez les œufs et versez sur les légumes.",
+      "Faites cuire à feu doux jusqu’à cuisson complète.",
+      "Servez chaud avec une salade."
+    ],
+    prepTime: "5 min",
+    cookTime: "10 min",
+    totalTime: "15 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["rapide", "protéiné", "végétarien"],
+    imageUrl: "https://source.unsplash.com/800x600/?omelet,spinach"
+  },
+  {
+    title: "Chia pudding à la mangue",
+    description: "Un dessert ou petit-déjeuner tropical et rafraîchissant.",
+    ingredients: ["graines de chia", "lait de coco", "mangue fraîche", "sirop d’agave"],
+    steps: [
+      "Mélangez les graines de chia avec le lait de coco et le sirop.",
+      "Laissez reposer au frais 4h (ou toute la nuit).",
+      "Ajoutez la mangue en morceaux au moment de servir."
+    ],
+    prepTime: "5 min",
+    cookTime: "0 min",
+    totalTime: "5 min (+4h repos)",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["chia", "mangue", "sans gluten"],
+    imageUrl: "https://source.unsplash.com/800x600/?chia,pudding"
+  },
+  {
+    title: "Buddha bowl végétarien",
+    description: "Un plat complet équilibré avec céréales, légumes et protéines végétales.",
+    ingredients: ["quinoa", "pois chiches", "betterave râpée", "avocat", "chou rouge"],
+    steps: [
+      "Faites cuire le quinoa.",
+      "Disposez tous les ingrédients harmonieusement dans un bol.",
+      "Assaisonnez avec une vinaigrette au tahini ou citron."
+    ],
+    prepTime: "15 min",
+    cookTime: "15 min",
+    totalTime: "30 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["buddha bowl", "végétarien", "complet"],
+    imageUrl: "https://source.unsplash.com/800x600/?buddha,bowl"
+  },
+  {
+    title: "Courgettes farcies végétariennes",
+    description: "Des courgettes pleines de saveur et très légères.",
+    ingredients: ["courgettes", "lentilles cuites", "tomates concassées", "ail", "herbes de Provence"],
+    steps: [
+      "Préchauffez le four à 180°C.",
+      "Coupez les courgettes en deux et évidez-les.",
+      "Mélangez les lentilles avec la tomate, ail et herbes.",
+      "Farcissez les courgettes et enfournez 25 min."
+    ],
+    prepTime: "10 min",
+    cookTime: "25 min",
+    totalTime: "35 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["végétarien", "four", "léger"],
+    imageUrl: "https://source.unsplash.com/800x600/?stuffed,zucchini"
+  },
+  {
+    title: "Taboulé au chou-fleur",
+    description: "Une version low carb du taboulé traditionnel.",
+    ingredients: ["chou-fleur râpé", "tomate", "concombre", "persil", "citron"],
+    steps: [
+      "Râpez le chou-fleur cru pour faire une semoule.",
+      "Ajoutez les légumes coupés finement.",
+      "Assaisonnez avec huile d’olive, citron, sel, poivre.",
+      "Laissez reposer au frais 30 min."
+    ],
+    prepTime: "15 min",
+    cookTime: "0 min",
+    totalTime: "15 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["sans gluten", "léger", "végétarien"],
+    imageUrl: "https://source.unsplash.com/800x600/?cauliflower,tabbouleh"
+  },
+  {
+    title: "Toasts avocat et œuf poché",
+    description: "Un classique du brunch sain et complet.",
+    ingredients: ["pain complet", "avocat", "œufs", "jus de citron", "piment d’Espelette"],
+    steps: [
+      "Faites griller le pain.",
+      "Écrasez l’avocat avec un peu de citron et piment.",
+      "Pochez les œufs.",
+      "Tartinez le pain et ajoutez l’œuf poché sur chaque tranche."
+    ],
+    prepTime: "10 min",
+    cookTime: "5 min",
+    totalTime: "15 min",
+    difficulty: "facile",
+    category: "healthy",
+    tags: ["brunch", "avocat", "protéiné"],
+    imageUrl: "https://source.unsplash.com/800x600/?avocado,toast"
+  }
+];
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -16,523 +199,21 @@ mongoose.connect(MONGODB_URI, {
     console.log('✅ Connecté à MongoDB');
     seedData();
   })
-  .catch((err) => console.error('❌ Erreur MongoDB :', err));
-
-const recipes = [
-  {
-    "title": "Wrap au poulet grillé",
-    "description": "Une recette rapide, équilibrée et savoureuse à préparer en quelques minutes.",
-    "ingredients": [
-      "1 wrap",
-      "100g de poulet",
-      "1 feuille de laitue",
-      "1 c. à soupe de sauce yaourt"
-    ],
-    "steps": [
-      "Cuire les pâtes.",
-      "Faire revenir l’ail dans l’huile.",
-      "Mélanger et servir."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "8 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?wrap,food"
-  },
-  {
-    "title": "Salade de thon express",
-    "description": "Un plat simple et efficace pour les jours pressés.",
-    "ingredients": [
-      "2 œufs",
-      "champignons émincés",
-      "sel, poivre",
-      "huile d’olive"
-    ],
-    "steps": [
-      "Faire griller le pain.",
-      "Cuire l’œuf et écraser l’avocat.",
-      "Assembler le tout."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "10 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?salad,tuna"
-  },
-  {
-    "title": "Tartine avocat & œuf",
-    "description": "Des saveurs simples et authentiques prêtes en un clin d'œil.",
-    "ingredients": [
-      "1 boîte de thon",
-      "1 tomate",
-      "maïs",
-      "huile d'olive",
-      "sel, poivre"
-    ],
-    "steps": [
-      "Battre les œufs.",
-      "Cuire les champignons puis ajouter les œufs.",
-      "Servir chaud."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "10 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?avocado,toast"
-  },
-  {
-    "title": "Omelette aux champignons",
-    "description": "Un plat simple et efficace pour les jours pressés.",
-    "ingredients": [
-      "1 boîte de thon",
-      "1 tomate",
-      "maïs",
-      "huile d'olive",
-      "sel, poivre"
-    ],
-    "steps": [
-      "Mélanger tous les ingrédients dans un bol.",
-      "Assaisonner.",
-      "Servir frais."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "5 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?omelette"
-  },
-  {
-    "title": "Pâtes ail et huile",
-    "description": "Des saveurs simples et authentiques prêtes en un clin d'œil.",
-    "ingredients": [
-      "100g de pâtes",
-      "2 gousses d’ail",
-      "huile d’olive",
-      "persil"
-    ],
-    "steps": [
-      "Mélanger tous les ingrédients dans un bol.",
-      "Assaisonner.",
-      "Servir frais."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "10 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?pasta,garlic"
-  },
-  {
-    "title": "Sandwich au saumon fumé",
-    "description": "Un plat simple et efficace pour les jours pressés.",
-    "ingredients": [
-      "1 wrap",
-      "100g de poulet",
-      "1 feuille de laitue",
-      "1 c. à soupe de sauce yaourt"
-    ],
-    "steps": [
-      "Préparer les ingrédients.",
-      "Cuire les éléments si nécessaire.",
-      "Assembler et servir."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "9 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?sandwich,salmon"
-  },
-  {
-    "title": "Soupe de légumes rapide",
-    "description": "Des saveurs simples et authentiques prêtes en un clin d'œil.",
-    "ingredients": [
-      "2 œufs",
-      "champignons émincés",
-      "sel, poivre",
-      "huile d’olive"
-    ],
-    "steps": [
-      "Faire griller le pain.",
-      "Cuire l’œuf et écraser l’avocat.",
-      "Assembler le tout."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "7 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?vegetable,soup"
-  },
-  {
-    "title": "Croque-monsieur au jambon",
-    "description": "Un plat simple et efficace pour les jours pressés.",
-    "ingredients": [
-      "1 tranche de pain",
-      "1/2 avocat",
-      "1 œuf",
-      "jus de citron",
-      "sel"
-    ],
-    "steps": [
-      "Faire griller le pain.",
-      "Cuire l’œuf et écraser l’avocat.",
-      "Assembler le tout."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "8 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?croque-monsieur"
-  },
-  {
-    "title": "Nouilles sautées au poulet",
-    "description": "Une recette rapide, équilibrée et savoureuse à préparer en quelques minutes.",
-    "ingredients": [
-      "1 boîte de thon",
-      "1 tomate",
-      "maïs",
-      "huile d'olive",
-      "sel, poivre"
-    ],
-    "steps": [
-      "Mélanger tous les ingrédients dans un bol.",
-      "Assaisonner.",
-      "Servir frais."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "10 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?noodles,chicken"
-  },
-  {
-    "title": "Bowl riz, légumes & œuf",
-    "description": "Une idée rapide et gourmande pour se régaler sans stress.",
-    "ingredients": [
-      "2 œufs",
-      "champignons émincés",
-      "sel, poivre",
-      "huile d’olive"
-    ],
-    "steps": [
-      "Faire griller le pain.",
-      "Cuire l’œuf et écraser l’avocat.",
-      "Assembler le tout."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "5 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?bowl,egg"
-  },
-  {
-    "title": "Quesadillas fromage",
-    "description": "Un plat simple et efficace pour les jours pressés.",
-    "ingredients": [
-      "1 wrap",
-      "100g de poulet",
-      "1 feuille de laitue",
-      "1 c. à soupe de sauce yaourt"
-    ],
-    "steps": [
-      "Faire griller le pain.",
-      "Cuire l’œuf et écraser l’avocat.",
-      "Assembler le tout."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "7 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?quesadilla"
-  },
-  {
-    "title": "Salade grecque minute",
-    "description": "Des saveurs simples et authentiques prêtes en un clin d'œil.",
-    "ingredients": [
-      "2 œufs",
-      "champignons émincés",
-      "sel, poivre",
-      "huile d’olive"
-    ],
-    "steps": [
-      "Cuire les pâtes.",
-      "Faire revenir l’ail dans l’huile.",
-      "Mélanger et servir."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "5 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?greek,salad"
-  },
-  {
-    "title": "Toasts chèvre miel",
-    "description": "Une idée rapide et gourmande pour se régaler sans stress.",
-    "ingredients": [
-      "100g de pâtes",
-      "2 gousses d’ail",
-      "huile d’olive",
-      "persil"
-    ],
-    "steps": [
-      "Battre les œufs.",
-      "Cuire les champignons puis ajouter les œufs.",
-      "Servir chaud."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "7 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?goatcheese,honey"
-  },
-  {
-    "title": "Pizza tortilla express",
-    "description": "Une idée rapide et gourmande pour se régaler sans stress.",
-    "ingredients": [
-      "2 œufs",
-      "champignons émincés",
-      "sel, poivre",
-      "huile d’olive"
-    ],
-    "steps": [
-      "Faire griller le pain.",
-      "Cuire l’œuf et écraser l’avocat.",
-      "Assembler le tout."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "9 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?pizza,tortilla"
-  },
-  {
-    "title": "Poêlée de crevettes à l'ail",
-    "description": "Un plat simple et efficace pour les jours pressés.",
-    "ingredients": [
-      "1 tranche de pain",
-      "1/2 avocat",
-      "1 œuf",
-      "jus de citron",
-      "sel"
-    ],
-    "steps": [
-      "Battre les œufs.",
-      "Cuire les champignons puis ajouter les œufs.",
-      "Servir chaud."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "8 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?shrimp,garlic"
-  },
-  {
-    "title": "Taboulé aux herbes",
-    "description": "Une recette rapide, équilibrée et savoureuse à préparer en quelques minutes.",
-    "ingredients": [
-      "2 œufs",
-      "champignons émincés",
-      "sel, poivre",
-      "huile d’olive"
-    ],
-    "steps": [
-      "Battre les œufs.",
-      "Cuire les champignons puis ajouter les œufs.",
-      "Servir chaud."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "5 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?tabbouleh"
-  },
-  {
-    "title": "Smoothie banane & avoine",
-    "description": "Une idée rapide et gourmande pour se régaler sans stress.",
-    "ingredients": [
-      "1 tranche de pain",
-      "1/2 avocat",
-      "1 œuf",
-      "jus de citron",
-      "sel"
-    ],
-    "steps": [
-      "Battre les œufs.",
-      "Cuire les champignons puis ajouter les œufs.",
-      "Servir chaud."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "10 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?smoothie,banana"
-  },
-  {
-    "title": "Tacos au bœuf rapide",
-    "description": "Idéal pour un déjeuner léger, complet et plein de goût.",
-    "ingredients": [
-      "1 wrap",
-      "100g de poulet",
-      "1 feuille de laitue",
-      "1 c. à soupe de sauce yaourt"
-    ],
-    "steps": [
-      "Battre les œufs.",
-      "Cuire les champignons puis ajouter les œufs.",
-      "Servir chaud."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "8 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?taco,beef"
-  },
-  {
-    "title": "Gratin express courgettes",
-    "description": "Une idée rapide et gourmande pour se régaler sans stress.",
-    "ingredients": [
-      "2 œufs",
-      "champignons émincés",
-      "sel, poivre",
-      "huile d’olive"
-    ],
-    "steps": [
-      "Battre les œufs.",
-      "Cuire les champignons puis ajouter les œufs.",
-      "Servir chaud."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "5 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?gratin,zucchini"
-  },
-  {
-    "title": "Buddha bowl thon avocat",
-    "description": "Une idée rapide et gourmande pour se régaler sans stress.",
-    "ingredients": [
-      "1 wrap",
-      "100g de poulet",
-      "1 feuille de laitue",
-      "1 c. à soupe de sauce yaourt"
-    ],
-    "steps": [
-      "Mélanger tous les ingrédients dans un bol.",
-      "Assaisonner.",
-      "Servir frais."
-    ],
-    "prepTime": "5 min",
-    "cookTime": "5 min",
-    "totalTime": "15 min",
-    "difficulty": "facile",
-    "category": "rapide-facile",
-    "tags": [
-      "rapide",
-      "express"
-    ],
-    "imageUrl": "https://source.unsplash.com/800x600/?buddhabowl,avocado"
-  }
-];
+  .catch((err) => {
+    console.error('❌ Erreur MongoDB :', err);
+    process.exit(1);
+  });
 
 async function seedData() {
   try {
-    await Recipe.deleteMany({ category: 'rapide-facile' });
+    await Recipe.deleteMany({ category: 'healthy' });
+    console.log('🗑️ Anciennes recettes "Healthy" supprimées');
     await Recipe.insertMany(recipes);
-    console.log('🍽️ Recettes "Rapide & Facile" insérées avec succès.');
-    process.exit();
+    console.log('🥗 Nouvelles recettes "Healthy" insérées avec succès');
+    mongoose.connection.close(() => {
+      console.log('🔌 Connexion MongoDB fermée');
+      process.exit(0);
+    });
   } catch (error) {
     console.error('❌ Erreur lors du seed :', error);
     process.exit(1);
