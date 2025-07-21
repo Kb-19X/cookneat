@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+// ✅ Schéma utilisateur
 const userSchema = new mongoose.Schema(
   {
     username: { type: String, required: true },
     email:    { type: String, required: true, unique: true },
     password: { type: String, required: true },
 
-    // 👇 Ajout du rôle
+    // ✅ Rôle : user ou admin
     role: {
       type: String,
       enum: ['user', 'admin'],
@@ -17,16 +18,20 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Hash du mot de passe avant sauvegarde
+// 🔒 Hash du mot de passe avant enregistrement
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  try {
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
-// Méthode pour comparer les mots de passe
-userSchema.methods.comparePassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+// 🔑 Méthode pour comparer un mot de passe en clair avec le hashé
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model("User", userSchema);
