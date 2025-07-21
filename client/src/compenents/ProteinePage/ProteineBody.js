@@ -21,7 +21,15 @@ const ProteineBody = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
+        console.log('🔎 API_URL utilisée :', API_URL);
         const res = await fetch(`${API_URL}/api/recipes/proteine`);
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error('❌ Réponse non OK:', res.status, errorText);
+          throw new Error(`Erreur HTTP: ${res.status}`);
+        }
+
         const data = await res.json();
         console.log('✅ Données reçues (proteine):', data);
         setRecipes(Array.isArray(data) ? data : []);
@@ -30,6 +38,7 @@ const ProteineBody = () => {
         setRecipes([]);
       }
     };
+
     fetchRecipes();
   }, []);
 
@@ -78,7 +87,7 @@ const ProteineBody = () => {
 
   return (
     <div className="plats-body-container">
-      <div className='background-cover'>
+      <div className="background-cover">
         <div className="banner-container">
           <div className="banner-left">
             <img src={proteineBanner} alt="Recettes protéinées" />
@@ -120,7 +129,11 @@ const ProteineBody = () => {
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
-            <div key={recipe._id} className="recipe-card" onClick={() => navigate(`/recette/${recipe._id}`)}>
+            <div
+              key={recipe._id}
+              className="recipe-card"
+              onClick={() => navigate(`/recette/${recipe._id}`)}
+            >
               <div className="recipe-image">
                 <img
                   src={
@@ -138,9 +151,14 @@ const ProteineBody = () => {
                   🔥 Cuisson : {recipe.cookTime || '15 min'} <br />
                   ⏳ Total : {recipe.totalTime || '25 min'}
                 </p>
-                {recipe.description && <p className="recipe-description">{recipe.description}</p>}
+                {recipe.description && (
+                  <p className="recipe-description">{recipe.description}</p>
+                )}
 
-                <div className="recipe-actions" onClick={(e) => e.stopPropagation()}>
+                <div
+                  className="recipe-actions"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <img
                     src={likeIcon}
                     alt="Like"
@@ -162,10 +180,14 @@ const ProteineBody = () => {
                     <input
                       type="text"
                       value={commentInput[recipe._id] || ''}
-                      onChange={(e) => handleCommentInputChange(recipe._id, e.target.value)}
+                      onChange={(e) =>
+                        handleCommentInputChange(recipe._id, e.target.value)
+                      }
                       placeholder="Écrivez un commentaire..."
                     />
-                    <button onClick={() => submitComment(recipe._id)}>Envoyer</button>
+                    <button onClick={() => submitComment(recipe._id)}>
+                      Envoyer
+                    </button>
 
                     <div className="comments-display">
                       {comments[recipe._id]?.length > 0 ? (

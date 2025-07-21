@@ -23,25 +23,30 @@ const ProductDetails = () => {
     const fetchRecipe = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes/${id}`);
-        const data = res.data;
+        const recipe = res.data;
 
-        // Sécurisation du champ steps
-        if (Array.isArray(data.steps)) {
-          data.steps = data.steps.filter(
+        // Log pour vérifier le contenu
+        console.log("✅ Donnée reçue pour la recette :", recipe);
+
+        // Nettoyage des étapes
+        let cleanedSteps = [];
+        if (Array.isArray(recipe.steps)) {
+          cleanedSteps = recipe.steps.filter(
             (s) => typeof s === "string" && s.trim().length > 0
           );
-        } else if (typeof data.steps === "string") {
-          data.steps = data.steps
+        } else if (typeof recipe.steps === "string") {
+          cleanedSteps = recipe.steps
             .split(/\r?\n/)
             .map((s) => s.trim())
             .filter((s) => s.length > 0);
-        } else {
-          data.steps = [];
         }
 
-        setRecette(data);
+        setRecette({
+          ...recipe,
+          steps: cleanedSteps
+        });
       } catch (err) {
-        console.error("Erreur chargement recette :", err);
+        console.error("❌ Erreur lors du chargement de la recette :", err);
       }
     };
 
@@ -50,7 +55,7 @@ const ProductDetails = () => {
         const res = await axios.get(`${API_URL}/api/comments`);
         setAllComments(res.data);
       } catch (err) {
-        console.error("Erreur chargement commentaires :", err);
+        console.error("❌ Erreur lors du chargement des commentaires :", err);
       }
     };
 
@@ -185,7 +190,7 @@ const ProductDetails = () => {
               </div>
             ))
           ) : (
-            <p>Aucune étape définie.</p>
+            <p className="no-steps">Aucune étape définie pour cette recette.</p>
           )}
         </div>
 

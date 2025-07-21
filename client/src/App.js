@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 import Navbar from './compenents/Homepage/Navbar';
 import Footer from './compenents/Homepage/Footer';
-
+import DashboardPage from './compenents/DashboardPage/Dashboard';
 import ProductDetails from './compenents/ProductPage/ProductDetails';
 import Homepage from './compenents/Homepage/Homepage';
 import ProductPage from './compenents/ProductPage';
@@ -47,6 +47,8 @@ const router = createBrowserRouter([
       { path: 'register', element: <Register /> },
       { path: 'ForgetPassword', element: <ForgetPassword /> },
       { path: 'NutritionSanté', element: <NutritionSanté /> },
+      
+      { path: 'DashboardPage', element: <DashboardPage /> },
       { path: 'profilPage', element: <ProfilPage /> },
       { path: 'Detox', element: <Detox /> },
       { path: 'Nogluten', element: <Nogluten /> },

@@ -63,6 +63,12 @@ const Navbar = () => {
             <li><a href="/patesnouilles">Confort food</a></li>
             <li><a href="/Viandes">Saveurs du monde</a></li>
             <li><a href="/ChefRecipe">Recettes du chef</a></li>
+
+            {user?.role === 'admin' && (
+              <li>
+                <a className="admin-button" href="/dashboard">Dashboard Admin</a>
+              </li>
+            )}
           </div>
 
           <div className="input-navbar-container">

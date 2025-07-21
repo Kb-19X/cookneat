@@ -14,9 +14,13 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: "Email ou mot de passe incorrect" });
     }
 
-    // ✅ On envoie bien le nom dans le token (cohérent avec verifyToken)
+    // ✅ Ajout du rôle dans le token pour sécuriser le dashboard admin
     const token = jwt.sign(
-      { id: user._id, name: user.username },
+      {
+        id: user._id,
+        name: user.username,
+        role: user.role // 👈 ajouté ici
+      },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );

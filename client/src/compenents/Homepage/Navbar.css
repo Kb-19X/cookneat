@@ -412,3 +412,19 @@ nav ul.menu li a:hover {
 .dropdown-menu button:hover {
   background-color: #f2f2f2;
 }
+
+
+
+.admin-button {
+  padding: 6px 12px;
+  background-color: #DA8359;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.admin-button:hover {
+  background-color: #c47345;
+}
