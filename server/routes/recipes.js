@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const Recipe = require('../models/Recipe');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/multer');
-
+require('dotenv').config();
+const API_URL = process.env.API_URL;
 // ✅ GET recettes filtrées par catégorie : healthy
 router.get('/healthy', async (req, res) => {
   try {
