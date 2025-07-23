@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Dashboard.css'
+import './Dashboard.css';
+
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
 const Dashboard = () => {
@@ -10,19 +11,39 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) return navigate('/login');
+    if (!token) {
+      console.warn('⚠️ Aucun token trouvé');
+      return navigate('/login');
+    }
 
     const checkAdmin = async () => {
       try {
-        const res = await axios.get(`${API_URL}/admin/dashboard`, {
+        const res = await axios.get(`${API_URL}/dashboard`, {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
+
+        if (!res.data.user) {
+          console.error('❌ Données utilisateur absentes dans la réponse :', res.data);
+          return navigate('/login');
+        }
+
+        const { role } = res.data.user;
+
+        if (role !== 'admin') {
+          console.warn('❌ Accès refusé : rôle non admin');
+          return navigate('/login');
+        }
+
         setUserData(res.data.user);
       } catch (err) {
-        console.error('⛔ Accès interdit :', err);
-        navigate('/login');
+        console.error('⛔ Erreur pendant la vérification admin :', err);
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          navigate('/login');
+        } else {
+          alert('Erreur serveur');
+        }
       }
     };
 
@@ -34,15 +55,14 @@ const Dashboard = () => {
   return (
     <div className="admin-dashboard">
       <h1>🎛️ Dashboard Admin</h1>
-      <p>Bienvenue {userData.name} !</p>
+      <p>Bienvenue {userData.name || userData.username} !</p>
+      <p>Email : {userData.email}</p>
       <p>Rôle : {userData.role}</p>
 
-      {/* Ajoute ici des outils d'administration : */}
       <ul>
         <li>✅ Voir toutes les recettes</li>
         <li>🛠️ Supprimer un utilisateur</li>
         <li>📊 Statistiques globales</li>
-        {/* etc. */}
       </ul>
     </div>
   );

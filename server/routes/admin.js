@@ -1,9 +1,19 @@
-const express = require('express');
+// routes/admin.js
+const express = require("express");
 const router = express.Router();
-const isAdmin = require('../middleware/isAdmin');
+const authMiddleware = require("../middlewares/authMiddleware");
+const isAdmin = require("../middlewares/isAdmin");
 
-router.get('/dashboard', isAdmin, (req, res) => {
-  res.json({ message: 'Bienvenue admin !', user: req.user });
+router.get("/dashboard", authMiddleware, isAdmin, (req, res) => {
+  // Envoie bien l'objet user
+  res.json({
+    user: {
+      id: req.user.id,
+      username: req.user.username,
+      email: req.user.email,
+      role: req.user.role,
+    }
+  });
 });
 
 module.exports = router;
