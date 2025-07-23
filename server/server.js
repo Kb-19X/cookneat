@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   'https://cookneat.x75.form.efp.be',
   'https://cookneat.onrender.com',
-  'http://localhost:3000'
+ 
 ];
 
 // 🛡️ Middleware CORS
