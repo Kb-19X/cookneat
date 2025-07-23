@@ -37,7 +37,8 @@ app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
-
+const cors = require('cors');
+app.use(cors({ origin: '*' }));
 // 📁 Routes
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
