@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); // ← 🔧 Nécessaire pour utiliser `router.post`
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
@@ -55,9 +55,9 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: "Email ou mot de passe incorrect." });
     }
 
-    // ✅ Corrigé ici : on encode "name" pour les commentaires
+    // ✅ Ajout du rôle dans le token
     const token = jwt.sign(
-      { id: user._id, name: user.username },
+      { id: user._id, name: user.username, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -65,7 +65,11 @@ router.post('/login', async (req, res) => {
     res.status(200).json({
       message: "Connexion réussie",
       token,
-      username: user.username
+      user: {
+        username: user.username,
+        email: user.email,
+        role: user.role
+      }
     });
 
   } catch (err) {

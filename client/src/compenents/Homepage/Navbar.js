@@ -3,11 +3,13 @@ import "./Navbar.css";
 import logo2 from "../../assets/ImageHomePage/logo2.svg";
 import userIcon from "../../assets/ImageHomePage/user.png";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const burger = document.querySelector(".burger-menu");
@@ -40,6 +42,17 @@ const Navbar = () => {
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    logout();
+    navigate("/login");
+  };
+
+  // ✅ Pour déboguer : vérifie bien le contenu de `user`
+  useEffect(() => {
+    console.log("🧑 Utilisateur connecté :", user);
+  }, [user]);
 
   return (
     <div className="navbar">
@@ -98,7 +111,7 @@ const Navbar = () => {
                 {dropdownOpen && (
                   <div className="dropdown-menu">
                     <a href="/profilPage">👤 Profil</a>
-                    <button onClick={logout}>🚪 Déconnexion</button>
+                    <button onClick={handleLogout}>🚪 Déconnexion</button>
                   </div>
                 )}
               </div>

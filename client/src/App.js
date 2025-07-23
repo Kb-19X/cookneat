@@ -1,6 +1,5 @@
-
+// App.jsx
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-
 import Navbar from './compenents/Homepage/Navbar';
 import Footer from './compenents/Homepage/Footer';
 import DashboardPage from './compenents/DashboardPage/Dashboard';
@@ -38,27 +37,25 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     children: [
-      { path: '/', element: <Homepage /> },
-      { path: 'ProductPage', element: <ProductPage /> },
-      { path: 'ProductPage/:id', element: <ProductPage /> }, // ✅ Route dynamique ajoutée
+      { path: '', element: <Homepage /> },
+      { path: 'productpage', element: <ProductPage /> },
+      { path: 'productpage/:id', element: <ProductDetails /> }, // 🔧 Affichage d'un plat spécifique
       { path: 'plats', element: <Plats /> },
-      { path: 'ChefRecipe', element: <ChefRecipe /> },
+      { path: 'chefrecipe', element: <ChefRecipe /> },
       { path: 'connexion', element: <Connexion /> },
       { path: 'register', element: <Register /> },
-      { path: 'ForgetPassword', element: <ForgetPassword /> },
-      { path: 'NutritionSanté', element: <NutritionSanté /> },
-      
-      { path: 'DashboardPage', element: <DashboardPage /> },
-      { path: 'profilPage', element: <ProfilPage /> },
-      { path: 'Detox', element: <Detox /> },
-      { path: 'Nogluten', element: <Nogluten /> },
-      { path: 'recette/:id', element: <ProductPage /> }, // 🔁 Tu peux garder cette route si tu veux deux variantes d'URL
-      { path: 'Vegan', element: <Vegan /> },
-      { path: 'Proteine', element: <Proteine /> },
-      { path: 'Patesnouilles', element: <Patesnouilles /> },
-      { path: 'Viandes', element: <Viandes /> },
-      { path: 'AjoutRecettes', element: <AjoutRecettes /> },
-      { path: 'TestComment', element: <TestComment /> },
+      { path: 'forgetpassword', element: <ForgetPassword /> },
+      { path: 'nutritionsanté', element: <NutritionSanté /> },
+      { path: 'dashboard', element: <DashboardPage /> },
+      { path: 'profilpage', element: <ProfilPage /> },
+      { path: 'detox', element: <Detox /> },
+      { path: 'nogluten', element: <Nogluten /> },
+      { path: 'vegan', element: <Vegan /> },
+      { path: 'proteine', element: <Proteine /> },
+      { path: 'patesnouilles', element: <Patesnouilles /> },
+      { path: 'viandes', element: <Viandes /> },
+      { path: 'ajoutrecettes', element: <AjoutRecettes /> },
+      { path: 'testcomment', element: <TestComment /> },
     ],
   },
 ]);

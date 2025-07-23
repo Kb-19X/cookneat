@@ -2,6 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+const authRoutes = require('./routes/auth');
+const recipeRoutes = require('./routes/recipes');
+const commentRoutes = require('./routes/comments');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -11,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   'https://cookneat.x75.form.efp.be',
   'https://cookneat.onrender.com',
- 
+  'http://localhost:3000'
 ];
 
 // 🛡️ Middleware CORS
@@ -38,12 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// 📁 Routes
-const authRoutes = require('./routes/auth');
-const recipeRoutes = require('./routes/recipes');
-const commentRoutes = require('./routes/comments');
-app.use("/admin", require("./routes/admin"));
-// 🚦 Utilisation des routes
+// 🚦 Routes API
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/comments', commentRoutes);

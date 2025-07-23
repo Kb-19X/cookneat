@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import './Loginform.css';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../contexts/AuthContext'; // ✅ import contexte
+import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext'; // ✅ Contexte
 
 const Loginform = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ const Loginform = () => {
   const [message, setMessage] = useState('');
 
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // ✅ récupère la fonction login du contexte
+  const { login } = useContext(AuthContext); // ✅ récupère la fonction login
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,10 +27,10 @@ const Loginform = () => {
         }
       );
 
-      const { token, username } = response.data;
+      const { token, user } = response.data;
 
-      // ✅ utilise le contexte pour se connecter
-      login({ token, username });
+      // ✅ Connexion via contexte avec user complet
+      login({ token, user });
 
       setMessage('✅ Connexion réussie');
       setEmail('');
@@ -41,6 +41,7 @@ const Loginform = () => {
 
     } catch (err) {
       console.error('❌ Erreur login :', err);
+      console.log("🧾 Réponse serveur :", err.response?.data);
       const errorMessage =
         err.response?.data?.message ||
         '❌ Erreur lors de la connexion.';
@@ -74,6 +75,9 @@ const Loginform = () => {
                 {message}
               </p>
             )}
+            <p style={{ marginTop: '20px' }}>
+              Pas encore de compte ? <Link to="/register">S’inscrire</Link>
+            </p>
           </div>
         </form>
       </div>
