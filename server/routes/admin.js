@@ -1,11 +1,12 @@
-// routes/admin.js
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
-const isAdmin = require("../middlewares/isAdmin");
 
+// ✅ Corriger les chemins selon ta structure actuelle
+const authMiddleware = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
+
+// ✅ Route protégée par auth + rôle admin
 router.get("/dashboard", authMiddleware, isAdmin, (req, res) => {
-  // Envoie bien l'objet user
   res.json({
     user: {
       id: req.user.id,

@@ -42,12 +42,13 @@ app.use((req, res, next) => {
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
 const commentRoutes = require('./routes/comments');
-
+app.use("/admin", require("./routes/admin"));
 // 🚦 Utilisation des routes
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/admin', adminRoutes);
+
 // 🧪 Route test
 app.get('/', (req, res) => {
   res.send('✅ API CookNeat opérationnelle');
