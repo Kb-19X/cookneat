@@ -4,16 +4,20 @@ const {
   getAllUsers,
   deleteUser,
   getUserProfile,
+  updateUserRole
 } = require("../controllers/userController");
 const { protect, admin } = require("../middleware/authMiddleware");
-router.put('/:id/role', protect, isAdmin, updateUserRole);
-// 🔐 Infos profil utilisateur connecté
+
+// ✅ Modifier rôle utilisateur (admin)
+router.put('/:id/role', protect, admin, updateUserRole);
+
+// ✅ Infos du profil utilisateur connecté
 router.get("/profile", protect, getUserProfile);
 
-// 👥 Liste de tous les utilisateurs (admin)
+// ✅ Liste de tous les utilisateurs
 router.get("/", protect, admin, getAllUsers);
 
-// 🗑️ Supprimer un utilisateur (admin)
+// ✅ Supprimer un utilisateur
 router.delete("/:id", protect, admin, deleteUser);
 
 module.exports = router;
