@@ -7,6 +7,7 @@ import ProductDetails from './compenents/ProductPage/ProductDetails';
 import Homepage from './compenents/Homepage/Homepage';
 import ProductPage from './compenents/ProductPage';
 import Plats from './compenents/Plats';
+import EditRecipe from './compenents/EditRecipePage/EditRecipe';
 import Connexion from './compenents/Connexion';
 import Register from './compenents/Register';
 import ForgetPassword from './compenents/ForgetPassword';
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
     children: [
       { path: '', element: <Homepage /> },
       { path: 'productpage', element: <ProductPage /> },
+       
+          { path: 'EditRecipe/:id', element: <EditRecipe /> },
       { path: 'productpage/:id', element: <ProductDetails /> }, // 🔧 Affichage d'un plat spécifique
       { path: 'plats', element: <Plats /> },
       { path: 'chefrecipe', element: <ChefRecipe /> },
