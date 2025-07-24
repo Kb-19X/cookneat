@@ -5,58 +5,72 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [recipes, setRecipes] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [stats, setStats] = useState({ recipeCount: 0, userCount: 0 });
   const [message, setMessage] = useState("");
   const [userInfo, setUserInfo] = useState({ email: "", role: "" });
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  // 🔐 Charger les infos utilisateur
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          "https://cookneat-server.onrender.com/api/user/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axios.get("https://cookneat-server.onrender.com/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUserInfo(res.data);
       } catch (err) {
         console.error("❌ Erreur profil :", err);
       }
     };
 
-    fetchUser();
-  }, [token]);
-
-  // 📦 Charger toutes les recettes
-  useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const res = await axios.get("https://cookneat-server.onrender.com/api/recipes");
         setRecipes(res.data);
       } catch (err) {
-        console.error("❌ Erreur chargement recettes :", err);
+        console.error("❌ Erreur recettes :", err);
       }
     };
 
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get("https://cookneat-server.onrender.com/api/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUsers(res.data);
+      } catch (err) {
+        console.error("❌ Erreur utilisateurs :", err);
+      }
+    };
+
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("https://cookneat-server.onrender.com/api/admin/stats", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setStats(res.data);
+      } catch (err) {
+        console.error("❌ Erreur stats :", err);
+      }
+    };
+
+    fetchUser();
     fetchRecipes();
-  }, []);
+    fetchUsers();
+    fetchStats();
+  }, [token]);
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`https://cookneat-server.onrender.com/api/recipes/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setRecipes((prev) => prev.filter((r) => r._id !== id));
       setMessage("✅ Recette supprimée.");
     } catch (err) {
-      console.error("❌ Erreur suppression :", err);
+      console.error("❌ Erreur suppression recette :", err);
       setMessage("❌ Échec de la suppression.");
     }
   };
@@ -65,28 +79,36 @@ const Dashboard = () => {
     navigate(`/EditRecipe/${id}`);
   };
 
+  const handleDeleteUser = async (id) => {
+    try {
+      await axios.delete(`https://cookneat-server.onrender.com/api/user/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUsers((prev) => prev.filter((u) => u._id !== id));
+      setMessage("✅ Utilisateur supprimé.");
+    } catch (err) {
+      console.error("❌ Erreur suppression utilisateur :", err);
+      setMessage("❌ Échec de la suppression.");
+    }
+  };
+
   return (
     <div className="dashboard-page">
-      {/* Colonne gauche - infos */}
       <div className="left-panel">
         <h1>🎛️ Dashboard Admin</h1>
         <p>Bienvenue !</p>
-
         <div className="admin-info">
           <strong>Email :</strong> {userInfo.email}<br />
           <strong>Rôle :</strong> {userInfo.role}
         </div>
-
         <div className="admin-actions">
           <p>✅ Voir toutes les recettes</p>
           <p>🛠️ Supprimer un utilisateur</p>
           <p>📊 Statistiques globales</p>
         </div>
-
         {message && <p className="admin-message">{message}</p>}
       </div>
 
-      {/* Colonne droite - liste scrollable */}
       <div className="right-panel">
         <h2>📋 Toutes les recettes</h2>
         <div className="recipes-list">
@@ -100,6 +122,23 @@ const Dashboard = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <h2>👥 Liste des utilisateurs</h2>
+        <div className="recipes-list">
+          {users.map((user) => (
+            <div className="recipe-card" key={user._id}>
+              <h4>{user.name}</h4>
+              <p>{user.email}</p>
+              <button onClick={() => handleDeleteUser(user._id)}>🗑️ Supprimer</button>
+            </div>
+          ))}
+        </div>
+
+        <h2>📊 Statistiques globales</h2>
+        <div className="stats-section">
+          <p>Recettes totales : {stats.recipeCount}</p>
+          <p>Utilisateurs totaux : {stats.userCount}</p>
         </div>
       </div>
     </div>
