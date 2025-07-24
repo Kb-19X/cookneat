@@ -1,151 +1,140 @@
-/* 🌐 Mise en page générale */
+/* Structure globale */
 .dashboard-page {
   display: flex;
-  flex-direction: row;
-  height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f4f4;
+  min-height: 100vh;
+  background-color: #fdfdfd;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* 🎛️ Colonne de gauche */
+/* Barre latérale */
 .left-panel {
-  width: 300px;
-  background-color: #3B3B3B;
-  color: #F5F5F5;
+  width: 280px;
+  background-color: #333;
+  color: #f5f5f5;
   padding: 2rem;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
 }
 
 .left-panel h1 {
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.admin-info {
+.left-panel ul {
+  list-style: none;
+  padding-left: 0;
   margin-top: 1rem;
-  font-size: 0.95rem;
-  line-height: 1.5;
 }
 
-.admin-actions {
-  margin-top: 2rem;
-  font-size: 0.95rem;
+.left-panel ul li {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-info p {
+  margin: 0.3rem 0;
 }
 
 .admin-message {
   margin-top: 1rem;
-  color: lightgreen;
+  padding: 0.5rem;
+  background-color: #ffc;
+  color: #222;
+  border-left: 4px solid #f80;
+  font-weight: bold;
 }
 
-/* 📋 Colonne de droite */
+/* Contenu principal */
 .right-panel {
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
 }
 
 .right-panel h2 {
-  margin-bottom: 1rem;
-  color: #4E342E;
+  margin-top: 2rem;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4e342e;
 }
 
-/* 📦 Cartes de recettes / utilisateurs */
 .recipes-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1rem;
+  margin-top: 1rem;
 }
 
 .recipe-card {
+  background-color: #fff;
   border: 1px solid #ddd;
-  border-left: 5px solid #DA8359;
-  padding: 1rem;
+  border-left: 5px solid #da8359;
   border-radius: 8px;
-  background-color: #FCFAEE;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   transition: transform 0.2s ease;
 }
 
 .recipe-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 
 .recipe-card h4 {
-  margin: 0 0 0.5rem 0;
-  color: #4E342E;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
 }
 
-.truncate {
-  max-height: 60px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.4;
-  color: #666;
+.recipe-card p {
+  font-size: 0.9rem;
+  color: #444;
 }
 
-/* 🔘 Actions */
+.recipe-card select {
+  margin: 0.5rem 0;
+  padding: 0.3rem;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
 .card-actions {
   display: flex;
   gap: 0.5rem;
-  margin-top: 0.8rem;
-}
-
-.card-actions button {
-  padding: 0.5rem 0.8rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.card-actions button:first-child {
-  background-color: #A5B68D;
-  color: white;
-}
-
-.card-actions button:last-child {
-  background-color: #DA8359;
-  color: white;
-}
-
-/* 🎚️ Selecteur de rôle */
-.recipe-card select {
   margin-top: 0.5rem;
-  padding: 0.4rem;
-  width: 100%;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  font-weight: bold;
-  color: #333;
 }
 
-/* 📊 Statistiques */
+.card-actions button,
+.recipe-card button {
+  padding: 0.4rem 0.6rem;
+  background-color: #da8359;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.card-actions button:hover,
+.recipe-card button:hover {
+  background-color: #c66c41;
+}
+
+/* Stats section */
 .stats-section {
-  margin-top: 2rem;
-  background-color: #ECDFCC;
+  margin-top: 1rem;
+  background-color: #f1e6d6;
   padding: 1rem;
   border-radius: 8px;
   font-weight: bold;
-  color: #4E342E;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-/* 📱 Responsive */
-@media (max-width: 768px) {
-  .dashboard-page {
-    flex-direction: column;
-  }
-
-  .left-panel {
-    width: 100%;
-  }
-
-  .right-panel {
-    padding: 1rem;
-  }
+  font-size: 1rem;
+  color: #333;
 }
