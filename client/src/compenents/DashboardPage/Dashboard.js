@@ -8,125 +8,164 @@ const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [stats, setStats] = useState({ recipeCount: 0, userCount: 0 });
   const [message, setMessage] = useState("");
-  const [userInfo, setUserInfo] = useState({ username: "", email: "", role: "" });
+  const [userInfo, setUserInfo] = useState({ email: "", role: "" });
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const headers = { Authorization: `Bearer ${token}` };
-
   useEffect(() => {
-    if (!token) return;
-
-    const fetchAll = async () => {
+    const fetchUser = async () => {
       try {
-        const [userRes, recipesRes, usersRes, statsRes] = await Promise.all([
-          axios.get("https://cookneat-server.onrender.com/api/user/profile", { headers }),
-          axios.get("https://cookneat-server.onrender.com/api/recipes"),
-          axios.get("https://cookneat-server.onrender.com/api/user", { headers }),
-          axios.get("https://cookneat-server.onrender.com/api/admin/stats", { headers }),
-        ]);
-
-        setUserInfo(userRes.data);
-        setRecipes(recipesRes.data);
-        setUsers(usersRes.data);
-        setStats(statsRes.data);
+        const res = await axios.get("https://cookneat-server.onrender.com/api/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserInfo(res.data);
       } catch (err) {
-        console.error("❌ Dashboard error:", err.response?.data || err.message);
+        console.error("❌ Erreur profil :", err);
       }
     };
 
-    fetchAll();
+    const fetchRecipes = async () => {
+      try {
+        const res = await axios.get("https://cookneat-server.onrender.com/api/recipes");
+        setRecipes(res.data);
+      } catch (err) {
+        console.error("❌ Erreur recettes :", err);
+      }
+    };
+
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get("https://cookneat-server.onrender.com/api/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUsers(res.data);
+      } catch (err) {
+        console.error("❌ Erreur utilisateurs :", err);
+      }
+    };
+
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("https://cookneat-server.onrender.com/api/admin/stats", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setStats(res.data);
+      } catch (err) {
+        console.error("❌ Erreur stats :", err);
+      }
+    };
+
+    fetchUser();
+    fetchRecipes();
+    fetchUsers();
+    fetchStats();
   }, [token]);
 
-  const handleEditRecipe = (id) => navigate(`/EditRecipe/${id}`);
-
-  const handleDeleteRecipe = async (id) => {
+  const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://cookneat-server.onrender.com/api/recipes/${id}`, { headers });
-      setRecipes(recipes.filter((r) => r._id !== id));
+      await axios.delete(`https://cookneat-server.onrender.com/api/recipes/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setRecipes((prev) => prev.filter((r) => r._id !== id));
       setMessage("✅ Recette supprimée.");
     } catch (err) {
-      console.error("❌ Suppression recette:", err);
+      console.error("❌ Erreur suppression recette :", err);
+      setMessage("❌ Échec de la suppression.");
     }
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/EditRecipe/${id}`);
   };
 
   const handleDeleteUser = async (id) => {
     try {
-      await axios.delete(`https://cookneat-server.onrender.com/api/user/${id}`, { headers });
-      setUsers(users.filter((u) => u._id !== id));
+      await axios.delete(`https://cookneat-server.onrender.com/api/user/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUsers((prev) => prev.filter((u) => u._id !== id));
       setMessage("✅ Utilisateur supprimé.");
     } catch (err) {
-      console.error("❌ Suppression utilisateur:", err);
+      console.error("❌ Erreur suppression utilisateur :", err);
+      setMessage("❌ Échec de la suppression.");
     }
   };
 
-  const handleRoleChange = async (id, role) => {
+  const handleRoleChange = async (userId, newRole) => {
     try {
-      await axios.put(`https://cookneat-server.onrender.com/api/user/${id}/role`, { role }, { headers });
-      setUsers(users.map((u) => (u._id === id ? { ...u, role } : u)));
+      await axios.put(
+        `https://cookneat-server.onrender.com/api/user/${userId}/role`,
+        { role: newRole },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUsers((prev) =>
+        prev.map((u) => (u._id === userId ? { ...u, role: newRole } : u))
+      );
       setMessage("✅ Rôle mis à jour.");
     } catch (err) {
-      console.error("❌ Changement rôle:", err);
+      console.error("❌ Erreur mise à jour rôle :", err);
+      setMessage("❌ Échec du changement de rôle.");
     }
   };
 
   return (
     <div className="dashboard-page">
       <div className="left-panel">
-        <h1>🧑‍💻 Dashboard Admin</h1>
-        <p><strong>Nom :</strong> {userInfo.username || "—"}</p>
-        <p><strong>Email :</strong> {userInfo.email || "—"}</p>
-        <p><strong>Rôle :</strong> {userInfo.role || "—"}</p>
-        <hr />
-        <ul>
-          <li>✅ Gestion des recettes</li>
-          <li>🛠️ Gestion des utilisateurs</li>
-          <li>📊 Statistiques globales</li>
-        </ul>
+        <h1>🎛️ Dashboard Admin</h1>
+        <p>Bienvenue !</p>
+        <div className="admin-info">
+          <p><strong>Nom :</strong> {userInfo.username}</p>
+          <strong>Email :</strong> {userInfo.email}<br />
+          <strong>Rôle :</strong> {userInfo.role}
+        </div>
+        <div className="admin-actions">
+          <p>✅ Voir toutes les recettes</p>
+          <p>🛠️ Supprimer un utilisateur</p>
+          <p>📊 Statistiques globales</p>
+        </div>
         {message && <p className="admin-message">{message}</p>}
       </div>
 
       <div className="right-panel">
-        <section>
-          <h2>📋 Recettes</h2>
-          <div className="recipes-list">
-            {recipes.map((r) => (
-              <div className="recipe-card" key={r._id}>
-                <h4>{r.title}</h4>
-                <p>{r.description}</p>
-                <button onClick={() => handleEditRecipe(r._id)}>✏️ Modifier</button>
-                <button onClick={() => handleDeleteRecipe(r._id)}>🗑️ Supprimer</button>
+        <h2>📋 Toutes les recettes</h2>
+        <div className="recipes-list">
+          {recipes.map((recipe) => (
+            <div className="recipe-card" key={recipe._id}>
+              <h4>{recipe.title}</h4>
+              <p className="truncate">{recipe.description}</p>
+              <div className="card-actions">
+                <button onClick={() => handleEdit(recipe._id)}>✏️ Modifier</button>
+                <button onClick={() => handleDelete(recipe._id)}>🗑️ Supprimer</button>
               </div>
-            ))}
-          </div>
-        </section>
+            </div>
+          ))}
+        </div>
 
-        <section>
-          <h2>👥 Utilisateurs</h2>
-          <div className="recipes-list">
-            {users.map((u) => (
-              <div className="recipe-card" key={u._id}>
-                <h4>{u.username}</h4>
-                <p>{u.email}</p>
-                <p><strong>Rôle :</strong> {u.role}</p>
-                <select value={u.role} onChange={(e) => handleRoleChange(u._id, e.target.value)}>
-                  <option value="user">user</option>
-                  <option value="admin">admin</option>
-                </select>
-                <button onClick={() => handleDeleteUser(u._id)}>🗑️ Supprimer</button>
-              </div>
-            ))}
-          </div>
-        </section>
+        <h2>👥 Liste des utilisateurs</h2>
+        <div className="recipes-list">
+          {users.map((user) => (
+            <div className="recipe-card" key={user._id}>
+              <h4>{user.name}</h4>
+              <p>{user.email}</p>
+              <p><strong>Rôle :</strong> {user.role}</p>
+              <select
+                value={user.role}
+                onChange={(e) => handleRoleChange(user._id, e.target.value)}
+              >
+                <option value="user">user</option>
+                <option value="admin">admin</option>
+              </select>
+              <button onClick={() => handleDeleteUser(user._id)}>🗑️ Supprimer</button>
+            </div>
+          ))}
+        </div>
 
-        <section>
-          <h2>📊 Statistiques</h2>
-          <div className="stats-section">
-            <p>Total recettes : {stats.recipeCount}</p>
-            <p>Total utilisateurs : {stats.userCount}</p>
-          </div>
-        </section>
+        <h2>📊 Statistiques globales</h2>
+        <div className="stats-section">
+          <p>Recettes totales : {stats.recipeCount}</p>
+          <p>Utilisateurs totaux : {stats.userCount}</p>
+        </div>
       </div>
     </div>
   );

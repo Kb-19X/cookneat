@@ -1,156 +1,106 @@
-/* Structure principale */
 .dashboard-page {
   display: flex;
-  min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  flex-direction: row;
+  height: 100vh;
+  font-family: sans-serif;
   background-color: #f9f9f9;
-  color: #333;
 }
 
-/* Panneau gauche */
 .left-panel {
-  width: 250px;
+  width: 300px;
+  background-color: #3B3B3B;
+  color: #F5F5F5;
   padding: 2rem;
-  background-color: #2C2C2C;
-  color: #f5f5f5;
-  border-right: 1px solid #ddd;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .left-panel h1 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
 }
 
-.left-panel p,
-.left-panel ul {
-  margin: 0.5rem 0;
+.admin-info {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
-.left-panel ul {
-  list-style: none;
-  padding: 0;
-}
-
-.left-panel ul li {
-  padding: 0.5rem 0;
+.admin-actions {
+  margin-top: 2rem;
   font-size: 0.95rem;
 }
 
-/* Message de confirmation */
 .admin-message {
   margin-top: 1rem;
-  padding: 0.75rem;
-  background-color: #d4edda;
-  color: #155724;
-  border-radius: 5px;
-  font-size: 0.9rem;
+  color: lightgreen;
 }
 
-/* Panneau droit */
 .right-panel {
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Sections */
 .right-panel h2 {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid #DA8359;
-  padding-bottom: 0.5rem;
-  color: #DA8359;
+  margin-bottom: 1.5rem;
 }
 
-/* Liste des recettes et utilisateurs */
 .recipes-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 1rem;
 }
 
-/* Carte de recette/utilisateur */
 .recipe-card {
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 10px;
+  border: 1px solid #ddd;
+  border-left: 5px solid #DA8359;
   padding: 1rem;
-  width: 300px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  border-radius: 8px;
+  background-color: #FCFAEE;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-2px);
 }
 
 .recipe-card h4 {
-  margin: 0 0 0.5rem;
-  font-size: 1.1rem;
-  color: #333;
+  margin: 0 0 0.5rem 0;
+  color: #4E342E;
 }
 
-.recipe-card p {
-  font-size: 0.9rem;
-  color: #555;
-  margin: 0.25rem 0;
+.truncate {
+  max-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  color: #666;
 }
 
-/* Boutons d'action */
-.recipe-card button {
-  margin-top: 0.5rem;
-  padding: 0.4rem 0.8rem;
-  background-color: #DA8359;
-  color: white;
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.card-actions button {
+  padding: 0.5rem 0.8rem;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background-color 0.2s;
-}
-
-.recipe-card button:hover {
-  background-color: #c66f44;
-}
-
-/* Select pour les rôles */
-.recipe-card select {
-  margin-top: 0.5rem;
-  padding: 0.3rem;
   border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 0.85rem;
-}
-
-/* Section statistiques */
-.stats-section {
-  margin-top: 1rem;
-  background-color: #ecdfcc;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.stats-section p {
-  margin: 0.5rem 0;
+  cursor: pointer;
   font-weight: bold;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .dashboard-page {
-    flex-direction: column;
-  }
+.card-actions button:first-child {
+  background-color: #A5B68D;
+  color: white;
+}
 
-  .left-panel {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .right-panel {
-    padding: 1rem;
-  }
-
-  .recipe-card {
-    width: 100%;
-  }
+.card-actions button:last-child {
+  background-color: #DA8359;
+  color: white;
 }
