@@ -92,6 +92,23 @@ const Dashboard = () => {
     }
   };
 
+  const handleRoleChange = async (userId, newRole) => {
+    try {
+      await axios.put(
+        `https://cookneat-server.onrender.com/api/user/${userId}/role`,
+        { role: newRole },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUsers((prev) =>
+        prev.map((u) => (u._id === userId ? { ...u, role: newRole } : u))
+      );
+      setMessage("✅ Rôle mis à jour.");
+    } catch (err) {
+      console.error("❌ Erreur mise à jour rôle :", err);
+      setMessage("❌ Échec du changement de rôle.");
+    }
+  };
+
   return (
     <div className="dashboard-page">
       <div className="left-panel">
@@ -130,6 +147,14 @@ const Dashboard = () => {
             <div className="recipe-card" key={user._id}>
               <h4>{user.name}</h4>
               <p>{user.email}</p>
+              <p><strong>Rôle :</strong> {user.role}</p>
+              <select
+                value={user.role}
+                onChange={(e) => handleRoleChange(user._id, e.target.value)}
+              >
+                <option value="user">user</option>
+                <option value="admin">admin</option>
+              </select>
               <button onClick={() => handleDeleteUser(user._id)}>🗑️ Supprimer</button>
             </div>
           ))}

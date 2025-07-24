@@ -29,5 +29,17 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ error: "Erreur suppression utilisateur." });
   }
 };
+const updateUserRole = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
 
+    user.role = req.body.role || user.role;
+    await user.save();
+
+    res.json({ message: "Rôle mis à jour", user });
+  } catch (err) {
+    res.status(500).json({ error: "Erreur mise à jour rôle" });
+  }
+};
 module.exports = { getUserProfile, getAllUsers, deleteUser };
