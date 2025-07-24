@@ -115,6 +115,7 @@ const Dashboard = () => {
         <h1>🎛️ Dashboard Admin</h1>
         <p>Bienvenue !</p>
         <div className="admin-info">
+          <p><strong>Nom :</strong> {userInfo.username}</p>
           <strong>Email :</strong> {userInfo.email}<br />
           <strong>Rôle :</strong> {userInfo.role}
         </div>

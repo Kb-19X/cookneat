@@ -6,7 +6,7 @@ const {
   getUserProfile,
 } = require("../controllers/userController");
 const { protect, admin } = require("../middleware/authMiddleware");
-
+router.put('/:id/role', protect, isAdmin, updateUserRole);
 // 🔐 Infos profil utilisateur connecté
 router.get("/profile", protect, getUserProfile);
 

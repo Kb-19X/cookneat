@@ -3,9 +3,12 @@ const User = require("../models/User");
 // 🔐 Profil de l'utilisateur connecté
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+
     res.json(user);
   } catch (error) {
+    console.error("❌ Erreur profil :", error.message);
     res.status(500).json({ error: "Erreur chargement profil." });
   }
 };
@@ -29,6 +32,8 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ error: "Erreur suppression utilisateur." });
   }
 };
+
+// 🔄 Mettre à jour le rôle d'un utilisateur (admin)
 const updateUserRole = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -42,4 +47,10 @@ const updateUserRole = async (req, res) => {
     res.status(500).json({ error: "Erreur mise à jour rôle" });
   }
 };
-module.exports = { getUserProfile, getAllUsers, deleteUser };
+
+module.exports = {
+  getUserProfile,
+  getAllUsers,
+  deleteUser,
+  updateUserRole,
+};
