@@ -1,50 +1,67 @@
 const User = require("../models/User");
 
-// 🔐 Profil de l'utilisateur connecté
+// 👤 Obtenir le profil de l'utilisateur connecté
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("-password");
-    if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
 
     res.json(user);
   } catch (error) {
-    console.error("❌ Erreur profil :", error.message);
-    res.status(500).json({ error: "Erreur chargement profil." });
+    console.error("Erreur profil :", error);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
-// 👥 Récupérer tous les utilisateurs (admin)
+// 👥 Obtenir tous les utilisateurs (admin uniquement)
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password");
     res.json(users);
   } catch (error) {
-    res.status(500).json({ error: "Erreur chargement utilisateurs." });
+    console.error("Erreur getAllUsers :", error);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
-// 🗑️ Supprimer un utilisateur (admin)
+// ❌ Supprimer un utilisateur
 const deleteUser = async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
-    res.json({ message: "Utilisateur supprimé" });
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur introuvable" });
+    }
+
+    res.json({ message: "Utilisateur supprimé avec succès" });
   } catch (error) {
-    res.status(500).json({ error: "Erreur suppression utilisateur." });
+    console.error("Erreur suppression utilisateur :", error);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
-// 🔄 Mettre à jour le rôle d'un utilisateur (admin)
+// 🔁 Mettre à jour le rôle d’un utilisateur
 const updateUserRole = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+    const { role } = req.body;
 
-    user.role = req.body.role || user.role;
+    if (!["admin", "user"].includes(role)) {
+      return res.status(400).json({ message: "Rôle invalide" });
+    }
+
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "Utilisateur non trouvé" });
+
+    user.role = role;
     await user.save();
 
-    res.json({ message: "Rôle mis à jour", user });
-  } catch (err) {
-    res.status(500).json({ error: "Erreur mise à jour rôle" });
+    res.json({ message: "Rôle mis à jour avec succès" });
+  } catch (error) {
+    console.error("Erreur updateUserRole :", error);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
