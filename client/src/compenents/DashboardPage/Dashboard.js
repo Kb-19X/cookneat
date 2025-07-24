@@ -67,35 +67,40 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-page">
-      <h1>🎛️ Dashboard Admin</h1>
-      <p>Bienvenue !</p>
+      {/* Colonne gauche - infos */}
+      <div className="left-panel">
+        <h1>🎛️ Dashboard Admin</h1>
+        <p>Bienvenue !</p>
 
-      <div className="admin-info">
-        <strong>Email :</strong> {userInfo.email}
-        <br />
-        <strong>Rôle :</strong> {userInfo.role}
+        <div className="admin-info">
+          <strong>Email :</strong> {userInfo.email}<br />
+          <strong>Rôle :</strong> {userInfo.role}
+        </div>
+
+        <div className="admin-actions">
+          <p>✅ Voir toutes les recettes</p>
+          <p>🛠️ Supprimer un utilisateur</p>
+          <p>📊 Statistiques globales</p>
+        </div>
+
+        {message && <p className="admin-message">{message}</p>}
       </div>
 
-      <div className="admin-actions">
-        <p>✅ Voir toutes les recettes</p>
-        <p>🛠️ Supprimer un utilisateur</p>
-        <p>📊 Statistiques globales</p>
-      </div>
-
-      {message && <p className="admin-message">{message}</p>}
-
-      <h2>📋 Toutes les recettes</h2>
-      <div className="recipes-list">
-        {recipes.map((recipe) => (
-          <div className="recipe-card" key={recipe._id}>
-            <h4>{recipe.title}</h4>
-            <p className="truncate">{recipe.description}</p>
-            <div className="card-actions">
-              <button onClick={() => handleEdit(recipe._id)}>✏️ Modifier</button>
-              <button onClick={() => handleDelete(recipe._id)}>🗑️ Supprimer</button>
+      {/* Colonne droite - liste scrollable */}
+      <div className="right-panel">
+        <h2>📋 Toutes les recettes</h2>
+        <div className="recipes-list">
+          {recipes.map((recipe) => (
+            <div className="recipe-card" key={recipe._id}>
+              <h4>{recipe.title}</h4>
+              <p className="truncate">{recipe.description}</p>
+              <div className="card-actions">
+                <button onClick={() => handleEdit(recipe._id)}>✏️ Modifier</button>
+                <button onClick={() => handleDelete(recipe._id)}>🗑️ Supprimer</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
