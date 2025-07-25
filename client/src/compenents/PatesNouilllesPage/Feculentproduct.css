@@ -1,3 +1,5 @@
+/* ------------------ CONTAINERS ------------------ */
+
 .feculent-container {
   display: flex;
   flex-direction: column;
@@ -5,28 +7,27 @@
   background-color: var(--secondary-color);
   padding: 40px 20px;
 }
+
 .plats-body-container {
-
-
   justify-content: center;
   align-items: center;
-
 }
+
+/* ------------------ RECIPES LIST ------------------ */
+
 .recipes-list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-bottom: 50px;
-  gap: 50px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cartes par ligne */
+  gap: 30px;
+  padding: 0 40px 50px;
+  margin-top: 30px;
+  justify-items: center;
 }
 
-/* ------------------ CARD ------------------ */
+/* ------------------ RECIPE CARD ------------------ */
 
 .recipe-card {
-  width: 260px;
+  flex: 0 1 calc(25% - 30px);
   border-radius: 16px;
   background-color: var(--senary-color);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
@@ -34,6 +35,8 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  min-width: 260px;
+  max-width: 300px;
 }
 
 .recipe-card:hover {
@@ -104,7 +107,7 @@
   opacity: 1;
 }
 
-/* ------------------ COMMENTAIRE ------------------ */
+/* ------------------ COMMENTAIRES ------------------ */
 
 .comment-section {
   display: none;
@@ -142,59 +145,6 @@
   background-color: #3a001e;
 }
 
-/* ------------------ RESPONSIVE ------------------ */
-
-@media screen and (max-width: 768px) {
-  .recipes-list {
-    padding: 10px;
-    gap: 20px;
-  }
-
-  .recipe-card {
-    width: 90%;
-  }
-}
-
-
-
-
-/* Barre de recherche */
-.search-bar {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 50px;
-   padding-bottom: 50px;
-
-}
-
-.search-bar input {
-  padding: 10px 15px;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  width: 80%;
-  max-width: 400px;
-  transition: border 0.3s ease;
-}
-
-.search-bar input:focus {
-  outline: none;
-  border: 1px solid var(--quaternary-color);
-}
-
-/* Message si aucune recette */
-.no-results {
-  color: var(--senary-color);
-  font-style: bold;
-  text-align: center;
-  width: 100%;
-  margin-bottom: 30px;
-}
-
-
-
 .comments-display {
   margin-top: 15px;
   background-color: #fff4f0;
@@ -217,15 +167,66 @@
   border-bottom: none;
 }
 
+/* ------------------ RESPONSIVE ------------------ */
 
+@media screen and (max-width: 1024px) {
+  .recipe-card {
+    flex: 0 1 calc(50% - 30px); /* 2 cartes par ligne */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .recipe-card {
+    flex: 0 1 100%; /* 1 carte par ligne */
+  }
+  .recipes-list {
+    padding: 10px;
+    gap: 20px;
+  }
+}
+
+/* ------------------ SEARCH BAR ------------------ */
+
+.search-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.search-bar input {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 80%;
+  max-width: 400px;
+  transition: border 0.3s ease;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border: 1px solid var(--quaternary-color);
+}
+
+/* ------------------ MESSAGES ------------------ */
+
+.no-results {
+  color: var(--senary-color);
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+/* ------------------ TEXTES + HEADER ------------------ */
 
 .intro-rapide-facile {
   text-align: center;
- 
   background: var(--secondary-color);
   padding: 30px 20px;
- 
-
 }
 
 .intro-rapide-facile h1 {
@@ -247,17 +248,12 @@
   line-height: 1.8;
 }
 
-
-
 .rapide-header-section {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--tertiary-color);
   padding: 50px 20px;
-  
- 
-
 }
 
 .rapide-text {
@@ -289,16 +285,18 @@
   padding: 12px 20px;
   border-radius: 8px;
   font-weight: 600;
-
   font-size: 15px;
   color: var(--quaternary-color);
+  transition: all 0.3s ease;
 }
 
 .benefit-box:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
 }
+
+/* ------------------ BANNIÈRE ------------------ */
+
 .banner-gradient-overlay {
   position: absolute;
   bottom: 0;
@@ -308,12 +306,13 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
   z-index: 1;
 }
+
 .banner-overlay-heal {
   position: relative;
   z-index: 2;
   text-align: center;
   color: var(--quaternary-color);
-   background-color: rgba(78, 52, 46, 0.629); /* couleur + transparence douce */
+  background-color: rgba(78, 52, 46, 0.629);
   padding: 20px 30px;
   border-radius: 8px;
   max-width: 90%;
@@ -330,11 +329,9 @@
 .banner-overlay-heal p {
   font-size: 17px;
   line-height: 1.5;
-  color:  var(--quaternary-color);
+  color: var(--quaternary-color);
 }
-
 
 .mot-color {
   color: var(--quaternary-color);
-  
 }

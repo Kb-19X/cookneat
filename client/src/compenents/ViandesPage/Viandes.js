@@ -1,4 +1,4 @@
-import '../PatesNouilllesPage/Feculentproduct.css'
+import '../PatesNouilllesPage/Feculentproduct.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,7 +6,7 @@ import saveurdumonde from '../../assets/ImageHomePage/saveurdumonde.jpg';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
-import burger from '../../assets/ImageHomePage/burger.jpg';
+
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
 const Viandes = () => {
@@ -21,10 +21,11 @@ const Viandes = () => {
     const fetchRecipes = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
-        console.log("Toutes les recettes reçues :", res.data);
-        setRecipes(res.data);
+        const saveursDuMonde = res.data.filter(r => r.category === 'saveurs du monde');
+        setRecipes(saveursDuMonde);
+
         const initialLikes = {};
-        res.data.forEach((r) => {
+        saveursDuMonde.forEach((r) => {
           initialLikes[r._id] = r.likes?.length || 0;
         });
         setLikes(initialLikes);
@@ -119,52 +120,43 @@ const Viandes = () => {
     }
   };
 
-  // Filtrage des recettes Rapides & Faciles
-  const rapideFacile = recipes.filter((r) => {
-    const totalTime = parseInt(r.totalTime) || 0;
-    return totalTime <= 20 && (r.difficulty === 'facile' || !r.difficulty);
-  });
-
-  const filteredRecipes = rapideFacile.filter((recipe) =>
+  const filteredRecipes = recipes.filter((recipe) =>
     recipe.title.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="plats-body-container">
       <div className='background-cover'>
-   <div className="banner-container">
-  <div className="banner-left">
-    <img src={saveurdumonde} alt="fruits et légumes" />
-    <div className="banner-overlay-heal">
-      <h1>Saveurs du monde</h1>
-      Voyagez à travers les cuisines du monde avec des recettes authentiques
-    </div>
-  </div>
-  <div className="banner-right">
-    <h2> Explorez les cuisines du monde avec des recettes pleines de goût.</h2>
-    <p>
-     "Des saveurs venues d’ailleurs pour éveiller vos sens : embarquez pour un tour du monde culinaire sans quitter votre cuisine."
-    </p>
-  </div>
+        <div className="banner-container">
+          <div className="banner-left">
+            <img src={saveurdumonde} alt="saveurs du monde" />
+            <div className="banner-overlay-heal">
+              <h1>Saveurs du monde</h1>
+              Voyagez à travers les cuisines du monde avec des recettes authentiques
+            </div>
+          </div>
+          <div className="banner-right">
+            <h2> Explorez les cuisines du monde avec des recettes pleines de goût.</h2>
+            <p>
+              "Des saveurs venues d’ailleurs pour éveiller vos sens : embarquez pour un tour du monde culinaire sans quitter votre cuisine."
+            </p>
+          </div>
+        </div>
+      </div>
 
-</div>
-
-
-    </div>
-<div className="rapide-header-section">
-  <div className="rapide-text">
-    <h1>🌍 Saveurs du Monde 🌍</h1>
-    <p>
-      Moins de 20 minutes, zéro stress, 100% goût.  
-      Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
-    </p>
-    <div className="rapide-benefits">
-      <div className="benefit-box">⏱️ Prêtes en 20 min</div>
-      <div className="benefit-box">👨‍🍳 Simples à réaliser</div>
-      <div className="benefit-box">💡 Ingrédients faciles à trouver</div>
-    </div>
-  </div>
-</div>
+      <div className="rapide-header-section">
+        <div className="rapide-text">
+          <h1>🌍 Saveurs du Monde 🌍</h1>
+          <p>
+            Découvrez les délices du monde entier, préparés avec passion et tradition.
+          </p>
+          <div className="rapide-benefits">
+            <div className="benefit-box">🌶️ Recettes variées</div>
+            <div className="benefit-box">🍜 Cuisines internationales</div>
+            <div className="benefit-box">👨‍🍳 Authentiques et savoureuses</div>
+          </div>
+        </div>
+      </div>
 
       <div className="search-bar">
         <input

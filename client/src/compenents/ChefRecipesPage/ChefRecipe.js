@@ -17,23 +17,21 @@ const ChefRecipe = () => {
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/recipes`);
-        setRecipes(res.data);
-        const initialLikes = {};
-        res.data.forEach((r) => {
-          initialLikes[r._id] = r.likes?.length || 0;
-        });
-        setLikes(initialLikes);
-      } catch (err) {
-        console.error("❌ Erreur lors de la récupération des recettes :", err);
-      }
-    };
+useEffect(() => {
+  const fetchRecipes = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/recipes`);
+      // Filtrer uniquement les recettes du chef
+      const chefRecipes = res.data.filter(recipe => recipe.isChefRecipe === true);
+      setRecipes(chefRecipes);
+    } catch (error) {
+      console.error('Erreur lors du chargement des recettes:', error);
+    }
+  };
 
-    fetchRecipes();
-  }, []);
+  fetchRecipes();
+}, []);
+
 
   const fetchRecipeComments = async (recipeId) => {
     try {

@@ -4,137 +4,252 @@ const Recipe = require('./models/recipe.model');
 
 dotenv.config();
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://cookadmin:cookneat123@cookneat-db.anbbadf.mongodb.net/cookneat?retryWrites=true&w=majority&appName=cookneat-db';
+const MONGODB_URI =
+  process.env.MONGODB_URI ||
+  'mongodb+srv://cookadmin:cookneat123@cookneat-db.anbbadf.mongodb.net/cookneat?retryWrites=true&w=majority&appName=cookneat-db';
 
 const recipes = [
   {
-    title: "Poulet grillé aux légumes",
-    description: "Un plat riche en protéines parfait pour la prise de masse.",
+    title: "Filet de bœuf Rossini",
+    description: "Un grand classique français avec foie gras et truffe.",
     ingredients: [
-      "2 filets de poulet",
-      "1 courgette",
-      "1 poivron rouge",
-      "1 cuillère à soupe d'huile d'olive",
-      "Épices au choix (paprika, ail, poivre)"
+      "2 filets de bœuf",
+      "2 tranches de foie gras",
+      "Pain de mie brioché",
+      "Truffe noire",
+      "Beurre, sel, poivre"
     ],
     steps: [
-      "Couper les légumes en morceaux.",
-      "Faire griller le poulet avec un peu d’huile d’olive.",
-      "Ajouter les légumes dans la poêle et cuire 10 minutes.",
-      "Servir chaud avec un filet de citron."
+      "Saisir les filets de bœuf au beurre.",
+      "Toaster les pains et poêler le foie gras.",
+      "Dresser : pain, bœuf, foie gras, truffe râpée.",
+      "Servir immédiatement."
     ],
-    prepTime: "10",
+    prepTime: "20",
     cookTime: "15",
-    totalTime: "25",
-    difficulty: "facile",
-    category: "proteine",
-    tags: ["musculation", "protéiné", "rapide"],
-    imageUrl: "https://source.unsplash.com/800x600/?grilled,chicken"
+    totalTime: "35",
+    difficulty: "difficile",
+    category: "recettes du chef",
+    tags: ["gastronomie", "français", "luxe"],
+    imageUrl: "https://source.unsplash.com/800x600/?beef,rossini"
   },
   {
-    title: "Omelette aux épinards et fromage",
-    description: "Un petit déjeuner riche en protéines et facile à préparer.",
+    title: "Saint-Jacques au beurre citronné",
+    description: "Coquilles Saint-Jacques saisies avec une sauce beurre citron.",
     ingredients: [
-      "3 œufs",
-      "1 poignée d'épinards frais",
-      "30 g de fromage râpé",
-      "Sel, poivre",
-      "1 cuillère à café d’huile d’olive"
+      "12 noix de Saint-Jacques",
+      "Beurre",
+      "Citron jaune",
+      "Ciboulette",
+      "Fleur de sel"
     ],
     steps: [
-      "Battre les œufs avec sel et poivre.",
-      "Faire revenir les épinards dans une poêle avec un peu d’huile.",
-      "Verser les œufs battus et saupoudrer de fromage.",
-      "Cuire quelques minutes jusqu’à ce que l’omelette soit prise."
-    ],
-    prepTime: "5",
-    cookTime: "7",
-    totalTime: "12",
-    difficulty: "facile",
-    category: "proteine",
-    tags: ["petit-déjeuner", "musculation", "rapide"],
-    imageUrl: "https://source.unsplash.com/800x600/?omelette,protein"
-  },
-  {
-    title: "Bowl de riz au thon et avocat",
-    description: "Un bol complet et protéiné à base de thon, avocat et riz.",
-    ingredients: [
-      "100 g de riz complet",
-      "1 boîte de thon naturel",
-      "1/2 avocat",
-      "Quelques feuilles de coriandre",
-      "Jus de citron"
-    ],
-    steps: [
-      "Cuire le riz selon les instructions.",
-      "Égoutter le thon et couper l’avocat en dés.",
-      "Assembler le tout dans un bol.",
-      "Ajouter coriandre, jus de citron, sel et poivre."
+      "Saisir rapidement les Saint-Jacques dans le beurre.",
+      "Ajouter zeste et jus de citron.",
+      "Parsemer de ciboulette avant de servir."
     ],
     prepTime: "10",
-    cookTime: "15",
-    totalTime: "25",
-    difficulty: "facile",
-    category: "proteine",
-    tags: ["équilibré", "rapide", "riche en protéines"],
-    imageUrl: "https://source.unsplash.com/800x600/?tuna,avocado"
-  },
-  {
-    title: "Shake protéiné maison",
-    description: "Un shake simple et efficace pour la récupération post-entraînement.",
-    ingredients: [
-      "300 ml de lait",
-      "1 banane",
-      "2 cuillères à soupe de beurre de cacahuète",
-      "30 g de flocons d’avoine",
-      "1 cuillère de whey (optionnelle)"
-    ],
-    steps: [
-      "Mettre tous les ingrédients dans un mixeur.",
-      "Mixer jusqu’à obtenir une texture lisse.",
-      "Boire immédiatement après l’effort."
-    ],
-    prepTime: "5",
-    cookTime: "0",
-    totalTime: "5",
-    difficulty: "facile",
-    category: "proteine",
-    tags: ["shake", "post-training", "rapide"],
-    imageUrl: "https://source.unsplash.com/800x600/?protein,shake"
-  },
-  {
-    title: "Lentilles corail au tofu",
-    description: "Une recette végétarienne riche en protéines végétales.",
-    ingredients: [
-      "100 g de lentilles corail",
-      "150 g de tofu ferme",
-      "1 oignon",
-      "1 tomate",
-      "Épices (curcuma, cumin, paprika)"
-    ],
-    steps: [
-      "Faire revenir l’oignon et les épices dans une casserole.",
-      "Ajouter les lentilles et la tomate coupée en dés.",
-      "Couvrir d’eau et cuire 20 minutes.",
-      "Ajouter le tofu doré à la poêle avant de servir."
-    ],
-    prepTime: "10",
-    cookTime: "20",
-    totalTime: "30",
+    cookTime: "5",
+    totalTime: "15",
     difficulty: "moyenne",
-    category: "proteine",
-    tags: ["végétarien", "équilibré", "protéines végétales"],
-    imageUrl: "https://source.unsplash.com/800x600/?lentils,tofu"
+    category: "recettes du chef",
+    tags: ["coquillages", "français", "gastronomique"],
+    imageUrl: "https://source.unsplash.com/800x600/?scallops"
+  },
+  {
+    title: "Risotto aux morilles",
+    description: "Risotto crémeux parfumé aux champignons morilles.",
+    ingredients: [
+      "300 g de riz arborio",
+      "Morilles séchées",
+      "Bouillon de volaille",
+      "Parmesan",
+      "Échalote, crème"
+    ],
+    steps: [
+      "Réhydrater les morilles.",
+      "Faire revenir l’échalote, ajouter le riz.",
+      "Ajouter bouillon progressivement.",
+      "Terminer avec crème, morilles et parmesan."
+    ],
+    prepTime: "15",
+    cookTime: "25",
+    totalTime: "40",
+    difficulty: "moyenne",
+    category: "recettes du chef",
+    tags: ["italien", "raffiné", "champignons"],
+    imageUrl: "https://source.unsplash.com/800x600/?risotto"
+  },
+  {
+    title: "Tartare de thon rouge",
+    description: "Tartare cru assaisonné au sésame et soja.",
+    ingredients: [
+      "200 g de thon rouge frais",
+      "Sauce soja",
+      "Graines de sésame",
+      "Ciboule",
+      "Huile de sésame"
+    ],
+    steps: [
+      "Couper le thon en dés.",
+      "Mélanger avec les condiments.",
+      "Servir frais avec des toasts."
+    ],
+    prepTime: "15",
+    cookTime: "0",
+    totalTime: "15",
+    difficulty: "moyenne",
+    category: "recettes du chef",
+    tags: ["japonais", "cru", "raffiné"],
+    imageUrl: "https://source.unsplash.com/800x600/?tuna,tartare"
+  },
+  {
+    title: "Soufflé au fromage",
+    description: "Un soufflé aérien au comté et emmental.",
+    ingredients: [
+      "4 œufs",
+      "50 g de farine",
+      "50 g de beurre",
+      "200 ml de lait",
+      "100 g de fromage râpé"
+    ],
+    steps: [
+      "Préparer une béchamel, incorporer les jaunes.",
+      "Ajouter les fromages.",
+      "Incorporer les blancs montés.",
+      "Cuire au four à 180°C pendant 25 minutes."
+    ],
+    prepTime: "20",
+    cookTime: "25",
+    totalTime: "45",
+    difficulty: "moyenne",
+    category: "recettes du chef",
+    tags: ["soufflé", "fromage", "français"],
+    imageUrl: "https://source.unsplash.com/800x600/?souffle,cheese"
+  },
+  {
+    title: "Canard à l'orange",
+    description: "Recette française classique avec sauce à l'orange.",
+    ingredients: [
+      "2 magrets de canard",
+      "2 oranges",
+      "Sucre, vinaigre",
+      "Beurre",
+      "Fond de veau"
+    ],
+    steps: [
+      "Saisir les magrets côté peau.",
+      "Préparer la sauce à l’orange et fond de veau.",
+      "Réunir le tout pour napper le canard."
+    ],
+    prepTime: "15",
+    cookTime: "25",
+    totalTime: "40",
+    difficulty: "difficile",
+    category: "recettes du chef",
+    tags: ["canard", "classique", "fruité"],
+    imageUrl: "https://source.unsplash.com/800x600/?duck,orange"
+  },
+  {
+    title: "Ravioles de langoustines",
+    description: "Ravioles fines farcies aux langoustines et sauce bisque.",
+    ingredients: [
+      "Pâtes à ravioles",
+      "Langoustines décortiquées",
+      "Crème",
+      "Bisque de crustacés",
+      "Ciboulette"
+    ],
+    steps: [
+      "Mixer la farce, former les ravioles.",
+      "Cuire à l’eau salée 3 minutes.",
+      "Servir avec sauce bisque chaude."
+    ],
+    prepTime: "30",
+    cookTime: "10",
+    totalTime: "40",
+    difficulty: "difficile",
+    category: "recettes du chef",
+    tags: ["ravioli", "mer", "raffiné"],
+    imageUrl: "https://source.unsplash.com/800x600/?ravioli,langoustine"
+  },
+  {
+    title: "Œuf parfait et crémeux de champignons",
+    description: "Œuf cuit à basse température avec crème de champignons.",
+    ingredients: [
+      "4 œufs",
+      "Champignons de Paris",
+      "Crème fraîche",
+      "Beurre",
+      "Ciboulette"
+    ],
+    steps: [
+      "Cuire les œufs 45 minutes à 64°C.",
+      "Préparer la crème de champignons.",
+      "Servir l’œuf sur lit de crème chaude."
+    ],
+    prepTime: "10",
+    cookTime: "45",
+    totalTime: "55",
+    difficulty: "moyenne",
+    category: "recettes du chef",
+    tags: ["œuf", "basse température", "champignons"],
+    imageUrl: "https://source.unsplash.com/800x600/?egg,mushroom"
+  },
+  {
+    title: "Homard rôti au beurre d’estragon",
+    description: "Homard entier rôti avec beurre parfumé.",
+    ingredients: [
+      "1 homard vivant",
+      "Beurre",
+      "Estragon frais",
+      "Citron",
+      "Fleur de sel"
+    ],
+    steps: [
+      "Cuire le homard, couper en deux.",
+      "Rôtir avec beurre fondu et estragon.",
+      "Servir avec quartiers de citron."
+    ],
+    prepTime: "20",
+    cookTime: "15",
+    totalTime: "35",
+    difficulty: "difficile",
+    category: "recettes du chef",
+    tags: ["homard", "gastronomie", "herbes"],
+    imageUrl: "https://source.unsplash.com/800x600/?lobster"
+  },
+  {
+    title: "Mille-feuille à la vanille",
+    description: "Dessert français composé de pâte feuilletée et crème pâtissière.",
+    ingredients: [
+      "Pâte feuilletée",
+      "Crème pâtissière vanille",
+      "Sucre glace",
+      "Gousse de vanille",
+      "Lait"
+    ],
+    steps: [
+      "Cuire les plaques de pâte.",
+      "Préparer la crème pâtissière.",
+      "Monter le mille-feuille en alternant couches.",
+      "Saupoudrer de sucre glace."
+    ],
+    prepTime: "30",
+    cookTime: "25",
+    totalTime: "55",
+    difficulty: "moyenne",
+    category: "recettes du chef",
+    tags: ["dessert", "pâtisserie", "vanille"],
+    imageUrl: "https://source.unsplash.com/800x600/?millefeuille"
   }
 ];
 
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose
+  .connect(MONGODB_URI)
   .then(() => {
     console.log('✅ Connecté à MongoDB');
-    seedData();
+    return seedData();
   })
   .catch((err) => {
     console.error('❌ Erreur MongoDB :', err);
@@ -143,16 +258,15 @@ mongoose.connect(MONGODB_URI, {
 
 async function seedData() {
   try {
-    await Recipe.deleteMany({ category: 'proteine' });
-    console.log('🗑️ Anciennes recettes "proteine" supprimées');
+    await Recipe.deleteMany({ category: 'recettes du chef' });
+    console.log('🗑️ Anciennes recettes "recettes du chef" supprimées');
 
     await Recipe.insertMany(recipes);
-    console.log('🍗 Nouvelles recettes "proteine" insérées avec succès');
+    console.log('👨‍🍳 Nouvelles recettes "recettes du chef" insérées avec succès');
 
-    mongoose.connection.close(() => {
-      console.log('🔌 Connexion MongoDB fermée');
-      process.exit(0);
-    });
+    await mongoose.connection.close(); // ✅ méthode moderne sans callback
+    console.log('🔌 Connexion MongoDB fermée');
+    process.exit(0);
   } catch (error) {
     console.error('❌ Erreur lors du seed :', error);
     process.exit(1);

@@ -1,4 +1,5 @@
-import '../PatesNouilllesPage/Feculentproduct.css'
+// ... importation inchangée
+import '../PatesNouilllesPage/Feculentproduct.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,6 +7,7 @@ import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 import burger from '../../assets/ImageHomePage/burger.jpg';
+
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
 const Feculentproduct = () => {
@@ -20,10 +22,11 @@ const Feculentproduct = () => {
     const fetchRecipes = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
-        console.log("Toutes les recettes reçues :", res.data);
-        setRecipes(res.data);
+        const comfortFoodRecipes = res.data.filter((r) => r.category === 'comfort food');
+        setRecipes(comfortFoodRecipes);
+
         const initialLikes = {};
-        res.data.forEach((r) => {
+        comfortFoodRecipes.forEach((r) => {
           initialLikes[r._id] = r.likes?.length || 0;
         });
         setLikes(initialLikes);
@@ -118,57 +121,46 @@ const Feculentproduct = () => {
     }
   };
 
-  // Filtrage des recettes Rapides & Faciles
-  const rapideFacile = recipes.filter((r) => {
-    const totalTime = parseInt(r.totalTime) || 0;
-    return totalTime <= 20 && (r.difficulty === 'facile' || !r.difficulty);
-  });
-
-  const filteredRecipes = rapideFacile.filter((recipe) =>
+  const filteredRecipes = recipes.filter((recipe) =>
     recipe.title.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="plats-body-container">
       <div className='background-cover'>
-   <div className="banner-container">
-  <div className="banner-left">
-    <img src={burger} alt="fruits et légumes" />
-    <div className="banner-overlay-heal">
-      <h1> confort food</h1>
-      <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
-    </div>
-  </div>
-  <div className="banner-right">
-    <h2> Des plats réconfortants pour se faire plaisir !</h2>
-    <p>
- <p>"Des plats réconfortants, faciles à préparer et parfaits pour se faire plaisir !"</p>
-    </p>
-  </div>
+        <div className="banner-container">
+          <div className="banner-left">
+            <img src={burger} alt="comfort food" />
+            <div className="banner-overlay-heal">
+              <h1>Comfort Food</h1>
+              <p><strong>Des recettes</strong> <em>réconfortantes</em> et <strong>gourmandes</strong>.</p>
+            </div>
+          </div>
+          <div className="banner-right">
+            <h2>Des plats savoureux pour se faire plaisir</h2>
+            <p>"Des plats simples, chaleureux, parfaits pour les journées cocooning ou les gros appétits."</p>
+          </div>
+        </div>
+      </div>
 
-</div>
-
-
-    </div>
-<div className="rapide-header-section">
-  <div className="rapide-text">
-    <h1>🍔 Recettes Confort Food 🍔 </h1>
-    <p>
-      Moins de 20 minutes, zéro stress, 100% goût.  
-      Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
-    </p>
-    <div className="rapide-benefits">
-      <div className="benefit-box">⏱️ Prêtes en 20 min</div>
-      <div className="benefit-box">👨‍🍳 Simples à réaliser</div>
-      <div className="benefit-box">💡 Ingrédients faciles à trouver</div>
-    </div>
-  </div>
-</div>
+      <div className="rapide-header-section">
+        <div className="rapide-text">
+          <h1>🍔 Recettes Comfort Food 🍔</h1>
+          <p>
+            Des plats généreux, faciles à préparer et ultra réconfortants.
+          </p>
+          <div className="rapide-benefits">
+            <div className="benefit-box">🍽️ Gourmand et copieux</div>
+            <div className="benefit-box">👩‍🍳 Accessible à tous</div>
+            <div className="benefit-box">🛒 Ingrédients simples</div>
+          </div>
+        </div>
+      </div>
 
       <div className="search-bar">
         <input
           type="text"
-          placeholder="Rechercher un plat..."
+          placeholder="Rechercher un plat comfort food..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -191,11 +183,11 @@ const Feculentproduct = () => {
               <div className="recipe-info">
                 <h3>{recipe.title}</h3>
                 <p className="recipe-time">
-                  ⏱️ Préparation : {recipe.prepTime || '10 min'} <br />
-                  🔥 Cuisson : {recipe.cookTime || '15 min'} <br />
+                  ⏱️ Préparation : {recipe.prepTime || '10 min'}<br />
+                  🔥 Cuisson : {recipe.cookTime || '15 min'}<br />
                   ⏳ Total : {recipe.totalTime || '25 min'}
                 </p>
-                {recipe.description && <p className="recipe-description">{recipe.description}</p>}
+                <p className="recipe-description">{recipe.description}</p>
 
                 <div className="recipe-actions">
                   <img
@@ -243,7 +235,7 @@ const Feculentproduct = () => {
             </div>
           ))
         ) : (
-          <p className="no-results">Aucun plat trouvé.</p>
+          <p className="no-results">Aucune recette comfort food trouvée.</p>
         )}
       </div>
     </div>
