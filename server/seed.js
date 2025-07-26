@@ -8,267 +8,143 @@ const MONGODB_URI =
   process.env.MONGODB_URI ||
   'mongodb+srv://cookadmin:cookneat123@cookneat-db.anbbadf.mongodb.net/cookneat?retryWrites=true&w=majority&appName=cookneat-db';
 
-const recipes = [
+const chefRecipes = [
   {
-    title: "Filet de bœuf Rossini",
-    description: "Un grand classique français avec foie gras et truffe.",
+    title: "Beef Wellington",
+    description: "Filet de bœuf tendre enrobé de duxelles de champignons et de foie gras, cuit dans une pâte feuilletée dorée.",
+    imageUrl: "https://www.cookomix.com/wp-content/uploads/2018/12/beef_wellington_thermomix-800x600.jpg",
     ingredients: [
-      "2 filets de bœuf",
-      "2 tranches de foie gras",
-      "Pain de mie brioché",
-      "Truffe noire",
-      "Beurre, sel, poivre"
+      "1 kg de filet de bœuf",
+      "250g de pâte feuilletée",
+      "150g de champignons",
+      "100g de foie gras",
+      "2 cuillères à soupe de moutarde",
+      "Sel, poivre"
     ],
     steps: [
-      "Saisir les filets de bœuf au beurre.",
-      "Toaster les pains et poêler le foie gras.",
-      "Dresser : pain, bœuf, foie gras, truffe râpée.",
-      "Servir immédiatement."
+      { text: "Saisir le bœuf à feu vif." },
+      { text: "Mixer les champignons et les faire revenir." },
+      { text: "Étaler les ingrédients sur la pâte." },
+      { text: "Rouler et dorer avec un jaune d'œuf." },
+      { text: "Cuire 35 minutes à 200°C." }
     ],
-    prepTime: "20",
-    cookTime: "15",
-    totalTime: "35",
-    difficulty: "difficile",
+    cookingTime: 90,
     category: "recettes du chef",
-    tags: ["gastronomie", "français", "luxe"],
-    imageUrl: "https://source.unsplash.com/800x600/?beef,rossini"
+    isChefRecipe: true,
+    userId: null
   },
   {
-    title: "Saint-Jacques au beurre citronné",
-    description: "Coquilles Saint-Jacques saisies avec une sauce beurre citron.",
+    title: "Coquilles Saint-Jacques gratinées",
+    description: "Un classique des fêtes, les Saint-Jacques sont nappées d'une sauce crémeuse et dorées au four.",
+    imageUrl: "https://www.academiedugout.fr/images/1130-auto",
     ingredients: [
       "12 noix de Saint-Jacques",
-      "Beurre",
-      "Citron jaune",
-      "Ciboulette",
-      "Fleur de sel"
+      "20 cl de crème fraîche",
+      "1 échalote",
+      "30g de beurre",
+      "Chapelure",
+      "Sel, poivre"
     ],
     steps: [
-      "Saisir rapidement les Saint-Jacques dans le beurre.",
-      "Ajouter zeste et jus de citron.",
-      "Parsemer de ciboulette avant de servir."
+      { text: "Faire revenir l’échalote." },
+      { text: "Ajouter la crème, puis les Saint-Jacques 2 min." },
+      { text: "Verser dans des coquilles, saupoudrer de chapelure." },
+      { text: "Gratiner 5 à 8 min à 200°C." }
     ],
-    prepTime: "10",
-    cookTime: "5",
-    totalTime: "15",
-    difficulty: "moyenne",
+    cookingTime: 30,
     category: "recettes du chef",
-    tags: ["coquillages", "français", "gastronomique"],
-    imageUrl: "https://source.unsplash.com/800x600/?scallops"
+    isChefRecipe: true,
+    userId: null
   },
   {
-    title: "Risotto aux morilles",
-    description: "Risotto crémeux parfumé aux champignons morilles.",
-    ingredients: [
-      "300 g de riz arborio",
-      "Morilles séchées",
-      "Bouillon de volaille",
-      "Parmesan",
-      "Échalote, crème"
-    ],
-    steps: [
-      "Réhydrater les morilles.",
-      "Faire revenir l’échalote, ajouter le riz.",
-      "Ajouter bouillon progressivement.",
-      "Terminer avec crème, morilles et parmesan."
-    ],
-    prepTime: "15",
-    cookTime: "25",
-    totalTime: "40",
-    difficulty: "moyenne",
-    category: "recettes du chef",
-    tags: ["italien", "raffiné", "champignons"],
-    imageUrl: "https://source.unsplash.com/800x600/?risotto"
-  },
-  {
-    title: "Tartare de thon rouge",
-    description: "Tartare cru assaisonné au sésame et soja.",
-    ingredients: [
-      "200 g de thon rouge frais",
-      "Sauce soja",
-      "Graines de sésame",
-      "Ciboule",
-      "Huile de sésame"
-    ],
-    steps: [
-      "Couper le thon en dés.",
-      "Mélanger avec les condiments.",
-      "Servir frais avec des toasts."
-    ],
-    prepTime: "15",
-    cookTime: "0",
-    totalTime: "15",
-    difficulty: "moyenne",
-    category: "recettes du chef",
-    tags: ["japonais", "cru", "raffiné"],
-    imageUrl: "https://source.unsplash.com/800x600/?tuna,tartare"
-  },
-  {
-    title: "Soufflé au fromage",
-    description: "Un soufflé aérien au comté et emmental.",
-    ingredients: [
-      "4 œufs",
-      "50 g de farine",
-      "50 g de beurre",
-      "200 ml de lait",
-      "100 g de fromage râpé"
-    ],
-    steps: [
-      "Préparer une béchamel, incorporer les jaunes.",
-      "Ajouter les fromages.",
-      "Incorporer les blancs montés.",
-      "Cuire au four à 180°C pendant 25 minutes."
-    ],
-    prepTime: "20",
-    cookTime: "25",
-    totalTime: "45",
-    difficulty: "moyenne",
-    category: "recettes du chef",
-    tags: ["soufflé", "fromage", "français"],
-    imageUrl: "https://source.unsplash.com/800x600/?souffle,cheese"
-  },
-  {
-    title: "Canard à l'orange",
-    description: "Recette française classique avec sauce à l'orange.",
+    title: "Magret de canard sauce miel et balsamique",
+    description: "Magret croustillant nappé d’une sauce sucrée-salée au miel et au vinaigre balsamique.",
+    imageUrl: "https://assets.afcdn.com/recipe/20180321/77462_w1024h1024c1cx2160cy2160cxb4320cyb4320.webp",
     ingredients: [
       "2 magrets de canard",
-      "2 oranges",
-      "Sucre, vinaigre",
-      "Beurre",
-      "Fond de veau"
+      "2 cuillères à soupe de miel",
+      "2 cuillères à soupe de vinaigre balsamique",
+      "Sel, poivre"
     ],
     steps: [
-      "Saisir les magrets côté peau.",
-      "Préparer la sauce à l’orange et fond de veau.",
-      "Réunir le tout pour napper le canard."
+      { text: "Quadriller la peau du magret." },
+      { text: "Cuire côté peau 6 min, retourner 2 min." },
+      { text: "Dégraisser et ajouter miel + balsamique." },
+      { text: "Laisser réduire et napper les magrets." }
     ],
-    prepTime: "15",
-    cookTime: "25",
-    totalTime: "40",
-    difficulty: "difficile",
+    cookingTime: 25,
     category: "recettes du chef",
-    tags: ["canard", "classique", "fruité"],
-    imageUrl: "https://source.unsplash.com/800x600/?duck,orange"
+    isChefRecipe: true,
+    userId: null
   },
   {
-    title: "Ravioles de langoustines",
-    description: "Ravioles fines farcies aux langoustines et sauce bisque.",
+    title: "Risotto aux truffes",
+    description: "Un risotto onctueux à la crème et au parmesan, relevé par l’arôme unique de la truffe.",
+    imageUrl: "https://img.cuisineaz.com/660x660/2021/01/29/i158807-risotto-aux-truffes-noires.jpeg",
     ingredients: [
-      "Pâtes à ravioles",
-      "Langoustines décortiquées",
-      "Crème",
-      "Bisque de crustacés",
-      "Ciboulette"
+      "250g de riz arborio",
+      "1L de bouillon de volaille",
+      "1 échalote",
+      "10 cl de vin blanc",
+      "30g de parmesan",
+      "1 cuillère à café d'huile de truffe",
+      "Truffe fraîche (facultatif)"
     ],
     steps: [
-      "Mixer la farce, former les ravioles.",
-      "Cuire à l’eau salée 3 minutes.",
-      "Servir avec sauce bisque chaude."
+      { text: "Faire revenir l’échalote." },
+      { text: "Ajouter le riz, nacrer, déglacer au vin." },
+      { text: "Incorporer le bouillon petit à petit." },
+      { text: "Ajouter parmesan et huile de truffe en fin." }
     ],
-    prepTime: "30",
-    cookTime: "10",
-    totalTime: "40",
-    difficulty: "difficile",
+    cookingTime: 40,
     category: "recettes du chef",
-    tags: ["ravioli", "mer", "raffiné"],
-    imageUrl: "https://source.unsplash.com/800x600/?ravioli,langoustine"
+    isChefRecipe: true,
+    userId: null
   },
   {
-    title: "Œuf parfait et crémeux de champignons",
-    description: "Œuf cuit à basse température avec crème de champignons.",
+    title: "Soufflé au fromage du chef",
+    description: "Un soufflé léger et aérien, au goût prononcé de fromage affiné.",
+    imageUrl: "https://assets.afcdn.com/recipe/20191120/103367_w1024h1024c1cx2160cy2160cxb4320cyb4320.webp",
     ingredients: [
-      "4 œufs",
-      "Champignons de Paris",
-      "Crème fraîche",
-      "Beurre",
-      "Ciboulette"
+      "40g de beurre",
+      "40g de farine",
+      "25 cl de lait",
+      "3 œufs",
+      "100g de comté râpé",
+      "Sel, poivre, muscade"
     ],
     steps: [
-      "Cuire les œufs 45 minutes à 64°C.",
-      "Préparer la crème de champignons.",
-      "Servir l’œuf sur lit de crème chaude."
+      { text: "Préparer une béchamel épaisse." },
+      { text: "Ajouter les jaunes d’œufs et le fromage." },
+      { text: "Monter les blancs en neige et les incorporer." },
+      { text: "Cuire 20 min à 180°C sans ouvrir le four." }
     ],
-    prepTime: "10",
-    cookTime: "45",
-    totalTime: "55",
-    difficulty: "moyenne",
+    cookingTime: 30,
     category: "recettes du chef",
-    tags: ["œuf", "basse température", "champignons"],
-    imageUrl: "https://source.unsplash.com/800x600/?egg,mushroom"
-  },
-  {
-    title: "Homard rôti au beurre d’estragon",
-    description: "Homard entier rôti avec beurre parfumé.",
-    ingredients: [
-      "1 homard vivant",
-      "Beurre",
-      "Estragon frais",
-      "Citron",
-      "Fleur de sel"
-    ],
-    steps: [
-      "Cuire le homard, couper en deux.",
-      "Rôtir avec beurre fondu et estragon.",
-      "Servir avec quartiers de citron."
-    ],
-    prepTime: "20",
-    cookTime: "15",
-    totalTime: "35",
-    difficulty: "difficile",
-    category: "recettes du chef",
-    tags: ["homard", "gastronomie", "herbes"],
-    imageUrl: "https://source.unsplash.com/800x600/?lobster"
-  },
-  {
-    title: "Mille-feuille à la vanille",
-    description: "Dessert français composé de pâte feuilletée et crème pâtissière.",
-    ingredients: [
-      "Pâte feuilletée",
-      "Crème pâtissière vanille",
-      "Sucre glace",
-      "Gousse de vanille",
-      "Lait"
-    ],
-    steps: [
-      "Cuire les plaques de pâte.",
-      "Préparer la crème pâtissière.",
-      "Monter le mille-feuille en alternant couches.",
-      "Saupoudrer de sucre glace."
-    ],
-    prepTime: "30",
-    cookTime: "25",
-    totalTime: "55",
-    difficulty: "moyenne",
-    category: "recettes du chef",
-    tags: ["dessert", "pâtisserie", "vanille"],
-    imageUrl: "https://source.unsplash.com/800x600/?millefeuille"
+    isChefRecipe: true,
+    userId: null
   }
 ];
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => {
-    console.log('✅ Connecté à MongoDB');
-    return seedData();
-  })
-  .catch((err) => {
-    console.error('❌ Erreur MongoDB :', err);
-    process.exit(1);
-  });
-
-async function seedData() {
+async function seed() {
   try {
-    await Recipe.deleteMany({ category: 'recettes du chef' });
-    console.log('🗑️ Anciennes recettes "recettes du chef" supprimées');
+    await mongoose.connect(MONGODB_URI);
+    console.log("✅ Connecté à MongoDB");
 
-    await Recipe.insertMany(recipes);
-    console.log('👨‍🍳 Nouvelles recettes "recettes du chef" insérées avec succès');
+    // Supprime les anciennes recettes du chef
+    await Recipe.deleteMany({ isChefRecipe: true });
+    console.log("🗑️ Anciennes recettes du chef supprimées");
 
-    await mongoose.connection.close(); // ✅ méthode moderne sans callback
-    console.log('🔌 Connexion MongoDB fermée');
-    process.exit(0);
+    // Insert les nouvelles recettes du chef
+    await Recipe.insertMany(chefRecipes);
+    console.log(`✅ ${chefRecipes.length} nouvelles recettes du chef ajoutées`);
+
+    await mongoose.connection.close();
+    console.log("🔌 Connexion MongoDB fermée");
   } catch (error) {
-    console.error('❌ Erreur lors du seed :', error);
+    console.error("❌ Erreur lors du seed :", error);
     process.exit(1);
   }
 }
+
+seed();

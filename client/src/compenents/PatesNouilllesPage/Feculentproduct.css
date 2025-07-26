@@ -20,7 +20,9 @@
   grid-template-columns: repeat(4, 1fr); /* 4 cartes par ligne */
   gap: 30px;
   padding: 0 40px 50px;
-  margin-top: 30px;
+
+   padding-bottom: 50px;
+  background-color: var(--secondary-color);
   justify-items: center;
 }
 
@@ -194,6 +196,7 @@
   justify-content: center;
   padding-top: 50px;
   padding-bottom: 50px;
+  background-color: var(--secondary-color);
 }
 
 .search-bar input {

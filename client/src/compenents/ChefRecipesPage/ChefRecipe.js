@@ -1,4 +1,4 @@
-import '../PatesNouilllesPage/Feculentproduct.css';
+import '../PatesNouilllesPage/Feculentproduct.css'; 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -16,27 +16,32 @@ const ChefRecipe = () => {
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
+  const [showChefOnly, setShowChefOnly] = useState(true); // <-- toggle pour recettes chef / toutes
 
-useEffect(() => {
-  const fetchRecipes = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/recipes`);
-      // Filtrer uniquement les recettes du chef
-      const chefRecipes = res.data.filter(recipe => recipe.isChefRecipe === true);
-      setRecipes(chefRecipes);
-    } catch (error) {
-      console.error('Erreur lors du chargement des recettes:', error);
-    }
-  };
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/recipes`);
+        console.log('Recettes reçues:', res.data);
+        setRecipes(res.data);
 
-  fetchRecipes();
-}, []);
+        const initialLikes = {};
+        res.data.forEach(r => {
+          initialLikes[r._id] = r.likes || 0;
+        });
+        setLikes(initialLikes);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des recettes :', error);
+      }
+    };
 
+    fetchRecipes();
+  }, []);
 
   const fetchRecipeComments = async (recipeId) => {
     try {
       const res = await axios.get(`${API_URL}/api/comments?recipeId=${recipeId}`);
-      setComments((prev) => ({ ...prev, [recipeId]: res.data }));
+      setComments(prev => ({ ...prev, [recipeId]: res.data }));
     } catch (err) {
       console.error('Erreur lors de la récupération des commentaires :', err);
     }
@@ -52,7 +57,7 @@ useEffect(() => {
   };
 
   const handleCommentInputChange = (id, value) => {
-    setCommentInput((prev) => ({ ...prev, [id]: value }));
+    setCommentInput(prev => ({ ...prev, [id]: value }));
   };
 
   const submitComment = async (recipeId) => {
@@ -82,7 +87,7 @@ useEffect(() => {
         },
       });
 
-      setCommentInput((prev) => ({ ...prev, [recipeId]: '' }));
+      setCommentInput(prev => ({ ...prev, [recipeId]: '' }));
       fetchRecipeComments(recipeId);
     } catch (err) {
       console.error("Erreur lors de l'envoi du commentaire :", err.response?.data || err.message);
@@ -109,19 +114,20 @@ useEffect(() => {
         }
       );
 
-      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
+      setLikes(prev => ({ ...prev, [recipeId]: res.data.likes }));
     } catch (err) {
       console.error("Erreur lors du like :", err.response?.data || err.message);
       alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
     }
   };
 
-  // Affiche uniquement les recettes du chef
-  const filteredRecipes = recipes
-    .filter((r) => r.isChefRecipe === true) // ← Assure-toi d'avoir cette propriété dans ta base
-    .filter((recipe) =>
-      recipe.title.toLowerCase().includes(search.toLowerCase())
-    );
+  // Appliquer le filtre showChefOnly avant la recherche textuelle
+  const displayedRecipes = (showChefOnly
+    ? recipes.filter(recipe => recipe.isChefRecipe === true)
+    : recipes
+  ).filter(recipe =>
+    recipe.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="plats-body-container">
@@ -130,14 +136,14 @@ useEffect(() => {
           <div className="banner-left">
             <img src={chef} alt="plats du chef" />
             <div className="banner-overlay-heal">
-              <h1>Recettes du Chef</h1>
+              <h1>Recettes</h1>
               <p><strong>Inspirées</strong> par la tradition, <em>réinventées</em> avec passion.</p>
             </div>
           </div>
           <div className="banner-right">
-            <h2>Découvrez l’univers du chef en recettes. </h2>
+            <h2>Découvrez l’univers culinaire en recettes.</h2>
             <p>
-           <p>"Des plats raffinés, créatifs et inspirés, imaginés par nos chefs pour éveiller vos papilles et sublimer votre quotidien."</p>
+              "Des plats raffinés, créatifs et inspirés, imaginés pour éveiller vos papilles et sublimer votre quotidien."
             </p>
           </div>
         </div>
@@ -145,41 +151,53 @@ useEffect(() => {
 
       <div className="rapide-header-section">
         <div className="rapide-text">
-          <h1>👨‍🍳 Les Recettes du Chef 👨‍🍳</h1>
+          <h1>👨‍🍳 Recettes {showChefOnly ? "du Chef" : "Toutes"} 👨‍🍳</h1>
           <p>
             Une sélection unique de recettes pensées pour vous impressionner, inspirées de la grande cuisine et faciles à refaire chez vous.
           </p>
           <div className="rapide-benefits">
             <div className="benefit-box">🥇 Savoir-faire authentique</div>
             <div className="benefit-box">🍽️ Élégantes et savoureuses</div>
-            <div className="benefit-box">🧑‍🍳 Conseillées par le chef</div>
+            <div className="benefit-box">🧑‍🍳 Conseillées par nos chefs</div>
           </div>
+
+          <button
+            onClick={() => setShowChefOnly(!showChefOnly)}
+            style={{ marginTop: '15px', padding: '8px 16px', cursor: 'pointer' }}
+          >
+            {showChefOnly ? 'Voir toutes les recettes' : 'Voir uniquement les recettes du chef'}
+          </button>
         </div>
       </div>
 
       <div className="search-bar">
         <input
           type="text"
-          placeholder="Rechercher une recette du chef..."
+          placeholder="Rechercher une recette..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
       <div className="recipes-list">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
+        {displayedRecipes.length > 0 ? (
+          displayedRecipes.map((recipe) => (
             <div key={recipe._id} className="recipe-card">
-              <div className="recipe-image">
+              <div className="recipe-image" style={{ width: '200px', height: '150px', overflow: 'hidden' }}>
                 <img
                   src={
-                    recipe.imageUrl?.startsWith('http')
+                    recipe.imageUrl && recipe.imageUrl.startsWith('http')
                       ? recipe.imageUrl
-                      : `${API_URL}${recipe.imageUrl}`
+                      : recipe.imageUrl
+                      ? `${API_URL}${recipe.imageUrl}`
+                      : '/fallback.jpg'
                   }
-                  alt={recipe.title}
+                  alt={recipe.title || 'Recette'}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/fallback.jpg'; }}
                 />
               </div>
+
               <div className="recipe-info">
                 <h3>{recipe.title}</h3>
                 <p className="recipe-time">
@@ -194,14 +212,18 @@ useEffect(() => {
                     src={likeIcon}
                     alt="Like"
                     onClick={() => handleLike(recipe._id)}
+                    style={{ cursor: 'pointer' }}
                   />
                   <span>{likes[recipe._id] || 0}</span>
+
                   <img
                     src={commentIcon}
                     alt="Comment"
                     onClick={() => toggleCommentSection(recipe._id)}
+                    style={{ cursor: 'pointer' }}
                   />
-                  <img src={shareIcon} alt="Share" />
+
+                  <img src={shareIcon} alt="Share" style={{ cursor: 'pointer' }} />
                 </div>
 
                 {showComment === recipe._id && (
@@ -219,7 +241,7 @@ useEffect(() => {
                     <div className="comments-display">
                       {comments[recipe._id]?.length > 0 ? (
                         comments[recipe._id].map((c) => (
-                          <div key={c._id || Math.random()} className="single-comment">
+                          <div key={c._id} className="single-comment">
                             <strong>{c.name || 'Anonyme'}</strong> ({c.rating}⭐) : {c.text}
                           </div>
                         ))
@@ -233,7 +255,7 @@ useEffect(() => {
             </div>
           ))
         ) : (
-          <p className="no-results">Aucune recette du chef trouvée.</p>
+          <p className="no-results">Aucune recette trouvée.</p>
         )}
       </div>
     </div>

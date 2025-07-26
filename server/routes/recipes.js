@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 const upload = require('../middleware/multer');
 require('dotenv').config();
 const API_URL = process.env.API_URL;
+
 // ✅ GET recettes filtrées par catégorie : healthy
 router.get('/healthy', async (req, res) => {
   try {
@@ -103,8 +104,10 @@ router.post('/:id/like', auth, async (req, res) => {
     const alreadyLiked = recipe.likes.map(id => id.toString()).includes(userId);
 
     if (alreadyLiked) {
+      // Unlike
       recipe.likes = recipe.likes.filter(id => id.toString() !== userId);
     } else {
+      // Like
       recipe.likes.push(userId);
     }
 
@@ -118,6 +121,7 @@ router.post('/:id/like', auth, async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
 // ✅ GET recettes filtrées par catégorie : proteine
 router.get('/proteine', async (req, res) => {
   try {
@@ -128,7 +132,9 @@ router.get('/proteine', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+
 console.log("🌐 URL appelée :", `${API_URL}/api/recipes/proteine`);
+
 // ✅ PUT mettre à jour une recette
 router.put('/:id', async (req, res) => {
   try {
@@ -155,6 +161,38 @@ router.delete('/deleteNonLocalImages', async (req, res) => {
     res.status(200).json({ deletedCount: result.deletedCount });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+// ❤️ Liker ou unliker une recette
+router.post('/:id/like', auth, async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ message: 'Recette non trouvée.' });
+
+    const userId = req.user.id.toString();
+
+    if (!Array.isArray(recipe.likes)) {
+      recipe.likes = [];
+    }
+
+    const alreadyLiked = recipe.likes.map(id => id.toString()).includes(userId);
+
+    if (alreadyLiked) {
+      // Unlike
+      recipe.likes = recipe.likes.filter(id => id.toString() !== userId);
+    } else {
+      // Like
+      recipe.likes.push(userId);
+    }
+
+    await recipe.save();
+    res.json({
+      message: alreadyLiked ? 'Like retiré' : 'Recette likée',
+      likes: recipe.likes.length
+    });
+  } catch (err) {
+    console.error("❌ Erreur dans POST /:id/like :", err.message);
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 });
 

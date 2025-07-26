@@ -1,14 +1,15 @@
-import './Catégorie.css';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import "./Catégorie.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
-import commentIcon from '../../assets/ImagePlatsPage/comment.png';
-import likeIcon from '../../assets/ImagePlatsPage/like.png';
-import shareIcon from '../../assets/ImagePlatsPage/share.png';
-import plat from '../../assets/ImageHomePage/plat.jpg';
+import commentIcon from "../../assets/ImagePlatsPage/comment.png";
+import likeIcon from "../../assets/ImagePlatsPage/like.png";
+import shareIcon from "../../assets/ImagePlatsPage/share.png";
+import plat from "../../assets/ImageHomePage/plat.jpg";
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
+const API_URL =
+  process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
 
 const Catégorie = () => {
   const [recipes, setRecipes] = useState([]);
@@ -16,7 +17,7 @@ const Catégorie = () => {
   const [comments, setComments] = useState({});
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -39,10 +40,12 @@ const Catégorie = () => {
 
   const fetchRecipeComments = async (recipeId) => {
     try {
-      const res = await axios.get(`${API_URL}/api/comments?recipeId=${recipeId}`);
+      const res = await axios.get(
+        `${API_URL}/api/comments?recipeId=${recipeId}`
+      );
       setComments((prev) => ({ ...prev, [recipeId]: res.data }));
     } catch (err) {
-      console.error('Erreur lors de la récupération des commentaires :', err);
+      console.error("Erreur lors de la récupération des commentaires :", err);
     }
   };
 
@@ -72,13 +75,13 @@ const Catégorie = () => {
       return;
     }
 
-  let name = "Anonyme";
-try {
-  const decoded = jwtDecode(token);
-  name = decoded.username || "Anonyme";  // 👈 ici on utilise username
-} catch (err) {
-  console.error("Erreur de décodage du token", err);
-}
+    let name = "Anonyme";
+    try {
+      const decoded = jwtDecode(token);
+      name = decoded.username || "Anonyme"; // 👈 ici on utilise username
+    } catch (err) {
+      console.error("Erreur de décodage du token", err);
+    }
     const newComment = {
       recipeId,
       text,
@@ -90,47 +93,64 @@ try {
       await axios.post(`${API_URL}/api/comments`, newComment, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
-      setCommentInput((prev) => ({ ...prev, [recipeId]: '' }));
+      setCommentInput((prev) => ({ ...prev, [recipeId]: "" }));
       fetchRecipeComments(recipeId);
     } catch (err) {
-      console.error("Erreur lors de l'envoi du commentaire :", err.response?.data || err.message);
-      alert("Erreur lors de l'envoi du commentaire : " + (err.response?.data?.error || err.message));
-    }
-  };
-
-  const handleLike = async (recipeId) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour liker.");
-        return;
-      }
-
-      const res = await axios.post(
-        `${API_URL}/api/recipes/${recipeId}/like`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
+      console.error(
+        "Erreur lors de l'envoi du commentaire :",
+        err.response?.data || err.message
       );
-
-      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
-    } catch (err) {
-      console.error("Erreur lors du like :", err.response?.data || err.message);
-      alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
+      alert(
+        "Erreur lors de l'envoi du commentaire : " +
+          (err.response?.data?.error || err.message)
+      );
     }
   };
+
+const handleLike = async (recipeId) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Vous devez être connecté pour liker.");
+      return;
+    }
+
+    const res = await axios.post(
+      `${API_URL}/api/recipes/${recipeId}/like`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Like response data:", res.data);
+
+    // Adapter selon la structure de res.data
+    if (res.data.likes) {
+      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes.length }));
+    } else if (typeof res.data.likesCount === 'number') {
+      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likesCount }));
+    } else {
+      // Si aucune info, incrémente localement (pas recommandé)
+      setLikes((prev) => ({ ...prev, [recipeId]: (prev[recipeId] || 0) + 1 }));
+    }
+
+  } catch (err) {
+    console.error("Erreur lors du like :", err.response?.data || err.message);
+    alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
+  }
+};
 
   const rapideFacile = recipes.filter((r) => {
     const totalTime = parseInt(r.totalTime) || 0;
-    return totalTime <= 20 && (r.difficulty === 'facile' || !r.difficulty);
+    return totalTime <= 20 && (r.difficulty === "facile" || !r.difficulty);
   });
 
   const filteredRecipes = rapideFacile.filter((recipe) =>
@@ -139,19 +159,28 @@ try {
 
   return (
     <div className="plats-body-container">
-      <div className='background-cover'>
+      <div className="background-cover">
         <div className="banner-container">
           <div className="banner-left">
             <img src={plat} alt="fruits et légumes" />
             <div className="banner-overlay-heal">
               <h1>Rapide & Facile</h1>
-              <p><strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong></p>
+              <p>
+                <strong>Des recettes</strong> <em>express</em>,{" "}
+                <strong>sans stress.</strong>
+              </p>
             </div>
           </div>
           <div className="banner-right">
-            <h2> Des recettes rapides et faciles à préparer, idéales pour tous les jours !</h2>
+            <h2>
+              {" "}
+              Des recettes rapides et faciles à préparer, idéales pour tous les
+              jours !
+            </h2>
             <p>
-              "Des saveurs venues d’ailleurs pour éveiller vos sens : <span className='mot-color'>embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine."
+              "Des saveurs venues d’ailleurs pour éveiller vos sens :{" "}
+              <span className="mot-color">embarquez</span> pour un tour du monde
+              culinaire sans quitter votre cuisine."
             </p>
           </div>
         </div>
@@ -161,8 +190,9 @@ try {
         <div className="rapide-text">
           <h1>⚡ Recettes Rapides & Faciles ⚡</h1>
           <p>
-            Moins de 20 minutes, zéro stress, 100% goût.  
-            Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
+            Moins de 20 minutes, zéro stress, 100% goût. Ces plats sont parfaits
+            pour les étudiants pressés, les familles débordées ou les gourmands
+            impatients.
           </p>
           <div className="rapide-benefits">
             <div className="benefit-box">⏱️ Prêtes en 20 min</div>
@@ -188,7 +218,7 @@ try {
               <div className="recipe-image">
                 <img
                   src={
-                    recipe.imageUrl?.startsWith('http')
+                    recipe.imageUrl?.startsWith("http")
                       ? recipe.imageUrl
                       : `${API_URL}${recipe.imageUrl}`
                   }
@@ -198,25 +228,27 @@ try {
               <div className="recipe-info">
                 <h3>{recipe.title}</h3>
                 <p className="recipe-time">
-                  ⏱️ Préparation : {recipe.prepTime || '10 min'} <br />
-                  🔥 Cuisson : {recipe.cookTime || '15 min'} <br />
-                  ⏳ Total : {recipe.totalTime || '25 min'}
+                  ⏱️ Préparation : {recipe.prepTime || "10 min"} <br />
+                  🔥 Cuisson : {recipe.cookTime || "15 min"} <br />⏳ Total :{" "}
+                  {recipe.totalTime || "25 min"}
                 </p>
-                {recipe.description && <p className="recipe-description">{recipe.description}</p>}
+                {recipe.description && (
+                  <p className="recipe-description">{recipe.description}</p>
+                )}
 
                 <div className="recipe-actions">
                   <img
                     src={likeIcon}
                     alt="Like"
                     onClick={() => handleLike(recipe._id)}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                   />
                   <span>{likes[recipe._id] || 0}</span>
                   <img
                     src={commentIcon}
                     alt="Comment"
                     onClick={() => toggleCommentSection(recipe._id)}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                   />
                   <img src={shareIcon} alt="Share" />
                 </div>
@@ -225,19 +257,25 @@ try {
                   <div className="comment-section show">
                     <input
                       type="text"
-                      value={commentInput[recipe._id] || ''}
+                      value={commentInput[recipe._id] || ""}
                       onChange={(e) =>
                         handleCommentInputChange(recipe._id, e.target.value)
                       }
                       placeholder="Écrivez un commentaire..."
                     />
-                    <button onClick={() => submitComment(recipe._id)}>Envoyer</button>
+                    <button onClick={() => submitComment(recipe._id)}>
+                      Envoyer
+                    </button>
 
                     <div className="comments-display">
                       {comments[recipe._id]?.length > 0 ? (
                         comments[recipe._id].map((c) => (
-                          <div key={c._id || Math.random()} className="single-comment">
-                            <strong>{c.name || 'Anonyme'}</strong> ({c.rating}⭐) : {c.text}
+                          <div
+                            key={c._id || Math.random()}
+                            className="single-comment"
+                          >
+                            <strong>{c.name || "Anonyme"}</strong> ({c.rating}
+                            ⭐) : {c.text}
                           </div>
                         ))
                       ) : (

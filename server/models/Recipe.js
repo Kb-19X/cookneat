@@ -23,24 +23,31 @@ const recipeSchema = new mongoose.Schema({
     default: []
   },
 
-  // ✅ Auteur de la recette
+  // Auteur de la recette - rendu optionnel pour les recettes du chef
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: function() { return !this.isChefRecipe; }  // obligatoire sauf si recette chef
   },
 
-  // ✅ Utilisateurs ayant liké
-  likes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-
-  // ✅ Recette du chef ?
+  // Champ pour recettes du chef
   isChefRecipe: {
     type: Boolean,
     default: false
   },
+
+  // Nouvelle catégorie
+  category: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+
+  // Tableau des likes (id des utilisateurs ayant liké)
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
 
   createdAt: {
     type: Date,
