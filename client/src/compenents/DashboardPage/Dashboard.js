@@ -14,6 +14,11 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!token) {
+      navigate("/login"); // redirige si pas connecté
+      return;
+    }
+
     const fetchUser = async () => {
       try {
         const res = await axios.get("https://cookneat-server.onrender.com/api/user/profile", {
@@ -60,9 +65,11 @@ const Dashboard = () => {
     fetchRecipes();
     fetchUsers();
     fetchStats();
-  }, [token]);
+  }, [token, navigate]);
 
+  // Supprimer une recette
   const handleDelete = async (id) => {
+    if (!window.confirm("Confirmez-vous la suppression de cette recette ?")) return;
     try {
       await axios.delete(`https://cookneat-server.onrender.com/api/recipes/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -75,11 +82,14 @@ const Dashboard = () => {
     }
   };
 
+  // Éditer une recette
   const handleEdit = (id) => {
     navigate(`/EditRecipe/${id}`);
   };
 
+  // Supprimer un utilisateur
   const handleDeleteUser = async (id) => {
+    if (!window.confirm("Confirmez-vous la suppression de cet utilisateur ?")) return;
     try {
       await axios.delete(`https://cookneat-server.onrender.com/api/user/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -92,6 +102,7 @@ const Dashboard = () => {
     }
   };
 
+  // Changer rôle utilisateur
   const handleRoleChange = async (userId, newRole) => {
     try {
       await axios.put(
@@ -135,6 +146,7 @@ const Dashboard = () => {
       <div className="right-panel">
         <h2>📋 Toutes les recettes</h2>
         <div className="recipes-list">
+          {recipes.length === 0 && <p>Aucune recette trouvée.</p>}
           {recipes.map((recipe) => (
             <div className="recipe-card" key={recipe._id}>
               <h4>{recipe.title}</h4>
@@ -149,9 +161,10 @@ const Dashboard = () => {
 
         <h2>👥 Liste des utilisateurs</h2>
         <div className="recipes-list">
+          {users.length === 0 && <p>Aucun utilisateur trouvé.</p>}
           {users.map((user) => (
             <div className="recipe-card" key={user._id}>
-              <h4>{user.name}</h4>
+              <h4>{user.username || user.name}</h4>
               <p>{user.email}</p>
               <p><strong>Rôle :</strong> {user.role}</p>
               <select
