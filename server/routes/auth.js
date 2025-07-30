@@ -10,21 +10,18 @@ require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET || 'secret_key_for_jwt';
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 
-// Nodemailer config (Gmail example)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER, // ton email
-    pass: process.env.EMAIL_PASS  // mot de passe ou app password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
-// 🔐 Inscription
+// Inscription
 router.post('/register', async (req, res) => {
   try {
-    console.log("📥 Données reçues pour l'inscription :", req.body);
     const { username, email, password } = req.body;
-
     if (!username || !email || !password) {
       return res.status(400).json({ message: "Tous les champs sont requis." });
     }
@@ -43,19 +40,22 @@ router.post('/register', async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ message: "Inscription réussie !" });
+
+    // Optionnel : connexion automatique après inscription
+    const token = jwt.sign({ id: newUser._id, name: newUser.username, role: newUser.role }, JWT_SECRET, { expiresIn: '7d' });
+
+    res.status(201).json({ message: "Inscription réussie !", token, user: { username: newUser.username, email: newUser.email, role: newUser.role } });
 
   } catch (err) {
-    console.error("❌ Erreur dans /register :", err);
+    console.error("Erreur /register :", err);
     res.status(500).json({ message: "Erreur serveur." });
   }
 });
 
-// 🔑 Connexion
+// Connexion
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res.status(400).json({ message: "Champs manquants." });
     }
@@ -70,30 +70,21 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: "Email ou mot de passe incorrect." });
     }
 
-    // Ajout du rôle dans le token
-    const token = jwt.sign(
-      { id: user._id, name: user.username, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = jwt.sign({ id: user._id, name: user.username, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
 
     res.status(200).json({
       message: "Connexion réussie",
       token,
-      user: {
-        username: user.username,
-        email: user.email,
-        role: user.role
-      }
+      user: { username: user.username, email: user.email, role: user.role }
     });
 
   } catch (err) {
-    console.error("❌ Erreur dans /login :", err);
+    console.error("Erreur /login :", err);
     res.status(500).json({ message: "Erreur serveur." });
   }
 });
 
-// 🔑 Mot de passe oublié
+// Mot de passe oublié
 router.post('/forgot-password', async (req, res) => {
   const { email, username } = req.body;
 
@@ -102,28 +93,21 @@ router.post('/forgot-password', async (req, res) => {
   }
 
   try {
-    // Chercher utilisateur par email ou pseudo
     const user = await User.findOne({
-      ...(email ? { email: email.trim().toLowerCase() } : {}),
-      ...(username ? { username: username.trim() } : {})
+      $or: [
+        email ? { email: email.trim().toLowerCase() } : null,
+        username ? { username: username.trim() } : null
+      ].filter(Boolean)
     });
 
     if (!user) {
-      // Par sécurité, on renvoie un message générique
       return res.json({ message: 'Si un compte existe avec ces informations, un mail vous sera envoyé.' });
     }
 
-    // Créer un token JWT valide 1h (ex: userId + email)
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    );
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
 
-    // Construire l'url de reset
     const resetLink = `${CLIENT_URL}/reset-password?token=${token}`;
 
-    // Contenu de l'email
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: user.email,
@@ -137,18 +121,17 @@ router.post('/forgot-password', async (req, res) => {
       `
     };
 
-    // Envoi mail
     await transporter.sendMail(mailOptions);
 
     res.json({ message: 'Un lien de réinitialisation a été envoyé par email.' });
 
   } catch (err) {
-    console.error(err);
+    console.error("Erreur /forgot-password :", err);
     res.status(500).json({ error: 'Erreur serveur, merci de réessayer plus tard.' });
   }
 });
 
-// 🔑 Réinitialisation du mot de passe (reset password)
+// Réinitialisation mot de passe
 router.post('/reset-password', async (req, res) => {
   const { token, password } = req.body;
 
@@ -157,19 +140,12 @@ router.post('/reset-password', async (req, res) => {
   }
 
   try {
-    // Vérifier et décoder le token
     const decoded = jwt.verify(token, JWT_SECRET);
     const userId = decoded.id;
 
-    // Hasher le nouveau mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Mettre à jour le mot de passe dans la base
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { password: hashedPassword },
-      { new: true }
-    );
+    const user = await User.findByIdAndUpdate(userId, { password: hashedPassword }, { new: true });
 
     if (!user) {
       return res.status(404).json({ message: 'Utilisateur non trouvé.' });
@@ -178,7 +154,7 @@ router.post('/reset-password', async (req, res) => {
     res.json({ message: 'Mot de passe mis à jour avec succès.' });
 
   } catch (err) {
-    console.error('❌ Erreur dans /reset-password:', err);
+    console.error('Erreur /reset-password:', err);
 
     if (err.name === 'TokenExpiredError') {
       return res.status(401).json({ message: 'Le lien de réinitialisation a expiré.' });
