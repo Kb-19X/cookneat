@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import {
+  getProfile,
+  getRecettes,
+  deleteRecette,
+  getUsers,
+  deleteUser,
+  changeUserRole,
+  getStats,
+} from "./api";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 
@@ -19,60 +27,31 @@ const Dashboard = () => {
       return;
     }
 
-    const fetchUser = async () => {
+    const fetchAll = async () => {
       try {
-        const res = await axios.get("https://cookneat-server.onrender.com/api/auth/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUserInfo(res.data);
-      } catch (err) {
-        console.error("❌ Erreur profil :", err);
+        const profileRes = await getProfile();
+        setUserInfo(profileRes.data);
+
+        const recettesRes = await getRecettes();
+        setRecipes(recettesRes.data);
+
+        const usersRes = await getUsers();
+        setUsers(usersRes.data);
+
+        const statsRes = await getStats();
+        setStats(statsRes.data);
+      } catch (error) {
+        console.error("❌ Erreur lors du chargement des données :", error);
       }
     };
 
-    const fetchRecipes = async () => {
-      try {
-        const res = await axios.get("https://cookneat-server.onrender.com/api/recipes");
-        setRecipes(res.data);
-      } catch (err) {
-        console.error("❌ Erreur recettes :", err);
-      }
-    };
-
-    const fetchUsers = async () => {
-      try {
-        const res = await axios.get("https://cookneat-server.onrender.com/admin/users", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUsers(res.data);
-      } catch (err) {
-        console.error("❌ Erreur utilisateurs :", err);
-      }
-    };
-
-    const fetchStats = async () => {
-      try {
-        const res = await axios.get("https://cookneat-server.onrender.com/admin/stats", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setStats(res.data);
-      } catch (err) {
-        console.error("❌ Erreur stats :", err);
-      }
-    };
-
-    fetchUser();
-    fetchRecipes();
-    fetchUsers();
-    fetchStats();
+    fetchAll();
   }, [token, navigate]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Confirmez-vous la suppression de cette recette ?")) return;
     try {
-      await axios.delete(`https://cookneat-server.onrender.com/api/recipes/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await deleteRecette(id);
       setRecipes((prev) => prev.filter((r) => r._id !== id));
       setMessage("✅ Recette supprimée.");
     } catch (err) {
@@ -88,9 +67,7 @@ const Dashboard = () => {
   const handleDeleteUser = async (id) => {
     if (!window.confirm("Confirmez-vous la suppression de cet utilisateur ?")) return;
     try {
-      await axios.delete(`https://cookneat-server.onrender.com/admin/users/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await deleteUser(id);
       setUsers((prev) => prev.filter((u) => u._id !== id));
       setMessage("✅ Utilisateur supprimé.");
     } catch (err) {
@@ -101,11 +78,7 @@ const Dashboard = () => {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      await axios.put(
-        `https://cookneat-server.onrender.com/admin/users/${userId}/role`,
-        { role: newRole },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await changeUserRole(userId, newRole);
       setUsers((prev) =>
         prev.map((u) => (u._id === userId ? { ...u, role: newRole } : u))
       );
@@ -122,9 +95,15 @@ const Dashboard = () => {
         <h1>🎛️ Dashboard Admin</h1>
         <p>Bienvenue !</p>
         <div className="admin-info">
-          <p><strong>Nom :</strong> {userInfo.username}</p>
-          <p><strong>Email :</strong> {userInfo.email}</p>
-          <p><strong>Rôle :</strong> {userInfo.role}</p>
+          <p>
+            <strong>Nom :</strong> {userInfo.username}
+          </p>
+          <p>
+            <strong>Email :</strong> {userInfo.email}
+          </p>
+          <p>
+            <strong>Rôle :</strong> {userInfo.role}
+          </p>
         </div>
 
         <div className="admin-actions">
@@ -162,7 +141,9 @@ const Dashboard = () => {
             <div className="recipe-card" key={user._id}>
               <h4>{user.username || user.name}</h4>
               <p>{user.email}</p>
-              <p><strong>Rôle :</strong> {user.role}</p>
+              <p>
+                <strong>Rôle :</strong> {user.role}
+              </p>
               <select
                 value={user.role}
                 onChange={(e) => handleRoleChange(user._id, e.target.value)}
