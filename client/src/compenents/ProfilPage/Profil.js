@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './Profil.css';
 import userIcon from '../../assets/ImageHomePage/user.png';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // correction import
 
 const Profil = () => {
   const [username, setUsername] = useState('');
+  const [role, setRole] = useState(''); // <-- nouveau state pour le rôle
   const [likedRecipes, setLikedRecipes] = useState([]);
   const [myComments, setMyComments] = useState([]);
   const [myRecipes, setMyRecipes] = useState([]);
@@ -19,6 +20,7 @@ const Profil = () => {
       const decoded = jwtDecode(token);
       console.log("Token décodé :", decoded);
       setUsername(decoded.name);
+      setRole(decoded.role || ''); // récupérer le rôle admin / user
 
       axios.get('https://cookneat-server.onrender.com/api/recipes/liked', {
         headers: { Authorization: `Bearer ${token}` }
@@ -76,6 +78,17 @@ const Profil = () => {
       <div className="profil-header">
         <img src={userIcon} alt="User Icon" className="profil-avatar" />
         <h2>Bienvenue, {username} !</h2>
+
+        {/* Bouton dashboard visible uniquement si admin */}
+        {role === 'admin' && (
+          <button 
+            className="dashboard-btn"
+            onClick={() => window.location.href = '/dashboard'}
+          >
+            Accéder au Dashboard
+          </button>
+        )}
+
         <button onClick={handleLogout} className="logout-btn">Se déconnecter</button>
       </div>
 

@@ -15,13 +15,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login"); // redirige si pas connecté
+      navigate("/login");
       return;
     }
 
     const fetchUser = async () => {
       try {
-        const res = await axios.get("https://cookneat-server.onrender.com/api/user/profile", {
+        const res = await axios.get("https://cookneat-server.onrender.com/api/auth/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserInfo(res.data);
@@ -41,7 +41,7 @@ const Dashboard = () => {
 
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("https://cookneat-server.onrender.com/api/user", {
+        const res = await axios.get("https://cookneat-server.onrender.com/admin/users", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsers(res.data);
@@ -52,7 +52,7 @@ const Dashboard = () => {
 
     const fetchStats = async () => {
       try {
-        const res = await axios.get("https://cookneat-server.onrender.com/api/admin/stats", {
+        const res = await axios.get("https://cookneat-server.onrender.com/admin/stats", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setStats(res.data);
@@ -67,7 +67,6 @@ const Dashboard = () => {
     fetchStats();
   }, [token, navigate]);
 
-  // Supprimer une recette
   const handleDelete = async (id) => {
     if (!window.confirm("Confirmez-vous la suppression de cette recette ?")) return;
     try {
@@ -82,16 +81,14 @@ const Dashboard = () => {
     }
   };
 
-  // Éditer une recette
   const handleEdit = (id) => {
     navigate(`/EditRecipe/${id}`);
   };
 
-  // Supprimer un utilisateur
   const handleDeleteUser = async (id) => {
     if (!window.confirm("Confirmez-vous la suppression de cet utilisateur ?")) return;
     try {
-      await axios.delete(`https://cookneat-server.onrender.com/api/user/${id}`, {
+      await axios.delete(`https://cookneat-server.onrender.com/admin/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers((prev) => prev.filter((u) => u._id !== id));
@@ -102,11 +99,10 @@ const Dashboard = () => {
     }
   };
 
-  // Changer rôle utilisateur
   const handleRoleChange = async (userId, newRole) => {
     try {
       await axios.put(
-        `https://cookneat-server.onrender.com/api/user/${userId}/role`,
+        `https://cookneat-server.onrender.com/admin/users/${userId}/role`,
         { role: newRole },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -1,37 +1,52 @@
-const jwt = require('jsonwebtoken');
+// 📁 routes/auth.js
 const express = require('express');
-const router = express.Router();
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+
+const router = express.Router();
 
 // Connexion utilisateur
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Recherche de l'utilisateur par email
-    const user = await User.findOne({ email });
+    // Vérification des champs requis
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email et mot de passe requis" });
+    }
 
-    // Vérifie si l'utilisateur existe et si le mot de passe est correct
-    if (!user || !(await user.comparePassword(password))) {
+    // Recherche utilisateur par email
+    const user = await User.findOne({ email });
+    if (!user) {
       return res.status(401).json({ message: "Email ou mot de passe incorrect" });
     }
 
-    // Création du token avec l'ID, le nom et le rôle de l'utilisateur
+    // Vérification du mot de passe
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Email ou mot de passe incorrect" });
+    }
+
+    // Génération du token JWT
     const token = jwt.sign(
       {
         id: user._id,
-        name: user.username, // Assure-toi que "username" existe dans ton modèle
+        name: user.username,
         role: user.role
       },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
-    // Envoie la réponse complète au frontend
+    // Réponse avec token et infos utilisateur
     res.json({
       token,
-      username: user.username,
-      role: user.role
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role
+      }
     });
 
   } catch (err) {
