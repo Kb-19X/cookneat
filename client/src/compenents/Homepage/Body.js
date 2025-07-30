@@ -1,19 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 import './Body.css';
 
-const Body = ({ user }) => {
+const Body = () => {
   const [recipes, setRecipes] = useState([]);
   const [showComment, setShowComment] = useState(null);
   const [newComment, setNewComment] = useState({ recipeId: '', text: '', rating: 1 });
   const [allComments, setAllComments] = useState([]);
   const [commentSent, setCommentSent] = useState(false);
+  const [user, setUser] = useState(null); // pour stocker l'utilisateur connecté
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
+  // 🔐 Récupère l'utilisateur depuis le token JWT
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUser(decoded); // on récupère { id, name, role }
+      } catch (err) {
+        console.error('Erreur de décodage du token :', err);
+      }
+    }
+  }, []);
+
+  // 📝 Récupère les commentaires
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -26,6 +42,7 @@ const Body = ({ user }) => {
     fetchComments();
   }, [API_URL]);
 
+  // 🍽️ Récupère les recettes
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
@@ -47,14 +64,14 @@ const Body = ({ user }) => {
 
   const submitComment = async () => {
     const { recipeId, text, rating } = newComment;
-    if (!recipeId || !text || !rating) {
-      alert('Veuillez remplir tous les champs.');
+    if (!recipeId || !text || !rating || !user?.name) {
+      alert('Veuillez remplir tous les champs et être connecté.');
       return;
     }
 
     const commentToSend = {
       ...newComment,
-      name: user?.name || "Utilisateur"
+      name: user.name
     };
 
     try {

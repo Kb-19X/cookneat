@@ -105,7 +105,12 @@
   font-weight: 500;
     margin-top: 15px;
 }
-
+.recipe-card .stars {
+  font-size: 0.8rem;
+  text-align: center;
+  margin: 6px 0;
+  color: #f5a623; /* Jaune/orangé classique pour étoiles */
+}
 .stars {
   display: flex;
   flex-direction: column; /* important */
@@ -150,12 +155,18 @@
     flex-direction: column;
   }
 
-  .recettedujour {
-    margin-top: 30px;
-  }
+ .recettedujour {
+  background-color: #4e342e91;
+  align-items: center;
+  margin-top: 20px;
+  width: 95%;
+  height: 50px;
+  padding: 10px;
+ 
+}
 
   .recettedujour h1 {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .recetteday-left img {
@@ -179,7 +190,7 @@
     justify-content: center;
     width: 300px;
     margin-left: 40px;
-    margin-top: 40px;
+   
   }
 
   .titre-recetteday {
@@ -189,12 +200,13 @@
   }
 
   .stitre-recetteday {
-    font-size: 14px;
+    display: none;
   }
 
   .stars {
-    margin-top: 15px;
+    
     padding: 7px;
+   
   }
 
   .com-recetteday {
@@ -209,7 +221,9 @@
   .stars p {
     font-size: 13px;
   }
-
+  .titre-recetteday-2 {
+    display: none;
+  }
   .com-recetteday img {
     width: 15px;
     height: 15px;
@@ -221,7 +235,12 @@
     height: 50px;
     color: #3a001f;
   }
-
+.recipe-card .stars {
+    font-size: 0.7rem;
+    text-align: center;
+    margin: 4px 0;
+    color: #f5a623;
+  }
   .feculent-container {
     display: flex;
     align-items: center;
@@ -495,3 +514,163 @@
 
 
 
+@media screen and (max-width: 480px) {
+  /* -------- CONTAINERS -------- */
+  .feculent-container {
+    padding: 15px 10px;
+  }
+
+  .plats-body-container {
+    padding: 0 10px;
+  }
+
+  /* -------- RECIPES LIST -------- */
+  .recipes-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px 20px;
+    gap: 16px;
+    align-items: center;
+  }
+
+  /* -------- RECIPE CARD -------- */
+  .recipe-card {
+    width: 100%;
+    max-width: 330px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  }
+
+  .recipe-image img {
+    height: 130px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .recipe-info {
+    padding: 8px 10px;
+  }
+
+  .recipe-info h3 {
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+
+  .recipe-description {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    max-height: 2.4em;
+    overflow: hidden;
+    margin: 4px 0;
+  }
+
+  .recipe-time {
+    font-size: 0.7rem;
+    margin-top: 2px;
+  }
+
+  .recipe-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+  }
+
+  .recipe-actions img {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* -------- COMMENTAIRES -------- */
+  .comment-section input,
+  .comment-section button {
+    font-size: 0.8rem;
+    padding: 5px 8px;
+  }
+
+  .comments-display {
+    font-size: 0.75rem;
+    padding: 6px;
+    max-height: 100px;
+  }
+
+  .single-comment {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+  }
+
+  /* -------- INTRO TEXT -------- */
+  .intro-rapide-facile h1 {
+    font-size: 20px;
+  }
+
+  .intro-rapide-facile p,
+  .intro-rapide-facile ul {
+    font-size: 13px;
+  }
+
+  /* -------- HEADER SECTION -------- */
+  .rapide-header-section {
+    padding: 20px 10px;
+  }
+
+  .rapide-text h1 {
+    font-size: 22px;
+  }
+
+  .rapide-text p {
+    font-size: 13px;
+  }
+
+  .rapide-benefits {
+    gap: 8px;
+  }
+
+  .benefit-box {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  /* -------- SEARCH BAR -------- */
+  .search-bar {
+    padding: 20px 10px;
+  }
+
+  .search-bar input {
+    width: 95%;
+    font-size: 0.85rem;
+  }
+
+  /* -------- MESSAGES -------- */
+  .no-results {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+
+  /* -------- BANNIÈRE -------- */
+  .banner-overlay-heal {
+    padding: 12px 15px;
+    width: 90%;
+  }
+
+  .banner-overlay-heal h1 {
+    font-size: 20px;
+  }
+
+  .banner-overlay-heal p {
+    font-size: 13px;
+  }
+
+
+  .com-recetteday {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 10px;
+  position: relative;
+}
+
+
+}

@@ -133,9 +133,16 @@
 
   .footer-container {
     height: 100%;
-    background-color: #eb7e68;
+    background-color: var(--primary-color);
     display: flex;
     flex-direction: column;
     border-top: 4px inset #3a001e63;
   }
+
+
+  .footer-right p {
+  font-size: 16px;
+  margin-left: 30px;
+  font-weight: 600;
+}
 }

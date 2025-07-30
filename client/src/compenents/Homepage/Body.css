@@ -1,3 +1,4 @@
+/* ✅ Style existant (inchangé) */
 .commentaire-box {
   background-color: #fcfaee;
   border: 2px solid var(--tertiary-color);
@@ -71,10 +72,14 @@
   flex: 1;
 }
 
+/* --- Correction pour prendre toute la largeur --- */
 .all-comments-section {
   background-color: var(--secondary-color);
   padding: 40px 20px;
   text-align: center;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .all-comments-inner {
@@ -82,8 +87,11 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .comment-card {
@@ -93,6 +101,9 @@
   padding: 20px;
   width: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  max-width: 100%;  /* prend toute la largeur */
+  margin: 0;         /* plus de margin auto */
+  box-sizing: border-box;
 }
 
 .comment-author {
@@ -112,15 +123,105 @@
   }
 }
 
-
 .plats-commentez {
-    text-align: center;
-    padding: 30px;
+  text-align: center;
+  padding: 30px;
 }
-
 
 .plats-populaires {
-    background-color: var(--secondary-color);
-    padding: 30px;
-    text-align: center;
+  background-color: var(--secondary-color);
+  padding: 30px;
+  text-align: center;
 }
+
+/* 📱 Responsive Mobile */
+/* Style général existant (inchangé) ... */
+
+/* 📱 Responsive Mobile */
+@media (max-width: 768px) {
+  .commentaire-box {
+    padding: 15px;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .commentaire-box textarea {
+    font-size: 14px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .btn-submit-comment {
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .commentaire-user {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 8px;
+  }
+
+  .commentaire-user img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .commentaire-user input {
+    width: 100%;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+.all-comments-section {
+  background-color: var(--secondary-color);
+  padding: 40px 0;
+  width: 110vw;
+  box-sizing: border-box;
+  background-clip: border-box;
+
+  padding-left: 20px; /* compense visuellement */
+
+}
+
+  .all-comments-inner {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+      margin-right: 50px;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .comment-card {
+    padding: 15px;
+    font-size: 14px;
+    
+    margin: 0 0 15px 0; /* ajoute un espace vertical entre commentaires */
+    box-sizing: border-box;
+    width: 90%;
+  }
+
+  /* Sections plats (populaires, commentez) */
+  .plats-commentez,
+  .plats-populaires {
+    padding: 0px 0px;
+    width: 100%;
+    box-sizing: border-box;
+    
+  }
+
+  /* Si tu as des cartes dans plats, ajoute */
+  .card {
+    margin-bottom: 20px; /* espace entre cartes */
+    width: 100%;         /* pour forcer la pleine largeur */
+    box-sizing: border-box;
+  }
+}
+

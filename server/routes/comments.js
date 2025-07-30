@@ -1,50 +1,69 @@
 const express = require('express');
 const router = express.Router();
 const Comment = require('../models/Comment');
-const verifyToken = require('../middleware/verifyToken'); // Si tu veux protéger avec auth
+const verifyToken = require('../middleware/verifyToken');
 const auth = require('../middleware/auth');
-// 🔹 GET /api/comments — tous les commentaires ou ceux d'une recette
+
+// 🔹 GET /api/comments — Tous les commentaires ou ceux d'une recette
 router.get('/', async (req, res) => {
   try {
     const { recipeId } = req.query;
     const filter = recipeId ? { recipeId } : {};
-    const comments = await Comment.find(filter).sort({ createdAt: -1 });
+    const comments = await Comment.find(filter)
+      .sort({ createdAt: -1 })
+      .populate('userId', 'name'); // Récupère le nom de l’auteur
     res.json(comments);
   } catch (err) {
+    console.error("❌ Erreur GET /comments :", err.message);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
-// Récupérer les commentaires de l’utilisateur connecté
+
+// 🔹 GET /api/comments/mine — Commentaires de l'utilisateur connecté
 router.get('/mine', auth, async (req, res) => {
   try {
-    const comments = await Comment.find({ userId: req.user.id }).populate('recipeId', 'title');
+    const comments = await Comment.find({ userId: req.user.id })
+      .populate('recipeId', 'title')
+      .sort({ createdAt: -1 });
+
     const formatted = comments.map(c => ({
       text: c.text,
-      recipeTitle: c.recipeId.title
+      rating: c.rating,
+      recipeTitle: c.recipeId?.title || '[recette supprimée]',
+      createdAt: c.createdAt,
     }));
+
     res.json(formatted);
   } catch (err) {
-    console.error("❌ Erreur dans /comments/mine :", err.message);
+    console.error("❌ Erreur dans GET /comments/mine :", err.message);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
 
+// 🔹 POST /api/comments — Créer un commentaire lié à un user
 router.post('/', verifyToken, async (req, res) => {
   try {
     const { recipeId, text, rating } = req.body;
-    const name = req.user.name;
+    const { id: userId, name } = req.user;
 
     if (!recipeId || !text || !rating) {
       return res.status(400).json({ error: 'Champs manquants.' });
     }
 
-    const newComment = new Comment({ recipeId, name, text, rating });
+    const newComment = new Comment({
+      recipeId,
+      userId,
+      name,
+      text,
+      rating,
+    });
+
     const saved = await newComment.save();
     res.status(201).json(saved);
   } catch (err) {
+    console.error("❌ Erreur POST /comments :", err.message);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
-
 
 module.exports = router;

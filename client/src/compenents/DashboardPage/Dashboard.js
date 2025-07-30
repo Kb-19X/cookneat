@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [stats, setStats] = useState({ recipeCount: 0, userCount: 0 });
   const [message, setMessage] = useState("");
-  const [userInfo, setUserInfo] = useState({ email: "", role: "" });
+  const [userInfo, setUserInfo] = useState({ email: "", role: "", username: "" });
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -116,14 +116,19 @@ const Dashboard = () => {
         <p>Bienvenue !</p>
         <div className="admin-info">
           <p><strong>Nom :</strong> {userInfo.username}</p>
-          <strong>Email :</strong> {userInfo.email}<br />
-          <strong>Rôle :</strong> {userInfo.role}
+          <p><strong>Email :</strong> {userInfo.email}</p>
+          <p><strong>Rôle :</strong> {userInfo.role}</p>
         </div>
+
         <div className="admin-actions">
-          <p>✅ Voir toutes les recettes</p>
-          <p>🛠️ Supprimer un utilisateur</p>
-          <p>📊 Statistiques globales</p>
+          <h3>Fonctionnalités :</h3>
+          <ul>
+            <li>✅ Voir toutes les recettes</li>
+            <li>🛠️ Supprimer un utilisateur</li>
+            <li>📊 Statistiques globales</li>
+          </ul>
         </div>
+
         {message && <p className="admin-message">{message}</p>}
       </div>
 

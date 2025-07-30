@@ -1,130 +1,77 @@
-.container-profil {
-    background-color: var(--secondary-color);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
- 
+:root {
+  --primary-color: #DA8359;
+  --secondary-color: #ECDFCC;
+  --tertiary-color: #A5B68D;
+  --quaternary-color: #FCFAEE;
+  --quinary-color: #da8459b2;
+  --senary-color: #4E342E;
+  --septenary-color: #6C5B51;
 }
+
 html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #f5f5f5; /* ou n'importe quelle couleur de fond que tu veux */
+  background-color: var(--quaternary-color);
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .profil-page {
-  min-height: 100vh;
-  background-color: #f5f5f5; /* même couleur que le body si tu veux un fond uni */
-  padding-bottom: 50px; /* Pour éviter que le contenu touche le bas */
-}
-
-.profil-page {
-  padding-left: 100px;
-  padding-right: 100px;
-  padding-top: 50px;
   background-color: var(--secondary-color);
-
-  margin: auto;
-  font-family: sans-serif;
+  padding: 50px 100px;
+  min-height: 100vh;
 }
 
 .profil-header {
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
 .profil-avatar {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
+  border: 3px solid var(--senary-color);
   object-fit: cover;
+}
+
+.profil-name {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
 .logout-btn {
   margin-left: auto;
   padding: 8px 16px;
-  background-color: #c0392b;
-  color: white;
+  background-color: var(--senary-color);
+  color: var(--quaternary-color);
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: var(--septenary-color);
 }
 
 .profil-section {
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
-.liked-list,
-.comment-list {
-  list-style: none;
-  padding: 0;
-}
-
-.liked-list li,
-.comment-list li {
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-
-.ajout-recettes-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 60px;
-
-}
-
-
-.my-recipes-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 800;
-  border: 3px solid var(--senary-color);
-  margin-top: 10px;
+.section-title {
+  background-color: var(--tertiary-color);
+  color: var(--quaternary-color);
+  font-size: 1.5rem;
+  padding: 12px 20px;
+  border-radius: 8px;
   margin-bottom: 20px;
-  padding: 10px 20px;
-  width: 200px;
-  background-color: var(--primary-color);
-  color: var(--senary-color);
-  text-decoration: none;
-  border-radius: 5px;
+  text-align: center;
 }
-
-.my-recipes-btn:hover {
-  background-color: #4e342e88;
-}
-
-
-
-.recettes-likés {
-    background-color: var(--tertiary-color);
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--secondary-color);
-    font-size: 30px;
-    margin-bottom: 20px;
-}
-
-
-.commentaires-likés {
-        background-color: var(--tertiary-color);
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--secondary-color);
-    font-size: 30px;
-     margin-bottom: 20px;
-}
-
-
-
 
 .cards-grid {
   display: grid;
@@ -174,4 +121,95 @@ html, body {
 
 .card-link:hover {
   text-decoration: underline;
+}
+
+.comment-list {
+  list-style: none;
+  padding: 20px;
+  background-color: var(--quinary-color);
+  border-radius: 8px;
+}
+
+.comment-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--septenary-color);
+  color: var(--senary-color);
+}
+
+.ajout-recettes-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.my-recipes-btn {
+  font-weight: 800;
+  border: 3px solid var(--senary-color);
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: var(--senary-color);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.my-recipes-btn:hover {
+  background-color: var(--senary-color);
+  color: var(--quaternary-color);
+}
+
+/* ✅ MEDIA QUERY RESPONSIVE */
+@media screen and (max-width: 768px) {
+  .profil-page {
+    padding: 30px 20px;
+  }
+
+  .profil-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logout-btn {
+    margin: 20px 0 0 0;
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    padding: 10px 12px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .ajout-recettes-container {
+    flex-direction: column;
+    margin-top: 40px;
+  }
+
+  .my-recipes-btn {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .comment-list {
+    padding: 16px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-body {
+    padding: 0.8rem;
+  }
+
+  .profil-name {
+    font-size: 1rem;
+  }
 }

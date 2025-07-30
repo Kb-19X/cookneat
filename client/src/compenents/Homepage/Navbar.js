@@ -66,7 +66,7 @@ const Navbar = () => {
         <ul className="menu">
           <li>
             <a href="/" className="logo-link">
-              <img src={logo2} alt="Logo" />
+              <img src={logo2} alt="Logo" className="Logocookneat" />
             </a>
           </li>
 

@@ -1,7 +1,7 @@
 import "./Catégorie.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 import commentIcon from "../../assets/ImagePlatsPage/comment.png";
 import likeIcon from "../../assets/ImagePlatsPage/like.png";
@@ -78,10 +78,11 @@ const Catégorie = () => {
     let name = "Anonyme";
     try {
       const decoded = jwtDecode(token);
-      name = decoded.username || "Anonyme"; // 👈 ici on utilise username
+      name = decoded.name || "Anonyme"; // Assure-toi que le token contient 'name'
     } catch (err) {
       console.error("Erreur de décodage du token", err);
     }
+
     const newComment = {
       recipeId,
       text,
@@ -111,42 +112,42 @@ const Catégorie = () => {
     }
   };
 
-const handleLike = async (recipeId) => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Vous devez être connecté pour liker.");
-      return;
-    }
-
-    const res = await axios.post(
-      `${API_URL}/api/recipes/${recipeId}/like`,
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+  const handleLike = async (recipeId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Vous devez être connecté pour liker.");
+        return;
       }
-    );
 
-    console.log("Like response data:", res.data);
+      const res = await axios.post(
+        `${API_URL}/api/recipes/${recipeId}/like`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    // Adapter selon la structure de res.data
-    if (res.data.likes) {
-      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes.length }));
-    } else if (typeof res.data.likesCount === 'number') {
-      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likesCount }));
-    } else {
-      // Si aucune info, incrémente localement (pas recommandé)
-      setLikes((prev) => ({ ...prev, [recipeId]: (prev[recipeId] || 0) + 1 }));
+      console.log("Like response data:", res.data);
+
+      if (res.data.likes) {
+        setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes.length }));
+      } else if (typeof res.data.likesCount === "number") {
+        setLikes((prev) => ({ ...prev, [recipeId]: res.data.likesCount }));
+      } else {
+        setLikes((prev) => ({
+          ...prev,
+          [recipeId]: (prev[recipeId] || 0) + 1,
+        }));
+      }
+    } catch (err) {
+      console.error("Erreur lors du like :", err.response?.data || err.message);
+      alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
     }
-
-  } catch (err) {
-    console.error("Erreur lors du like :", err.response?.data || err.message);
-    alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
-  }
-};
+  };
 
   const rapideFacile = recipes.filter((r) => {
     const totalTime = parseInt(r.totalTime) || 0;
@@ -173,7 +174,6 @@ const handleLike = async (recipeId) => {
           </div>
           <div className="banner-right">
             <h2>
-              {" "}
               Des recettes rapides et faciles à préparer, idéales pour tous les
               jours !
             </h2>

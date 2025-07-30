@@ -338,3 +338,205 @@
 .mot-color {
   color: var(--quaternary-color);
 }
+
+
+
+
+@media screen and (max-width: 480px) {
+  /* -------- CONTAINERS -------- */
+  .feculent-container {
+    padding: 20px 10px;
+  }
+
+  .plats-body-container {
+    padding: 0 10px;
+    width: 100%;
+    margin-left: -20px;
+  }
+
+  /* -------- RECIPES LIST -------- */
+  .recipes-list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px 0px;
+  
+    gap: 20px;
+    align-items: center;
+  }
+
+  /* -------- RECIPE CARD -------- */
+  .recipe-card {
+    width: 90%;
+    max-width: 320px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    aspect-ratio: 3 / 4;
+  }
+
+  .recipe-image img {
+    height: 140px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .recipe-info {
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .recipe-info h3 {
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .recipe-description {
+    font-size: 0.75rem;
+    max-height: 3.5em;
+    overflow: hidden;
+  }
+
+  .recipe-time {
+    font-size: 0.7rem;
+  }
+
+  .recipe-actions {
+    gap: 8px;
+    margin: 6px 0;
+  }
+
+  .recipe-actions img {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* -------- COMMENTAIRES -------- */
+  .comment-section input {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .comment-section button {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .comments-display {
+    font-size: 0.75rem;
+    padding: 8px;
+    max-height: 120px;
+  }
+
+  .single-comment {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+  }
+
+  /* -------- INTRO TEXT -------- */
+  .intro-rapide-facile h1 {
+    font-size: 22px;
+  }
+
+  .intro-rapide-facile p {
+    font-size: 14px;
+  }
+
+  .intro-rapide-facile ul {
+    font-size: 13px;
+  }
+
+  /* -------- HEADER SECTION -------- */
+  .rapide-header-section {
+    padding: 25px 10px;
+  }
+
+  .rapide-text h1 {
+    font-size: 24px;
+  }
+
+  .rapide-text p {
+    font-size: 14px;
+  }
+
+  .rapide-benefits {
+    gap: 8px;
+  }
+
+  .benefit-box {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  /* -------- SEARCH BAR -------- */
+  .search-bar {
+    padding: 25px 10px;
+  }
+
+  .search-bar input {
+    width: 95%;
+    font-size: 0.9rem;
+  }
+
+  /* -------- MESSAGES -------- */
+  .no-results {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  /* -------- BANNIÈRE -------- */
+  .banner-overlay-heal {
+    padding: 15px;
+    width: 90%;
+  }
+.recipe-card {
+  max-width: 260px;  /* au lieu de 300px */
+  min-width: 220px;  /* pour fixer une largeur minimale */
+}
+
+.recipe-image img {
+  height: 140px;  /* au lieu de 160px */
+}
+  .banner-overlay-heal h1 {
+    font-size: 22px;
+  }
+.feculent-container {
+  padding-top: 80px; /* plus de padding en haut */
+}
+  .banner-overlay-heal p {
+    font-size: 14px;
+  }
+
+
+.search-bar {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: var(--secondary-color);
+}
+
+.search-bar input {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 80%;
+  max-width: 400px;
+  transition: border 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+}

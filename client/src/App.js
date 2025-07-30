@@ -2,6 +2,7 @@
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navbar from './compenents/Homepage/Navbar';
 import Footer from './compenents/Homepage/Footer';
+import ResetPassword from './compenents/ResetPasswordPage/ResetPassword';
 import DashboardPage from './compenents/DashboardPage/Dashboard';
 import ProductDetails from './compenents/ProductPage/ProductDetails';
 import Homepage from './compenents/Homepage/Homepage';
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
           { path: 'EditRecipe/:id', element: <EditRecipe /> },
       { path: 'productpage/:id', element: <ProductDetails /> }, // 🔧 Affichage d'un plat spécifique
       { path: 'plats', element: <Plats /> },
+        { path: 'ResetPassword', element: <ResetPassword /> },
       { path: 'chefrecipe', element: <ChefRecipe /> },
       { path: 'connexion', element: <Connexion /> },
       { path: 'register', element: <Register /> },

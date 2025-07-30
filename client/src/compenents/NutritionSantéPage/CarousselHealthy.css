@@ -1,55 +1,77 @@
-
 .carousel {
-    margin-top: -50px;
+  margin-top: -50px;
 }
-.carousel .slide {
-    position: relative;
-  }
-  
-  .carousel .text-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--secondary-color); 
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    background-color: #4E342E;
-    border: 2px solid var(--secondary-color);
-    display: flex;
-    padding: 10px;
-  }
 
+.carousel .slide {
+  position: relative;
+}
+
+.carousel .text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--secondary-color); 
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #4E342E;
+  border: 2px solid var(--secondary-color);
+  display: flex;
+  padding: 10px;
+}
 
 .carousel-color {
-    background-color: var(--secondary-color);
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
+  background-color: var(--secondary-color);
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
 }
 
-
-/* Cibler les chevrons existants (flèches) dans React Slick */
+/* Flèches React Slick */
 .slick-prev, .slick-next {
-
-  font-size: 25px;            /* Taille de la flèche */
-  border-radius: 50%;         /* Faire des cercles autour des flèches */
-  height: 40px;               /* Taille du cercle */
-  width: 40px;                /* Largeur du cercle */
-  display: flex;              /* Utiliser flexbox pour centrer le contenu */
-  justify-content: center;    /* Centrer horizontalement */
-  z-index: 1;                 /* Assurer que les chevrons soient au-dessus des images */
+  font-size: 25px;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  background-color: var(--tertiary-color);
+  color: white;
 }
 
 .slick-prev {
-  left: 10px;  /* Position du chevron gauche */
+  left: 10px;
 }
 
 .slick-next {
-  right: 10px; /* Position du chevron droit */
+  right: 10px;
 }
 
-/* Modifier les chevrons au survol */
+/* ✅ Responsive */
+@media screen and (max-width: 768px) {
+  .carousel {
+    margin-top: 0;
+  }
 
+  .carousel-color {
+    height: auto;
+    padding: 20px 15px;
+  }
+
+  .carousel .text-overlay {
+    font-size: 14px;
+    padding: 8px;
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .slick-prev, .slick-next {
+    height: 30px;
+    width: 30px;
+    font-size: 18px;
+  }
+}

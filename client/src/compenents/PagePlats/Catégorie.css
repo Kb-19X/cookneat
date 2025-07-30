@@ -1,12 +1,11 @@
-/* Barre de recherche */
+/* ✅ SECTION: Barre de recherche */
 .search-bar {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 50px;
-   padding-bottom: 50px;
-
+  padding: 50px 20px;
+  flex-wrap: wrap;
 }
 
 .search-bar input {
@@ -27,14 +26,13 @@
 /* Message si aucune recette */
 .no-results {
   color: var(--senary-color);
-  font-style: bold;
+  font-weight: bold;
   text-align: center;
   width: 100%;
   margin-bottom: 30px;
 }
 
-
-
+/* ✅ SECTION: Commentaires */
 .comments-display {
   margin-top: 15px;
   background-color: #fff4f0;
@@ -57,15 +55,11 @@
   border-bottom: none;
 }
 
-
-
+/* ✅ SECTION: Introduction */
 .intro-rapide-facile {
   text-align: center;
- 
   background: var(--secondary-color);
   padding: 30px 20px;
- 
-
 }
 
 .intro-rapide-facile h1 {
@@ -87,17 +81,14 @@
   line-height: 1.8;
 }
 
-
-
+/* ✅ SECTION: Header rapide & facile */
 .rapide-header-section {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--tertiary-color);
   padding: 50px 20px;
-  
- 
-
+  flex-wrap: wrap;
 }
 
 .rapide-text {
@@ -117,6 +108,7 @@
   color: #4c2c2c;
 }
 
+/* ✅ SECTION: Avantages */
 .rapide-benefits {
   display: flex;
   gap: 15px;
@@ -129,7 +121,6 @@
   padding: 12px 20px;
   border-radius: 8px;
   font-weight: 600;
-
   font-size: 15px;
   color: var(--quaternary-color);
 }
@@ -139,6 +130,8 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
+
+/* ✅ SECTION: Bannières & Overlays */
 .banner-gradient-overlay {
   position: absolute;
   bottom: 0;
@@ -148,15 +141,15 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
   z-index: 1;
 }
+
 .banner-overlay-heal {
   position: relative;
   z-index: 2;
   text-align: center;
   color: var(--quaternary-color);
-   background-color: rgba(78, 52, 46, 0.629); /* couleur + transparence douce */
+  background-color: rgba(78, 52, 46, 0.629);
   padding: 20px 30px;
   border-radius: 8px;
-
   max-width: 90%;
   margin: 0 auto;
 }
@@ -170,11 +163,74 @@
 .banner-overlay-heal p {
   font-size: 17px;
   line-height: 1.5;
-  color:  var(--quaternary-color);
+  color: var(--quaternary-color);
 }
-
 
 .mot-color {
   color: var(--quaternary-color);
-  
+}
+
+/* ✅ SECTION: Banner droite */
+.banner-right {
+  padding: 40px 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--senary-color);
+  justify-content: center;
+  width: 700px;
+  color: var(--quaternary-color);
+}
+
+/* 📱 Responsive pour smartphones */
+@media (max-width: 768px) {
+  .search-bar {
+    flex-direction: column;
+    padding: 30px 10px;
+  }
+
+  .search-bar input {
+    width: 90%;
+    font-size: 0.95rem;
+  }
+
+  .intro-rapide-facile h1,
+  .rapide-text h1,
+  .banner-overlay-heal h1 {
+    font-size: 26px;
+  }
+
+  .intro-rapide-facile p,
+  .rapide-text p,
+  .banner-overlay-heal p {
+    font-size: 15px;
+  }
+
+  .rapide-header-section {
+    flex-direction: column;
+    padding: 30px 10px;
+  }
+
+  .rapide-benefits {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .benefit-box {
+    width: 90%;
+    text-align: center;
+  }
+
+  .banner-right {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .banner-right h2 {
+    font-size: 20px;
+  }
+
+  .banner-overlay-heal {
+    padding: 15px 20px;
+  }
 }
