@@ -7,7 +7,7 @@ import {
   deleteUser,
   changeUserRole,
   getStats,
-} from "../../..//api";
+} from "../../../api";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 
