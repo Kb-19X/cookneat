@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Profil.css';
 import userIcon from '../../assets/ImageHomePage/user.png';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode'; // correction import
+import {jwtDecode} from 'jwt-decode'; // Import corrigé ici
 
 const Profil = () => {
   const [username, setUsername] = useState('');
@@ -10,38 +10,40 @@ const Profil = () => {
   const [likedRecipes, setLikedRecipes] = useState([]);
   const [myComments, setMyComments] = useState([]);
   const [myRecipes, setMyRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
     try {
       const decoded = jwtDecode(token);
-      setUsername(decoded.name);
-      setRole(decoded.role || '');
+      setUsername(decoded.name || 'Utilisateur');
+      setRole(decoded.role || 'user');
 
-      // Recettes likées
-      axios.get('https://cookneat-server.onrender.com/api/recipes/liked', {
-        headers: { Authorization: `Bearer ${token}` }
+      // On lance les 3 requêtes en parallèle
+      Promise.all([
+        axios.get('https://cookneat-server.onrender.com/api/recipes/liked', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('https://cookneat-server.onrender.com/api/comments/mine', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('https://cookneat-server.onrender.com/api/recipes/mes-recettes', { headers: { Authorization: `Bearer ${token}` } }),
+      ])
+      .then(([likedRes, commentsRes, myRecipesRes]) => {
+        setLikedRecipes(likedRes.data || []);
+        setMyComments(commentsRes.data || []);
+        setMyRecipes(myRecipesRes.data || []);
       })
-      .then(res => setLikedRecipes(res.data))
-      .catch(err => console.error('Erreur chargement recettes likées :', err));
-
-      // Commentaires de l’utilisateur
-      axios.get('https://cookneat-server.onrender.com/api/comments/mine', {
-        headers: { Authorization: `Bearer ${token}` }
+      .catch(err => {
+        console.error('Erreur lors du chargement des données:', err);
       })
-      .then(res => setMyComments(res.data))
-      .catch(err => console.error('Erreur chargement commentaires :', err));
-
-      // Recettes créées par l’utilisateur
-      axios.get('https://cookneat-server.onrender.com/api/recipes/mes-recettes', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(res => setMyRecipes(res.data))
-      .catch(err => console.error('Erreur chargement de mes recettes :', err));
+      .finally(() => {
+        setLoading(false);
+      });
     } catch (err) {
-      console.error("Token invalide :", err);
+      console.error('Token invalide:', err);
+      setLoading(false);
     }
   }, []);
 
@@ -58,11 +60,15 @@ const Profil = () => {
       await axios.delete(`https://cookneat-server.onrender.com/api/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setMyComments(prev => prev.filter(c => c._id !== commentId));
+      setMyComments(myComments.filter(c => c._id !== commentId));
     } catch (err) {
       console.error("Erreur suppression commentaire :", err);
     }
   };
+
+  if (loading) {
+    return <p>Chargement en cours...</p>;
+  }
 
   return (
     <div className="profil-page">
@@ -71,7 +77,7 @@ const Profil = () => {
         <h2>Bienvenue, {username} !</h2>
 
         {role === 'admin' && (
-          <button
+          <button 
             className="dashboard-btn"
             onClick={() => window.location.href = '/dashboard'}
           >
@@ -85,7 +91,8 @@ const Profil = () => {
       <p className="user-stats">
         {likedRecipes.length === 0 && myComments.length === 0 && myRecipes.length === 0 ? (
           <>
-            👋 Salut {username || 'cher·e gourmand·e'} !<br />
+            👋 Salut {username || 'cher·e gourmand·e'} !  
+            <br />
             Tu es tout juste arrivé·e, n’hésite pas à explorer les recettes et à partager ta passion en likant, commentant et créant tes propres plats ! 🍳✨
           </>
         ) : (
@@ -102,14 +109,14 @@ const Profil = () => {
       </p>
 
       <div className="profil-section">
-        <h3 className="recettes-likees">💖 Recettes likées</h3>
+        <h3>💖 Recettes likées</h3>
         <div className="cards-grid">
           {likedRecipes.length === 0 ? (
             <p>Aucune recette likée pour le moment.</p>
           ) : (
-            likedRecipes.map(recipe => (
+            likedRecipes.map((recipe) => (
               <div key={recipe._id} className="card">
-                <img src={recipe.imageUrl} alt={recipe.title || "Recette"} className="card-img" />
+                <img src={recipe.imageUrl} alt={recipe.title} className="card-img" />
                 <div className="card-body">
                   <h4 className="card-title">{recipe.title}</h4>
                   <a href={`/recette/${recipe._id}`} className="card-link">Voir la recette</a>
@@ -121,14 +128,14 @@ const Profil = () => {
       </div>
 
       <div className="profil-section">
-        <h3 className="mes-recettes">📚 Mes recettes</h3>
+        <h3>📚 Mes recettes</h3>
         <div className="cards-grid">
           {myRecipes.length === 0 ? (
             <p>Tu n’as pas encore ajouté de recette.</p>
           ) : (
             myRecipes.map(recipe => (
               <div key={recipe._id} className="card">
-                <img src={recipe.imageUrl} alt={recipe.title || "Recette"} className="card-img" />
+                <img src={recipe.imageUrl} alt={recipe.title} className="card-img" />
                 <div className="card-body">
                   <h4 className="card-title">{recipe.title}</h4>
                   <a href={`/EditRecipe/${recipe._id}`} className="card-link">Modifier</a>
@@ -140,24 +147,19 @@ const Profil = () => {
       </div>
 
       <div className="profil-section">
-        <h3 className="mes-commentaires">💬 Mes commentaires</h3>
-        {myComments.length === 0 ? (
-          <p>Tu n’as pas encore écrit de commentaire.</p>
-        ) : (
-          <ul className="comment-list">
-            {myComments.map(comment => (
+        <h3>💬 Mes commentaires</h3>
+        <ul className="comment-list">
+          {myComments.length === 0 ? (
+            <p>Tu n’as pas encore écrit de commentaire.</p>
+          ) : (
+            myComments.map((comment) => (
               <li key={comment._id}>
-                <strong>{comment.recipeTitle}</strong> : {comment.text}
-                <button
-                  className="delete-comment-btn"
-                  onClick={() => handleDeleteComment(comment._id)}
-                >
-                  ❌
-                </button>
+                <strong>{comment.recipeTitle || 'Recette inconnue'}</strong> : {comment.text}
+                <button className="delete-comment-btn" onClick={() => handleDeleteComment(comment._id)}>❌</button>
               </li>
-            ))}
-          </ul>
-        )}
+            ))
+          )}
+        </ul>
       </div>
 
       <div className="ajout-recettes-container">
