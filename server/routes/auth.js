@@ -10,6 +10,7 @@ require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET || 'secret_key_for_jwt';
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 
+// Mailer setup
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -18,7 +19,38 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Inscription
+// 🔒 Middleware d'authentification
+const authMiddleware = (req, res, next) => {
+  const authHeader = req.header("Authorization");
+  const token = authHeader && authHeader.split(" ")[1]; // "Bearer token"
+
+  if (!token) {
+    return res.status(401).json({ message: "Token manquant." });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded; // { id, name, role }
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Token invalide." });
+  }
+};
+
+// ✅ Route protégée : profil utilisateur
+router.get('/profile', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+
+    res.json(user);
+  } catch (err) {
+    console.error('Erreur /profile :', err);
+    res.status(500).json({ message: 'Erreur serveur.' });
+  }
+});
+
+// 🔐 Inscription
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -41,10 +73,13 @@ router.post('/register', async (req, res) => {
 
     await newUser.save();
 
-    // Optionnel : connexion automatique après inscription
     const token = jwt.sign({ id: newUser._id, name: newUser.username, role: newUser.role }, JWT_SECRET, { expiresIn: '7d' });
 
-    res.status(201).json({ message: "Inscription réussie !", token, user: { username: newUser.username, email: newUser.email, role: newUser.role } });
+    res.status(201).json({
+      message: "Inscription réussie !",
+      token,
+      user: { username: newUser.username, email: newUser.email, role: newUser.role }
+    });
 
   } catch (err) {
     console.error("Erreur /register :", err);
@@ -52,7 +87,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Connexion
+// 🔐 Connexion
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -84,7 +119,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Mot de passe oublié
+// 📧 Mot de passe oublié
 router.post('/forgot-password', async (req, res) => {
   const { email, username } = req.body;
 
@@ -105,7 +140,6 @@ router.post('/forgot-password', async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-
     const resetLink = `${CLIENT_URL}/reset-password?token=${token}`;
 
     const mailOptions = {
@@ -122,7 +156,6 @@ router.post('/forgot-password', async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-
     res.json({ message: 'Un lien de réinitialisation a été envoyé par email.' });
 
   } catch (err) {
@@ -131,7 +164,7 @@ router.post('/forgot-password', async (req, res) => {
   }
 });
 
-// Réinitialisation mot de passe
+// 🔁 Réinitialisation mot de passe
 router.post('/reset-password', async (req, res) => {
   const { token, password } = req.body;
 
@@ -144,7 +177,6 @@ router.post('/reset-password', async (req, res) => {
     const userId = decoded.id;
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = await User.findByIdAndUpdate(userId, { password: hashedPassword }, { new: true });
 
     if (!user) {
@@ -155,11 +187,9 @@ router.post('/reset-password', async (req, res) => {
 
   } catch (err) {
     console.error('Erreur /reset-password:', err);
-
     if (err.name === 'TokenExpiredError') {
       return res.status(401).json({ message: 'Le lien de réinitialisation a expiré.' });
     }
-
     res.status(400).json({ message: 'Token invalide ou autre erreur.' });
   }
 });

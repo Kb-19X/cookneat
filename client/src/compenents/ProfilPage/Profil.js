@@ -2,53 +2,44 @@ import React, { useEffect, useState } from 'react';
 import './Profil.css';
 import userIcon from '../../assets/ImageHomePage/user.png';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; // correction import
+import {jwtDecode} from 'jwt-decode'; // correction import
 
 const Profil = () => {
   const [username, setUsername] = useState('');
-  const [role, setRole] = useState(''); // <-- nouveau state pour le rôle
+  const [role, setRole] = useState('');
   const [likedRecipes, setLikedRecipes] = useState([]);
   const [myComments, setMyComments] = useState([]);
   const [myRecipes, setMyRecipes] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log("Token récupéré :", token);
     if (!token) return;
 
     try {
       const decoded = jwtDecode(token);
-      console.log("Token décodé :", decoded);
       setUsername(decoded.name);
-      setRole(decoded.role || ''); // récupérer le rôle admin / user
+      setRole(decoded.role || '');
 
+      // Recettes likées
       axios.get('https://cookneat-server.onrender.com/api/recipes/liked', {
         headers: { Authorization: `Bearer ${token}` }
       })
-      .then(res => {
-        console.log("Recettes likées reçues :", res.data);
-        setLikedRecipes(res.data);
-      })
+      .then(res => setLikedRecipes(res.data))
       .catch(err => console.error('Erreur chargement recettes likées :', err));
 
+      // Commentaires de l’utilisateur
       axios.get('https://cookneat-server.onrender.com/api/comments/mine', {
         headers: { Authorization: `Bearer ${token}` }
       })
-      .then(res => {
-        console.log("Commentaires reçus :", res.data);
-        setMyComments(res.data);
-      })
+      .then(res => setMyComments(res.data))
       .catch(err => console.error('Erreur chargement commentaires :', err));
 
+      // Recettes créées par l’utilisateur
       axios.get('https://cookneat-server.onrender.com/api/recipes/mes-recettes', {
         headers: { Authorization: `Bearer ${token}` }
       })
-      .then(res => {
-        console.log("Mes recettes reçues :", res.data);
-        setMyRecipes(res.data);
-      })
+      .then(res => setMyRecipes(res.data))
       .catch(err => console.error('Erreur chargement de mes recettes :', err));
-
     } catch (err) {
       console.error("Token invalide :", err);
     }
@@ -67,7 +58,7 @@ const Profil = () => {
       await axios.delete(`https://cookneat-server.onrender.com/api/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setMyComments(myComments.filter(c => c._id !== commentId));
+      setMyComments(prev => prev.filter(c => c._id !== commentId));
     } catch (err) {
       console.error("Erreur suppression commentaire :", err);
     }
@@ -79,9 +70,8 @@ const Profil = () => {
         <img src={userIcon} alt="User Icon" className="profil-avatar" />
         <h2>Bienvenue, {username} !</h2>
 
-        {/* Bouton dashboard visible uniquement si admin */}
         {role === 'admin' && (
-          <button 
+          <button
             className="dashboard-btn"
             onClick={() => window.location.href = '/dashboard'}
           >
@@ -93,15 +83,12 @@ const Profil = () => {
       </div>
 
       <p className="user-stats">
-        {likedRecipes.length === 0 && myComments.length === 0 && myRecipes.length === 0 && (
+        {likedRecipes.length === 0 && myComments.length === 0 && myRecipes.length === 0 ? (
           <>
-            👋 Salut {username || 'cher·e gourmand·e'} !  
-            <br />
+            👋 Salut {username || 'cher·e gourmand·e'} !<br />
             Tu es tout juste arrivé·e, n’hésite pas à explorer les recettes et à partager ta passion en likant, commentant et créant tes propres plats ! 🍳✨
           </>
-        )}
-
-        {(likedRecipes.length > 0 || myComments.length > 0 || myRecipes.length > 0) && (
+        ) : (
           <>
             {likedRecipes.length > 0 && <>💖 Tu as liké <strong>{likedRecipes.length}</strong> recette{likedRecipes.length > 1 ? 's' : ''} savoureuse{likedRecipes.length > 1 ? 's' : ''}.</>}
             {likedRecipes.length > 0 && (myComments.length > 0 || myRecipes.length > 0) && <> &nbsp;·&nbsp; </>}
@@ -115,12 +102,12 @@ const Profil = () => {
       </p>
 
       <div className="profil-section">
-        <h3 className="recettes-likés">💖 Recettes likées</h3>
+        <h3 className="recettes-likees">💖 Recettes likées</h3>
         <div className="cards-grid">
           {likedRecipes.length === 0 ? (
             <p>Aucune recette likée pour le moment.</p>
           ) : (
-            likedRecipes.map((recipe) => (
+            likedRecipes.map(recipe => (
               <div key={recipe._id} className="card">
                 <img src={recipe.imageUrl} alt={recipe.title || "Recette"} className="card-img" />
                 <div className="card-body">
@@ -154,18 +141,23 @@ const Profil = () => {
 
       <div className="profil-section">
         <h3 className="mes-commentaires">💬 Mes commentaires</h3>
-        <ul className="comment-list">
-          {myComments.length === 0 ? (
-            <p>Tu n’as pas encore écrit de commentaire.</p>
-          ) : (
-            myComments.map((comment) => (
+        {myComments.length === 0 ? (
+          <p>Tu n’as pas encore écrit de commentaire.</p>
+        ) : (
+          <ul className="comment-list">
+            {myComments.map(comment => (
               <li key={comment._id}>
                 <strong>{comment.recipeTitle}</strong> : {comment.text}
-                <button className="delete-comment-btn" onClick={() => handleDeleteComment(comment._id)}>❌</button>
+                <button
+                  className="delete-comment-btn"
+                  onClick={() => handleDeleteComment(comment._id)}
+                >
+                  ❌
+                </button>
               </li>
-            ))
-          )}
-        </ul>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="ajout-recettes-container">

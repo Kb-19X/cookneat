@@ -9,24 +9,25 @@ module.exports = function (req, res, next) {
     return res.status(401).json({ message: "Token manquant" });
   }
 
-  const token = authHeader.split(' ')[1]; // "Bearer token"
+  // "Bearer token" → on récupère la partie token
+  const token = authHeader.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ message: "Token manquant" });
   }
 
   try {
-    // Vérifier et décoder le token
+    // Vérifier et décoder le token avec la clé secrète
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Stocker les infos utiles dans req.user
+    // Stocker les infos utiles dans req.user pour la suite
     req.user = {
       id: decoded.id,
-      username: decoded.name,  // attention ici, c’est "name" dans le token
+      username: decoded.name, // 'name' correspond à 'username' dans le token
       role: decoded.role
     };
 
-    next();
+    next(); // Passe au middleware/route suivant.e
 
   } catch (err) {
     return res.status(401).json({ message: "Token invalide" });
