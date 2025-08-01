@@ -25,7 +25,11 @@ const recipeSchema = new mongoose.Schema({
   ],
   steps: [stepSchema],  // Ici on accepte un tableau d’objets stepSchema
   isChefRecipe: Boolean,
-  category: String
+ category: {
+  type: String,
+  enum: ["Healthy", "Rapide", "Vegan", "Dessert", "Sans gluten", "Détox"],
+  required: true
+}
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
