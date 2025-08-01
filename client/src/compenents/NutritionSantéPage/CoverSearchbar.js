@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CoverSearchbar.css';
 import { useNavigate } from 'react-router-dom';
-
+import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -23,15 +23,24 @@ const CoverSearchbar = () => {
 
   const navigate = useNavigate();
 
-useEffect(() => {
-  fetch(`${API_URL}/api/recipes/healthy`)
-    .then(res => res.json())
-    .then(data => {
-      console.log('Données reçues:', data);  // <-- vérifie ce que tu reçois
-      setRecipes(data);
-    })
-    .catch(err => console.error('❌ Erreur de chargement des recettes :', err));
-}, []);
+ useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/recipes`);
+        setRecipes(res.data);
+
+        const initialLikes = {};
+        res.data.forEach((r) => {
+          initialLikes[r._id] = r.likes?.length || 0;
+        });
+        setLikes(initialLikes);
+      } catch (err) {
+        console.error("❌ Erreur lors de la récupération des recettes :", err);
+      }
+    };
+
+    fetchRecipes();
+  }, []);
 
 
   const handleLike = (id) => {
