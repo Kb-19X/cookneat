@@ -1,116 +1,33 @@
+/* ✅ RESET */
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-nav ul li {
-  text-align: center; /* Center the text within each list item */
-  color: #3a001e;
-}
+/* ✅ NAVBAR GÉNÉRALE */
 nav {
   position: relative;
+  height: 110px;
+  background-color: var(--primary-color);
+  z-index: 1000;
 }
 
 nav ul {
   list-style: none;
-  gap: 40px;
-  background-color: #eb7e68;
-  height: 130px;
-  font-weight: 500;
-  border-bottom: 4px solid #6c5b51;
-}
-
-.container {
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  gap: 40px;
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.container a {
-  text-decoration: none;
-  color: var(--secondary-color);
-  font-weight: 800;
-  padding: 5px;
-}
-
-.container a:hover {
-  padding-bottom: 5px;
-}
-
-nav ul img {
-  object-fit: contain;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 50px;
-}
-
-.input-navbar {
-  height: 30px;
-  border: none;
-  width: 200px;
-  background-color: #a5b68d7b;
-}
-
-input::placeholder {
-  color: #ffffff; /* Change la couleur du placeholder au focus */
-  padding-left: 5px;
-}
-
-input:focus {
-  outline: none;
-  background-color: #3a001e98;
-  color: white;
-}
-
-.input-navbar-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.connexion-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 4px solid var(--secondary-color);
-  background-color: var(--tertiary-color);
-  height: 16px;
-  text-decoration: none;
-  padding: 5px;
-  color: #ffe5da;
-  margin-left: 50px;
-  font-weight: 700;
-}
-
-.connexion-btn:hover {
-  background-color: #ae948e51;
-  border: 5px dotted var(--secondary-color);
-  font-weight: 700;
-}
-
-nav {
-  position: relative;
-  height: 110px;
-  padding: 0 0px;
 }
 
 nav ul.menu {
   display: flex;
-  width: 100vw;
-  height: 110px;
-  position: fixed;
   align-items: center;
   justify-content: center;
-  list-style: none;
   gap: 20px;
+  height: 110px;
+  width: 100vw;
+  position: fixed;
+  top: 0;
   background-color: var(--primary-color);
-  z-index: 1000; /* ✅ ajouté ici */
+  border-bottom: 4px solid #6c5b51;
 }
 
 nav ul.menu li a {
@@ -124,7 +41,81 @@ nav ul.menu li a:hover {
   color: var(--tertiary-color);
 }
 
-/* Burger menu (masqué par défaut) */
+nav ul.menu li {
+  text-align: center;
+}
+
+nav ul img {
+  object-fit: contain;
+  width: 100px;
+  height: 100px;
+  margin-right: 50px;
+}
+
+/* ✅ CONTAINER LIENS */
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.container a {
+  text-decoration: none;
+  color: var(--secondary-color);
+  padding: 5px;
+}
+
+.container a:hover {
+  padding-bottom: 5px;
+}
+
+/* ✅ INPUT DE RECHERCHE */
+.input-navbar-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-navbar {
+  height: 30px;
+  width: 200px;
+  border: none;
+  background-color: #a5b68d7b;
+  color: white;
+}
+
+input::placeholder {
+  color: white;
+  padding-left: 5px;
+}
+
+input:focus {
+  outline: none;
+  background-color: #3a001e98;
+}
+
+/* ✅ BOUTON CONNEXION */
+.connexion-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid var(--secondary-color);
+  background-color: var(--tertiary-color);
+  height: 16px;
+  padding: 5px;
+  color: #ffe5da;
+  margin-left: 50px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.connexion-btn:hover {
+  background-color: #ae948e51;
+  border: 5px dotted var(--secondary-color);
+}
+
+/* ✅ BURGER MENU */
 .burger-menu {
   display: none;
   flex-direction: column;
@@ -132,6 +123,7 @@ nav ul.menu li a:hover {
   width: 30px;
   height: 25px;
   cursor: pointer;
+  padding: 20px;
 }
 
 .burger-menu span {
@@ -140,136 +132,22 @@ nav ul.menu li a:hover {
   width: 100%;
   background-color: #3a001e;
   border-radius: 3px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: 0.3s;
 }
 
-.user-icon {
-  margin-left: 30px;
-  border: 2px solid var(--tertiary-color);
-  width: 40px;
-  border-radius: 40px;
-  height: 40px;
-  object-fit: cover;
-}
-
-.user-icon:hover {
-  border: 3px solid var(--tertiary-color); /* même style que normal */
-  background-color: transparent; /* pas de changement au survol */
-  cursor: default; /* pas de pointeur main */
-  filter: none; /* évite tout effet visuel */
-}
-
-/* Style du burger menu */
-/* Styles par défaut pour les écrans larges */
-.burger-menu {
-  display: none; /* Masqué sur les écrans larges */
-}
-
-@media only screen and (max-width: 480px) {
-  nav {
-    height: 60px; /* Réduit la hauteur de la navbar */
-  }
-
-  /* Afficher le bouton burger */
-  .burger-menu {
-    display: flex;
-  }
-
-  /* Masquer le menu par défaut */
-  nav ul.menu {
-    display: none;
-    flex-direction: column;
-    background-color: #3a001ef1; /* Fond du menu burger */
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    padding: 20px 0;
-    z-index: 10;
-  }
-
-  /* Afficher le menu actif */
-  nav ul.menu.active {
-    display: flex;
-    height: 383px;
-  }
-
-  nav ul.menu li {
-    text-align: center;
-    padding: 10px 0;
-  }
-
-  nav ul li:hover {
-    cursor: pointer;
-    color: #ff2a00;
-  }
-
-  nav ul.menu li a {
-    color: #ffe5da;
-    text-decoration: none;
-    font-size: 18px;
-  }
-
-  .container {
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    gap: 1px;
-    flex-direction: column;
-    height: 600px;
-  }
-
-  nav ul img {
-    height: 50px;
-  }
-
-  /* .input-navbar-container {
-       
-        
-} */
-  .input-navbar {
-    height: 30px;
-    border: none;
-    width: 100px;
-    background-color: #eb7e686d;
-  }
-  .connexion-btn {
-    border: 4px solid #eb7e686d;
-    background-color: #eb7e686d;
-    height: 15px;
-    text-decoration: none;
-    padding: 5px;
-    color: white;
-    margin-left: 50px;
-    font-weight: 700;
-  }
-
-  .input-navbar-container {
-    margin-bottom: 100px;
-  }
-
-  .input-navbar-container img {
-    height: 26px;
-    width: 30px;
-    object-fit: cover;
-    background-color: #eb7e686d;
-    border: 2px solid #eb7e686d;
-  }
-
-  /* body */
-}
-
+/* ✅ UTILISATEUR CONNECTÉ */
 .connected-user {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.status-dot {
+.status-dot,
+.status-indicator {
   width: 10px;
   height: 10px;
-  background-color: limegreen;
   border-radius: 50%;
+  background-color: limegreen;
   animation: pulse 1.5s infinite;
 }
 
@@ -288,71 +166,11 @@ nav ul.menu li a:hover {
   }
 }
 
-.user-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
+/* ✅ AVATAR / USER ICON */
 .user-profile {
   position: relative;
   display: flex;
   align-items: center;
-  cursor: pointer;
-}
-
-.user-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.status-indicator {
-  width: 10px;
-  height: 10px;
-  background: gray;
-  border-radius: 50%;
-  margin-right: 5px;
-}
-
-.status-indicator.connected {
-  background: #4caf50; /* vert connecté */
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 48px;
-  right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 0.5rem;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.dropdown-menu a,
-.dropdown-menu button {
-  display: block;
-  padding: 0.5rem 1rem;
-  color: black;
-  text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-}
-
-.dropdown-menu a:hover,
-.dropdown-menu button:hover {
-  background-color: #f2f2f2;
-}
-
-.user-profile {
-  position: relative;
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -361,27 +179,25 @@ nav ul.menu li a:hover {
 .user-icon {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+ 
   object-fit: cover;
   display: block;
+  margin-left: 30px;
 }
 
-/* Voyant positionné en bas à droite */
 .status-indicator {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 10px;
-  height: 10px;
   background: gray;
   border: 2px solid white;
-  border-radius: 50%;
 }
 
 .status-indicator.connected {
-  background: #4caf50; /* Vert connecté */
+  background: #4caf50;
 }
 
+/* ✅ MENU DÉROULANT */
 .dropdown-menu {
   position: absolute;
   top: 48px;
@@ -413,11 +229,10 @@ nav ul.menu li a:hover {
   background-color: #f2f2f2;
 }
 
-
-
+/* ✅ BOUTON ADMIN */
 .admin-button {
   padding: 6px 12px;
-  background-color: #DA8359;
+  background-color: #da8359;
   color: white;
   border-radius: 8px;
   font-weight: bold;
@@ -427,4 +242,187 @@ nav ul.menu li a:hover {
 
 .admin-button:hover {
   background-color: #c47345;
+}
+
+/* ================== RESPONSIVE MOBILE : max 480px ================== */
+@media only screen and (max-width: 480px) {
+  nav {
+    height: 60px;
+  }
+
+  .burger-menu {
+    display: flex;
+    background-color: var(--senary-color);
+  }
+
+  nav ul.menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: var(--senary-color);
+    padding: 20px 0;
+  }
+
+  nav ul.menu.active {
+    display: flex;
+  }
+
+  nav ul.menu li {
+    padding: 10px 0;
+  }
+
+  nav ul.menu li a {
+    color: #ffe5da;
+    font-size: 18px;
+  }
+
+  nav ul img {
+    width: 80px;
+    height: 80px;
+    margin-right: 0;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .input-navbar {
+    width: 140px;
+    background-color: #eb7e686d;
+  }
+
+  .connexion-btn {
+    margin-left: 0;
+    border: 3px solid #eb7e686d;
+    background-color: #eb7e686d;
+  }
+
+  .input-navbar-container img {
+    height: 26px;
+    width: 30px;
+    background-color: #eb7e686d;
+    border: 2px solid #eb7e686d;
+  }
+}
+
+/* ================== RESPONSIVE TABLETTE : 481px – 768px ================== */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  nav {
+    height: 90px;
+  }
+
+  nav ul.menu {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: auto;
+    padding: 10px 0;
+    border-bottom: 3px solid #6c5b51;
+  }
+
+  nav ul.menu li a {
+    font-size: 15px;
+    padding: 8px;
+  }
+
+  nav ul img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+  }
+
+  .container {
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    justify-content: center;
+  }
+
+  .input-navbar-container {
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  .input-navbar {
+    width: 160px;
+    font-size: 14px;
+  }
+
+  .connexion-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+
+  .burger-menu {
+    display: none;
+  }
+
+  .user-profile {
+    width: 36px;
+    height: 36px;
+  }
+
+  .dropdown-menu {
+    top: 42px;
+    width: 180px;
+  }
+
+  .admin-button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  /* === AJOUTS POUR RECIPES ET RECIPE OF THE DAY POUR TABLETTE === */
+
+  /* Conteneur principal des recettes */
+  .recipes-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    max-width: 95vw;
+    margin: 0 auto;
+    padding: 0 10px;
+  }
+
+  /* Chaque carte recette */
+  .recipe-card {
+    flex: 1 1 calc(50% - 20px); /* 2 cards par ligne avec gap */
+    max-width: 48%;
+    box-sizing: border-box;
+  }
+
+  /* Recette du jour - conteneur */
+  .recipe-of-the-day {
+    max-width: 95vw;
+    margin: 20px auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Image dans recette du jour */
+  .recipe-of-the-day img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+
+  /* Texte recette du jour */
+  .recipe-of-the-day .title {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  .recipe-of-the-day .description {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
 }

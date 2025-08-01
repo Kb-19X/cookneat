@@ -1,5 +1,5 @@
 .footer-container {
-  height: 400px;
+  height: 411px;
   background-color: var(--primary-color);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -145,4 +145,19 @@
   margin-left: 30px;
   font-weight: 600;
 }
+}
+
+
+
+@media only screen and (min-width: 481px) and (max-width: 768px) { 
+
+
+.footer-container {
+  padding: 20px;
+  height: 450px;
+}
+
+
+
+
 }

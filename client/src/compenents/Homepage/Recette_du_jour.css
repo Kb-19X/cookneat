@@ -1,19 +1,19 @@
 .pagejour {
   background-color: #ecdfcc;
   height: 640px;
-
 }
+
 .recettedujour {
   background-color: #4e342e91;
-
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
   padding: 20px;
   gap: 20px;
- 
+  /* Pour mobile, flex-direction sera changé dans media query */
 }
+
 .titre-recetteday-2 {
   display: flex;
   justify-content: center;
@@ -21,11 +21,7 @@
   color: #4e342e;
   font-size: 24px;
   font-weight: 700;
-
-  
-
 }
-
 
 .recettedujour img {
   width: 30px;
@@ -34,10 +30,11 @@
 }
 
 .recettedujour h1 {
-   font-size: 24px;
+  font-size: 24px;
   padding: 5px;
-   color: var(--secondary-color);
+  color: var(--secondary-color);
 }
+
 .description-pagejour {
   display: flex;
   justify-content: center;
@@ -52,19 +49,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-}
-
-.recetteday-left img {
-  width: 500px;
-  height: 275px;
-  margin-bottom: 20px;
-  margin-top: 60px;
-  object-fit: cover;
-  border-radius: 5px;
-  border: 3px solid #a5b68d;
-  box-shadow: 0px 0px 15px #a5b68d;
+  gap: 0; /* uniformise avec grid-gap */
 }
 
 .recetteday-left {
@@ -75,6 +60,17 @@
   margin-left: 70px;
 }
 
+.recetteday-left img {
+  width: 500px;
+  height: 275px;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 3px solid #a5b68d;
+  box-shadow: 0 0 15px #a5b68d;
+}
+
 .recetteday-left h1 {
   color: #ecdfcc;
   width: 200px;
@@ -83,8 +79,8 @@
   padding: 5px;
   display: flex;
   align-items: center;
-  border: 3px solid #a5b68d;
   justify-content: center;
+  border: 3px solid #a5b68d;
   background: #da8359;
 }
 
@@ -97,23 +93,23 @@
   margin-top: -20px;
 }
 
-
-
 .stitre-recetteday {
   font-size: 20px;
   color: #4e342e;
   font-weight: 500;
-    margin-top: 15px;
+  margin-top: 15px;
 }
+
 .recipe-card .stars {
   font-size: 0.8rem;
   text-align: center;
   margin: 6px 0;
-  color: #f5a623; /* Jaune/orangé classique pour étoiles */
+  color: #f5a623; /* couleur jaune/orangé classique pour étoiles */
 }
+
 .stars {
   display: flex;
-  flex-direction: column; /* important */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
@@ -125,12 +121,12 @@
 }
 
 .com-recetteday {
-  object-fit: cover;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 170px;
   gap: 20px;
+  object-fit: cover;
 }
 
 .com-recetteday img {
@@ -139,6 +135,7 @@
   object-fit: cover;
 }
 
+/* Responsive - Mobile */
 @media only screen and (max-width: 480px) {
   .pagejour-texte {
     font-size: 14px;
@@ -155,15 +152,15 @@
     flex-direction: column;
   }
 
- .recettedujour {
-  background-color: #4e342e91;
-  align-items: center;
-  margin-top: 20px;
-  width: 95%;
-  height: 50px;
-  padding: 10px;
- 
-}
+  .recettedujour {
+    background-color: #4e342e91;
+    align-items: center;
+    flex-direction: column; /* ajouté */
+    margin-top: 20px;
+    width: 95%;
+    height: 50px;
+    padding: 10px;
+  }
 
   .recettedujour h1 {
     font-size: 16px;
@@ -172,16 +169,17 @@
   .recetteday-left img {
     width: 300px;
     height: 200px;
-    margin-bottom: 20px;
     margin-top: 30px;
+    margin-bottom: 20px;
     object-fit: cover;
     border-radius: 5px;
     border: 3px solid #8a606e;
-    box-shadow: 0px 0px 15px #8a606e;
+    box-shadow: 0 0 15px #8a606e;
   }
 
   .recetteday-left {
     margin-right: 63px;
+    margin-left: 0;
   }
 
   .recetteday-right {
@@ -190,7 +188,6 @@
     justify-content: center;
     width: 300px;
     margin-left: 40px;
-   
   }
 
   .titre-recetteday {
@@ -204,13 +201,11 @@
   }
 
   .stars {
-    
     padding: 7px;
-   
   }
 
   .com-recetteday {
-    margin-left: 0px;
+    margin-left: 0;
     gap: 10px;
   }
 
@@ -218,12 +213,15 @@
     border-left: 3px dotted #3a001e;
     padding-left: 10px;
   }
+
   .stars p {
     font-size: 13px;
   }
+
   .titre-recetteday-2 {
     display: none;
   }
+
   .com-recetteday img {
     width: 15px;
     height: 15px;
@@ -235,12 +233,13 @@
     height: 50px;
     color: #3a001f;
   }
-.recipe-card .stars {
+
+  .recipe-card .stars {
     font-size: 0.7rem;
-    text-align: center;
     margin: 4px 0;
     color: #f5a623;
   }
+
   .feculent-container {
     display: flex;
     align-items: center;
@@ -250,272 +249,8 @@
     gap: 50px;
     padding: 40px;
   }
-}
 
-.carte-recette {
-  background-color: #f0e7db;
-  padding: 20px;
-  max-width: 700px;
-  margin: auto;
-  border-radius: 10px;
-}
-
-.recette-header {
-  display: flex;
-  gap: 20px;
-}
-
-.recette-header img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.recette-info {
-  flex: 1;
-}
-
-.commentaires-section {
-  background-color: #7a6658;
-  color: #fff6e1;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
-.commentaires-section p {
-  margin: 5px 0;
-}
-
-.ajout-commentaire {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.ajout-commentaire input {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.ajout-commentaire button {
-  padding: 8px;
-  background-color: #8b5e3c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.stars-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.stars-left {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.first-stars,
-.starsspan {
-  font-size: 18px;
-  color: var(--senary-color);
-}
-
-.avis-count {
-  margin-left: 10px;
-  color: var(--secondary-color);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.com-recetteday {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-}
-
-.icon {
-  width: 25px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.icon:hover {
-  transform: scale(1.1);
-}
-
-.comment-popup {
-  position: absolute;
-  top: 35px;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 10px;
-  width: 270px;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 20;
-}
-
-.comment-input {
-  width: 70%;
-  padding: 6px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.comment-btn {
-  padding: 6px 10px;
-  background-color: #d86e42;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.comment-btn:hover {
-  background-color: #c45c30;
-}
-
-.comment-list {
-  list-style: none;
-  margin-top: 10px;
-  padding-left: 0;
-}
-
-.comment-list li {
-  background: #f5f5f5;
-  padding: 5px;
-  border-radius: 4px;
-  margin-bottom: 5px;
-}
-
-.com-recetteday-with-popup {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-top: 10px;
-  gap: 10px;
-}
-
-.comment-popup {
-  margin-top: -35px;
-  background: var(--tertiary-color);
-  border: none;
-
-  width: 101%;
-  max-width: 532px;
-
-  position: relative; /* plus de absolute ! */
-}
-
-.comment-input {
-  width: 100%;
-  padding: 6px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-bottom: 8px;
-}
-
-.comment-btn {
-  padding: 6px 12px;
-  background-color: #da8359;
-  height: 30px;
-  width: 100px;
-  margin-top: 15px;
-  color: var(--secondary-color);
-  border: none;
-
-  cursor: pointer;
-}
-
-.comment-btn:hover {
-  background-color: #c56a47;
-}
-
-.form-comment {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-
-
-.toggle-comments-btn {
-  background-color: #da8359;
-  border: none;
- padding: 6px 12px;
-  color: white;
-  font-weight: bold;
-  margin-top: 10px;
-    height: 30px;
-  width: 200px;
- 
-  cursor: pointer;
-  color: var(--secondary-color);
-
-}
-
-.comment-btn {
-  padding: 6px 12px;
-  background-color: #da8359;
-  height: 30px;
-  width: 100px;
-  margin-top: 15px;
-  color: var(--secondary-color);
-  border: none;
-  cursor: pointer;
-}
-
-
-
-.comment-scroll-container {
-  max-height: 300px;
-  overflow-y: auto;
-  padding-right: 10px;
-  margin-top: 10px;
-  border-top: 1px solid #ccc;
-}
-
-.comment-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.comment-list li {
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.success-message {
-  color: green;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.toggle-comments-btn {
-  margin-top: 10px;
-  padding: 6px 12px;
-  border: none;
-  background: #ddd;
-  cursor: pointer;
-}
-
-
-
-
-@media screen and (max-width: 480px) {
-  /* -------- CONTAINERS -------- */
+  /* Conteneurs & listes */
   .feculent-container {
     padding: 15px 10px;
   }
@@ -524,7 +259,6 @@
     padding: 0 10px;
   }
 
-  /* -------- RECIPES LIST -------- */
   .recipes-list {
     display: flex;
     flex-direction: column;
@@ -533,7 +267,6 @@
     align-items: center;
   }
 
-  /* -------- RECIPE CARD -------- */
   .recipe-card {
     width: 100%;
     max-width: 330px;
@@ -565,112 +298,105 @@
     margin: 4px 0;
   }
 
-  .recipe-time {
-    font-size: 0.7rem;
-    margin-top: 2px;
+  /* Commentaires mobile */
+  .commentaires-section {
+    background-color: #7a6658;
+    color: #fff6e1;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
   }
+}
 
-  .recipe-actions {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-    margin: 6px 0;
-  }
+/* Carte recette */
+.carte-recette {
+  background-color: #f0e7db;
+  padding: 20px;
+  max-width: 700px;
+  margin: auto;
+  border-radius: 10px;
+}
 
-  .recipe-actions img {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* -------- COMMENTAIRES -------- */
-  .comment-section input,
-  .comment-section button {
-    font-size: 0.8rem;
-    padding: 5px 8px;
-  }
-
-  .comments-display {
-    font-size: 0.75rem;
-    padding: 6px;
-    max-height: 100px;
-  }
-
-  .single-comment {
-    font-size: 0.75rem;
-    padding: 4px 6px;
-  }
-
-  /* -------- INTRO TEXT -------- */
-  .intro-rapide-facile h1 {
-    font-size: 20px;
-  }
-
-  .intro-rapide-facile p,
-  .intro-rapide-facile ul {
-    font-size: 13px;
-  }
-
-  /* -------- HEADER SECTION -------- */
-  .rapide-header-section {
-    padding: 20px 10px;
-  }
-
-  .rapide-text h1 {
-    font-size: 22px;
-  }
-
-  .rapide-text p {
-    font-size: 13px;
-  }
-
-  .rapide-benefits {
-    gap: 8px;
-  }
-
-  .benefit-box {
-    font-size: 13px;
-    padding: 8px 12px;
-  }
-
-  /* -------- SEARCH BAR -------- */
-  .search-bar {
-    padding: 20px 10px;
-  }
-
-  .search-bar input {
-    width: 95%;
-    font-size: 0.85rem;
-  }
-
-  /* -------- MESSAGES -------- */
-  .no-results {
-    font-size: 0.8rem;
-    padding: 8px;
-  }
-
-  /* -------- BANNIÈRE -------- */
-  .banner-overlay-heal {
-    padding: 12px 15px;
-    width: 90%;
-  }
-
-  .banner-overlay-heal h1 {
-    font-size: 20px;
-  }
-
-  .banner-overlay-heal p {
-    font-size: 13px;
-  }
-
-
-  .com-recetteday {
+.recette-header {
   display: flex;
-  align-items: center;
+  gap: 20px;
+}
+
+.recette-header img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.recette-info {
+  flex: 1;
+}
+
+/* Section commentaires */
+.commentaires-section {
+  background-color: #7a6658;
+  color: #fff6e1;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.commentaires-section p {
+  margin: 5px 0;
+}
+
+.ajout-commentaire {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  padding-left: 10px;
-  position: relative;
+}
+
+.ajout-commentaire input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.ajout-commentaire button {
+  width: 100px;
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  background-color: var(--primary-color, #da8359);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ajout-commentaire button:hover {
+  background-color: #b36b44;
 }
 
 
+
+
+@media only screen and (min-width: 481px) and (max-width: 768px) { 
+
+
+ .recetteday-container {
+    grid-template-columns: 1fr;  /* ✅ Une seule colonne en responsive tablette/mobile */
+  }
+
+.recetteday-right {
+  margin-top: 20px;
+}
+
+.recetteday-right p {
+    font-size: 15px;
+}
+
+
+.recetteday-left {
+  margin-left: 0px;
+}
+.pagejour {
+  height: 850px;
+}
 }

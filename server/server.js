@@ -11,7 +11,7 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 🌐 Origines autorisées
+// ✅ Origines autorisées
 const allowedOrigins = [
   'https://cookneat.x75.form.efp.be',
   'https://cookneat.onrender.com',
@@ -24,7 +24,7 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error(`❌ CORS : accès refusé pour l’origine ${origin}`));
     }
   },
   credentials: true
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/comments', commentRoutes);
-app.use('/admin', adminRoutes);
+app.use('/api/admin', adminRoutes); // ✅ corrigé ici
 
 // 🧪 Route test
 app.get('/', (req, res) => {

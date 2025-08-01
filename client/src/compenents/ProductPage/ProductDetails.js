@@ -25,25 +25,19 @@ const ProductDetails = () => {
         const res = await axios.get(`${API_URL}/api/recipes/${id}`);
         const recipe = res.data;
 
-        // Log pour vérifier le contenu
         console.log("✅ Donnée reçue pour la recette :", recipe);
 
-        // Nettoyage des étapes
+        // Nettoyage des étapes : on récupère step.description
         let cleanedSteps = [];
         if (Array.isArray(recipe.steps)) {
-          cleanedSteps = recipe.steps.filter(
-            (s) => typeof s === "string" && s.trim().length > 0
-          );
-        } else if (typeof recipe.steps === "string") {
           cleanedSteps = recipe.steps
-            .split(/\r?\n/)
-            .map((s) => s.trim())
-            .filter((s) => s.length > 0);
+            .map((step) => step.description?.trim())
+            .filter((desc) => desc && desc.length > 0);
         }
 
         setRecette({
           ...recipe,
-          steps: cleanedSteps
+          steps: cleanedSteps,
         });
       } catch (err) {
         console.error("❌ Erreur lors du chargement de la recette :", err);
@@ -52,7 +46,8 @@ const ProductDetails = () => {
 
     const fetchAllComments = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/comments`);
+        // Récupérer uniquement les commentaires liés à cette recette
+        const res = await axios.get(`${API_URL}/api/comments?recipeId=${id}`);
         setAllComments(res.data);
       } catch (err) {
         console.error("❌ Erreur lors du chargement des commentaires :", err);
@@ -66,21 +61,48 @@ const ProductDetails = () => {
   const incrementPersonnes = () => setPersonnes((p) => p + 1);
   const decrementPersonnes = () => setPersonnes((p) => (p > 1 ? p - 1 : 1));
 
+  // Ajustement des quantités pour les ingrédients (basé sur quantité initiale * personnes / 4)
   const adjustedIngredients = useMemo(() => {
     if (!recette?.ingredients || recette.ingredients.length === 0) return [];
 
-    return recette.ingredients.map((ing) => {
-      const match = ing.match(/^([\d.,]+)\s*(\w*)\s*de\s+(.*)/i);
-      if (!match) return { name: ing, quantity: null, unit: null };
+    // recette.ingredients est un tableau d'objets { name, quantity }
+    return recette.ingredients.map(({ name, quantity }) => {
+      // eslint-disable-next-line no-useless-escape
+ // eslint-disable-next-line no-useless-escape
+      const regex = /^([\d.,\/]+)?\s*([^\d\s]+)?$/; // ex: "2 tranches", "50 g", "à goût"
+      const match = quantity ? quantity.match(regex) : null;
 
-      const quantity = parseFloat(match[1].replace(",", ".")) || 0;
-      const unit = match[2] || "";
-      const name = match[3];
+      let number = 0;
+      let unit = "";
+      if (match) {
+        let rawNumber = match[1] || "";
+        // Gérer les fractions (ex: "1/2")
+        if (rawNumber.includes("/")) {
+          const parts = rawNumber.split("/");
+          if (parts.length === 2)
+            number = parseFloat(parts[0]) / parseFloat(parts[1]);
+        } else {
+          number = parseFloat(rawNumber.replace(",", "."));
+        }
+        unit = match[2] || "";
+      } else {
+        unit = "";
+      }
+
+      // Si pas de nombre, on ne modifie pas la quantité
+      if (!number || isNaN(number)) {
+        return { name, quantity, adjustedQuantity: quantity, unit };
+      }
+
+      // Calcul ajusté, on garde 1 décimale et supprime si .0
+      let adjustedQty = ((number * personnes) / 4).toFixed(1);
+      if (adjustedQty.endsWith(".0")) adjustedQty = adjustedQty.slice(0, -2);
 
       return {
         name,
+        quantity,
+        adjustedQuantity: adjustedQty,
         unit,
-        adjustedQuantity: ((quantity * personnes) / 4).toFixed(1),
       };
     });
   }, [recette, personnes]);
@@ -146,7 +168,7 @@ const ProductDetails = () => {
             <h2>Ingrédients</h2>
             <div className="product-personnes-control">
               <button onClick={decrementPersonnes}>−</button>
-              <span>{personnes} personnes</span>
+              <span>{personnes} personne{personnes > 1 ? "s" : ""}</span>
               <button onClick={incrementPersonnes}>+</button>
             </div>
           </div>
@@ -154,30 +176,33 @@ const ProductDetails = () => {
           <div className="product-time">
             <p>
               <AccessTimeIcon fontSize="small" /> <strong>Préparation :</strong>{" "}
-              {recette.prepTime || "?"} min
+              {recette.prepTime || "?"}
             </p>
             <p>
               <AccessTimeIcon fontSize="small" /> <strong>Cuisson :</strong>{" "}
-              {recette.cookTime || "?"} min
+              {recette.cookTime || "?"}
             </p>
             <p>
               <AccessTimeIcon fontSize="small" /> <strong>Total :</strong>{" "}
-              {recette.totalTime || "?"} min
+              {recette.totalTime || "?"}
             </p>
           </div>
 
-          <div className="product-ingredients-grid">
-            {adjustedIngredients.map((item, i) => (
-              <div className="product-ingredient-card" key={i}>
-                <p className="product-ingredient-quantity">
-                  <strong>
-                    {item.adjustedQuantity} {item.unit}
-                  </strong>
-                </p>
-                <p className="product-ingredient-name">de {item.name}</p>
-              </div>
-            ))}
+    <div className="product-ingredients-section">
+      <h2 className="product-ingredients-title">Ingrédients</h2>
+      {recette.ingredients && recette.ingredients.length > 0 ? (
+        recette.ingredients.map((ingredient, i) => (
+          <div key={i} className="ingredient-step">
+            <h3 className="ingredient-step-title">Ingrédient {i + 1}</h3>
+            <p className="ingredient-step-text">{ingredient.description}</p>
           </div>
+        ))
+      ) : (
+        <p className="no-ingredients">Aucun ingrédient défini pour cette recette.</p>
+      )}
+    </div>
+
+
         </div>
 
         <div className="product-preparation-section">
@@ -197,18 +222,15 @@ const ProductDetails = () => {
         <div id="commentaires" className="all-comments-section">
           <h2 className="plats-commentez">🗣️ Derniers commentaires</h2>
           {Array.isArray(allComments) && allComments.length > 0 ? (
-            allComments
-              .filter((c) => c.recipeId === recette._id)
-              .slice(0, 10)
-              .map((comment) => (
-                <div key={comment._id} className="comment-card">
-                  <p>
-                    <strong>{comment.name}</strong> :
-                  </p>
-                  <p>{comment.text}</p>
-                  <p>⭐ {comment.rating || 5} / 5</p>
-                </div>
-              ))
+            allComments.map((comment) => (
+              <div key={comment._id} className="comment-card">
+                <p>
+                  <strong>{comment.name}</strong> :
+                </p>
+                <p>{comment.text}</p>
+                <p>⭐ {comment.rating || 5} / 5</p>
+              </div>
+            ))
           ) : (
             <p>Aucun commentaire pour le moment.</p>
           )}

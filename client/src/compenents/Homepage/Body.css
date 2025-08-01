@@ -211,8 +211,9 @@
   /* Sections plats (populaires, commentez) */
   .plats-commentez,
   .plats-populaires {
-    padding: 0px 0px;
+   padding: 50px;
     width: 100%;
+
     box-sizing: border-box;
     
   }

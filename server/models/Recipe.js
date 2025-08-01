@@ -14,20 +14,40 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  ingredients: {
-    type: [String],
-    default: []
+
+  // Ingrédients sous forme d'objets sans validation stricte (comme les étapes)
+  ingredients: [
+    {
+      description: { type: String, required: true }
+    }
+  ],
+
+  // Étapes : { description }
+  steps: [
+    {
+      description: { type: String, required: true }
+    }
+  ],
+
+  // Temps de préparation, cuisson et total
+  prepTime: {
+    type: String,
+    trim: true
   },
-  steps: {
-    type: [{ text: String }],
-    default: []
+  cookTime: {
+    type: String,
+    trim: true
+  },
+  totalTime: {
+    type: String,
+    trim: true
   },
 
-  // Auteur de la recette - rendu optionnel pour les recettes du chef
+  // Auteur de la recette - optionnel si recette du chef
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: function() { return !this.isChefRecipe; }  // obligatoire sauf si recette chef
+    required: function () { return !this.isChefRecipe; } // obligatoire sauf si recette chef
   },
 
   // Champ pour recettes du chef
