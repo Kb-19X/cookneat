@@ -64,11 +64,9 @@ const ProductDetails = () => {
 
     return recette.ingredients.map(
       ({ name, quantity, unit = "", imageUrl = null }) => {
-        // Gestion quantité : convertir en nombre si possible
         let number = null;
 
         if (typeof quantity === "string") {
-          // Ex: "1/2", "3", "2.5"
           if (quantity.includes("/")) {
             const parts = quantity.split("/");
             if (
@@ -87,12 +85,10 @@ const ProductDetails = () => {
           number = quantity;
         }
 
-        // Si quantité invalide, on ne modifie pas
         if (number === null || isNaN(number)) {
           return { name, quantity, adjustedQuantity: quantity, unit, imageUrl };
         }
 
-        // Ajustement proportionnel (base 4 personnes)
         let adjustedQty = ((number * personnes) / 4).toFixed(1);
         if (adjustedQty.endsWith(".0")) adjustedQty = adjustedQty.slice(0, -2);
 
@@ -121,9 +117,11 @@ const ProductDetails = () => {
       <div className="recette-page">
         <img
           src={
-            recette.imageUrl?.startsWith("http")
-              ? recette.imageUrl
-              : `${API_URL}${recette.imageUrl}`
+            recette.imageUrl
+              ? recette.imageUrl.startsWith("http")
+                ? recette.imageUrl
+                : `${API_URL}${recette.imageUrl}`
+              : "/placeholder-image.png"
           }
           alt={recette.title}
           className="recette-img"
@@ -136,12 +134,12 @@ const ProductDetails = () => {
 
         <div className="actions">
           <Tooltip title="Aimer">
-            <IconButton onClick={() => setLiked(!liked)}>
+            <IconButton onClick={() => setLiked(!liked)} aria-label="like button">
               {liked ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
             </IconButton>
           </Tooltip>
           <Tooltip title="Partager">
-            <IconButton onClick={handleShare}>
+            <IconButton onClick={handleShare} aria-label="share button">
               <ShareIcon />
             </IconButton>
           </Tooltip>
@@ -151,6 +149,7 @@ const ProductDetails = () => {
                 const section = document.getElementById("commentaires");
                 if (section) section.scrollIntoView({ behavior: "smooth" });
               }}
+              aria-label="comments button"
             >
               <ChatBubbleOutlineIcon />
             </IconButton>
@@ -161,11 +160,15 @@ const ProductDetails = () => {
           <div className="product-ingredients-header">
             <h2>Ingrédients</h2>
             <div className="product-personnes-control">
-              <button onClick={decrementPersonnes}>−</button>
+              <button onClick={decrementPersonnes} aria-label="diminuer personnes">
+                −
+              </button>
               <span>
                 {personnes} personne{personnes > 1 ? "s" : ""}
               </span>
-              <button onClick={incrementPersonnes}>+</button>
+              <button onClick={incrementPersonnes} aria-label="augmenter personnes">
+                +
+              </button>
             </div>
           </div>
 
@@ -184,34 +187,35 @@ const ProductDetails = () => {
             </p>
           </div>
 
-         <div className="product-ingredients-grid">
-  {adjustedIngredients.length > 0 ? (
-    adjustedIngredients.map(
-      ({ name, adjustedQuantity, unit, quantity, imageUrl }, i) => (
-        <div key={i} className="product-ingredient-card">
-          {imageUrl && (
-            <img
-              src={
-                imageUrl.startsWith("http")
-                  ? imageUrl
-                  : `${API_URL}${imageUrl}`
-              }
-              alt={name}
-              className="product-ingredient-image"
-            />
-          )}
-          <p className="product-ingredient-quantity">
-            {adjustedQuantity ? `${adjustedQuantity} ${unit || ""}` : ""}
-          </p>
-          <p className="product-ingredient-name">{name}</p>
-        </div>
-      )
-    )
-  ) : (
-    <p className="no-ingredients">Aucun ingrédient défini pour cette recette.</p>
-  )}
-</div>
-
+          <div className="product-ingredients-grid">
+            {adjustedIngredients.length > 0 ? (
+              adjustedIngredients.map(
+                ({ name, adjustedQuantity, unit, imageUrl }, index) => (
+                  <div key={`${name}-${index}`} className="product-ingredient-card">
+                    {imageUrl && (
+                      <img
+                        src={
+                          imageUrl.startsWith("http")
+                            ? imageUrl
+                            : `${API_URL}${imageUrl}`
+                        }
+                        alt={name}
+                        className="product-ingredient-image"
+                      />
+                    )}
+                    <p className="product-ingredient-quantity">
+                      {adjustedQuantity ? `${adjustedQuantity} ${unit || ""}` : ""}
+                    </p>
+                    <p className="product-ingredient-name">{name}</p>
+                  </div>
+                )
+              )
+            ) : (
+              <p className="no-ingredients">
+                Aucun ingrédient défini pour cette recette.
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="product-preparation-section">
@@ -232,7 +236,7 @@ const ProductDetails = () => {
           <h2 className="plats-commentez">🗣️ Derniers commentaires</h2>
           {Array.isArray(allComments) && allComments.length > 0 ? (
             allComments.map((comment) => (
-              <div key={comment._id} className="comment-card">
+              <div key={comment._id || comment.id} className="comment-card">
                 <p>
                   <strong>{comment.name}</strong> :
                 </p>
