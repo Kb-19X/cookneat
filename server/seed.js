@@ -63,11 +63,11 @@ const recipes = [
     imageUrl: "/uploads/tartine-avocat.jpg",
     ingredients: [
       { name: "Pain complet", quantity: 2, unit: "tranches", imageUrl: "/uploads/pain.jpg" },
-      { name: "Avocat", quantity: 1, unit: "pièce", imageUrl: "/ingredients/avocat.jpg" },
-      { name: "Œuf", quantity: 2, unit: "pièces", imageUrl: "/ingredients/oeuf.jpg" },
-      { name: "Citron", quantity: 0.5, unit: "pièce", imageUrl: "/ingredients/citron.jpg" },
-      { name: "Piment d'Espelette", quantity: null, unit: null, note: "optionnel", imageUrl: "/ingredients/piment.jpg" },
-      { name: "Sel", quantity: null, unit: null, imageUrl: "/ingredients/sel.jpg" }
+      { name: "Avocat", quantity: 1, unit: "pièce", imageUrl: "/uploads/avocat.jpg" },
+      { name: "Œuf", quantity: 2, unit: "pièces", imageUrl: "/uploads/oeuf.jpg" },
+      { name: "Citron", quantity: 0.5, unit: "pièce", imageUrl: "/uploads/citron.jpg" },
+      { name: "Piment d'Espelette", quantity: null, unit: null, note: "optionnel", imageUrl: "/uploads/piment.jpg" },
+      { name: "Sel", quantity: null, unit: null, imageUrl: "/uploads/sel.jpg" }
     ],
     steps: [
       { description: "Faire griller les tranches de pain." },
