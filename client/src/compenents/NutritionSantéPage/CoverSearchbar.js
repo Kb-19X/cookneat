@@ -23,12 +23,16 @@ const CoverSearchbar = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch(`${API_URL}/api/recipes/healthy`)
-      .then(res => res.json())
-      .then(data => setRecipes(data))
-      .catch(err => console.error('❌ Erreur de chargement des recettes :', err));
-  }, []);
+useEffect(() => {
+  fetch(`${API_URL}/api/recipes/healthy`)
+    .then(res => res.json())
+    .then(data => {
+      console.log('Données reçues:', data);  // <-- vérifie ce que tu reçois
+      setRecipes(data);
+    })
+    .catch(err => console.error('❌ Erreur de chargement des recettes :', err));
+}, []);
+
 
   const handleLike = (id) => {
     setLikes(prev => ({
