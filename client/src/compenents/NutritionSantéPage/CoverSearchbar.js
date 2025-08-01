@@ -26,7 +26,7 @@ const CoverSearchbar = () => {
  useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/recipes`);
+        const res = await axios.get(`${API_URL}/api/recipes/healthy`);
         setRecipes(res.data);
 
         const initialLikes = {};
