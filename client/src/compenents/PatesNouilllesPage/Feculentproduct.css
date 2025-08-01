@@ -181,10 +181,7 @@
   .recipe-card {
     flex: 0 1 100%; /* 1 carte par ligne */
   }
-  .recipes-list {
-    padding: 10px;
-    gap: 20px;
-  }
+
 }
 
 /* ------------------ SEARCH BAR ------------------ */
@@ -555,6 +552,21 @@
     margin-top: 0px;
   }
 
+
+  
+.banner-overlay-heal {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--quaternary-color);
+  background-color: rgba(78, 52, 46, 0.629);
+  padding: 45px 30px;
+  border-radius: 8px;
+  max-width: 90%;
+  height: 200px;
+  margin: 0 auto;
+  width: 300px;
+}
 }
 
 
