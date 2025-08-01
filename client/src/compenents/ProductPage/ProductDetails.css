@@ -1,3 +1,5 @@
+/* ProductDetails.css */
+
 .background-product {
   background-color: var(--secondary-color);
   padding: 2rem;
@@ -11,15 +13,13 @@
   overflow: hidden;
 }
 
-/* IMAGE TOP */
 .recette-img {
   width: 100%;
   height: 300px;
   object-fit: cover;
-  display: block; /* Empêche l’espace blanc sous l’image */
+  display: block;
 }
 
-/* TITRE + DESCRIPTION */
 .product-desc {
   padding: 1.5rem;
   background-color: var(--senary-color);
@@ -36,7 +36,6 @@
   color: var(--secondary-color);
 }
 
-/* ICÔNES (like, share...) */
 .actions {
   display: flex;
   gap: 1rem;
@@ -44,7 +43,6 @@
   background-color: var(--senary-color);
 }
 
-/* INGRÉDIENTS */
 .product-ingredients {
   padding: 1.5rem;
   border-top: none;
@@ -58,7 +56,6 @@
   margin-bottom: 1rem;
 }
 
-/* CONTRÔLE NOMBRE DE PERSONNES */
 .product-personnes-control {
   display: flex;
   align-items: center;
@@ -72,7 +69,6 @@
   font-size: 1.2rem;
   width: 32px;
   height: 32px;
-
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -81,12 +77,10 @@
   background-color: #bd6652;
 }
 
-/* TEMPS DE PRÉPARATION */
 .product-time {
   background-color: var(--senary-color);
   padding: 1rem;
   border-left: 4px solid var(--primary-color);
-
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
   color: var(--secondary-color);
@@ -99,7 +93,6 @@
   gap: 6px;
 }
 
-/* GRILLE INGRÉDIENTS */
 .product-ingredients-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -110,7 +103,6 @@
   background: var(--senary-color);
   border: 1px solid var(--border-light);
   color: var(--secondary-color);
- 
   padding: 0.8rem;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -125,7 +117,6 @@
   width: 100%;
   height: 90px;
   object-fit: cover;
-
   margin-bottom: 0.5rem;
 }
 
@@ -141,7 +132,6 @@
   color: var(--secondary-color);
 }
 
-/* ÉTAPES PRÉPARATION */
 .product-preparation-section {
   padding: 1.5rem;
   border-top: none;
@@ -158,7 +148,6 @@
   margin-bottom: 1.2rem;
   padding: 1rem 1.2rem;
   background: var(--tertiary-color);
-
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
 }
 
@@ -180,29 +169,24 @@
   line-height: 1.5;
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   .actions {
     justify-content: center;
     flex-wrap: wrap;
   }
-
   .product-personnes-control {
     flex-direction: row;
     gap: 0.3rem;
   }
-
   .product-ingredients-grid {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
 
-/* COMMENTAIRES */
 .comment-section {
   margin-top: 40px;
   padding: 24px;
   background-color: #f9f9f9;
-
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   color: var(--senary-color);
 }
@@ -224,7 +208,6 @@
   width: 100%;
   min-height: 80px;
   padding: 10px;
-
   border: 1px solid #ccc;
   font-size: 1rem;
   resize: vertical;
@@ -237,7 +220,6 @@
   color: white;
   border: none;
   padding: 10px 18px;
- 
   cursor: pointer;
   font-weight: 600;
   transition: background-color 0.3s ease;
@@ -262,7 +244,6 @@
 .comment {
   background-color: white;
   padding: 12px;
-
   border: 1px solid #e0e0e0;
   color: #444;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -283,6 +264,46 @@
   color: red;
   margin-top: 10px;
 }
+.product-ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  padding: 1rem 0;
+}
 
+.product-ingredient-card {
+  background: var(--senary-color);
+  border: 1px solid var(--border-light, #ccc);
+  color: var(--secondary-color);
+  padding: 0.8rem;
+  text-align: center;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
 
+.product-ingredient-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
 
+.product-ingredient-image {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.product-ingredient-quantity {
+  font-size: 1rem;
+  margin: 0.2rem 0;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.product-ingredient-name {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+  font-weight: 600;
+}

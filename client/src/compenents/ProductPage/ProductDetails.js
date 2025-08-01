@@ -25,9 +25,7 @@ const ProductDetails = () => {
         const res = await axios.get(`${API_URL}/api/recipes/${id}`);
         const recipe = res.data;
 
-        console.log("✅ Donnée reçue pour la recette :", recipe);
-
-        // Nettoyage des étapes : on récupère step.description
+        // Nettoyage des étapes : on garde uniquement les descriptions non vides
         let cleanedSteps = [];
         if (Array.isArray(recipe.steps)) {
           cleanedSteps = recipe.steps
@@ -46,7 +44,6 @@ const ProductDetails = () => {
 
     const fetchAllComments = async () => {
       try {
-        // Récupérer uniquement les commentaires liés à cette recette
         const res = await axios.get(`${API_URL}/api/comments?recipeId=${id}`);
         setAllComments(res.data);
       } catch (err) {
@@ -61,50 +58,47 @@ const ProductDetails = () => {
   const incrementPersonnes = () => setPersonnes((p) => p + 1);
   const decrementPersonnes = () => setPersonnes((p) => (p > 1 ? p - 1 : 1));
 
-  // Ajustement des quantités pour les ingrédients (basé sur quantité initiale * personnes / 4)
+  // Calcul des quantités ajustées en fonction du nombre de personnes
   const adjustedIngredients = useMemo(() => {
     if (!recette?.ingredients || recette.ingredients.length === 0) return [];
 
-    // recette.ingredients est un tableau d'objets { name, quantity }
-    return recette.ingredients.map(({ name, quantity }) => {
-      // eslint-disable-next-line no-useless-escape
- // eslint-disable-next-line no-useless-escape
-      const regex = /^([\d.,\/]+)?\s*([^\d\s]+)?$/; // ex: "2 tranches", "50 g", "à goût"
-      const match = quantity ? quantity.match(regex) : null;
+    return recette.ingredients.map(
+      ({ name, quantity, unit = "", imageUrl = null }) => {
+        // Gestion quantité : convertir en nombre si possible
+        let number = null;
 
-      let number = 0;
-      let unit = "";
-      if (match) {
-        let rawNumber = match[1] || "";
-        // Gérer les fractions (ex: "1/2")
-        if (rawNumber.includes("/")) {
-          const parts = rawNumber.split("/");
-          if (parts.length === 2)
-            number = parseFloat(parts[0]) / parseFloat(parts[1]);
-        } else {
-          number = parseFloat(rawNumber.replace(",", "."));
+        if (typeof quantity === "string") {
+          // Ex: "1/2", "3", "2.5"
+          if (quantity.includes("/")) {
+            const parts = quantity.split("/");
+            if (
+              parts.length === 2 &&
+              !isNaN(parts[0]) &&
+              !isNaN(parts[1]) &&
+              parseFloat(parts[1]) !== 0
+            ) {
+              number = parseFloat(parts[0]) / parseFloat(parts[1]);
+            }
+          } else {
+            const parsed = parseFloat(quantity.replace(",", "."));
+            if (!isNaN(parsed)) number = parsed;
+          }
+        } else if (typeof quantity === "number") {
+          number = quantity;
         }
-        unit = match[2] || "";
-      } else {
-        unit = "";
+
+        // Si quantité invalide, on ne modifie pas
+        if (number === null || isNaN(number)) {
+          return { name, quantity, adjustedQuantity: quantity, unit, imageUrl };
+        }
+
+        // Ajustement proportionnel (base 4 personnes)
+        let adjustedQty = ((number * personnes) / 4).toFixed(1);
+        if (adjustedQty.endsWith(".0")) adjustedQty = adjustedQty.slice(0, -2);
+
+        return { name, quantity, adjustedQuantity: adjustedQty, unit, imageUrl };
       }
-
-      // Si pas de nombre, on ne modifie pas la quantité
-      if (!number || isNaN(number)) {
-        return { name, quantity, adjustedQuantity: quantity, unit };
-      }
-
-      // Calcul ajusté, on garde 1 décimale et supprime si .0
-      let adjustedQty = ((number * personnes) / 4).toFixed(1);
-      if (adjustedQty.endsWith(".0")) adjustedQty = adjustedQty.slice(0, -2);
-
-      return {
-        name,
-        quantity,
-        adjustedQuantity: adjustedQty,
-        unit,
-      };
-    });
+    );
   }, [recette, personnes]);
 
   const handleShare = () => {
@@ -168,7 +162,9 @@ const ProductDetails = () => {
             <h2>Ingrédients</h2>
             <div className="product-personnes-control">
               <button onClick={decrementPersonnes}>−</button>
-              <span>{personnes} personne{personnes > 1 ? "s" : ""}</span>
+              <span>
+                {personnes} personne{personnes > 1 ? "s" : ""}
+              </span>
               <button onClick={incrementPersonnes}>+</button>
             </div>
           </div>
@@ -188,20 +184,33 @@ const ProductDetails = () => {
             </p>
           </div>
 
-    <div className="product-ingredients-section">
-      <h2 className="product-ingredients-title">Ingrédients</h2>
-      {recette.ingredients && recette.ingredients.length > 0 ? (
-        recette.ingredients.map((ingredient, i) => (
-          <div key={i} className="ingredient-step">
-            <h3 className="ingredient-step-title">Ingrédient {i + 1}</h3>
-            <p className="ingredient-step-text">{ingredient.description}</p>
-          </div>
-        ))
-      ) : (
-        <p className="no-ingredients">Aucun ingrédient défini pour cette recette.</p>
-      )}
-    </div>
-
+         <div className="product-ingredients-grid">
+  {adjustedIngredients.length > 0 ? (
+    adjustedIngredients.map(
+      ({ name, adjustedQuantity, unit, quantity, imageUrl }, i) => (
+        <div key={i} className="product-ingredient-card">
+          {imageUrl && (
+            <img
+              src={
+                imageUrl.startsWith("http")
+                  ? imageUrl
+                  : `${API_URL}${imageUrl}`
+              }
+              alt={name}
+              className="product-ingredient-image"
+            />
+          )}
+          <p className="product-ingredient-quantity">
+            {adjustedQuantity ? `${adjustedQuantity} ${unit || ""}` : ""}
+          </p>
+          <p className="product-ingredient-name">{name}</p>
+        </div>
+      )
+    )
+  ) : (
+    <p className="no-ingredients">Aucun ingrédient défini pour cette recette.</p>
+  )}
+</div>
 
         </div>
 
