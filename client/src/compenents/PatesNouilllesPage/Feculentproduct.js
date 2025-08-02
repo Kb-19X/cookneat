@@ -22,7 +22,7 @@ const Feculentproduct = () => {
     const fetchRecipes = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
-        const comfortFoodRecipes = res.data.filter((r) => r.category === 'comfort food');
+        const comfortFoodRecipes = res.data.filter((r) => r.category === 'Confort');
         setRecipes(comfortFoodRecipes);
 
         const initialLikes = {};

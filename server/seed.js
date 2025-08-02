@@ -31,7 +31,7 @@ const recipes = [
       { description: "Servir frais." }
     ],
     isChefRecipe: true,
-    category: "Healthy"
+    category: "Confort"
   },
   {
     title: "Soupe de légumes verts detox",
@@ -59,7 +59,7 @@ const recipes = [
       { description: "Servir chaud." }
     ],
     isChefRecipe: true,
-    category: "Healthy"
+    category: "Confort"
   },
   {
     title: "Buddha bowl au saumon et avocat",
@@ -86,7 +86,7 @@ const recipes = [
       { description: "Saupoudrer de graines de sésame et arroser de jus de citron et sauce soja." }
     ],
     isChefRecipe: true,
-    category: "Healthy"
+    category: "Confort"
   },
   {
     title: "Porridge aux fruits rouges",
@@ -111,7 +111,7 @@ const recipes = [
       { description: "Servir tiède ou froid." }
     ],
     isChefRecipe: true,
-    category: "Healthy"
+    category: "Confort"
   },
   {
     title: "Salade de pois chiches et légumes grillés",
@@ -138,10 +138,9 @@ const recipes = [
       { description: "Servir tiède ou froid." }
     ],
     isChefRecipe: true,
-    category: "Healthy"
+    category: "Confort"
   }
 ];
-
 
 async function seed() {
   try {
@@ -149,13 +148,13 @@ async function seed() {
     await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("Connexion réussie.");
 
-    // Suppression des anciennes recettes Healthy
-    await Recipe.deleteMany({ category: "Healthy" });
-    console.log("Recettes 'Healthy' supprimées.");
+    // Suppression des anciennes recettes Confort
+    await Recipe.deleteMany({ category: "Confort" });
+    console.log("Recettes 'Confort' supprimées.");
 
     // Insertion des nouvelles recettes
     await Recipe.insertMany(recipes);
-    console.log("Recettes 'Healthy' insérées avec succès !");
+    console.log("Recettes 'Confort' insérées avec succès !");
 
     await mongoose.disconnect();
     console.log("Déconnexion de MongoDB réussie.");

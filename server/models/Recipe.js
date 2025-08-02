@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const stepSchema = new mongoose.Schema({
   description: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const recipeSchema = new mongoose.Schema({
@@ -21,15 +21,14 @@ const recipeSchema = new mongoose.Schema({
       unit: String,
       imageUrl: String,
       note: String,
-    }
+    },
   ],
-  steps: [stepSchema],  // Ici on accepte un tableau d’objets stepSchema
+  steps: [stepSchema], // Tableau d’objets stepSchema
   isChefRecipe: Boolean,
- category: {
-  type: String,
-  enum: ["Healthy", "Confort food", "Saveurs du monde", "Recettes du chef"],
-  required: true
-}
+  category: {
+    type: String, // ✅ enum supprimé
+    required: true,
+  },
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
