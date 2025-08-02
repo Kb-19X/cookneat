@@ -25,10 +25,10 @@ const Footer = () => {
 
     <div className='footer-mid'>
         <h1>Catégories</h1>
-        <a href="/">Nutrition et santé</a>
-        <a href="/">Pâtes</a>
-        <a href="/">Riz/nouilles</a>
-        <a href="/">Viandes/poissons</a>
+        <a href="/Healthy">Healthy</a>
+        <a href="/patesnouilles">Confort Food</a>
+        <a href="/SaveurDuMonde">Saveur Du Monde</a>
+        <a href="/ChefRecipe">Toutes les recettes</a>
         <a href="/">Desserts</a>
         <p>&copy; 2025 CookNeat. Tous droits réservés.</p>
     </div>

@@ -12,11 +12,11 @@ import EditRecipe from './compenents/EditRecipePage/EditRecipe';
 import Connexion from './compenents/Connexion';
 import Register from './compenents/Register';
 import ForgetPassword from './compenents/ForgetPassword';
-import NutritionSanté from './compenents/NutritionSanté';
+import Healthy from './compenents/Healthy';
 import Detox from './compenents/Detox';
 import Nogluten from './compenents/Nogluten';
 import Vegan from './compenents/Vegan';
-import Viandes from './compenents/ViandesPage/Viandes';
+import SaveurDuMonde from './compenents/SaveurDuMondePage/SaveurDuMonde';
 import Proteine from './compenents/Proteine';
 import Patesnouilles from './compenents/Patesnouilles';
 import AjoutRecettes from './compenents/AjoutRecette';
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
       { path: 'connexion', element: <Connexion /> },
       { path: 'register', element: <Register /> },
       { path: 'forgetpassword', element: <ForgetPassword /> },
-      { path: 'nutritionsanté', element: <NutritionSanté /> },
+      { path: 'Healthy', element: <Healthy /> },
       { path: 'dashboard', element: <DashboardPage /> },
       { path: 'profilpage', element: <ProfilPage /> },
       { path: 'detox', element: <Detox /> },
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
       { path: 'vegan', element: <Vegan /> },
       { path: 'proteine', element: <Proteine /> },
       { path: 'patesnouilles', element: <Patesnouilles /> },
-      { path: 'viandes', element: <Viandes /> },
+      { path: 'SaveurDuMonde', element: <SaveurDuMonde /> },
       { path: 'ajoutrecettes', element: <AjoutRecettes /> },
       { path: 'testcomment', element: <TestComment /> },
     ],

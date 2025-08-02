@@ -347,7 +347,7 @@
 
   .plats-body-container {
     padding: 0 10px;
-    width: 100%;
+    width: 108%;
     margin-left: -20px;
   }
 
@@ -363,13 +363,15 @@
 
   /* -------- RECIPE CARD -------- */
   .recipe-card {
-    width: 90%;
-    max-width: 320px;
+    width: 100%;
+
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     overflow: hidden;
+    margin-left: 13px;
+    min-width: 320px;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
-    aspect-ratio: 3 / 4;
+  
   }
 
   .recipe-image img {
@@ -486,10 +488,7 @@
     padding: 15px;
     width: 90%;
   }
-.recipe-card {
-  max-width: 260px;  /* au lieu de 300px */
-  min-width: 220px;  /* pour fixer une largeur minimale */
-}
+
 
 .recipe-image img {
   height: 140px;  /* au lieu de 160px */

@@ -250,7 +250,7 @@ const Catégorie = () => {
                       onClick={(e) => handleLike(recipe._id, e)}
                       style={{ cursor: "pointer" }}
                     />
-                    <span>{likes[recipe._id] || 0}</span>
+                  
                     <img
                       src={commentIcon}
                       alt="Comment"

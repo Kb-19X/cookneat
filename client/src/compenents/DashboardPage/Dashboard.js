@@ -92,7 +92,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-page">
       <div className="left-panel">
-        <h1>🎛️ Dashboard Admin</h1>
+        <h1>Dashboard Admin</h1>
         <p>Bienvenue !</p>
         <div className="admin-info">
           <p><strong>Nom :</strong> {userInfo.username}</p>
@@ -101,19 +101,19 @@ const Dashboard = () => {
         </div>
 
         <div className="admin-actions">
-          <h3>Fonctionnalités :</h3>
-          <ul>
-            <li>✅ Voir toutes les recettes</li>
-            <li>🛠️ Supprimer un utilisateur</li>
-            <li>📊 Statistiques globales</li>
-          </ul>
+          <h3>Fonctionnalités</h3>
+       
+            <p>✅ Voir toutes les recettes</p>
+            <p>🛠️ Supprimer un utilisateur</p>
+          
+    
         </div>
 
         {message && <p className="admin-message">{message}</p>}
       </div>
 
       <div className="right-panel">
-        <h2>📋 Toutes les recettes</h2>
+        <h2 className="recettes-dash-title"> Toutes les recettes</h2>
         <div className="recipes-list-dash">
           {recipes.length === 0 && <p>Aucune recette trouvée.</p>}
           {recipes.map((recipe) => (
@@ -128,7 +128,7 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <h2>👥 Liste des utilisateurs</h2>
+        <h2 className="recettes-dash-title"> Liste des utilisateurs</h2>
         <div className="recipes-list-dash">
           {users.length === 0 && <p>Aucun utilisateur trouvé.</p>}
           {users.map((user) => (

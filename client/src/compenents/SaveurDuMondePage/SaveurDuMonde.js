@@ -1,6 +1,7 @@
 import '../PatesNouilllesPage/Feculentproduct.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import saveurdumonde from '../../assets/ImageHomePage/saveurdumonde.jpg';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
@@ -9,19 +10,22 @@ import shareIcon from '../../assets/ImagePlatsPage/share.png';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
-const Viandes = () => {
+const SaveursDuMonde = () => {
   const [recipes, setRecipes] = useState([]);
   const [likes, setLikes] = useState({});
   const [comments, setComments] = useState({});
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
-        const saveursDuMonde = res.data.filter(r => r.category === 'saveurs du monde');
+        const saveursDuMonde = res.data.filter(r => 
+          r.category?.toLowerCase().trim() === 'saveurs du monde'
+        );
         setRecipes(saveursDuMonde);
 
         const initialLikes = {};
@@ -170,7 +174,12 @@ const Viandes = () => {
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
-            <div key={recipe._id} className="recipe-card">
+            <div
+              key={recipe._id}
+              className="recipe-card"
+              onClick={() => navigate(`/Productpage/${recipe._id}`)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="recipe-image">
                 <img
                   src={
@@ -181,7 +190,7 @@ const Viandes = () => {
                   alt={recipe.title}
                 />
               </div>
-              <div className="recipe-info">
+              <div className="recipe-info" onClick={(e) => e.stopPropagation()}>
                 <h3>{recipe.title}</h3>
                 <p className="recipe-time">
                   ⏱️ Préparation : {recipe.prepTime || '10 min'} <br />
@@ -195,14 +204,12 @@ const Viandes = () => {
                     src={likeIcon}
                     alt="Like"
                     onClick={() => handleLike(recipe._id)}
-                    style={{ cursor: 'pointer' }}
                   />
                   <span>{likes[recipe._id] || 0}</span>
                   <img
                     src={commentIcon}
                     alt="Comment"
                     onClick={() => toggleCommentSection(recipe._id)}
-                    style={{ cursor: 'pointer' }}
                   />
                   <img src={shareIcon} alt="Share" />
                 </div>
@@ -243,4 +250,4 @@ const Viandes = () => {
   );
 };
 
-export default Viandes;
+export default SaveursDuMonde;

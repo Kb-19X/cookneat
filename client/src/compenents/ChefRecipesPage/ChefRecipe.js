@@ -9,14 +9,14 @@ import chef from '../../assets/ImageHomePage/chef.jpeg';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
-const ChefRecipe = () => {
+const ChefRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [likes, setLikes] = useState({});
   const [comments, setComments] = useState({});
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
-  const [showChefOnly, setShowChefOnly] = useState(true); // <-- toggle pour recettes chef / toutes
+  const [showChefOnly, setShowChefOnly] = useState(false); // toggle maintenant pour recettes chef / toutes
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -121,7 +121,7 @@ const ChefRecipe = () => {
     }
   };
 
-  // Appliquer le filtre showChefOnly avant la recherche textuelle
+  // Filtrer selon toggle showChefOnly
   const displayedRecipes = (showChefOnly
     ? recipes.filter(recipe => recipe.isChefRecipe === true)
     : recipes
@@ -134,16 +134,16 @@ const ChefRecipe = () => {
       <div className='background-cover'>
         <div className="banner-container">
           <div className="banner-left">
-            <img src={chef} alt="plats du chef" />
+            <img src={chef} alt="Image illustrative de recettes" />
             <div className="banner-overlay-heal">
-              <h1>Recettes</h1>
-              <p><strong>Inspirées</strong> par la tradition, <em>réinventées</em> avec passion.</p>
+              <h1>Toutes les Recettes</h1>
+              <p><strong>Une collection</strong> riche et variée, <em>pour tous les goûts.</em></p>
             </div>
           </div>
           <div className="banner-right">
-            <h2>Découvrez l’univers culinaire en recettes.</h2>
+            <h2>Explorez l’univers culinaire à travers nos recettes.</h2>
             <p>
-              "Des plats raffinés, créatifs et inspirés, imaginés pour éveiller vos papilles et sublimer votre quotidien."
+              "Des plats pour tous les jours ou des moments d’exception, conçus pour ravir vos papilles."
             </p>
           </div>
         </div>
@@ -151,22 +151,17 @@ const ChefRecipe = () => {
 
       <div className="rapide-header-section">
         <div className="rapide-text">
-          <h1>👨‍🍳 Recettes {showChefOnly ? "du Chef" : "Toutes"} 👨‍🍳</h1>
+          <h1>Découvrez toutes nos recettes</h1>
           <p>
-            Une sélection unique de recettes pensées pour vous impressionner, inspirées de la grande cuisine et faciles à refaire chez vous.
+            Un éventail de recettes simples, gourmandes et inspirantes, adaptées à tous les niveaux.
           </p>
           <div className="rapide-benefits">
-            <div className="benefit-box">🥇 Savoir-faire authentique</div>
-            <div className="benefit-box">🍽️ Élégantes et savoureuses</div>
-            <div className="benefit-box">🧑‍🍳 Conseillées par nos chefs</div>
+            <div className="benefit-box">🥇 Authenticité garantie</div>
+            <div className="benefit-box">🍽️ Saveurs et créativité</div>
+            <div className="benefit-box">🧑‍🍳 Sélectionnées par nos experts culinaires</div>
           </div>
 
-          <button
-            onClick={() => setShowChefOnly(!showChefOnly)}
-            style={{ marginTop: '15px', padding: '8px 16px', cursor: 'pointer' }}
-          >
-            {showChefOnly ? 'Voir toutes les recettes' : 'Voir uniquement les recettes du chef'}
-          </button>
+       
         </div>
       </div>
 
@@ -218,12 +213,12 @@ const ChefRecipe = () => {
 
                   <img
                     src={commentIcon}
-                    alt="Comment"
+                    alt="Commentaire"
                     onClick={() => toggleCommentSection(recipe._id)}
                     style={{ cursor: 'pointer' }}
                   />
 
-                  <img src={shareIcon} alt="Share" style={{ cursor: 'pointer' }} />
+                  <img src={shareIcon} alt="Partager" style={{ cursor: 'pointer' }} />
                 </div>
 
                 {showComment === recipe._id && (
@@ -246,7 +241,7 @@ const ChefRecipe = () => {
                           </div>
                         ))
                       ) : (
-                        <p>Aucun commentaire encore.</p>
+                        <p>Aucun commentaire pour le moment.</p>
                       )}
                     </div>
                   </div>
@@ -262,4 +257,4 @@ const ChefRecipe = () => {
   );
 };
 
-export default ChefRecipe;
+export default ChefRecipes;

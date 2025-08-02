@@ -10,11 +10,15 @@
 
 .left-panel {
   width: 300px;
-  background-color: #3B3B3B;
-  color: #F5F5F5;
+  background-color: var(--tertiary-color);
+  color: var(--senary-color);
   padding: 2rem;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
 }
 
 .left-panel h1 {
@@ -27,10 +31,24 @@
   font-size: 0.95rem;
   line-height: 1.5;
 }
-
+.admin-actions h3 {
+  background-color: var(--primary-color);
+  padding: 5px;
+  width: 200px;
+  text-align: center;
+  color: var(--senary-color);
+}
 .admin-actions {
   margin-top: 2rem;
   font-size: 0.95rem;
+  gap: 10px;
+  background-color: var(--senary-color);
+  color: var(--secondary-color);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .admin-message {
@@ -239,4 +257,18 @@
   cursor: pointer;
    background-color: rgb(188, 24, 24);
   
+}
+
+
+
+
+.recettes-dash-title {
+  background-color: #a5b68d81;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  padding: 20px;
 }

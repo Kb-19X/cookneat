@@ -1,7 +1,6 @@
-// ... importation inchangée
-import '../PatesNouilllesPage/Feculentproduct.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';  // <-- Import de useNavigate
 
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
@@ -17,6 +16,8 @@ const Feculentproduct = () => {
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
+
+  const navigate = useNavigate(); // <-- Initialisation de navigate
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -121,6 +122,10 @@ const Feculentproduct = () => {
     }
   };
 
+  const handleCardClick = (id) => {
+    navigate(`/productpage/${id}`);  // <-- redirection sur la page produit
+  };
+
   const filteredRecipes = recipes.filter((recipe) =>
     recipe.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -169,7 +174,12 @@ const Feculentproduct = () => {
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
-            <div key={recipe._id} className="recipe-card">
+            <div
+              key={recipe._id}
+              className="recipe-card"
+              onClick={() => handleCardClick(recipe._id)}  // clic sur la carte
+              style={{ cursor: 'pointer' }}
+            >
               <div className="recipe-image">
                 <img
                   src={
@@ -189,7 +199,8 @@ const Feculentproduct = () => {
                 </p>
                 <p className="recipe-description">{recipe.description}</p>
 
-                <div className="recipe-actions">
+                <div className="recipe-actions" onClick={e => e.stopPropagation()}>
+                  {/* Empêche la propagation pour que cliquer sur ces icônes ne redirige pas */}
                   <img
                     src={likeIcon}
                     alt="Like"
