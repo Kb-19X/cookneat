@@ -121,8 +121,8 @@ const Dashboard = () => {
               <h4>{recipe.title}</h4>
               <p className="truncate">{recipe.description}</p>
               <div className="card-actions">
-                <button onClick={() => handleEdit(recipe._id)}>✏️ Modifier</button>
-                <button onClick={() => handleDelete(recipe._id)}>🗑️ Supprimer</button>
+                <button onClick={() => handleEdit(recipe._id)}> Modifier</button>
+                <button onClick={() => handleDelete(recipe._id) }  className="supp-user-dash">Supprimer</button>
               </div>
             </div>
           ))}
@@ -142,17 +142,17 @@ const Dashboard = () => {
                   className={user.role === "user" ? "active" : ""}
                   onClick={() => handleRoleChange(user._id, "user")}
                 >
-                  👤 User
+                User
                 </button>
                 <button
                   className={user.role === "admin" ? "active" : ""}
                   onClick={() => handleRoleChange(user._id, "admin")}
                 >
-                  🛡️ Admin
+             Admin
                 </button>
               </div>
 
-              <button onClick={() => handleDeleteUser(user._id)}>🗑️ Supprimer</button>
+              <button onClick={() => handleDeleteUser(user._id)} className="supp-user-dash"> Supprimer</button>
             </div>
           ))}
         </div>

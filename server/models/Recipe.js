@@ -27,7 +27,7 @@ const recipeSchema = new mongoose.Schema({
   isChefRecipe: Boolean,
  category: {
   type: String,
-  enum: ["Healthy", "Rapide", "Vegan", "Dessert", "Sans gluten", "Détox"],
+  enum: ["Healthy", "Confort food", "Saveurs du monde", "Recettes du chef"],
   required: true
 }
 });

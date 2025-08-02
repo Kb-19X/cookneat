@@ -84,7 +84,7 @@
 .recipes-list-dash {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 4 cartes par ligne */
-  gap: 30px;
+  gap: 20px;
   padding: 0 40px 50px;
 
    padding-bottom: 50px;
@@ -133,10 +133,6 @@
   color: white;
 }
 
-.card-actions button:last-child {
-  background-color: #DA8359;
-  color: white;
-}
 
 /* === TABLETTE (481px à 768px) === */
 @media only screen and (min-width: 481px) and (max-width: 768px) {
@@ -212,10 +208,35 @@
   align-items: center;
   padding: 10px;
   gap: 20px;
+
 }
 
 .role-buttons button {
   padding: 5px;
   background-color: var(--primary-color);
   border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+.role-buttons button:hover {
+  background-color: var(--tertiary-color);
+  color: var(--senary-color);
+}
+
+
+.supp-user-dash {
+  background-color: rgb(212, 26, 26);
+  height: 30px;
+  border: none;
+   color: var(--secondary-color);
+  
+}
+
+
+.supp-user-dash:hover {
+  cursor: pointer;
+   background-color: rgb(188, 24, 24);
+  
 }
