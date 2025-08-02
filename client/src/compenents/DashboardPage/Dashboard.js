@@ -27,23 +27,28 @@ const Dashboard = () => {
       return;
     }
 
-    const fetchAll = async () => {
-      try {
-        const profileRes = await getProfile();
-        setUserInfo(profileRes.data);
+ const fetchAll = async () => {
+  try {
+    const profileRes = await getProfile();
+    console.log("📌 Profil :", profileRes.data); // debug
+    setUserInfo(profileRes.data);
 
-        const recettesRes = await getRecettes();
-        setRecipes(recettesRes.data);
+    const recettesRes = await getRecettes();
+    console.log("📌 Recettes :", recettesRes.data); // debug
+    setRecipes(recettesRes.data);
 
-        const usersRes = await getUsers();
-        setUsers(usersRes.data);
+    const usersRes = await getUsers();
+    console.log("📌 Utilisateurs :", usersRes.data); // debug
+    setUsers(usersRes.data);
 
-        const statsRes = await getStats();
-        setStats(statsRes.data);
-      } catch (error) {
-        console.error("❌ Erreur lors du chargement des données :", error);
-      }
-    };
+    const statsRes = await getStats();
+    console.log("📌 Stats :", statsRes.data); // debug
+    setStats(statsRes.data);
+  } catch (error) {
+    console.error("❌ Erreur lors du chargement des données :", error);
+  }
+};
+
 
     fetchAll();
   }, [token, navigate]);
