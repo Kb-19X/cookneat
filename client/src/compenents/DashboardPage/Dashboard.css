@@ -1,9 +1,11 @@
+/* === BASE STYLES === */
 .dashboard-page {
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  min-height: 100vh; /* remplace height: 100vh */
   font-family: sans-serif;
   background-color: #f9f9f9;
+  flex-wrap: wrap; /* permet l’adaptation si plus de place */
 }
 
 .left-panel {
@@ -12,6 +14,7 @@
   color: #F5F5F5;
   padding: 2rem;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .left-panel h1 {
@@ -38,16 +41,16 @@
 .right-panel {
   flex: 1;
   padding: 2rem;
-  overflow-y: auto;
   background-color: #fff;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .right-panel h2 {
   margin-bottom: 1.5rem;
 }
-
 
 .recipe-card {
   border: 1px solid #ddd;
@@ -57,6 +60,7 @@
   background-color: #FCFAEE;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   transition: transform 0.2s ease;
+  margin-bottom: 1rem;
 }
 
 .recipe-card:hover {
@@ -80,6 +84,7 @@
   display: flex;
   gap: 0.5rem;
   margin-top: 0.8rem;
+  flex-wrap: wrap;
 }
 
 .card-actions button {
@@ -98,4 +103,70 @@
 .card-actions button:last-child {
   background-color: #DA8359;
   color: white;
+}
+
+/* === TABLETTE (481px à 768px) === */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .dashboard-page {
+    flex-direction: column;
+  }
+
+  .left-panel {
+    width: 100%;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .right-panel {
+    padding: 1.5rem;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-actions button {
+    width: 100%;
+  }
+}
+
+/* === MOBILE (jusqu’à 480px) === */
+@media screen and (max-width: 480px) {
+  .dashboard-page {
+    flex-direction: column;
+  }
+
+  .left-panel {
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .left-panel h1 {
+    font-size: 1.2rem;
+  }
+
+  .admin-info,
+  .admin-actions {
+    font-size: 0.9rem;
+  }
+
+  .right-panel {
+    padding: 1rem;
+  }
+
+  .recipe-card {
+    padding: 0.8rem;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .card-actions button {
+    width: 100%;
+    font-size: 0.9rem;
+  }
 }

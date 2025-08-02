@@ -81,7 +81,7 @@ const Profil = () => {
             className="dashboard-btn"
             onClick={() => window.location.href = '/dashboard'}
           >
-            Accéder au Dashboard
+           Dashboard
           </button>
         )}
 
