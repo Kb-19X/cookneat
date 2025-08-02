@@ -27,28 +27,23 @@ const Dashboard = () => {
       return;
     }
 
- const fetchAll = async () => {
-  try {
-    const profileRes = await getProfile();
-    console.log("📌 Profil :", profileRes.data); // debug
-    setUserInfo(profileRes.data);
+    const fetchAll = async () => {
+      try {
+        const profileRes = await getProfile();
+        setUserInfo(profileRes.data);
 
-    const recettesRes = await getRecettes();
-    console.log("📌 Recettes :", recettesRes.data); // debug
-    setRecipes(recettesRes.data);
+        const recettesRes = await getRecettes();
+        setRecipes(recettesRes.data);
 
-    const usersRes = await getUsers();
-    console.log("📌 Utilisateurs :", usersRes.data); // debug
-    setUsers(usersRes.data);
+        const usersRes = await getUsers();
+        setUsers(usersRes.data);
 
-    const statsRes = await getStats();
-    console.log("📌 Stats :", statsRes.data); // debug
-    setStats(statsRes.data);
-  } catch (error) {
-    console.error("❌ Erreur lors du chargement des données :", error);
-  }
-};
-
+        const statsRes = await getStats();
+        setStats(statsRes.data);
+      } catch (error) {
+        console.error("❌ Erreur lors du chargement des données :", error);
+      }
+    };
 
     fetchAll();
   }, [token, navigate]);
@@ -100,15 +95,9 @@ const Dashboard = () => {
         <h1>🎛️ Dashboard Admin</h1>
         <p>Bienvenue !</p>
         <div className="admin-info">
-          <p>
-            <strong>Nom :</strong> {userInfo.username}
-          </p>
-          <p>
-            <strong>Email :</strong> {userInfo.email}
-          </p>
-          <p>
-            <strong>Rôle :</strong> {userInfo.role}
-          </p>
+          <p><strong>Nom :</strong> {userInfo.username}</p>
+          <p><strong>Email :</strong> {userInfo.email}</p>
+          <p><strong>Rôle :</strong> {userInfo.role}</p>
         </div>
 
         <div className="admin-actions">
@@ -125,10 +114,10 @@ const Dashboard = () => {
 
       <div className="right-panel">
         <h2>📋 Toutes les recettes</h2>
-        <div className="recipes-list">
+        <div className="recipes-list-dash">
           {recipes.length === 0 && <p>Aucune recette trouvée.</p>}
           {recipes.map((recipe) => (
-            <div className="recipe-card" key={recipe._id}>
+            <div className="recipe-card-dash" key={recipe._id}>
               <h4>{recipe.title}</h4>
               <p className="truncate">{recipe.description}</p>
               <div className="card-actions">
@@ -140,22 +129,29 @@ const Dashboard = () => {
         </div>
 
         <h2>👥 Liste des utilisateurs</h2>
-        <div className="recipes-list">
+        <div className="recipes-list-dash">
           {users.length === 0 && <p>Aucun utilisateur trouvé.</p>}
           {users.map((user) => (
-            <div className="recipe-card" key={user._id}>
+            <div className="recipe-card-dash" key={user._id}>
               <h4>{user.username || user.name}</h4>
               <p>{user.email}</p>
-              <p>
-                <strong>Rôle :</strong> {user.role}
-              </p>
-              <select
-                value={user.role}
-                onChange={(e) => handleRoleChange(user._id, e.target.value)}
-              >
-                <option value="user">user</option>
-                <option value="admin">admin</option>
-              </select>
+              <p><strong>Rôle :</strong> {user.role}</p>
+
+              <div className="role-buttons">
+                <button
+                  className={user.role === "user" ? "active" : ""}
+                  onClick={() => handleRoleChange(user._id, "user")}
+                >
+                  👤 User
+                </button>
+                <button
+                  className={user.role === "admin" ? "active" : ""}
+                  onClick={() => handleRoleChange(user._id, "admin")}
+                >
+                  🛡️ Admin
+                </button>
+              </div>
+
               <button onClick={() => handleDeleteUser(user._id)}>🗑️ Supprimer</button>
             </div>
           ))}

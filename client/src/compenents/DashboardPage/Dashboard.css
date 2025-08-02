@@ -41,7 +41,7 @@
 .right-panel {
   flex: 1;
   padding: 2rem;
-  background-color: #fff;
+  background-color: var(--secondary-color);
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -66,10 +66,39 @@
 .recipe-card:hover {
   transform: translateY(-2px);
 }
+.recipe-card-dash {
+  flex: 0 1 calc(25% - 30px);
+  min-width: 260px;
+  max-width: 300px;
+  border-radius: 16px;
+  background-color: var(--senary-color);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  color: var(--dark-text);
+  margin-bottom: 20px;
+}
+.recipes-list-dash {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 cartes par ligne */
+  gap: 30px;
+  padding: 0 40px 50px;
 
-.recipe-card h4 {
+   padding-bottom: 50px;
+  background-color: var(--secondary-color);
+  justify-items: center;
+}
+.recipe-card-dash:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-card-dash h4 {
   margin: 0 0 0.5rem 0;
-  color: #4E342E;
+  color: var(--primary-color);
 }
 
 .truncate {
@@ -77,16 +106,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.4;
-  color: #666;
+  color: var(--tertiary-color);
 }
 
 .card-actions {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 0.5rem;
   margin-top: 0.8rem;
   flex-wrap: wrap;
 }
-
+.recipe-card-dash p {
+  color: var(--tertiary-color);
+}
 .card-actions button {
   padding: 0.5rem 0.8rem;
   border: none;
@@ -169,4 +202,20 @@
     width: 100%;
     font-size: 0.9rem;
   }
+}
+
+
+
+.role-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+}
+
+.role-buttons button {
+  padding: 5px;
+  background-color: var(--primary-color);
+  border: none;
 }
