@@ -129,97 +129,97 @@ const Recette_du_jour = () => {
             Plongez dans les saveurs de l'Italie avec notre recette du jour !
           </p>
 
-          <div className="stars-homepage">
-            <div className="stars-header">
-              <div className="stars-left">
-                {"★".repeat(5)} <span className="avis-count">{comments.length} avis</span>
-              </div>
+         <div className="stars-homepage">
+  <div className="stars-header">
+    <div className="stars-left">
+      {"★".repeat(5)} <span className="avis-count">{comments.length} avis</span>
+    </div>
 
-              <div className="com-recetteday">
-                <img
-                  src={like}
-                  alt="like"
-                  onClick={handleLike}
-                  className={`icon ${liked ? "liked" : ""}`}
-                />
-                <img
-                  src={comment}
-                  alt="comment"
-                  onClick={handleCommentIconClick}
-                  className="icon"
-                />
-                <img
-                  src={share}
-                  alt="share"
-                  onClick={handleShare}
-                  className="icon"
-                />
-              </div>
-            </div>
+    <div className="com-recetteday">
+      <img
+        src={like}
+        alt="like"
+        onClick={handleLike}
+        className={`icon ${liked ? "liked" : ""}`}
+      />
+      <img
+        src={comment}
+        alt="comment"
+        onClick={handleCommentIconClick}
+        className="icon"
+      />
+      <img
+        src={share}
+        alt="share"
+        onClick={handleShare}
+        className="icon"
+      />
+    </div>
+  </div>
 
-            {successMessage && (
-              <div className="success-message">{successMessage}</div>
-            )}
+  {successMessage && <div className="success-message">{successMessage}</div>}
 
-            {showCommentForm && user && (
-              <div className="comment-popup">
-                <form className="form-comment" onSubmit={handleCommentSubmit}>
-                  <input
-                    type="number"
-                    min="1"
-                    max="5"
-                    value={rating}
-                    onChange={(e) => setRating(parseInt(e.target.value))}
-                    placeholder="Note (1 à 5)"
-                    className="comment-input"
-                    required
-                  />
-                  <input
-                    type="text"
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Ajouter un commentaire..."
-                    className="comment-input"
-                    required
-                  />
-                  <button type="submit" className="comment-btn">
-                    Envoyer
-                  </button>
-                </form>
+  {showCommentForm && user && (
+    <div className="comment-popup">
+      <form className="form-comment" onSubmit={handleCommentSubmit}>
+        <input
+          type="number"
+          min="1"
+          max="5"
+          value={rating}
+          onChange={(e) => setRating(parseInt(e.target.value))}
+          placeholder="Note (1 à 5)"
+          className="comment-input"
+          required
+        />
+        <input
+          type="text"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Ajouter un commentaire..."
+          className="comment-input"
+          required
+        />
+        <button type="submit" className="comment-btn">Envoyer</button>
+      </form>
 
-                <button
-                  className="toggle-comments-btn"
-                  onClick={handleCommentToggle}
-                >
-                  {showComments
-                    ? "Masquer les commentaires"
-                    : "Voir les commentaires"}
-                </button>
+      <button
+        className="toggle-comments-btn"
+        onClick={() => {
+          setShowComments(!showComments);
+          if (!showComments) loadComments(); // recharge les commentaires à l’ouverture
+        }}
+      >
+        {showComments ? "Masquer les commentaires" : "Voir les commentaires"}
+      </button>
 
-                {showComments && (
-                  <div className="comment-scroll-container">
-                    <ul className="comment-list">
-                      {comments.map((comment) => (
-                        <li key={comment._id}>
-                          <strong>{comment.name}</strong> ({comment.rating}/5)
-                          <br />
-                          {comment.text}
-                          <br />
-                          <small>{new Date(comment.createdAt).toLocaleString()}</small>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )}
+      {showComments && (
+        <div className="comment-scroll-container">
+          <ul className="comment-list">
+            {comments.length === 0 && <p>Aucun commentaire pour l'instant.</p>}
+            {comments.map((comment) => (
+              <li key={comment._id} className="comment-card">
+                <div className="comment-header">
+                  <strong>{comment.name}</strong>
+                  <span className="rating">⭐ {comment.rating}/5</span>
+                </div>
+                <p className="comment-text">{comment.text}</p>
+                <small className="comment-date">
+                  {new Date(comment.createdAt).toLocaleString()}
+                </small>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  )}
 
-            {showCommentForm && !user && (
-              <div className="login-warning">
-                🔒 Connectez-vous pour commenter.
-              </div>
-            )}
-          </div>
+  {showCommentForm && !user && (
+    <div className="login-warning">🔒 Connectez-vous pour commenter.</div>
+  )}
+</div>
+
         </div>
       </div>
     </div>

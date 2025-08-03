@@ -111,13 +111,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   margin-top: 30px;
-  background: linear-gradient(to right, #da8359, #da8359);
+  background: linear-gradient(to right, #da8359, #da8459b2);
   border: 3px solid #a5b68d;
-  padding: 10px;
-  color: #fee1d6;
-  gap: 10px;
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff5f0;
+  gap: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .com-recetteday {
