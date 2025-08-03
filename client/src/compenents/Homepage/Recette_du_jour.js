@@ -43,7 +43,15 @@ const Recette_du_jour = () => {
     if (showComments) {
       axios
         .get(`/api/comments?recipeId=${recipeId}`)
-        .then((res) => setComments(res.data))
+        .then((res) => {
+          // Assure-toi que la réponse est bien un tableau
+          if (Array.isArray(res.data)) {
+            setComments(res.data);
+          } else {
+            console.warn("Données commentaires inattendues:", res.data);
+            setComments([]);
+          }
+        })
         .catch((err) => console.error("❌ Erreur chargement commentaires :", err));
     }
   }, [showComments]);
@@ -80,7 +88,13 @@ const Recette_du_jour = () => {
         }
       );
 
-      setComments([res.data, ...comments]);
+      // Vérifie si res.data est un tableau ou un objet
+      if (Array.isArray(res.data)) {
+        setComments([...res.data, ...comments]);
+      } else {
+        setComments([res.data, ...comments]);
+      }
+
       setNewComment("");
       setRating(5);
       setSuccessMessage("✅ Commentaire envoyé !");
