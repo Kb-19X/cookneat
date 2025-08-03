@@ -14,33 +14,46 @@ const Recette_du_jour = () => {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [name, setName] = useState("");
   const [rating, setRating] = useState(5);
   const [successMessage, setSuccessMessage] = useState("");
+  const [user, setUser] = useState(null);
 
-  const dishId = "recette-du-jour";
+  const recipeId = "64ebf407a48e012345678abc"; // Remplace par l’ID réel de ta recette
 
+  // Décodage du token pour récupérer l’utilisateur
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = JSON.parse(atob(token.split(".")[1]));
+        setUser({
+          id: decoded.id,
+          name: decoded.name,
+          token,
+        });
+      } catch (err) {
+        console.error("❌ Token invalide :", err);
+        setUser(null);
+      }
+    }
+  }, []);
+
+  // Charger les commentaires
   useEffect(() => {
     if (showComments) {
       axios
-        .get(`/api/comments/${dishId}`)
+        .get(`/api/comments?recipeId=${recipeId}`)
         .then((res) => setComments(res.data))
-        .catch((err) =>
-          console.error("Erreur chargement commentaires :", err)
-        );
+        .catch((err) => console.error("❌ Erreur chargement commentaires :", err));
     }
   }, [showComments]);
 
-  const handleLike = () => {
-    setLiked(!liked);
-  };
+  const handleLike = () => setLiked(!liked);
 
   const handleCommentIconClick = () => {
     setShowCommentForm(!showCommentForm);
     setSuccessMessage("");
-    if (!showCommentForm) {
-      setShowComments(false);
-    }
+    if (!showCommentForm) setShowComments(false);
   };
 
   const handleCommentToggle = () => {
@@ -49,30 +62,38 @@ const Recette_du_jour = () => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !newComment.trim()) return;
+    if (!newComment.trim() || !user) return;
 
     try {
-      const res = await axios.post(`/api/comments/${dishId}`, {
-        name,
-        text: newComment,
-        rating,
-      });
-      setComments([...comments, res.data]);
+      const res = await axios.post(
+        `/api/comments`,
+        {
+          recipeId,
+          text: newComment,
+          rating,
+          name: user.name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      setComments([res.data, ...comments]);
       setNewComment("");
-      setName("");
       setRating(5);
       setSuccessMessage("✅ Commentaire envoyé !");
       setTimeout(() => setSuccessMessage(""), 3000);
-      setShowCommentForm(false);
-      setShowComments(false);
+      setShowComments(true);
     } catch (err) {
-      console.error("Erreur API :", err);
+      console.error("❌ Erreur envoi commentaire :", err.response?.data || err);
     }
   };
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
-    alert("Lien copié dans le presse-papiers !");
+    alert("Lien copié !");
   };
 
   return (
@@ -80,14 +101,13 @@ const Recette_du_jour = () => {
       <div className="description-pagejour">
         <p className="pagejour-texte">
           "Découvrez chaque jour des recettes savoureuses et faciles à réaliser
-          pour régaler vos proches ! Inspirez-vous, cuisinez, et partagez des
-          moments gourmands."
+          pour régaler vos proches !"
         </p>
       </div>
 
       <div className="recettedujour">
         <img src={tool} alt="outil" />
-        <h1 className="titre-recetteday">👨‍🍳 Inspiration du jour : Osso Buco </h1>
+        <h1 className="titre-recetteday">👨‍🍳 Inspiration du jour : Osso Buco</h1>
         <img src={tool} alt="outil" />
       </div>
 
@@ -99,26 +119,13 @@ const Recette_du_jour = () => {
 
         <div className="recetteday-right">
           <p className="titre-recetteday-2">
-            Plongez dans les saveurs de l'Italie avec notre recette du jour,
-            l'Osso Buco !
-          </p>
-          <p className="stitre-recetteday">
-            Ce plat traditionnel milanais, à base de jarret de veau mijoté, est
-            connu pour sa viande fondante et son goût irrésistible, agrémenté
-            d'arômes d'ail, de vin blanc et d'herbes fraîches. Accompagné de
-            gremolata, l'Osso Buco s'harmonise à merveille avec un risotto alla
-            milanese ou des tagliatelles fraîches.
+            Plongez dans les saveurs de l'Italie avec notre recette du jour !
           </p>
 
-          <div className="stars">
+          <div className="stars-homepage">
             <div className="stars-header">
               <div className="stars-left">
-                <span className="first-stars">★</span>
-                <span className="starsspan">★</span>
-                <span className="starsspan">★</span>
-                <span className="starsspan">★</span>
-                <span className="starsspan">★</span>
-                <span className="avis-count">56 avis</span>
+                {"★".repeat(5)} <span className="avis-count">{comments.length} avis</span>
               </div>
 
               <div className="com-recetteday">
@@ -126,7 +133,7 @@ const Recette_du_jour = () => {
                   src={like}
                   alt="like"
                   onClick={handleLike}
-                  className="icon"
+                  className={`icon ${liked ? "liked" : ""}`}
                 />
                 <img
                   src={comment}
@@ -147,16 +154,9 @@ const Recette_du_jour = () => {
               <div className="success-message">{successMessage}</div>
             )}
 
-            {showCommentForm && (
+            {showCommentForm && user && (
               <div className="comment-popup">
                 <form className="form-comment" onSubmit={handleCommentSubmit}>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Votre nom"
-                    className="comment-input"
-                  />
                   <input
                     type="number"
                     min="1"
@@ -165,6 +165,7 @@ const Recette_du_jour = () => {
                     onChange={(e) => setRating(parseInt(e.target.value))}
                     placeholder="Note (1 à 5)"
                     className="comment-input"
+                    required
                   />
                   <input
                     type="text"
@@ -172,6 +173,7 @@ const Recette_du_jour = () => {
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Ajouter un commentaire..."
                     className="comment-input"
+                    required
                   />
                   <button type="submit" className="comment-btn">
                     Envoyer
@@ -182,7 +184,9 @@ const Recette_du_jour = () => {
                   className="toggle-comments-btn"
                   onClick={handleCommentToggle}
                 >
-                  {showComments ? "Masquer les commentaires" : "Voir les commentaires"}
+                  {showComments
+                    ? "Masquer les commentaires"
+                    : "Voir les commentaires"}
                 </button>
 
                 {showComments && (
@@ -190,14 +194,22 @@ const Recette_du_jour = () => {
                     <ul className="comment-list">
                       {comments.map((comment) => (
                         <li key={comment._id}>
-                          <strong>{comment.name}</strong> ({comment.rating}/5) <br />
-                          {comment.text} <br />
+                          <strong>{comment.name}</strong> ({comment.rating}/5)
+                          <br />
+                          {comment.text}
+                          <br />
                           <small>{new Date(comment.createdAt).toLocaleString()}</small>
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
+              </div>
+            )}
+
+            {showCommentForm && !user && (
+              <div className="login-warning">
+                🔒 Connectez-vous pour commenter.
               </div>
             )}
           </div>

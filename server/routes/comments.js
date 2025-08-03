@@ -11,10 +11,24 @@ router.get('/', async (req, res) => {
     const filter = recipeId ? { recipeId } : {};
     const comments = await Comment.find(filter)
       .sort({ createdAt: -1 })
-      .populate('userId', 'name'); // Récupère le nom de l’auteur
+      .populate('userId', 'name');
     res.json(comments);
   } catch (err) {
     console.error("❌ Erreur GET /comments :", err.message);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// 🔹 GET /api/comments/recipe/:id — Commentaires d'une recette spécifique
+router.get('/recipe/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comments = await Comment.find({ recipeId: id })
+      .sort({ createdAt: -1 })
+      .populate('userId', 'name');
+    res.json(comments);
+  } catch (err) {
+    console.error("❌ Erreur GET /comments/recipe/:id :", err.message);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
