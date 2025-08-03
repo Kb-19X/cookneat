@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose'); // ✅ Pour ObjectId
 const router = express.Router();
 const Comment = require('../models/Comment');
 const verifyToken = require('../middleware/verifyToken');
@@ -64,15 +65,17 @@ router.post('/', verifyToken, async (req, res) => {
       return res.status(400).json({ error: 'Champs manquants.' });
     }
 
+    // ✅ Conversion sécurisée de recipeId en ObjectId
     const newComment = new Comment({
-      recipeId,
-      userId,
+      recipeId: mongoose.Types.ObjectId(recipeId),
+      userId: mongoose.Types.ObjectId(userId),
       name,
       text,
       rating,
     });
 
     const saved = await newComment.save();
+    console.log("✅ Commentaire enregistré :", saved); // Log utile
     res.status(201).json(saved);
   } catch (err) {
     console.error("❌ Erreur POST /comments :", err.message);
