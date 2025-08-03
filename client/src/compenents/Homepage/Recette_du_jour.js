@@ -57,11 +57,7 @@ const Recette_du_jour = () => {
 
   const handleLike = () => setLiked(!liked);
 
-  const handleCommentIconClick = () => {
-    setShowCommentForm(!showCommentForm);
-    setSuccessMessage("");
-    if (!showCommentForm) setShowComments(false);
-  };
+
 
   const handleCommentToggle = () => {
     setShowComments(!showComments);
@@ -103,127 +99,114 @@ const Recette_du_jour = () => {
     alert("Lien copié !");
   };
 
-  return (
-    <div className="pagejour">
-      <div className="description-pagejour">
-        <p className="pagejour-texte">
-          "Découvrez chaque jour des recettes savoureuses et faciles à réaliser
-          pour régaler vos proches !"
-        </p>
-      </div>
-
-      <div className="recettedujour">
-        <img src={tool} alt="outil" />
-        <h1 className="titre-recetteday">👨‍🍳 Inspiration du jour : Osso Buco</h1>
-        <img src={tool} alt="outil" />
-      </div>
-
-      <div className="recetteday-container">
-        <div className="recetteday-left">
-          <img src={ossobuco} alt="Osso buco" />
-          <h1>Osso buco</h1>
-        </div>
-
-        <div className="recetteday-right">
-          <p className="titre-recetteday-2">
-            Plongez dans les saveurs de l'Italie avec notre recette du jour !
-          </p>
-
-         <div className="stars-homepage">
-  <div className="stars-header">
-    <div className="stars-left">
-      {"★".repeat(5)} <span className="avis-count">{comments.length} avis</span>
+return (
+  <div className="pagejour">
+    <div className="description-pagejour">
+      <p className="pagejour-texte">
+        "Découvrez chaque jour des recettes savoureuses et faciles à réaliser
+        pour régaler vos proches !"
+      </p>
     </div>
 
-    <div className="com-recetteday">
-      <img
-        src={like}
-        alt="like"
-        onClick={handleLike}
-        className={`icon ${liked ? "liked" : ""}`}
-      />
-      <img
-        src={comment}
-        alt="comment"
-        onClick={handleCommentIconClick}
-        className="icon"
-      />
-      <img
-        src={share}
-        alt="share"
-        onClick={handleShare}
-        className="icon"
-      />
+    <div className="recettedujour">
+      <img src={tool} alt="outil" />
+      <h1 className="titre-recetteday">👨‍🍳 Inspiration du jour : Osso Buco</h1>
+      <img src={tool} alt="outil" />
+    </div>
+
+    <div className="recetteday-container">
+      <div className="recetteday-left">
+        <img src={ossobuco} alt="Osso buco" />
+        <h1>Osso buco</h1>
+      </div>
+
+      <div className="recetteday-right">
+        <p className="titre-recetteday-2">
+          Plongez dans les saveurs de l'Italie avec notre recette du jour !
+        </p>
+
+        <div className="stars-homepage">
+          <div className="stars-header">
+            <div className="stars-left">
+              {"★".repeat(5)} <span className="avis-count">{comments.length} avis</span>
+            </div>
+
+            <div className="com-recetteday">
+              <img
+                src={like}
+                alt="like"
+                onClick={handleLike}
+                className={`icon ${liked ? "liked" : ""}`}
+              />
+              <img
+                src={comment}
+                alt="comment"
+                onClick={handleCommentToggle}
+                className="icon"
+              />
+              <img
+                src={share}
+                alt="share"
+                onClick={handleShare}
+                className="icon"
+              />
+            </div>
+          </div>
+
+          {successMessage && <div className="success-message">{successMessage}</div>}
+
+          {/* Champ d'ajout de commentaire directement affiché si connecté */}
+          {user ? (
+            <div className="comment-section">
+              <input
+                type="number"
+                min="1"
+                max="5"
+                value={rating}
+                onChange={(e) => setRating(parseInt(e.target.value))}
+                placeholder="Note (1 à 5)"
+                className="comment-input"
+              />
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Écrivez un commentaire..."
+                className="comment-input"
+              />
+              <button onClick={handleCommentSubmit} className="comment-btn">Envoyer</button>
+            </div>
+          ) : (
+            <div className="login-warning">🔒 Connectez-vous pour commenter.</div>
+          )}
+
+          {/* Affichage des commentaires */}
+          {showComments && (
+            <div className="comments-display">
+              {comments.length > 0 ? (
+                comments.map((comment) => (
+                  <div key={comment._id} className="comment-card">
+                    <div className="comment-header">
+                      <strong>{comment.name}</strong>
+                      <span className="rating">⭐ {comment.rating}/5</span>
+                    </div>
+                    <p className="comment-text">{comment.text}</p>
+                    <small className="comment-date">
+                      {new Date(comment.createdAt).toLocaleString()}
+                    </small>
+                  </div>
+                ))
+              ) : (
+                <p>Aucun commentaire encore.</p>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   </div>
+);
 
-  {successMessage && <div className="success-message">{successMessage}</div>}
-
-  {showCommentForm && user && (
-    <div className="comment-popup">
-      <form className="form-comment" onSubmit={handleCommentSubmit}>
-        <input
-          type="number"
-          min="1"
-          max="5"
-          value={rating}
-          onChange={(e) => setRating(parseInt(e.target.value))}
-          placeholder="Note (1 à 5)"
-          className="comment-input"
-          required
-        />
-        <input
-          type="text"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Ajouter un commentaire..."
-          className="comment-input"
-          required
-        />
-        <button type="submit" className="comment-btn">Envoyer</button>
-      </form>
-
-      <button
-        className="toggle-comments-btn"
-        onClick={() => {
-          setShowComments(!showComments);
-          if (!showComments) loadComments(); // recharge les commentaires à l’ouverture
-        }}
-      >
-        {showComments ? "Masquer les commentaires" : "Voir les commentaires"}
-      </button>
-
-      {showComments && (
-        <div className="comment-scroll-container">
-          <ul className="comment-list">
-            {comments.length === 0 && <p>Aucun commentaire pour l'instant.</p>}
-            {comments.map((comment) => (
-              <li key={comment._id} className="comment-card">
-                <div className="comment-header">
-                  <strong>{comment.name}</strong>
-                  <span className="rating">⭐ {comment.rating}/5</span>
-                </div>
-                <p className="comment-text">{comment.text}</p>
-                <small className="comment-date">
-                  {new Date(comment.createdAt).toLocaleString()}
-                </small>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  )}
-
-  {showCommentForm && !user && (
-    <div className="login-warning">🔒 Connectez-vous pour commenter.</div>
-  )}
-</div>
-
-        </div>
-      </div>
-    </div>
-  );
 };
 
 export default Recette_du_jour;
