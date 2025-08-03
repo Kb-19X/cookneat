@@ -20,7 +20,6 @@ const Recette_du_jour = () => {
 
   const recipeId = "64ebf407a48e012345678abc"; // Remplace par l’ID réel de ta recette
 
-  // Décodage du token pour récupérer l’utilisateur
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -38,23 +37,23 @@ const Recette_du_jour = () => {
     }
   }, []);
 
-  // Charger les commentaires
+  const loadComments = () => {
+    axios
+      .get(`/api/comments?recipeId=${recipeId}`)
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setComments(res.data);
+        } else {
+          console.warn("Données commentaires inattendues:", res.data);
+          setComments([]);
+        }
+      })
+      .catch((err) => console.error("❌ Erreur chargement commentaires :", err));
+  };
+
   useEffect(() => {
-    if (showComments) {
-      axios
-        .get(`/api/comments?recipeId=${recipeId}`)
-        .then((res) => {
-          // Assure-toi que la réponse est bien un tableau
-          if (Array.isArray(res.data)) {
-            setComments(res.data);
-          } else {
-            console.warn("Données commentaires inattendues:", res.data);
-            setComments([]);
-          }
-        })
-        .catch((err) => console.error("❌ Erreur chargement commentaires :", err));
-    }
-  }, [showComments]);
+    loadComments(); // chargement initial
+  }, [recipeId]);
 
   const handleLike = () => setLiked(!liked);
 
@@ -73,7 +72,7 @@ const Recette_du_jour = () => {
     if (!newComment.trim() || !user) return;
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `/api/comments`,
         {
           recipeId,
@@ -88,18 +87,12 @@ const Recette_du_jour = () => {
         }
       );
 
-      // Vérifie si res.data est un tableau ou un objet
-      if (Array.isArray(res.data)) {
-        setComments([...res.data, ...comments]);
-      } else {
-        setComments([res.data, ...comments]);
-      }
-
       setNewComment("");
       setRating(5);
       setSuccessMessage("✅ Commentaire envoyé !");
       setTimeout(() => setSuccessMessage(""), 3000);
       setShowComments(true);
+      loadComments(); // Recharge les commentaires après envoi
     } catch (err) {
       console.error("❌ Erreur envoi commentaire :", err.response?.data || err);
     }
