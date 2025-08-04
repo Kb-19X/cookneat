@@ -124,84 +124,111 @@ return (
         <p className="titre-recetteday-2">
           Plongez dans les saveurs de l'Italie avec notre recette du jour !
         </p>
+<div className="stars-homepage">
+  {/* En-tête étoiles + actions */}
+  <div className="stars-header">
+    <div className="stars-left">
+      <div className="stars-select">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <span
+            key={star}
+            className={`star ${star <= rating ? "filled" : ""}`}
+            onClick={() => setRating(star)}
+          >
+            ★
+          </span>
+        ))}
+        <span className="avis-count">({comments.length} avis)</span>
+      </div>
+    </div>
 
-        <div className="stars-homepage">
-          <div className="stars-header">
-            <div className="stars-left">
-              {"★".repeat(5)} <span className="avis-count">{comments.length} avis</span>
-            </div>
+    <div className="com-recetteday">
+      <img
+        src={like}
+        alt="like"
+        onClick={handleLike}
+        className={`icon ${liked ? "liked" : ""}`}
+      />
+      <img
+        src={comment}
+        alt="comment"
+        onClick={handleCommentToggle}
+        className="icon"
+      />
+      <img
+        src={share}
+        alt="share"
+        onClick={handleShare}
+        className="icon"
+      />
+    </div>
+  </div>
 
-            <div className="com-recetteday">
-              <img
-                src={like}
-                alt="like"
-                onClick={handleLike}
-                className={`icon ${liked ? "liked" : ""}`}
-              />
-              <img
-                src={comment}
-                alt="comment"
-                onClick={handleCommentToggle}
-                className="icon"
-              />
-              <img
-                src={share}
-                alt="share"
-                onClick={handleShare}
-                className="icon"
-              />
+  {/* Message de succès */}
+  {successMessage && <div className="success-message">{successMessage}</div>}
+
+  {/* Section pour écrire un commentaire */}
+  {user ? (
+    <div className="comment-section">
+      <label className="rating-label">Votre note :</label>
+      <div className="stars-input">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <span
+            key={star}
+            className={`star-input ${star <= rating ? "filled" : ""}`}
+            onClick={() => setRating(star)}
+          >
+            ★
+          </span>
+        ))}
+      </div>
+      <textarea
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+        placeholder="Écrivez votre commentaire..."
+        className="comment-input"
+        rows={3}
+      />
+      <button onClick={handleCommentSubmit} className="comment-btn">Envoyer</button>
+    </div>
+  ) : (
+    <div className="login-warning">🔒 Connectez-vous pour commenter.</div>
+  )}
+
+  {/* Affichage des commentaires */}
+  {showComments && (
+    <div className="comments-display">
+      {comments.length > 0 ? (
+        comments.map((comment) => (
+          <div key={comment._id} className="comment-card">
+            <div className="comment-header">
+              <strong>{comment.name}</strong>
+              <div className="rating">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    className={`star-readonly ${star <= comment.rating ? "filled" : ""}`}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
             </div>
+            <p className="comment-text">{comment.text}</p>
+            <small className="comment-date">
+              {new Date(comment.createdAt).toLocaleString()}
+            </small>
           </div>
+        ))
+      ) : (
+        <p>Aucun commentaire encore.</p>
+      )}
+    </div>
+  )}
+</div>
 
-          {successMessage && <div className="success-message">{successMessage}</div>}
 
-          {/* Champ d'ajout de commentaire directement affiché si connecté */}
-          {user ? (
-            <div className="comment-section">
-              <input
-                type="number"
-                min="1"
-                max="5"
-                value={rating}
-                onChange={(e) => setRating(parseInt(e.target.value))}
-                placeholder="Note (1 à 5)"
-                className="comment-input"
-              />
-              <input
-                type="text"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Écrivez un commentaire..."
-                className="comment-input"
-              />
-              <button onClick={handleCommentSubmit} className="comment-btn">Envoyer</button>
-            </div>
-          ) : (
-            <div className="login-warning">🔒 Connectez-vous pour commenter.</div>
-          )}
 
-          {/* Affichage des commentaires */}
-          {showComments && (
-            <div className="comments-display">
-              {comments.length > 0 ? (
-                comments.map((comment) => (
-                  <div key={comment._id} className="comment-card">
-                    <div className="comment-header">
-                      <strong>{comment.name}</strong>
-                      <span className="rating">⭐ {comment.rating}/5</span>
-                    </div>
-                    <p className="comment-text">{comment.text}</p>
-                    <small className="comment-date">
-                      {new Date(comment.createdAt).toLocaleString()}
-                    </small>
-                  </div>
-                ))
-              ) : (
-                <p>Aucun commentaire encore.</p>
-              )}
-            </div>
-          )}
-        </div>
       </div>
     </div>
   </div>
