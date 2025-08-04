@@ -167,8 +167,13 @@ return (
   {/* Message de succès */}
   {successMessage && <div className="success-message">{successMessage}</div>}
 
-  {/* Section pour écrire un commentaire */}
-  {user ? (
+  {/* Message si non connecté */}
+  {!user && (
+    <div className="login-warning">🔒 Connectez-vous pour commenter.</div>
+  )}
+
+  {/* Section pour écrire un commentaire (uniquement si connecté + toggle actif) */}
+  {user && showComments && (
     <div className="comment-section">
       <label className="rating-label">Votre note :</label>
       <div className="stars-input">
@@ -191,8 +196,6 @@ return (
       />
       <button onClick={handleCommentSubmit} className="comment-btn">Envoyer</button>
     </div>
-  ) : (
-    <div className="login-warning">🔒 Connectez-vous pour commenter.</div>
   )}
 
   {/* Affichage des commentaires */}
@@ -226,6 +229,7 @@ return (
     </div>
   )}
 </div>
+
 
 
 
