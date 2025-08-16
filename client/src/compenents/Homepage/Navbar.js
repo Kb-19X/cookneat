@@ -75,7 +75,7 @@ const Navbar = () => {
             <li><a href="/Healthy">Healthy</a></li>
             <li><a href="/patesnouilles">Confort food</a></li>
             <li><a href="/SaveurDuMonde">Saveurs du monde</a></li>
-            <li><a href="/ChefRecipe">Recettes du chef</a></li>
+            <li><a href="/ChefRecipe">Toutes les recettes</a></li>
 
             {user?.role === 'admin' && (
               <li>

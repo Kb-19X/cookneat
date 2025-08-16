@@ -20,7 +20,7 @@
   width: 100px;
   height: 100px;
   object-fit: cover;
-  margin-bottom: 20px;
+  
 }
 
 .footer-left a {
@@ -59,7 +59,7 @@
 }
 .footer-mid p {
   margin-top: 20px;
-  color: #3a001e;
+  color: var(--senary-color);
   font-weight: 700;
 }
 
@@ -101,20 +101,22 @@
   align-items: center;
 }
 
-.newletter a {
+.newletter button {
   background-color: #ecdfcc8c;
   color: #ffe5da;
   text-decoration: none;
   display: flex;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
   border: 2px solid var(--secondary-color);
-  padding: 3px;
+  padding-left: 10px;
+   padding-right: 10px;
   width: 50px;
-  height: 20px;
+  height: 30px;
 }
 
-.newletter a:hover {
+.newletter button:hover {
   background-color: #ecdfcc48;
 }
 

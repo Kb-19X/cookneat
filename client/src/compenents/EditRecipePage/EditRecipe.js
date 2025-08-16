@@ -61,7 +61,7 @@ const EditRecipe = () => {
     <div className="background-edit">
 
     <div className="edit-recipe-container">
-      <h1>✏️ Modifier la recette</h1>
+      <h1> Modifier votre recette !</h1>
       <form onSubmit={handleUpdate} className="edit-recipe-form">
         <label>Titre</label>
         <input
@@ -94,9 +94,9 @@ const EditRecipe = () => {
           </p>
         )}
 
-        <button type="submit">💾 Enregistrer</button>
+        <button type="submit">Valider</button>
         <button type="button" onClick={() => navigate("/dashboard")}>
-          🔙 Retour
+          Retour
         </button>
       </form>
     </div>

@@ -40,7 +40,7 @@ const Footer = () => {
         <p className='news'>Inscris-toi à notre newsletter pour ne rien rater des nouvelles recettes !</p>
         <div className='newletter'>
         <input className='input-navbar' type="text" placeholder='E-mail' />
-        <a href="/">Valider</a>
+        <button href="/">Valider</button>
         </div>
         <div className='rsx'>
             <a href="/"><img src={insta} alt="" /></a>
