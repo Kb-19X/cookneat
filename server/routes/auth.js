@@ -1,18 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
 const User = require('../models/User');
 require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'cookneat123';
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-});
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.header('Authorization');
@@ -26,16 +19,6 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-router.get('/profile', authMiddleware, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-    res.json(user);
-  } catch {
-    res.status(500).json({ message: 'Erreur serveur.' });
-  }
-});
-
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -45,13 +28,7 @@ router.post('/register', async (req, res) => {
     if (existing) return res.status(400).json({ message: 'Email déjà utilisé.' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({
-      username: username.trim(),
-      email: email.trim().toLowerCase(),
-      password: hashedPassword
-    });
-
+    const newUser = new User({ username: username.trim(), email: email.trim().toLowerCase(), password: hashedPassword });
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id, name: newUser.username, role: newUser.role }, JWT_SECRET, { expiresIn: '7d' });
@@ -59,13 +36,7 @@ router.post('/register', async (req, res) => {
     res.status(201).json({
       message: 'Inscription réussie',
       token,
-      user: {
-        id: newUser._id,
-        username: newUser.username,
-        email: newUser.email,
-        role: newUser.role,
-        image: newUser.image || null
-      }
+      user: { id: newUser._id, username: newUser.username, email: newUser.email, role: newUser.role }
     });
   } catch {
     res.status(500).json({ message: 'Erreur serveur.' });
@@ -88,66 +59,20 @@ router.post('/login', async (req, res) => {
     res.status(200).json({
       message: 'Connexion réussie',
       token,
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        image: user.image || null
-      }
+      user: { id: user._id, username: user.username, email: user.email, role: user.role }
     });
   } catch {
     res.status(500).json({ message: 'Erreur serveur.' });
   }
 });
 
-router.post('/forgot-password', async (req, res) => {
-  const { email, username } = req.body;
-  if (!email && !username) return res.status(400).json({ message: 'Email ou pseudo requis' });
-
+router.get('/profile', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findOne({
-      $or: [
-        email ? { email: email.trim().toLowerCase() } : null,
-        username ? { username: username.trim() } : null
-      ].filter(Boolean)
-    });
-
-    if (!user) return res.json({ message: 'Si un compte existe, un mail vous sera envoyé.' });
-
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-    const resetLink = `${CLIENT_URL}/reset-password?token=${token}`;
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: 'Réinitialisation mot de passe CookNeat',
-      html: `<p>Bonjour ${user.username},</p><p>Cliquez ici pour réinitialiser votre mot de passe :</p><a href="${resetLink}">${resetLink}</a>`
-    });
-
-    res.json({ message: 'Un lien de réinitialisation a été envoyé par email.' });
-  } catch {
-    res.status(500).json({ message: 'Erreur serveur.' });
-  }
-});
-
-router.post('/reset-password', async (req, res) => {
-  const { token, password } = req.body;
-  if (!token || !password) return res.status(400).json({ message: 'Token et mot de passe requis.' });
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const userId = decoded.id;
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.findByIdAndUpdate(userId, { password: hashedPassword }, { new: true });
-
+    const user = await User.findById(req.user.id).select('-password');
     if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-
-    res.json({ message: 'Mot de passe mis à jour avec succès.' });
-  } catch (err) {
-    if (err.name === 'TokenExpiredError') return res.status(401).json({ message: 'Le lien a expiré.' });
-    res.status(400).json({ message: 'Token invalide ou autre erreur.' });
+    res.json(user);
+  } catch {
+    res.status(500).json({ message: 'Erreur serveur.' });
   }
 });
 

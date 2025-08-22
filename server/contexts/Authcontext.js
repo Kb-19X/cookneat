@@ -7,7 +7,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Vérifie si un token est déjà stocké au chargement
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -17,24 +16,23 @@ export const AuthProvider = ({ children }) => {
           username: decoded.name,
           role: decoded.role,
           id: decoded.id,
-          image: decoded.image || null, // optionnel si le token contient une image
+          image: decoded.image || null
         });
         setIsAuthenticated(true);
       } catch (err) {
-        console.error("Token invalide ❌", err);
+        console.error("Token invalide", err);
         localStorage.removeItem('token');
       }
     }
   }, []);
 
-  // Connexion : on stocke le token et l'utilisateur transformé
   const login = ({ token, user }) => {
+    if (!token || !user) return;
     localStorage.setItem('token', token);
-    setUser(user); // user doit contenir username, role, id, image
+    setUser(user);
     setIsAuthenticated(true);
   };
 
-  // Déconnexion
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
