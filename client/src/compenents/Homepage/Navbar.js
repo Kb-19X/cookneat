@@ -46,7 +46,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   // ✅ Pour déboguer : vérifie bien le contenu de `user`

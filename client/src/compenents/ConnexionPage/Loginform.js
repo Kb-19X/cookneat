@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import './Loginform.css';
 import { useNavigate, Link } from 'react-router-dom';
-import { AuthContext } from '../../contexts/AuthContext'; // ✅ Contexte
+import { AuthContext } from '../../contexts/AuthContext';
 
 const Loginform = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ const Loginform = () => {
   const [message, setMessage] = useState('');
 
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // ✅ récupère la fonction login
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,31 +20,27 @@ const Loginform = () => {
       const response = await axios.post(
         'https://cookneat-server.onrender.com/api/auth/login',
         { email, password },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
+        { headers: { 'Content-Type': 'application/json' } }
       );
 
-      const { token, user } = response.data;
+      const { token, user, message: serverMessage } = response.data;
 
-      // ✅ Connexion via contexte avec user complet
-      login({ token, user });
+      login({
+        token,
+        user: {
+          username: user.username,
+          role: user.role,
+          id: user._id,
+          image: user.image || null
+        }
+      });
 
-      setMessage('✅ Connexion réussie');
+      setMessage(serverMessage || 'Connexion réussie');
       setEmail('');
       setPassword('');
-
-      // ✅ Redirige vers la page profil
       navigate('/profilpage');
-
     } catch (err) {
-      console.error('❌ Erreur login :', err);
-      console.log("🧾 Réponse serveur :", err.response?.data);
-      const errorMessage =
-        err.response?.data?.message ||
-        '❌ Erreur lors de la connexion.';
+      const errorMessage = err.response?.data?.message || 'Erreur lors de la connexion.';
       setMessage(errorMessage);
     }
   };
@@ -71,7 +67,7 @@ const Loginform = () => {
             />
             <button className="login-btn" type="submit">Se connecter</button>
             {message && (
-              <p style={{ marginTop: '10px', color: message.startsWith("✅") ? 'lightgreen' : 'salmon' }}>
+              <p style={{ marginTop: '10px', color: message.startsWith("Connexion") ? 'lightgreen' : 'salmon' }}>
                 {message}
               </p>
             )}
