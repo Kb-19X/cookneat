@@ -19,16 +19,16 @@ const commentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  rating: {
-    type: Number,
-    min: 1,
-    max: 5,
-    default: null // ✅ Optionnel maintenant
-  },
-  imageUrl: {
-    type: String, // ✅ Nouveau champ pour stocker le chemin de l'image
-    default: null
-  },
+rating: {
+  type: Number,
+  min: 1,
+  max: 5,
+  required: false // ✅ On enlève le required
+},
+imageUrl: {
+  type: String,
+  default: null
+},
   createdAt: {
     type: Date,
     default: Date.now
