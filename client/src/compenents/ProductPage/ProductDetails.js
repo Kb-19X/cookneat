@@ -19,13 +19,18 @@ const ProductDetails = () => {
   const [recette, setRecette] = useState(null);
   const [allComments, setAllComments] = useState([]);
 
+  // Nouveau : Ajouter un commentaire
+  const [commentText, setCommentText] = useState("");
+  const [commentImage, setCommentImage] = useState(null);
+  const [commentPreview, setCommentPreview] = useState(null);
+  const [commentError, setCommentError] = useState("");
+
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes/${id}`);
         const recipe = res.data;
 
-        // Nettoyage des étapes : on garde uniquement les descriptions non vides
         let cleanedSteps = [];
         if (Array.isArray(recipe.steps)) {
           cleanedSteps = recipe.steps
@@ -55,10 +60,21 @@ const ProductDetails = () => {
     fetchAllComments();
   }, [id]);
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === "#commentaires") {
+      const section = document.getElementById("commentaires");
+      if (section) {
+        setTimeout(() => {
+          section.scrollIntoView({ behavior: "smooth" });
+        }, 300);
+      }
+    }
+  }, []);
+
   const incrementPersonnes = () => setPersonnes((p) => p + 1);
   const decrementPersonnes = () => setPersonnes((p) => (p > 1 ? p - 1 : 1));
 
-  // Calcul des quantités ajustées en fonction du nombre de personnes
   const adjustedIngredients = useMemo(() => {
     if (!recette?.ingredients || recette.ingredients.length === 0) return [];
 
@@ -110,6 +126,41 @@ const ProductDetails = () => {
     }
   };
 
+  const handleCommentImageChange = (e) => {
+    const file = e.target.files[0];
+    setCommentImage(file);
+    setCommentPreview(file ? URL.createObjectURL(file) : null);
+  };
+
+  const handleCommentSubmit = async () => {
+    setCommentError("");
+    if (!commentText.trim()) return setCommentError("Le commentaire ne peut pas être vide.");
+
+    const token = localStorage.getItem("token");
+    if (!token) return setCommentError("Vous devez être connecté pour commenter.");
+
+    const formData = new FormData();
+    formData.append("recipeId", id);
+    formData.append("text", commentText);
+    if (commentImage) formData.append("image", commentImage);
+
+    try {
+      await axios.post(`${API_URL}/api/comments`, formData, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
+      });
+
+      setCommentText("");
+      setCommentImage(null);
+      setCommentPreview(null);
+
+      const res = await axios.get(`${API_URL}/api/comments?recipeId=${id}`);
+      setAllComments(res.data);
+    } catch (err) {
+      console.error(err);
+      setCommentError("❌ Erreur lors de l'envoi du commentaire. Réessayez.");
+    }
+  };
+
   if (!recette) return <p className="loading">Chargement...</p>;
 
   return (
@@ -156,91 +207,75 @@ const ProductDetails = () => {
           </Tooltip>
         </div>
 
+        {/* Ingrédients */}
         <div className="product-ingredients">
           <div className="product-ingredients-header">
             <h2>Ingrédients</h2>
             <div className="product-personnes-control">
-              <button onClick={decrementPersonnes} aria-label="diminuer personnes">
-                −
-              </button>
-              <span>
-                {personnes} personne{personnes > 1 ? "s" : ""}
-              </span>
-              <button onClick={incrementPersonnes} aria-label="augmenter personnes">
-                +
-              </button>
+              <button onClick={decrementPersonnes} aria-label="diminuer personnes">−</button>
+              <span>{personnes} personne{personnes > 1 ? "s" : ""}</span>
+              <button onClick={incrementPersonnes} aria-label="augmenter personnes">+</button>
             </div>
           </div>
 
           <div className="product-time">
-            <p>
-              <AccessTimeIcon fontSize="small" /> <strong>Préparation :</strong>{" "}
-              {recette.prepTime || "?"}
-            </p>
-            <p>
-              <AccessTimeIcon fontSize="small" /> <strong>Cuisson :</strong>{" "}
-              {recette.cookTime || "?"}
-            </p>
-            <p>
-              <AccessTimeIcon fontSize="small" /> <strong>Total :</strong>{" "}
-              {recette.totalTime || "?"}
-            </p>
+            <p><AccessTimeIcon fontSize="small" /> <strong>Préparation :</strong> {recette.prepTime || "?"}</p>
+            <p><AccessTimeIcon fontSize="small" /> <strong>Cuisson :</strong> {recette.cookTime || "?"}</p>
+            <p><AccessTimeIcon fontSize="small" /> <strong>Total :</strong> {recette.totalTime || "?"}</p>
           </div>
 
           <div className="product-ingredients-grid">
-            {adjustedIngredients.length > 0 ? (
-              adjustedIngredients.map(
-                ({ name, adjustedQuantity, unit, imageUrl }, index) => (
-                  <div key={`${name}-${index}`} className="product-ingredient-card">
-                    {imageUrl && (
-                      <img
-                        src={
-                          imageUrl.startsWith("http")
-                            ? imageUrl
-                            : `${API_URL}${imageUrl}`
-                        }
-                        alt={name}
-                        className="product-ingredient-image"
-                      />
-                    )}
-                    <p className="product-ingredient-quantity">
-                      {adjustedQuantity ? `${adjustedQuantity} ${unit || ""}` : ""}
-                    </p>
-                    <p className="product-ingredient-name">{name}</p>
-                  </div>
-                )
-              )
-            ) : (
-              <p className="no-ingredients">
-                Aucun ingrédient défini pour cette recette.
-              </p>
-            )}
+            {adjustedIngredients.map(({ name, adjustedQuantity, unit, imageUrl }, index) => (
+              <div key={`${name}-${index}`} className="product-ingredient-card">
+                {imageUrl && <img src={imageUrl.startsWith("http") ? imageUrl : `${API_URL}${imageUrl}`} alt={name} className="product-ingredient-image" />}
+                <p className="product-ingredient-quantity">{adjustedQuantity ? `${adjustedQuantity} ${unit || ""}` : ""}</p>
+                <p className="product-ingredient-name">{name}</p>
+              </div>
+            ))}
           </div>
         </div>
 
+        {/* Préparation */}
         <div className="product-preparation-section">
           <h2 className="product-preparation-title">Préparation</h2>
-          {recette.steps && recette.steps.length > 0 ? (
-            recette.steps.map((step, i) => (
-              <div key={i} className="preparation-step">
-                <h3 className="preparation-step-title">Étape {i + 1}</h3>
-                <p className="preparation-step-text">{step}</p>
-              </div>
-            ))
-          ) : (
-            <p className="no-steps">Aucune étape définie pour cette recette.</p>
-          )}
+          {recette.steps.map((step, i) => (
+            <div key={i} className="preparation-step">
+              <h3 className="preparation-step-title">Étape {i + 1}</h3>
+              <p className="preparation-step-text">{step}</p>
+            </div>
+          ))}
         </div>
 
+        {/* Ajouter un commentaire */}
+        <div className="add-comment-section">
+          <h2>Ajouter un commentaire</h2>
+          {commentError && <p className="comment-error">{commentError}</p>}
+          <textarea
+            placeholder="Écrivez votre commentaire..."
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleCommentImageChange}
+            className="add-file-comment"
+          />
+          {commentPreview && <img src={commentPreview} alt="Prévisualisation" className="comment-preview" />}
+          <div className="btn-envoyer-product">
+            <button onClick={handleCommentSubmit}>Envoyer</button>
+          </div>
+        </div>
+
+        {/* Commentaires existants */}
         <div id="commentaires" className="all-comments-section">
           <h2 className="plats-commentez">🗣️ Derniers commentaires</h2>
-          {Array.isArray(allComments) && allComments.length > 0 ? (
+          {allComments.length > 0 ? (
             allComments.map((comment) => (
               <div key={comment._id || comment.id} className="comment-card">
-                <p>
-                  <strong>{comment.name}</strong> :
-                </p>
+                <p><strong>{comment.name}</strong> :</p>
                 <p>{comment.text}</p>
+                {comment.imageUrl && <img src={`${API_URL}${comment.imageUrl}`} alt="Commentaire" className="comment-image"/>}
                 <p>⭐ {comment.rating || 5} / 5</p>
               </div>
             ))

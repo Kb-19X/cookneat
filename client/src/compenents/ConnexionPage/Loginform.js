@@ -8,6 +8,8 @@ const Loginform = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
@@ -15,6 +17,8 @@ const Loginform = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setMessage('');
+    setIsError(false);
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -28,7 +32,7 @@ const Loginform = () => {
       login({
         token,
         user: {
-          username: user.username,
+          username: user.username, // Vérifie si le backend renvoie "username"
           role: user.role,
           id: user._id,
           image: user.image || null
@@ -38,10 +42,13 @@ const Loginform = () => {
       setMessage(serverMessage || 'Connexion réussie');
       setEmail('');
       setPassword('');
-      navigate('/profilpage');
+      setTimeout(() => navigate('/profilpage'), 1500); // Petite attente avant la redirection
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Erreur lors de la connexion.';
       setMessage(errorMessage);
+      setIsError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,6 +64,7 @@ const Loginform = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
             <input
               type="password"
@@ -64,13 +72,26 @@ const Loginform = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
-            <button className="login-btn" type="submit">Se connecter</button>
+            <button className="login-btn" type="submit" disabled={loading}>
+              {loading ? 'Connexion...' : 'Se connecter'}
+            </button>
+
+            {loading && <div className="loader"></div>}
+
             {message && (
-              <p style={{ marginTop: '10px', color: message.startsWith("Connexion") ? 'lightgreen' : 'salmon' }}>
+              <p
+                style={{
+                  marginTop: '10px',
+                  color: isError ? 'salmon' : 'lightgreen',
+                  fontWeight: 'bold'
+                }}
+              >
                 {message}
               </p>
             )}
+
             <p style={{ marginTop: '20px' }}>
               Pas encore de compte ? <Link to="/register">S’inscrire</Link>
             </p>

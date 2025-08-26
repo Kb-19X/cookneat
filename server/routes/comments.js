@@ -1,11 +1,11 @@
 const express = require('express');
-const mongoose = require('mongoose'); // ✅ Pour ObjectId
+const mongoose = require('mongoose'); 
 const router = express.Router();
 const Comment = require('../models/Comment');
 const verifyToken = require('../middleware/verifyToken');
 const auth = require('../middleware/auth');
 
-// 🔹 GET /api/comments — Tous les commentaires ou ceux d'une recette
+
 router.get('/', async (req, res) => {
   try {
     const { recipeId } = req.query;
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 🔹 GET /api/comments/recipe/:id — Commentaires d'une recette spécifique
+
 router.get('/recipe/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -34,7 +34,7 @@ router.get('/recipe/:id', async (req, res) => {
   }
 });
 
-// 🔹 GET /api/comments/mine — Commentaires de l'utilisateur connecté
+
 router.get('/mine', auth, async (req, res) => {
   try {
     const comments = await Comment.find({ userId: req.user.id })
@@ -55,27 +55,26 @@ router.get('/mine', auth, async (req, res) => {
   }
 });
 
-// 🔹 POST /api/comments — Créer un commentaire lié à un user
+
 router.post('/', verifyToken, async (req, res) => {
   try {
     const { recipeId, text, rating } = req.body;
     const { id: userId, name } = req.user;
 
-    if (!recipeId || !text || !rating) {
+    if (!recipeId || !text) {
       return res.status(400).json({ error: 'Champs manquants.' });
     }
 
-    // ✅ Conversion sécurisée de recipeId en ObjectId
     const newComment = new Comment({
       recipeId: mongoose.Types.ObjectId(recipeId),
       userId: mongoose.Types.ObjectId(userId),
       name,
       text,
-      rating,
+      rating: rating || 5, 
     });
 
     const saved = await newComment.save();
-    console.log("✅ Commentaire enregistré :", saved); // Log utile
+    console.log("✅ Commentaire enregistré :", saved); 
     res.status(201).json(saved);
   } catch (err) {
     console.error("❌ Erreur POST /comments :", err.message);

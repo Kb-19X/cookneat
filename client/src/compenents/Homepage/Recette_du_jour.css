@@ -487,3 +487,12 @@
 }
 
 
+.login-warning {
+
+  background-color: #ffe0e0;
+  color: #b00000;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}

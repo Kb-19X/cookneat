@@ -165,7 +165,7 @@ const Recette_du_jour = () => {
             {successMessage && <div className="success-message">{successMessage}</div>}
 
             {!user && (
-              <div className="login-warning">🔒 Connectez-vous pour commenter.</div>
+              <div className="login-warning"> Vous devez être connecté pour ajouter un commentaire.</div>
             )}
 
             {user && showComments && (

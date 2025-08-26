@@ -307,3 +307,66 @@
   color: var(--secondary-color);
   font-weight: 600;
 }
+
+
+
+.add-comment-section {
+  padding: 1.5rem;
+  background-color: var(--tertiary-color);
+}
+
+
+.add-comment-section h2 {
+  padding-bottom: 20px;
+}
+
+
+.btn-envoyer-product {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+
+}
+
+.btn-envoyer-product button {
+  background-color: var(--senary-color);
+  border: none;
+  color: var(--secondary-color);
+  padding: 10px;
+  width: 100px;
+}
+
+
+.btn-envoyer-product button:hover {
+  cursor: pointer;
+  background-color: var(--septenary-color);
+}
+
+
+.comment-error {
+  background-color: #ffe0e0;
+  color: #b00000;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+
+.comment-preview {
+  margin-top: 8px;
+  margin-bottom: 10px;
+}
+
+.comment-preview img {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+
+
