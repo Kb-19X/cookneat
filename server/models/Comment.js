@@ -23,7 +23,11 @@ const commentSchema = new mongoose.Schema({
     type: Number,
     min: 1,
     max: 5,
-    required: true
+    default: null // ✅ Optionnel maintenant
+  },
+  imageUrl: {
+    type: String, // ✅ Nouveau champ pour stocker le chemin de l'image
+    default: null
   },
   createdAt: {
     type: Date,
