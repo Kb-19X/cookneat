@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';  // <-- Import de useNavigate
+import { useNavigate } from 'react-router-dom';
 
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
@@ -16,8 +16,9 @@ const Feculentproduct = () => {
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState({ category: '', ingredient: '' });
 
-  const navigate = useNavigate(); // <-- Initialisation de navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -63,29 +64,14 @@ const Feculentproduct = () => {
 
   const submitComment = async (recipeId) => {
     const text = commentInput[recipeId]?.trim();
-    if (!text) {
-      alert("Le commentaire ne peut pas être vide.");
-      return;
-    }
+    if (!text) return alert("Le commentaire ne peut pas être vide.");
 
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour commenter.");
-        return;
-      }
+      if (!token) return alert("Vous devez être connecté pour commenter.");
 
-      const newComment = {
-        recipeId,
-        text,
-        rating: 5,
-      };
-
-      await axios.post(`${API_URL}/api/comments`, newComment, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+      await axios.post(`${API_URL}/api/comments`, { recipeId, text, rating: 5 }, {
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       });
 
       setCommentInput((prev) => ({ ...prev, [recipeId]: '' }));
@@ -99,21 +85,11 @@ const Feculentproduct = () => {
   const handleLike = async (recipeId) => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour liker.");
-        return;
-      }
+      if (!token) return alert("Vous devez être connecté pour liker.");
 
-      const res = await axios.post(
-        `${API_URL}/api/recipes/${recipeId}/like`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const res = await axios.post(`${API_URL}/api/recipes/${recipeId}/like`, null, {
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+      });
 
       setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
     } catch (err) {
@@ -122,13 +98,16 @@ const Feculentproduct = () => {
     }
   };
 
-  const handleCardClick = (id) => {
-    navigate(`/productpage/${id}`);  // <-- redirection sur la page produit
+  const handleCardClick = (id) => navigate(`/productpage/${id}`);
+
+  const handleFilterChange = (field, value) => {
+    setFilters(prev => ({ ...prev, [field]: value }));
   };
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredRecipes = recipes
+    .filter(recipe => recipe.title.toLowerCase().includes(search.toLowerCase()))
+    .filter(r => !filters.category || r.category?.toLowerCase() === filters.category.toLowerCase())
+    .filter(r => !filters.ingredient || r.ingredients?.some(i => i.name.toLowerCase().includes(filters.ingredient.toLowerCase())));
 
   return (
     <div className="plats-body-container">
@@ -151,9 +130,7 @@ const Feculentproduct = () => {
       <div className="rapide-header-section">
         <div className="rapide-text">
           <h1>🍔 Recettes Comfort Food 🍔</h1>
-          <p>
-            Des plats généreux, faciles à préparer et ultra réconfortants.
-          </p>
+          <p>Des plats généreux, faciles à préparer et ultra réconfortants.</p>
           <div className="rapide-benefits">
             <div className="benefit-box">🍽️ Gourmand et copieux</div>
             <div className="benefit-box">👩‍🍳 Accessible à tous</div>
@@ -171,22 +148,38 @@ const Feculentproduct = () => {
         />
       </div>
 
+      {/* Filtres */}
+      <div className="filters-container">
+        <div className="filter-group">
+          <label>Catégorie :</label>
+          <select value={filters.category} onChange={(e) => handleFilterChange('category', e.target.value)}>
+            <option value="">Toutes les recettes</option>
+            <option value="Rapide & facile">Rapide & facile</option>
+            <option value="Healthy">Healthy</option>
+            <option value="Confort">Confort</option>
+            <option value="Saveurs du monde">Saveurs du monde</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label>Ingrédient :</label>
+          <input
+            className='filter-ingredient'
+            type="text"
+            placeholder="Ex: poulet"
+            value={filters.ingredient}
+            onChange={(e) => handleFilterChange('ingredient', e.target.value)}
+          />
+        </div>
+      </div>
+
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
-            <div
-              key={recipe._id}
-              className="recipe-card"
-              onClick={() => handleCardClick(recipe._id)}  // clic sur la carte
-              style={{ cursor: 'pointer' }}
-            >
+            <div key={recipe._id} className="recipe-card" onClick={() => handleCardClick(recipe._id)} style={{ cursor: 'pointer' }}>
               <div className="recipe-image">
                 <img
-                  src={
-                    recipe.imageUrl?.startsWith('http')
-                      ? recipe.imageUrl
-                      : `${API_URL}${recipe.imageUrl}`
-                  }
+                  src={recipe.imageUrl?.startsWith('http') ? recipe.imageUrl : `${API_URL}${recipe.imageUrl}`}
                   alt={recipe.title}
                 />
               </div>
@@ -200,20 +193,9 @@ const Feculentproduct = () => {
                 <p className="recipe-description">{recipe.description}</p>
 
                 <div className="recipe-actions" onClick={e => e.stopPropagation()}>
-                  {/* Empêche la propagation pour que cliquer sur ces icônes ne redirige pas */}
-                  <img
-                    src={likeIcon}
-                    alt="Like"
-                    onClick={() => handleLike(recipe._id)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  <span>{likes[recipe._id] || 0}</span>
-                  <img
-                    src={commentIcon}
-                    alt="Comment"
-                    onClick={() => toggleCommentSection(recipe._id)}
-                    style={{ cursor: 'pointer' }}
-                  />
+                  <img src={likeIcon} alt="Like" onClick={() => handleLike(recipe._id)} style={{ cursor: 'pointer' }} />
+                
+                  <img src={commentIcon} alt="Comment" onClick={() => toggleCommentSection(recipe._id)} style={{ cursor: 'pointer' }} />
                   <img src={shareIcon} alt="Share" />
                 </div>
 
@@ -222,9 +204,7 @@ const Feculentproduct = () => {
                     <input
                       type="text"
                       value={commentInput[recipe._id] || ''}
-                      onChange={(e) =>
-                        handleCommentInputChange(recipe._id, e.target.value)
-                      }
+                      onChange={(e) => handleCommentInputChange(recipe._id, e.target.value)}
                       placeholder="Écrivez un commentaire..."
                     />
                     <button onClick={() => submitComment(recipe._id)}>Envoyer</button>

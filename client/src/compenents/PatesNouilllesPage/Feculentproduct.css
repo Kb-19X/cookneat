@@ -192,8 +192,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   background-color: var(--secondary-color);
 }
 
@@ -571,6 +571,87 @@
 .banner-overlay-heal h1 {
   font-size: 27px;
 }
+}
+
+
+
+/* === Conteneur général des filtres === */
+.filters-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  padding-top: 0px;
+  background-color: var(--secondary-color);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Chaque groupe de filtre */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Sélecteur et input modernisés */
+.filter-group select,
+.filter-group input {
+  padding: 10px 14px;
+
+
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: var(--tertiary-color);
+}
+
+.filter-group select:hover,
+.filter-group input:hover {
+  border-color: #DA8359;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+  outline: none;
+  border-color: #DA8359;
+  box-shadow: 0 0 6px rgba(218,131,89,0.3);
+}
+
+/* Placeholder et focus subtil */
+.filter-group input::placeholder {
+  color: var(--secondary-color);
+  font-style: italic;
+}
+
+/* Pour rendre le select plus joli avec un petit padding interne */
+.filter-group select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--senary-color);
+  color: var(--secondary-color);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='gray'><polygon points='0,0 14,0 7,8'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  cursor: pointer;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  .filters-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .filter-group {
+    min-width: 100%;
+  }
 }
 
 

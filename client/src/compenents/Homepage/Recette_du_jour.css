@@ -1,6 +1,6 @@
 .pagejour {
   background-color: #ecdfcc;
-  height: 640px;
+
 }
 
 .recettedujour {
@@ -72,16 +72,16 @@
 }
 
 .recetteday-left h1 {
-  color: #ecdfcc;
-  width: 200px;
-  font-size: 25px;
+  color: var(--secondary-color);
+  max-width: 450px;
+  font-size: 20px;
   height: 30px;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 3px solid #a5b68d;
-  background: #da8359;
+  background-color: var(--senary-color);
 }
 
 .recetteday-right {

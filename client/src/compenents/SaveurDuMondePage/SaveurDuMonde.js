@@ -17,6 +17,7 @@ const SaveursDuMonde = () => {
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState({ category: '', ingredient: '' });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,14 +38,13 @@ const SaveursDuMonde = () => {
         console.error("❌ Erreur lors de la récupération des recettes :", err);
       }
     };
-
     fetchRecipes();
   }, []);
 
   const fetchRecipeComments = async (recipeId) => {
     try {
       const res = await axios.get(`${API_URL}/api/comments?recipeId=${recipeId}`);
-      setComments((prev) => ({ ...prev, [recipeId]: res.data }));
+      setComments(prev => ({ ...prev, [recipeId]: res.data }));
     } catch (err) {
       console.error('Erreur lors de la récupération des commentaires :', err);
     }
@@ -60,37 +60,23 @@ const SaveursDuMonde = () => {
   };
 
   const handleCommentInputChange = (id, value) => {
-    setCommentInput((prev) => ({ ...prev, [id]: value }));
+    setCommentInput(prev => ({ ...prev, [id]: value }));
   };
 
   const submitComment = async (recipeId) => {
     const text = commentInput[recipeId]?.trim();
-    if (!text) {
-      alert("Le commentaire ne peut pas être vide.");
-      return;
-    }
+    if (!text) return alert("Le commentaire ne peut pas être vide.");
 
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour commenter.");
-        return;
-      }
+      if (!token) return alert("Vous devez être connecté pour commenter.");
 
-      const newComment = {
-        recipeId,
-        text,
-        rating: 5,
-      };
-
+      const newComment = { recipeId, text, rating: 5 };
       await axios.post(`${API_URL}/api/comments`, newComment, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       });
 
-      setCommentInput((prev) => ({ ...prev, [recipeId]: '' }));
+      setCommentInput(prev => ({ ...prev, [recipeId]: '' }));
       fetchRecipeComments(recipeId);
     } catch (err) {
       console.error("Erreur lors de l'envoi du commentaire :", err.response?.data || err.message);
@@ -101,32 +87,28 @@ const SaveursDuMonde = () => {
   const handleLike = async (recipeId) => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour liker.");
-        return;
-      }
+      if (!token) return alert("Vous devez être connecté pour liker.");
 
-      const res = await axios.post(
-        `${API_URL}/api/recipes/${recipeId}/like`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const res = await axios.post(`${API_URL}/api/recipes/${recipeId}/like`, null, {
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+      });
 
-      setLikes((prev) => ({ ...prev, [recipeId]: res.data.likes }));
+      setLikes(prev => ({ ...prev, [recipeId]: res.data.likes }));
     } catch (err) {
       console.error("Erreur lors du like :", err.response?.data || err.message);
       alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
     }
   };
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.title.toLowerCase().includes(search.toLowerCase())
-  );
+  // Gestion des filtres
+  const handleFilterChange = (field, value) => {
+    setFilters(prev => ({ ...prev, [field]: value }));
+  };
+
+  const filteredRecipes = recipes
+    .filter(r => r.title.toLowerCase().includes(search.toLowerCase()))
+    .filter(r => !filters.category || r.category.toLowerCase() === filters.category.toLowerCase())
+    .filter(r => !filters.ingredient || r.ingredients.some(i => i.name.toLowerCase().includes(filters.ingredient.toLowerCase())));
 
   return (
     <div className="plats-body-container">
@@ -151,9 +133,7 @@ const SaveursDuMonde = () => {
       <div className="rapide-header-section">
         <div className="rapide-text">
           <h1>🌍 Saveurs du Monde 🌍</h1>
-          <p>
-            Découvrez les délices du monde entier, préparés avec passion et tradition.
-          </p>
+          <p>Découvrez les délices du monde entier, préparés avec passion et tradition.</p>
           <div className="rapide-benefits">
             <div className="benefit-box">🌶️ Recettes variées</div>
             <div className="benefit-box">🍜 Cuisines internationales</div>
@@ -162,6 +142,7 @@ const SaveursDuMonde = () => {
         </div>
       </div>
 
+      {/* Barre de recherche */}
       <div className="search-bar">
         <input
           type="text"
@@ -171,6 +152,35 @@ const SaveursDuMonde = () => {
         />
       </div>
 
+      {/* Bloc Filtres modernisé */}
+      <div className="filters-container">
+        <div className="filter-group">
+          <label>Catégorie :</label>
+          <select
+            value={filters.category}
+            onChange={(e) => handleFilterChange('category', e.target.value)}
+          >
+            <option value="">Toutes les recettes</option>
+            <option value="Rapide & facile">Rapide & facile</option>
+            <option value="Healthy">Healthy</option>
+            <option value="Confort food">Confort food</option>
+            <option value="Saveurs du monde">Saveurs du monde</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label>Ingrédient :</label>
+          <input
+            className='filter-ingredient'
+            type="text"
+            placeholder="Ex: poulet"
+            value={filters.ingredient}
+            onChange={(e) => handleFilterChange('ingredient', e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Liste des recettes */}
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe) => (
@@ -182,11 +192,7 @@ const SaveursDuMonde = () => {
             >
               <div className="recipe-image">
                 <img
-                  src={
-                    recipe.imageUrl?.startsWith('http')
-                      ? recipe.imageUrl
-                      : `${API_URL}${recipe.imageUrl}`
-                  }
+                  src={recipe.imageUrl?.startsWith('http') ? recipe.imageUrl : `${API_URL}${recipe.imageUrl}`}
                   alt={recipe.title}
                 />
               </div>
@@ -200,17 +206,9 @@ const SaveursDuMonde = () => {
                 {recipe.description && <p className="recipe-description">{recipe.description}</p>}
 
                 <div className="recipe-actions">
-                  <img
-                    src={likeIcon}
-                    alt="Like"
-                    onClick={() => handleLike(recipe._id)}
-                  />
-                
-                  <img
-                    src={commentIcon}
-                    alt="Comment"
-                    onClick={() => toggleCommentSection(recipe._id)}
-                  />
+                  <img src={likeIcon} alt="Like" onClick={() => handleLike(recipe._id)} />
+                 
+                  <img src={commentIcon} alt="Comment" onClick={() => toggleCommentSection(recipe._id)} />
                   <img src={shareIcon} alt="Share" />
                 </div>
 
@@ -219,9 +217,7 @@ const SaveursDuMonde = () => {
                     <input
                       type="text"
                       value={commentInput[recipe._id] || ''}
-                      onChange={(e) =>
-                        handleCommentInputChange(recipe._id, e.target.value)
-                      }
+                      onChange={(e) => handleCommentInputChange(recipe._id, e.target.value)}
                       placeholder="Écrivez un commentaire..."
                     />
                     <button onClick={() => submitComment(recipe._id)}>Envoyer</button>

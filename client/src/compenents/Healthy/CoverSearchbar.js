@@ -14,6 +14,7 @@ const CoverSearchbar = () => {
   const [recipes, setRecipes] = useState([]);
   const [likes, setLikes] = useState({});
   const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState({ category: '', ingredient: '' });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,41 +40,31 @@ const CoverSearchbar = () => {
     e.stopPropagation();
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour liker.");
-        return;
-      }
+      if (!token) return alert("Vous devez être connecté pour liker.");
 
       const res = await axios.post(`${API_URL}/api/recipes/${recipeId}/like`, null, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       });
 
-      setLikes(prev => ({
-        ...prev,
-        [recipeId]: res.data.likes?.length || prev[recipeId] + 1
-      }));
+      setLikes(prev => ({ ...prev, [recipeId]: res.data.likes?.length || prev[recipeId] + 1 }));
     } catch (err) {
       console.error("Erreur lors du like :", err.response?.data || err.message);
       alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
     }
   };
 
-  const handleRecipeClick = (id) => {
-    navigate(`/ProductPage/${id}`);
+  const handleRecipeClick = (id) => navigate(`/ProductPage/${id}`);
+  const handleCommentClick = (id) => navigate(`/ProductPage/${id}#commentaires`);
+  const handleShareClick = (e, id) => { e.stopPropagation(); alert(`Lien de la recette copié ! (${API_URL}/ProductPage/${id})`); };
+
+  const handleFilterChange = (field, value) => {
+    setFilters(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleCommentClick = (id) => {
-    navigate(`/ProductPage/${id}#commentaires`);
-  };
-
-  const handleShareClick = (e, id) => {
-    e.stopPropagation();
-    alert(`Lien de la recette copié ! (${API_URL}/ProductPage/${id})`);
-  };
-
-  const filteredRecipes = recipes.filter(recipe =>
-    recipe.title?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredRecipes = recipes
+    .filter(r => r.title?.toLowerCase().includes(search.toLowerCase()))
+    .filter(r => !filters.category || r.category?.toLowerCase() === filters.category.toLowerCase())
+    .filter(r => !filters.ingredient || r.ingredients?.some(i => i.name.toLowerCase().includes(filters.ingredient.toLowerCase())));
 
   return (
     <div className="plats-body-container">
@@ -98,10 +89,7 @@ const CoverSearchbar = () => {
       <div className="rapide-header-section">
         <div className="rapide-text">
           <h1>🥗 Recettes Healthy 🥗</h1>
-          <p>
-            Moins de 20 minutes, zéro stress, 100% goût.
-            Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
-          </p>
+          <p>Moins de 20 minutes, zéro stress, 100% goût. Ces plats sont parfaits pour tous.</p>
         </div>
       </div>
 
@@ -110,8 +98,33 @@ const CoverSearchbar = () => {
           type="text"
           placeholder="Rechercher un plat..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={e => setSearch(e.target.value)}
         />
+      </div>
+
+      {/* Filtres modernes */}
+      <div className="filters-container">
+        <div className="filter-group">
+          <label>Catégorie :</label>
+          <select value={filters.category} onChange={e => handleFilterChange('category', e.target.value)}>
+            <option value="">Toutes les recettes</option>
+            <option value="Rapide & facile">Rapide & facile</option>
+            <option value="Healthy">Healthy</option>
+            <option value="Confort food">Confort food</option>
+            <option value="Saveurs du monde">Saveurs du monde</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label>Ingrédient :</label>
+          <input
+            className="filter-ingredient"
+            type="text"
+            placeholder="Ex: poulet"
+            value={filters.ingredient}
+            onChange={e => handleFilterChange('ingredient', e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="recipes-list">
@@ -124,10 +137,7 @@ const CoverSearchbar = () => {
               style={{ cursor: 'pointer' }}
             >
               <div className="recipe-image">
-                <img
-                  src={recipe.imageUrl?.startsWith('http') ? recipe.imageUrl : `${API_URL}${recipe.imageUrl}`}
-                  alt={recipe.title}
-                />
+                <img src={recipe.imageUrl?.startsWith('http') ? recipe.imageUrl : `${API_URL}${recipe.imageUrl}`} alt={recipe.title} />
               </div>
               <div className="recipe-info">
                 <h3>{recipe.title}</h3>
@@ -141,41 +151,20 @@ const CoverSearchbar = () => {
                 {Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
                   <div className="recipe-steps">
                     <h4>Préparation :</h4>
-                    <ol>
-                      {recipe.steps.map((step, idx) => (
-                        <li key={idx}>{step.description || step}</li>
-                      ))}
-                    </ol>
+                    <ol>{recipe.steps.map((step, idx) => <li key={idx}>{step.description || step}</li>)}</ol>
                   </div>
                 )}
 
-                <div className="recipe-actions" onClick={(e) => e.stopPropagation()}>
-                  <img
-                    src={likeIcon}
-                    alt="Like"
-                    onClick={(e) => handleLike(recipe._id, e)}
-                    style={{ cursor: 'pointer' }}
-                  />
+                <div className="recipe-actions" onClick={e => e.stopPropagation()}>
+                  <img src={likeIcon} alt="Like" onClick={e => handleLike(recipe._id, e)} style={{ cursor: 'pointer' }} />
                   <span>{likes[recipe._id] || 0}</span>
-                  <img
-                    src={commentIcon}
-                    alt="Comment"
-                    onClick={() => handleCommentClick(recipe._id)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  <img
-                    src={shareIcon}
-                    alt="Share"
-                    onClick={(e) => handleShareClick(e, recipe._id)}
-                    style={{ cursor: 'pointer' }}
-                  />
+                  <img src={commentIcon} alt="Comment" onClick={() => handleCommentClick(recipe._id)} style={{ cursor: 'pointer' }} />
+                  <img src={shareIcon} alt="Share" onClick={e => handleShareClick(e, recipe._id)} style={{ cursor: 'pointer' }} />
                 </div>
               </div>
             </div>
           ))
-        ) : (
-          <p className="no-results">Aucun plat trouvé.</p>
-        )}
+        ) : <p className="no-results">Aucun plat trouvé.</p>}
       </div>
     </div>
   );

@@ -7,6 +7,47 @@ import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 import chef from '../../assets/ImageHomePage/chef.jpeg';
 
+// Composant de filtres
+const Filters = ({ onFilterChange }) => {
+  const [category, setCategory] = useState('');
+  const [time, setTime] = useState('');
+  const [chefOnly, setChefOnly] = useState(false);
+  const [ingredient, setIngredient] = useState('');
+
+  const handleChange = () => {
+    onFilterChange({ category, time, chefOnly, ingredient });
+  };
+
+  return (
+    <div className="filters-container">
+      <div className="filter-group">
+        <label>Catégorie :</label>
+        <select value={category} onChange={(e) => { setCategory(e.target.value); handleChange(); }}>
+          <option value="">Toutes les recettes</option>
+          <option value="Rapide & facile">Rapide & facile</option>
+          <option value="Healthy">Healthy</option>
+          <option value="Confort food">Confort food</option>
+          <option value="Saveurs du monde">Saveurs du monde</option>
+        </select>
+      </div>
+
+   
+
+   
+      <div className="filter-group">
+        <label>Ingrédient :</label>
+        <input
+        className='filter-ingredient'
+          type="text"
+          placeholder="Ex: poulet"
+          value={ingredient}
+          onChange={(e) => { setIngredient(e.target.value); handleChange(); }}
+        />
+      </div>
+    </div>
+  );
+};
+
 const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrender.com';
 
 const ChefRecipes = () => {
@@ -16,13 +57,12 @@ const ChefRecipes = () => {
   const [showComment, setShowComment] = useState(null);
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
-  const [showChefOnly, setShowChefOnly] = useState(false); // toggle maintenant pour recettes chef / toutes
+  const [filters, setFilters] = useState({ category: '', time: '', chefOnly: false, ingredient: '' });
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
-        console.log('Recettes reçues:', res.data);
         setRecipes(res.data);
 
         const initialLikes = {};
@@ -34,7 +74,6 @@ const ChefRecipes = () => {
         console.error('Erreur lors de la récupération des recettes :', error);
       }
     };
-
     fetchRecipes();
   }, []);
 
@@ -62,29 +101,15 @@ const ChefRecipes = () => {
 
   const submitComment = async (recipeId) => {
     const text = commentInput[recipeId]?.trim();
-    if (!text) {
-      alert("Le commentaire ne peut pas être vide.");
-      return;
-    }
+    if (!text) return alert("Le commentaire ne peut pas être vide.");
 
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour commenter.");
-        return;
-      }
+      if (!token) return alert("Vous devez être connecté pour commenter.");
 
-      const newComment = {
-        recipeId,
-        text,
-        rating: 5,
-      };
-
+      const newComment = { recipeId, text, rating: 5 };
       await axios.post(`${API_URL}/api/comments`, newComment, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       });
 
       setCommentInput(prev => ({ ...prev, [recipeId]: '' }));
@@ -98,21 +123,11 @@ const ChefRecipes = () => {
   const handleLike = async (recipeId) => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Vous devez être connecté pour liker.");
-        return;
-      }
+      if (!token) return alert("Vous devez être connecté pour liker.");
 
-      const res = await axios.post(
-        `${API_URL}/api/recipes/${recipeId}/like`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const res = await axios.post(`${API_URL}/api/recipes/${recipeId}/like`, null, {
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+      });
 
       setLikes(prev => ({ ...prev, [recipeId]: res.data.likes }));
     } catch (err) {
@@ -121,13 +136,24 @@ const ChefRecipes = () => {
     }
   };
 
-  // Filtrer selon toggle showChefOnly
-  const displayedRecipes = (showChefOnly
-    ? recipes.filter(recipe => recipe.isChefRecipe === true)
-    : recipes
-  ).filter(recipe =>
-    recipe.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
+  // Application des filtres
+  const displayedRecipes = recipes
+    .filter(r => r.title.toLowerCase().includes(search.toLowerCase()))
+    .filter(r => !filters.category || r.category.toLowerCase() === filters.category.toLowerCase())
+    .filter(r => {
+      if (!filters.time) return true;
+      const totalTime = parseInt(r.totalTime) || 0;
+      if (filters.time === "15") return totalTime <= 15;
+      if (filters.time === "30") return totalTime > 15 && totalTime <= 30;
+      if (filters.time === "60") return totalTime > 30;
+      return true;
+    })
+    .filter(r => !filters.chefOnly || r.isChefRecipe === true)
+    .filter(r => !filters.ingredient || r.ingredients.some(i => i.name.toLowerCase().includes(filters.ingredient.toLowerCase())));
 
   return (
     <div className="plats-body-container">
@@ -142,9 +168,7 @@ const ChefRecipes = () => {
           </div>
           <div className="banner-right">
             <h2>Explorez l’univers culinaire à travers nos recettes.</h2>
-            <p>
-              "Des plats pour tous les jours ou des moments d’exception, conçus pour ravir vos papilles."
-            </p>
+            <p>"Des plats pour tous les jours ou des moments d’exception, conçus pour ravir vos papilles."</p>
           </div>
         </div>
       </div>
@@ -152,19 +176,16 @@ const ChefRecipes = () => {
       <div className="rapide-header-section">
         <div className="rapide-text">
           <h1>Découvrez toutes nos recettes</h1>
-          <p>
-            Un éventail de recettes simples, gourmandes et inspirantes, adaptées à tous les niveaux.
-          </p>
+          <p>Un éventail de recettes simples, gourmandes et inspirantes, adaptées à tous les niveaux.</p>
           <div className="rapide-benefits">
             <div className="benefit-box">🥇 Authenticité garantie</div>
             <div className="benefit-box">🍽️ Saveurs et créativité</div>
             <div className="benefit-box">🧑‍🍳 Sélectionnées par nos experts culinaires</div>
           </div>
-
-       
         </div>
       </div>
 
+      {/* Barre de recherche */}
       <div className="search-bar">
         <input
           type="text"
@@ -174,21 +195,18 @@ const ChefRecipes = () => {
         />
       </div>
 
+      {/* Bloc Filtres */}
+      <Filters onFilterChange={handleFilterChange} />
+
+      {/* Liste des recettes */}
       <div className="recipes-list">
         {displayedRecipes.length > 0 ? (
           displayedRecipes.map((recipe) => (
             <div key={recipe._id} className="recipe-card">
-              <div className="recipe-image" >
+              <div className="recipe-image">
                 <img
-                  src={
-                    recipe.imageUrl && recipe.imageUrl.startsWith('http')
-                      ? recipe.imageUrl
-                      : recipe.imageUrl
-                      ? `${API_URL}${recipe.imageUrl}`
-                      : '/fallback.jpg'
-                  }
+                  src={recipe.imageUrl?.startsWith('http') ? recipe.imageUrl : recipe.imageUrl ? `${API_URL}${recipe.imageUrl}` : '/fallback.jpg'}
                   alt={recipe.title || 'Recette'}
-              
                   onError={(e) => { e.target.onerror = null; e.target.src = '/fallback.jpg'; }}
                 />
               </div>
@@ -203,21 +221,9 @@ const ChefRecipes = () => {
                 {recipe.description && <p className="recipe-description">{recipe.description}</p>}
 
                 <div className="recipe-actions">
-                  <img
-                    src={likeIcon}
-                    alt="Like"
-                    onClick={() => handleLike(recipe._id)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  <span>{likes[recipe._id] || 0}</span>
-
-                  <img
-                    src={commentIcon}
-                    alt="Commentaire"
-                    onClick={() => toggleCommentSection(recipe._id)}
-                    style={{ cursor: 'pointer' }}
-                  />
-
+                  <img src={likeIcon} alt="Like" onClick={() => handleLike(recipe._id)} style={{ cursor: 'pointer' }} />
+                  
+                  <img src={commentIcon} alt="Commentaire" onClick={() => toggleCommentSection(recipe._id)} style={{ cursor: 'pointer' }} />
                   <img src={shareIcon} alt="Partager" style={{ cursor: 'pointer' }} />
                 </div>
 
@@ -226,9 +232,7 @@ const ChefRecipes = () => {
                     <input
                       type="text"
                       value={commentInput[recipe._id] || ''}
-                      onChange={(e) =>
-                        handleCommentInputChange(recipe._id, e.target.value)
-                      }
+                      onChange={(e) => handleCommentInputChange(recipe._id, e.target.value)}
                       placeholder="Écrivez un commentaire..."
                     />
                     <button onClick={() => submitComment(recipe._id)}>Envoyer</button>

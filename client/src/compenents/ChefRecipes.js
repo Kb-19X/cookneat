@@ -1,5 +1,6 @@
 
 
+import Filter from './Filter/Filter';
 
 import ChefRecipe from './compenents/ChefRecipesPage/ChefRecipe';
 
@@ -9,7 +10,7 @@ const ChefRecipes = () => {
     <div>
     
       <ChefRecipe/>
-     
+       <Filter/>
     </div>
   )
 }

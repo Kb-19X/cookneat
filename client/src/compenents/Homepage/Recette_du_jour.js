@@ -2,231 +2,91 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Recette_du_jour.css";
 
-import comment from "../../assets/ImagePlatsPage/comment.png";
-import like from "../../assets/ImagePlatsPage/like.png";
-import share from "../../assets/ImagePlatsPage/share.png";
 import tool from "../../assets/ImageHomePage/tool.png";
-import ossobuco from "../../assets/ImageHomePage/osoobuco.jpg";
 
 const Recette_du_jour = () => {
+  const [recipe, setRecipe] = useState(null);
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState([]);
+
   const [newComment, setNewComment] = useState("");
   const [rating, setRating] = useState(5);
-  const [successMessage, setSuccessMessage] = useState("");
+ 
   const [user, setUser] = useState(null);
 
-  const recipeId = "64ebf407a48e012345678abc"; // Remplace avec l'ID réel de ta recette
+  const API_URL = process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
 
+  // Récupération de l'utilisateur depuis le token
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const decoded = JSON.parse(atob(token.split(".")[1]));
-        setUser({
-          id: decoded.id,
-          name: decoded.name,
-          token,
-        });
+        setUser({ id: decoded.id, name: decoded.name, token });
       } catch (err) {
         console.error("❌ Token invalide :", err);
-        setUser(null);
       }
     }
   }, []);
 
-  const loadComments = () => {
-    axios
-      .get(`/api/comments?recipeId=${recipeId}`)
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          setComments(res.data);
-        } else {
-          console.warn("⚠️ Données inattendues :", res.data);
-        }
-      })
-      .catch((err) => {
-        console.error("❌ Erreur chargement commentaires :", err);
-      });
-  };
-
+  // Récupération de toutes les recettes et calcul de la recette du jour
   useEffect(() => {
-    loadComments();
-  }, [recipeId]);
+    const fetchRecipeOfTheDay = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/recipes`);
+        const recipes = res.data;
 
-  const handleLike = () => setLiked(!liked);
-
-  const handleCommentToggle = () => {
-    setShowComments(!showComments);
-  };
-
-  const handleCommentSubmit = async (e) => {
-    e.preventDefault();
-    if (!newComment.trim() || !user) return;
-
-    try {
-      await axios.post(
-        "/api/comments",
-        {
-          recipeId,
-          text: newComment,
-          rating,
-          name: user.name,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
+        if (recipes.length > 0) {
+          const day = new Date().getDate(); // numéro du jour du mois
+          const index = day % recipes.length; // change chaque jour
+          setRecipe(recipes[index]);
+          loadComments(recipes[index]._id);
         }
-      );
+      } catch (err) {
+        console.error("❌ Erreur récupération recettes :", err);
+      }
+    };
 
-      setNewComment("");
-      setRating(5);
-      setSuccessMessage("✅ Commentaire envoyé !");
-      setTimeout(() => setSuccessMessage(""), 3000);
-      setShowComments(true);
-      loadComments();
-    } catch (err) {
-      console.error("❌ Erreur envoi commentaire :", err.response?.data || err);
-    }
+    fetchRecipeOfTheDay();
+  }, [API_URL]);
+
+  // Chargement des commentaires pour une recette donnée
+  const loadComments = (recipeId) => {
+    axios
+      .get(`${API_URL}/api/comments?recipeId=${recipeId}`)
+  
+      .catch((err) => console.error("❌ Erreur chargement commentaires :", err));
   };
 
-  const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    alert("🔗 Lien copié !");
-  };
+  if (!recipe) return <p>Chargement de la recette du jour...</p>;
 
   return (
     <div className="pagejour">
       <div className="description-pagejour">
         <p className="pagejour-texte">
-          "Découvrez chaque jour des recettes savoureuses et faciles à réaliser
-          pour régaler vos proches !"
+          "Découvrez chaque jour des recettes savoureuses et faciles à réaliser pour régaler vos proches !"
         </p>
       </div>
 
       <div className="recettedujour">
         <img src={tool} alt="outil" />
-        <h1 className="titre-recetteday">👨‍🍳 Inspiration du jour : Osso Buco</h1>
+        <h1 className="titre-recetteday">👨‍🍳 Inspiration du jour : {recipe.title}</h1>
         <img src={tool} alt="outil" />
       </div>
 
       <div className="recetteday-container">
         <div className="recetteday-left">
-          <img src={ossobuco} alt="Osso buco" />
-          <h1>Osso buco</h1>
+          <img src={recipe.imageUrl.startsWith("http") ? recipe.imageUrl : `${API_URL}${recipe.imageUrl}`} alt={recipe.title} />
+          <h1>{recipe.title}</h1>
         </div>
 
         <div className="recetteday-right">
           <p className="titre-recetteday-2">
-            Plongez dans les saveurs de l'Italie avec notre recette du jour !
+            Plongez dans les saveurs de cette recette du jour !
           </p>
-
-          <div className="stars-homepage">
-            <div className="stars-header">
-              <div className="stars-left">
-                <div className="stars-select">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span
-                      key={star}
-                      className={`star ${star <= rating ? "filled" : ""}`}
-                      onClick={() => setRating(star)}
-                    >
-                      ★
-                    </span>
-                  ))}
-                  <span className="avis-count">({comments.length} avis)</span>
-                </div>
-              </div>
-
-              <div className="com-recetteday">
-                <img
-                  src={like}
-                  alt="like"
-                  onClick={handleLike}
-                  className={`icon ${liked ? "liked" : ""}`}
-                />
-                <img
-                  src={comment}
-                  alt="comment"
-                  onClick={handleCommentToggle}
-                  className="icon"
-                />
-                <img
-                  src={share}
-                  alt="share"
-                  onClick={handleShare}
-                  className="icon"
-                />
-              </div>
-            </div>
-
-            {successMessage && <div className="success-message">{successMessage}</div>}
-
-            {!user && (
-              <div className="login-warning"> Vous devez être connecté pour ajouter un commentaire.</div>
-            )}
-
-            {user && showComments && (
-              <div className="comment-section">
-                <label className="rating-label">Votre note :</label>
-                <div className="stars-input">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span
-                      key={star}
-                      className={`star-input ${star <= rating ? "filled" : ""}`}
-                      onClick={() => setRating(star)}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </div>
-                <textarea
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Écrivez votre commentaire..."
-                  className="comment-input"
-                  rows={3}
-                />
-                <button onClick={handleCommentSubmit} className="comment-btn">
-                  Envoyer
-                </button>
-              </div>
-            )}
-
-            {showComments && (
-              <div className="comments-display">
-                {comments.length > 0 ? (
-                  comments.map((comment) => (
-                    <div key={comment._id} className="comment-card">
-                      <div className="comment-header">
-                        <strong>{comment.name}</strong>
-                        <div className="rating">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <span
-                              key={star}
-                              className={`star-readonly ${
-                                star <= comment.rating ? "filled" : ""
-                              }`}
-                            >
-                              ★
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <p className="comment-text">{comment.text}</p>
-                      <small className="comment-date">
-                        {new Date(comment.createdAt).toLocaleString()}
-                      </small>
-                    </div>
-                  ))
-                ) : (
-                  <p>Aucun commentaire encore.</p>
-                )}
-              </div>
-            )}
-          </div>
+          <p style={{ fontSize: "18px", marginTop: "10px", color: "#555" }}>
+            {recipe.description || "Découvrez comment préparer un plat savoureux en quelques étapes simples. Bon appétit !"}
+          </p>
         </div>
       </div>
     </div>

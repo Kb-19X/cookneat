@@ -15,6 +15,7 @@ const Catégorie = () => {
   const [recipes, setRecipes] = useState([]);
   const [likes, setLikes] = useState({});
   const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState({ category: "", ingredient: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,10 +69,14 @@ const Catégorie = () => {
     } catch (err) {
       console.error("Erreur lors du like :", err.response?.data || err.message);
       alert(
-        "Erreur lors du like : " +
-          (err.response?.data?.message || err.message)
+        "Erreur lors du like : " + (err.response?.data?.message || err.message)
       );
     }
+  };
+
+  // Gestion des filtres
+  const handleFilterChange = (field, value) => {
+    setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
   const rapideFacile = recipes.filter((r) => {
@@ -79,9 +84,22 @@ const Catégorie = () => {
     return totalTime <= 20 && (r.difficulty === "facile" || !r.difficulty);
   });
 
-  const filteredRecipes = rapideFacile.filter((recipe) =>
-    recipe.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredRecipes = rapideFacile
+    .filter((recipe) =>
+      recipe.title.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter((recipe) =>
+      !filters.category
+        ? true
+        : recipe.category?.toLowerCase() === filters.category.toLowerCase()
+    )
+    .filter((recipe) =>
+      !filters.ingredient
+        ? true
+        : recipe.ingredients?.some((i) =>
+            i.name.toLowerCase().includes(filters.ingredient.toLowerCase())
+          )
+    );
 
   return (
     <div className="plats-body-container">
@@ -127,6 +145,7 @@ const Catégorie = () => {
         </div>
       </div>
 
+      {/* Barre de recherche */}
       <div className="search-bar">
         <input
           type="text"
@@ -134,6 +153,34 @@ const Catégorie = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+      </div>
+
+      {/* Filtres modernes */}
+      <div className="filters-container">
+        <div className="filter-group">
+          <label>Catégorie :</label>
+          <select
+            value={filters.category}
+            onChange={(e) => handleFilterChange("category", e.target.value)}
+          >
+            <option value="" className="all-recipes-color">Toutes les recettes</option>
+            <option value="Rapide & facile">Rapide & facile</option>
+            <option value="Healthy">Healthy</option>
+            <option value="Confort food">Confort food</option>
+            <option value="Saveurs du monde">Saveurs du monde</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label>Ingrédient :</label>
+          <input
+            className="filter-ingredient"
+            type="text"
+            placeholder="Ex: poulet"
+            value={filters.ingredient}
+            onChange={(e) => handleFilterChange("ingredient", e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="recipes-list">
