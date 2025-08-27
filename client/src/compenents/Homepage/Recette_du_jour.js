@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Recette_du_jour.css";
-
 import tool from "../../assets/ImageHomePage/tool.png";
 
 const Recette_du_jour = () => {
   const [recipe, setRecipe] = useState(null);
-  const [liked, setLiked] = useState(false);
-  const [showComments, setShowComments] = useState(false);
-
-  const [newComment, setNewComment] = useState("");
-  const [rating, setRating] = useState(5);
- 
   const [user, setUser] = useState(null);
-
   const API_URL = process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
+  const navigate = useNavigate();
 
-  // Récupération de l'utilisateur depuis le token
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -24,39 +17,27 @@ const Recette_du_jour = () => {
         const decoded = JSON.parse(atob(token.split(".")[1]));
         setUser({ id: decoded.id, name: decoded.name, token });
       } catch (err) {
-        console.error("❌ Token invalide :", err);
+        console.error(err);
       }
     }
   }, []);
 
-  // Récupération de toutes les recettes et calcul de la recette du jour
   useEffect(() => {
     const fetchRecipeOfTheDay = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/recipes`);
         const recipes = res.data;
-
         if (recipes.length > 0) {
-          const day = new Date().getDate(); // numéro du jour du mois
-          const index = day % recipes.length; // change chaque jour
+          const day = new Date().getDate();
+          const index = day % recipes.length;
           setRecipe(recipes[index]);
-          loadComments(recipes[index]._id);
         }
       } catch (err) {
-        console.error("❌ Erreur récupération recettes :", err);
+        console.error(err);
       }
     };
-
     fetchRecipeOfTheDay();
   }, [API_URL]);
-
-  // Chargement des commentaires pour une recette donnée
-  const loadComments = (recipeId) => {
-    axios
-      .get(`${API_URL}/api/comments?recipeId=${recipeId}`)
-  
-      .catch((err) => console.error("❌ Erreur chargement commentaires :", err));
-  };
 
   if (!recipe) return <p>Chargement de la recette du jour...</p>;
 
@@ -76,7 +57,12 @@ const Recette_du_jour = () => {
 
       <div className="recetteday-container">
         <div className="recetteday-left">
-          <img src={recipe.imageUrl.startsWith("http") ? recipe.imageUrl : `${API_URL}${recipe.imageUrl}`} alt={recipe.title} />
+          <img
+            src={recipe.imageUrl.startsWith("http") ? recipe.imageUrl : `${API_URL}${recipe.imageUrl}`}
+            alt={recipe.title}
+            className="clickable-image"
+            onClick={() => navigate(`/productpage/${recipe._id}`)}
+          />
           <h1>{recipe.title}</h1>
         </div>
 
@@ -84,9 +70,19 @@ const Recette_du_jour = () => {
           <p className="titre-recetteday-2">
             Plongez dans les saveurs de cette recette du jour !
           </p>
-          <p style={{ fontSize: "18px", marginTop: "10px", color: "#555" }}>
+          <p className="recette-description">
             {recipe.description || "Découvrez comment préparer un plat savoureux en quelques étapes simples. Bon appétit !"}
           </p>
+
+          <div
+            className="recipe-info-box"
+            onClick={() => navigate(`/productpage/${recipe._id}`)}
+          >
+            <p><strong>Préparation :</strong> {recipe.prepTime || "10 min"}</p>
+            <p><strong>Cuisson :</strong> {recipe.cookTime || "15 min"}</p>
+            <p><strong> Total :</strong> {recipe.totalTime || "25 min"}</p>
+            <p className="click-to-view">Cliquez pour voir la recette complète</p>
+          </div>
         </div>
       </div>
     </div>
