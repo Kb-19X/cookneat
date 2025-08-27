@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './CoverSearchbar.css';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 import sante from '../../assets/ImageHomePage/sante.jpg';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
@@ -16,21 +13,18 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://cookneat-server.onrend
 const CoverSearchbar = () => {
   const [recipes, setRecipes] = useState([]);
   const [likes, setLikes] = useState({});
-  const [comments, setComments] = useState({});
-  const [showComment, setShowComment] = useState(null);
-  const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
-
   const navigate = useNavigate();
 
- useEffect(() => {
+  useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/recipes/healthy`);
-        setRecipes(res.data);
+        const res = await axios.get(`${API_URL}/api/recipes`);
+        const healthyRecipes = res.data.filter(r => r.category === "Healthy");
+        setRecipes(healthyRecipes);
 
         const initialLikes = {};
-        res.data.forEach((r) => {
+        healthyRecipes.forEach(r => {
           initialLikes[r._id] = r.likes?.length || 0;
         });
         setLikes(initialLikes);
@@ -38,66 +32,48 @@ const CoverSearchbar = () => {
         console.error("❌ Erreur lors de la récupération des recettes :", err);
       }
     };
-
     fetchRecipes();
   }, []);
 
+  const handleLike = async (recipeId, e) => {
+    e.stopPropagation();
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Vous devez être connecté pour liker.");
+        return;
+      }
 
-  const handleLike = (id) => {
-    setLikes(prev => ({
-      ...prev,
-      [id]: (prev[id] || 0) + 1
-    }));
-  };
+      const res = await axios.post(`${API_URL}/api/recipes/${recipeId}/like`, null, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      });
 
-  const toggleCommentSection = (id) => {
-    setShowComment(prev => (prev === id ? null : id));
-  };
-
-  const handleCommentInputChange = (id, value) => {
-    setCommentInput(prev => ({
-      ...prev,
-      [id]: value
-    }));
-  };
-
-  const submitComment = (id) => {
-    const text = commentInput[id];
-    if (!text) return;
-
-    const newComment = {
-      _id: Math.random().toString(36).substring(7),
-      name: 'Utilisateur',
-      rating: 5,
-      text
-    };
-
-    setComments(prev => ({
-      ...prev,
-      [id]: [...(prev[id] || []), newComment]
-    }));
-
-    setCommentInput(prev => ({ ...prev, [id]: '' }));
+      setLikes(prev => ({
+        ...prev,
+        [recipeId]: res.data.likes?.length || prev[recipeId] + 1
+      }));
+    } catch (err) {
+      console.error("Erreur lors du like :", err.response?.data || err.message);
+      alert("Erreur lors du like : " + (err.response?.data?.message || err.message));
+    }
   };
 
   const handleRecipeClick = (id) => {
     navigate(`/ProductPage/${id}`);
   };
 
+  const handleCommentClick = (id) => {
+    navigate(`/ProductPage/${id}#commentaires`);
+  };
+
+  const handleShareClick = (e, id) => {
+    e.stopPropagation();
+    alert(`Lien de la recette copié ! (${API_URL}/ProductPage/${id})`);
+  };
+
   const filteredRecipes = recipes.filter(recipe =>
     recipe.title?.toLowerCase().includes(search.toLowerCase())
   );
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    arrows: false
-  };
 
   return (
     <div className="plats-body-container">
@@ -106,7 +82,7 @@ const CoverSearchbar = () => {
           <div className="banner-left">
             <img src={sante} alt="fruits et légumes" />
             <div className="banner-overlay-heal">
-              <h1> Healthy</h1>
+              <h1>Healthy</h1>
               <p>Des plats sains, équilibrés et pleins de saveurs.</p>
             </div>
           </div>
@@ -126,11 +102,6 @@ const CoverSearchbar = () => {
             Moins de 20 minutes, zéro stress, 100% goût.
             Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
           </p>
-          <div className="rapide-benefits">
-            <div className="benefit-box">⏱️ Prêtes en 20 min</div>
-            <div className="benefit-box">👨‍🍳 Simples à réaliser</div>
-            <div className="benefit-box">💡 Ingrédients faciles à trouver</div>
-          </div>
         </div>
       </div>
 
@@ -145,7 +116,7 @@ const CoverSearchbar = () => {
 
       <div className="recipes-list">
         {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
+          filteredRecipes.map(recipe => (
             <div
               key={recipe._id}
               className="recipe-card"
@@ -154,11 +125,7 @@ const CoverSearchbar = () => {
             >
               <div className="recipe-image">
                 <img
-                  src={
-                    recipe.imageUrl?.startsWith('http')
-                      ? recipe.imageUrl
-                      : `${API_URL}${recipe.imageUrl}`
-                  }
+                  src={recipe.imageUrl?.startsWith('http') ? recipe.imageUrl : `${API_URL}${recipe.imageUrl}`}
                   alt={recipe.title}
                 />
               </div>
@@ -171,16 +138,14 @@ const CoverSearchbar = () => {
                 </p>
                 {recipe.description && <p className="recipe-description">{recipe.description}</p>}
 
-                {/* 👇👇 ÉTAPES DE PRÉPARATION 👇👇 */}
                 {Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
                   <div className="recipe-steps">
                     <h4>Préparation :</h4>
                     <ol>
-                      {recipe.steps.slice(0, 3).map((step, idx) => (
-                        <li key={idx}>{step}</li>
+                      {recipe.steps.map((step, idx) => (
+                        <li key={idx}>{step.description || step}</li>
                       ))}
                     </ol>
-                    {recipe.steps.length > 3 && <p>...</p>}
                   </div>
                 )}
 
@@ -188,44 +153,23 @@ const CoverSearchbar = () => {
                   <img
                     src={likeIcon}
                     alt="Like"
-                    onClick={() => handleLike(recipe._id)}
+                    onClick={(e) => handleLike(recipe._id, e)}
                     style={{ cursor: 'pointer' }}
                   />
                   <span>{likes[recipe._id] || 0}</span>
                   <img
                     src={commentIcon}
                     alt="Comment"
-                    onClick={() => toggleCommentSection(recipe._id)}
+                    onClick={() => handleCommentClick(recipe._id)}
                     style={{ cursor: 'pointer' }}
                   />
-                  <img src={shareIcon} alt="Share" />
+                  <img
+                    src={shareIcon}
+                    alt="Share"
+                    onClick={(e) => handleShareClick(e, recipe._id)}
+                    style={{ cursor: 'pointer' }}
+                  />
                 </div>
-
-                {showComment === recipe._id && (
-                  <div className="comment-section show" onClick={(e) => e.stopPropagation()}>
-                    <input
-                      type="text"
-                      value={commentInput[recipe._id] || ''}
-                      onChange={(e) =>
-                        handleCommentInputChange(recipe._id, e.target.value)
-                      }
-                      placeholder="Écrivez un commentaire..."
-                    />
-                    <button onClick={() => submitComment(recipe._id)}>Envoyer</button>
-
-                    <div className="comments-display">
-                      {comments[recipe._id]?.length > 0 ? (
-                        comments[recipe._id].map((c) => (
-                          <div key={c._id} className="single-comment">
-                            <strong>{c.name || 'Anonyme'}</strong> ({c.rating}⭐) : {c.text}
-                          </div>
-                        ))
-                      ) : (
-                        <p>Aucun commentaire encore.</p>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           ))

@@ -1,6 +1,6 @@
 
 import CoverSearchbar from './Healthy/CoverSearchbar';
-import CarousselHealthy from './Healthy/CarousselHealthy';
+
 
 
 
@@ -9,7 +9,7 @@ const Healthy = () => {
     <div>
      
         <CoverSearchbar/>
-        <CarousselHealthy/>
+       
       
     </div>
   )

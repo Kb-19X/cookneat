@@ -178,7 +178,7 @@ const ChefRecipes = () => {
         {displayedRecipes.length > 0 ? (
           displayedRecipes.map((recipe) => (
             <div key={recipe._id} className="recipe-card">
-              <div className="recipe-image" style={{ width: '200px', height: '150px', overflow: 'hidden' }}>
+              <div className="recipe-image" >
                 <img
                   src={
                     recipe.imageUrl && recipe.imageUrl.startsWith('http')
@@ -188,7 +188,7 @@ const ChefRecipes = () => {
                       : '/fallback.jpg'
                   }
                   alt={recipe.title || 'Recette'}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              
                   onError={(e) => { e.target.onerror = null; e.target.src = '/fallback.jpg'; }}
                 />
               </div>

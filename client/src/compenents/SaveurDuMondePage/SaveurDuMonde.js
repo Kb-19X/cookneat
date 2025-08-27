@@ -205,7 +205,7 @@ const SaveursDuMonde = () => {
                     alt="Like"
                     onClick={() => handleLike(recipe._id)}
                   />
-                  <span>{likes[recipe._id] || 0}</span>
+                
                   <img
                     src={commentIcon}
                     alt="Comment"
