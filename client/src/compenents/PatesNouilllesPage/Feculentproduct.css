@@ -16,14 +16,13 @@
 /* ------------------ RECIPES LIST ------------------ */
 
 .recipes-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cartes par ligne */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cartes par ligne */
   gap: 30px;
   padding: 0 40px 50px;
-
-   padding-bottom: 50px;
   background-color: var(--secondary-color);
   justify-items: center;
+  justify-content: center; /* ✅ Centre le grid */
 }
 
 /* ------------------ RECIPE CARD ------------------ */

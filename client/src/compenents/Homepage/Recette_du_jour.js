@@ -7,6 +7,7 @@ import tool from "../../assets/ImageHomePage/tool.png";
 const Recette_du_jour = () => {
   const [recipe, setRecipe] = useState(null);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const API_URL = process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const Recette_du_jour = () => {
   useEffect(() => {
     const fetchRecipeOfTheDay = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(`${API_URL}/api/recipes`);
         const recipes = res.data;
         if (recipes.length > 0) {
@@ -34,12 +36,23 @@ const Recette_du_jour = () => {
         }
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchRecipeOfTheDay();
   }, [API_URL]);
 
-  if (!recipe) return <p>Chargement de la recette du jour...</p>;
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <div className="spinner"></div>
+        <p>Chargement de la recette du jour...</p>
+      </div>
+    );
+  }
+
+  if (!recipe) return <p>Aucune recette disponible pour le moment.</p>;
 
   return (
     <div className="pagejour">
@@ -80,8 +93,8 @@ const Recette_du_jour = () => {
           >
             <p><strong>Préparation :</strong> {recipe.prepTime || "10 min"}</p>
             <p><strong>Cuisson :</strong> {recipe.cookTime || "15 min"}</p>
-            <p><strong> Total :</strong> {recipe.totalTime || "25 min"}</p>
-            <p className="click-to-view">Cliquez pour voir la recette complète</p>
+            <p><strong>Total :</strong> {recipe.totalTime || "25 min"}</p>
+            <p className="click-to-view"> Voir la recette complète</p>
           </div>
         </div>
       </div>
