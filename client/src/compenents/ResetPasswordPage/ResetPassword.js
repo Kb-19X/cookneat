@@ -1,98 +1,90 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+// ResetPassword.jsx
+import React, { useState } from 'react';
 import axios from 'axios';
-import './ResetPassword.css';
+import '../ForgetPasswordPage/Forgetmdp.css'; 
+import logo from '../../assets/ImageHomePage/logo.png';
+import { useParams, useNavigate } from 'react-router-dom';
 
-export default function ResetPassword() {
-  const [searchParams] = useSearchParams();
+const API_URL = process.env.REACT_APP_API_URL || "https://cookneat-server.onrender.com";
+
+const ResetPassword = () => {
+  const { token } = useParams();
   const navigate = useNavigate();
 
-  const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Récupérer le token depuis l'URL au chargement
-  useEffect(() => {
-    const t = searchParams.get('token');
-    if (t) {
-      setToken(t);
-      setError('');
-    } else {
-      setError('Token manquant dans l’URL.');
-    }
-  }, [searchParams]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
-    setError('');
 
-    if (password.length < 6) {
-      setError('Le mot de passe doit contenir au moins 6 caractères.');
+    // Vérification des champs
+    if (!password || !confirmPassword) {
+      setError("Veuillez remplir tous les champs.");
+      setMessage('');
       return;
     }
+
     if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas.');
-      return;
-    }
-    if (!token) {
-      setError('Token invalide.');
+      setError("Les mots de passe ne correspondent pas.");
+      setMessage('');
       return;
     }
 
     setLoading(true);
+    setError('');
+    setMessage('');
 
     try {
-      const res = await axios.post('/api/auth/reset-password', { token, password });
-      setMessage(res.data.message);
+      const res = await axios.post(`${API_URL}/api/auth/reset-password/${token}`, { password });
+
+      setMessage(res.data.message || "Votre mot de passe a été réinitialisé avec succès.");
+      setPassword('');
+      setConfirmPassword('');
+
+      // Redirection après 3 secondes vers la page de connexion
       setTimeout(() => {
-        navigate('/login'); // Rediriger vers la page login après succès
+        navigate('/connexion');
       }, 3000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Erreur lors de la réinitialisation.');
+      setError(err.response?.data?.message || "Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="reset-container">
-      <h2>Réinitialisation du mot de passe</h2>
-      {message && <p className="success-message">{message}</p>}
-      {error && <p className="error-message">{error}</p>}
-      {!message && (
-        <form onSubmit={handleSubmit} className="reset-form">
-          <div className="form-group">
-            <label htmlFor="password">Nouveau mot de passe :</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              minLength={6}
-              autoFocus
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirmer le mot de passe :</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              required
-              minLength={6}
-            />
-          </div>
-          <button type="submit" disabled={loading} className="btn-submit">
-            {loading ? 'En cours...' : 'Réinitialiser'}
+    <div className="Forgetmdp-background">
+      <a href="/"><img src={logo} alt="Logo CookNeat" /></a>
+      <div className="forget-container">
+        <h1>Réinitialisation du mot de passe</h1>
+        <p>Saisissez votre nouveau mot de passe ci-dessous.</p>
+        <form className="input-forget" onSubmit={handleSubmit}>
+          <input
+            type="password"
+            placeholder="Nouveau mot de passe"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
+          />
+          <input
+            type="password"
+            placeholder="Confirmer le mot de passe"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            disabled={loading}
+          />
+          <button type="submit" className="btn-forget-password" disabled={loading}>
+            {loading ? "Réinitialisation..." : "Valider"}
           </button>
         </form>
-      )}
+        {message && <p className="success-message">{message}</p>}
+        {error && <p className="error-message">{error}</p>}
+      </div>
     </div>
   );
-}
+};
+
+export default ResetPassword;

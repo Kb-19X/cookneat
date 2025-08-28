@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto'); 
+const nodemailer = require('nodemailer');
 const User = require('../models/User');
 require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'cookneat123';
 
+// Middleware d'authentification
 const authMiddleware = (req, res, next) => {
   const authHeader = req.header('Authorization');
   const token = authHeader && authHeader.split(' ')[1];
@@ -19,6 +22,7 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
+// ====================== ROUTE REGISTER ======================
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -43,6 +47,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// ====================== ROUTE LOGIN ======================
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -66,12 +71,90 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// ====================== ROUTE PROFILE ======================
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     res.json(user);
   } catch {
+    res.status(500).json({ message: 'Erreur serveur.' });
+  }
+});
+
+// ====================== ROUTE FORGOT PASSWORD ======================
+router.post('/forgot-password', async (req, res) => {
+  const { email, username } = req.body;
+
+  try {
+    const user = await User.findOne({
+      $or: [{ email }, { username }]
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Aucun utilisateur trouvé avec ces informations." });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenExpire = Date.now() + 3600000; // 1h
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpire = resetTokenExpire;
+    await user.save();
+
+    const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS  
+      }
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: "Réinitialisation de votre mot de passe",
+      html: `
+        <p>Bonjour ${user.username},</p>
+        <p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :</p>
+        <a href="${resetURL}">${resetURL}</a>
+        <p>Ce lien est valable pendant 1 heure.</p>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ message: "Un lien de réinitialisation vous a été envoyé par email." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erreur interne du serveur." });
+  }
+});
+
+// ====================== ROUTE RESET PASSWORD ======================
+router.post('/reset-password/:token', async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpire: { $gt: Date.now() } // token non expiré
+    });
+
+    if (!user) return res.status(400).json({ message: 'Token invalide ou expiré.' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.json({ message: 'Mot de passe réinitialisé avec succès.' });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Erreur serveur.' });
   }
 });

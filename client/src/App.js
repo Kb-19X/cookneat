@@ -1,4 +1,3 @@
-// App.jsx
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navbar from './compenents/Homepage/Navbar';
 import Footer from './compenents/Homepage/Footer';
@@ -41,11 +40,10 @@ const router = createBrowserRouter([
     children: [
       { path: '', element: <Homepage /> },
       { path: 'productpage', element: <ProductPage /> },
-       
-          { path: 'EditRecipe/:id', element: <EditRecipe /> },
-      { path: 'productpage/:id', element: <ProductDetails /> }, // 🔧 Affichage d'un plat spécifique
+      { path: 'EditRecipe/:id', element: <EditRecipe /> },
+      { path: 'productpage/:id', element: <ProductDetails /> },
       { path: 'plats', element: <Plats /> },
-        { path: 'ResetPassword', element: <ResetPassword /> },
+      { path: 'reset-password/:token', element: <ResetPassword /> },
       { path: 'chefrecipe', element: <ChefRecipe /> },
       { path: 'connexion', element: <Connexion /> },
       { path: 'register', element: <Register /> },
