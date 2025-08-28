@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './CoverSearchbar.css';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import Pagination from "../Pagination/Pagination";
 import sante from '../../assets/ImageHomePage/sante.jpg';
 import commentIcon from '../../assets/ImagePlatsPage/comment.png';
 import likeIcon from '../../assets/ImagePlatsPage/like.png';
@@ -15,6 +15,11 @@ const CoverSearchbar = () => {
   const [likes, setLikes] = useState({});
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({ category: '', ingredient: '' });
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 12; 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,10 +66,18 @@ const CoverSearchbar = () => {
     setFilters(prev => ({ ...prev, [field]: value }));
   };
 
+  // ✅ Filtrage des recettes
   const filteredRecipes = recipes
     .filter(r => r.title?.toLowerCase().includes(search.toLowerCase()))
     .filter(r => !filters.category || r.category?.toLowerCase() === filters.category.toLowerCase())
     .filter(r => !filters.ingredient || r.ingredients?.some(i => i.name.toLowerCase().includes(filters.ingredient.toLowerCase())));
+
+  // ✅ Pagination : découper les recettes affichées
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="plats-body-container">
@@ -78,7 +91,7 @@ const CoverSearchbar = () => {
             </div>
           </div>
           <div className="banner-right">
-            <h2>Des plats healthy, faciles à préparer et bons pour votre santé !</h2>
+            <h2>Des plats healthy, faciles à préparer et bons pour votre santé !</h2>
             <p>
               "Explorez des recettes healthy inspirées du monde entier : un tour du monde savoureux et bon pour votre santé, depuis votre cuisine."
             </p>
@@ -102,7 +115,6 @@ const CoverSearchbar = () => {
         />
       </div>
 
-      {/* Filtres modernes */}
       <div className="filters-container">
         <div className="filter-group">
           <label>Catégorie :</label>
@@ -128,8 +140,8 @@ const CoverSearchbar = () => {
       </div>
 
       <div className="recipes-list">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map(recipe => (
+        {currentRecipes.length > 0 ? (
+          currentRecipes.map(recipe => (
             <div
               key={recipe._id}
               className="recipe-card"
@@ -166,6 +178,15 @@ const CoverSearchbar = () => {
           ))
         ) : <p className="no-results">Aucun plat trouvé.</p>}
       </div>
+
+      {filteredRecipes.length > recipesPerPage && (
+        <Pagination
+          recipesPerPage={recipesPerPage}
+          totalRecipes={filteredRecipes.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
+      )}
     </div>
   );
 };

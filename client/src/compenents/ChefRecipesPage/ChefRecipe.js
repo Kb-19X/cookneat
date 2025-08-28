@@ -1,4 +1,4 @@
-import '../PatesNouilllesPage/Feculentproduct.css'; 
+import '../PatesNouilllesPage/Feculentproduct.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,7 +7,6 @@ import likeIcon from '../../assets/ImagePlatsPage/like.png';
 import shareIcon from '../../assets/ImagePlatsPage/share.png';
 import chef from '../../assets/ImageHomePage/chef.jpeg';
 
-// Composant de filtres
 const Filters = ({ onFilterChange }) => {
   const [category, setCategory] = useState('');
   const [time, setTime] = useState('');
@@ -31,13 +30,10 @@ const Filters = ({ onFilterChange }) => {
         </select>
       </div>
 
-   
-
-   
       <div className="filter-group">
         <label>Ingrédient :</label>
         <input
-        className='filter-ingredient'
+          className='filter-ingredient'
           type="text"
           placeholder="Ex: poulet"
           value={ingredient}
@@ -58,6 +54,10 @@ const ChefRecipes = () => {
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({ category: '', time: '', chefOnly: false, ingredient: '' });
+
+ 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 12; 
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -138,10 +138,11 @@ const ChefRecipes = () => {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
+    setCurrentPage(1); 
   };
 
-  // Application des filtres
-  const displayedRecipes = recipes
+  
+  const filteredRecipes = recipes
     .filter(r => r.title.toLowerCase().includes(search.toLowerCase()))
     .filter(r => !filters.category || r.category.toLowerCase() === filters.category.toLowerCase())
     .filter(r => {
@@ -155,8 +156,22 @@ const ChefRecipes = () => {
     .filter(r => !filters.chefOnly || r.isChefRecipe === true)
     .filter(r => !filters.ingredient || r.ingredients.some(i => i.name.toLowerCase().includes(filters.ingredient.toLowerCase())));
 
+  
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
+  const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <div className="plats-body-container">
+   
       <div className='background-cover'>
         <div className="banner-container">
           <div className="banner-left">
@@ -173,6 +188,7 @@ const ChefRecipes = () => {
         </div>
       </div>
 
+ 
       <div className="rapide-header-section">
         <div className="rapide-text">
           <h1>Découvrez toutes nos recettes</h1>
@@ -185,7 +201,7 @@ const ChefRecipes = () => {
         </div>
       </div>
 
-      {/* Barre de recherche */}
+     
       <div className="search-bar">
         <input
           type="text"
@@ -195,13 +211,13 @@ const ChefRecipes = () => {
         />
       </div>
 
-      {/* Bloc Filtres */}
+      
       <Filters onFilterChange={handleFilterChange} />
 
-      {/* Liste des recettes */}
+     
       <div className="recipes-list">
-        {displayedRecipes.length > 0 ? (
-          displayedRecipes.map((recipe) => (
+        {currentRecipes.length > 0 ? (
+          currentRecipes.map((recipe) => (
             <div key={recipe._id} className="recipe-card">
               <div className="recipe-image">
                 <img
@@ -222,7 +238,6 @@ const ChefRecipes = () => {
 
                 <div className="recipe-actions">
                   <img src={likeIcon} alt="Like" onClick={() => handleLike(recipe._id)} style={{ cursor: 'pointer' }} />
-                  
                   <img src={commentIcon} alt="Commentaire" onClick={() => toggleCommentSection(recipe._id)} style={{ cursor: 'pointer' }} />
                   <img src={shareIcon} alt="Partager" style={{ cursor: 'pointer' }} />
                 </div>
@@ -257,6 +272,23 @@ const ChefRecipes = () => {
           <p className="no-results">Aucune recette trouvée.</p>
         )}
       </div>
+
+     
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button disabled={currentPage === 1} onClick={() => goToPage(currentPage - 1)}>Précédent</button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => goToPage(index + 1)}
+              className={currentPage === index + 1 ? 'active-page' : ''}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button disabled={currentPage === totalPages} onClick={() => goToPage(currentPage + 1)}>Suivant</button>
+        </div>
+      )}
     </div>
   );
 };

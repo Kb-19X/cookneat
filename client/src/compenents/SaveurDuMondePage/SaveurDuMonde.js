@@ -18,6 +18,11 @@ const SaveursDuMonde = () => {
   const [commentInput, setCommentInput] = useState({});
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({ category: '', ingredient: '' });
+  
+ 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 12; 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -100,7 +105,7 @@ const SaveursDuMonde = () => {
     }
   };
 
-  // Gestion des filtres
+
   const handleFilterChange = (field, value) => {
     setFilters(prev => ({ ...prev, [field]: value }));
   };
@@ -109,6 +114,19 @@ const SaveursDuMonde = () => {
     .filter(r => r.title.toLowerCase().includes(search.toLowerCase()))
     .filter(r => !filters.category || r.category.toLowerCase() === filters.category.toLowerCase())
     .filter(r => !filters.ingredient || r.ingredients.some(i => i.name.toLowerCase().includes(filters.ingredient.toLowerCase())));
+
+
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="plats-body-container">
@@ -142,7 +160,7 @@ const SaveursDuMonde = () => {
         </div>
       </div>
 
-      {/* Barre de recherche */}
+
       <div className="search-bar">
         <input
           type="text"
@@ -152,7 +170,6 @@ const SaveursDuMonde = () => {
         />
       </div>
 
-      {/* Bloc Filtres modernisé */}
       <div className="filters-container">
         <div className="filter-group">
           <label>Catégorie :</label>
@@ -180,10 +197,9 @@ const SaveursDuMonde = () => {
         </div>
       </div>
 
-      {/* Liste des recettes */}
       <div className="recipes-list">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
+        {currentRecipes.length > 0 ? (
+          currentRecipes.map((recipe) => (
             <div
               key={recipe._id}
               className="recipe-card"
@@ -207,7 +223,6 @@ const SaveursDuMonde = () => {
 
                 <div className="recipe-actions">
                   <img src={likeIcon} alt="Like" onClick={() => handleLike(recipe._id)} />
-                 
                   <img src={commentIcon} alt="Comment" onClick={() => toggleCommentSection(recipe._id)} />
                   <img src={shareIcon} alt="Share" />
                 </div>
@@ -242,6 +257,27 @@ const SaveursDuMonde = () => {
           <p className="no-results">Aucun plat trouvé.</p>
         )}
       </div>
+
+     
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+            ◀ Précédent
+          </button>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={currentPage === index + 1 ? 'active' : ''}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+            Suivant ▶
+          </button>
+        </div>
+      )}
     </div>
   );
 };

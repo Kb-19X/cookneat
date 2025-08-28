@@ -2,6 +2,7 @@ import "./Catégorie.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Pagination from "../Pagination/Pagination";
 
 import commentIcon from "../../assets/ImagePlatsPage/comment.png";
 import likeIcon from "../../assets/ImagePlatsPage/like.png";
@@ -16,6 +17,8 @@ const Catégorie = () => {
   const [likes, setLikes] = useState({});
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({ category: "", ingredient: "" });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -74,9 +77,9 @@ const Catégorie = () => {
     }
   };
 
-  // Gestion des filtres
   const handleFilterChange = (field, value) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
+    setCurrentPage(1); // reset page à 1 à chaque filtre
   };
 
   const rapideFacile = recipes.filter((r) => {
@@ -101,6 +104,18 @@ const Catégorie = () => {
           )
     );
 
+  // Pagination
+  const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentRecipes = filteredRecipes.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // remonte en haut de page
+  };
+
   return (
     <div className="plats-body-container">
       <div className="background-cover">
@@ -110,20 +125,17 @@ const Catégorie = () => {
             <div className="banner-overlay-heal">
               <h1>Rapide & Facile</h1>
               <p>
-                <strong>Des recettes</strong> <em>express</em>,{" "}
-                <strong>sans stress.</strong>
+                <strong>Des recettes</strong> <em>express</em>, <strong>sans stress.</strong>
               </p>
             </div>
           </div>
           <div className="banner-right">
             <h2>
-              Des recettes rapides et faciles à préparer, idéales pour tous les
-              jours !
+              Des recettes rapides et faciles à préparer, idéales pour tous les jours !
             </h2>
             <p>
               "Des saveurs venues d’ailleurs pour éveiller vos sens :{" "}
-              <span className="mot-color">embarquez</span> pour un tour du
-              monde culinaire sans quitter votre cuisine."
+              <span className="mot-color">embarquez</span> pour un tour du monde culinaire sans quitter votre cuisine."
             </p>
           </div>
         </div>
@@ -133,9 +145,7 @@ const Catégorie = () => {
         <div className="rapide-text">
           <h1>⚡ Recettes Rapides & Faciles ⚡</h1>
           <p>
-            Moins de 20 minutes, zéro stress, 100% goût. Ces plats sont parfaits
-            pour les étudiants pressés, les familles débordées ou les gourmands
-            impatients.
+            Moins de 20 minutes, zéro stress, 100% goût. Ces plats sont parfaits pour les étudiants pressés, les familles débordées ou les gourmands impatients.
           </p>
           <div className="rapide-benefits">
             <div className="benefit-box">⏱️ Prêtes en 20 min</div>
@@ -145,7 +155,6 @@ const Catégorie = () => {
         </div>
       </div>
 
-      {/* Barre de recherche */}
       <div className="search-bar">
         <input
           type="text"
@@ -155,7 +164,6 @@ const Catégorie = () => {
         />
       </div>
 
-      {/* Filtres modernes */}
       <div className="filters-container">
         <div className="filter-group">
           <label>Catégorie :</label>
@@ -184,8 +192,8 @@ const Catégorie = () => {
       </div>
 
       <div className="recipes-list">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
+        {currentRecipes.length > 0 ? (
+          currentRecipes.map((recipe) => (
             <div key={recipe._id} className="recipe-card">
               <Link
                 to={`/productpage/${recipe._id}`}
@@ -239,6 +247,15 @@ const Catégorie = () => {
           <p>Aucune recette trouvée.</p>
         )}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 };

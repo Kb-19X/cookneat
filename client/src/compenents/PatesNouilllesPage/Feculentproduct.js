@@ -18,6 +18,10 @@ const Feculentproduct = () => {
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({ category: '', ingredient: '' });
 
+ 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 12; 
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -109,73 +113,26 @@ const Feculentproduct = () => {
     .filter(r => !filters.category || r.category?.toLowerCase() === filters.category.toLowerCase())
     .filter(r => !filters.ingredient || r.ingredients?.some(i => i.name.toLowerCase().includes(filters.ingredient.toLowerCase())));
 
+  
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    }
+  };
+
   return (
     <div className="plats-body-container">
-      <div className='background-cover'>
-        <div className="banner-container">
-          <div className="banner-left">
-            <img src={burger} alt="comfort food" />
-            <div className="banner-overlay-heal">
-              <h1>Comfort Food</h1>
-              <p><strong>Des recettes</strong> <em>réconfortantes</em> et <strong>gourmandes</strong>.</p>
-            </div>
-          </div>
-          <div className="banner-right">
-            <h2>Des plats savoureux pour se faire plaisir</h2>
-            <p>"Des plats simples, chaleureux, parfaits pour les journées cocooning ou les gros appétits."</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="rapide-header-section">
-        <div className="rapide-text">
-          <h1>🍔 Recettes Comfort Food 🍔</h1>
-          <p>Des plats généreux, faciles à préparer et ultra réconfortants.</p>
-          <div className="rapide-benefits">
-            <div className="benefit-box">🍽️ Gourmand et copieux</div>
-            <div className="benefit-box">👩‍🍳 Accessible à tous</div>
-            <div className="benefit-box">🛒 Ingrédients simples</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Rechercher un plat comfort food..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-
-      {/* Filtres */}
-      <div className="filters-container">
-        <div className="filter-group">
-          <label>Catégorie :</label>
-          <select value={filters.category} onChange={(e) => handleFilterChange('category', e.target.value)}>
-            <option value="">Toutes les recettes</option>
-            <option value="Rapide & facile">Rapide & facile</option>
-            <option value="Healthy">Healthy</option>
-            <option value="Confort">Confort</option>
-            <option value="Saveurs du monde">Saveurs du monde</option>
-          </select>
-        </div>
-
-        <div className="filter-group">
-          <label>Ingrédient :</label>
-          <input
-            className='filter-ingredient'
-            type="text"
-            placeholder="Ex: poulet"
-            value={filters.ingredient}
-            onChange={(e) => handleFilterChange('ingredient', e.target.value)}
-          />
-        </div>
-      </div>
+     
 
       <div className="recipes-list">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
+        {currentRecipes.length > 0 ? (
+          currentRecipes.map((recipe) => (
             <div key={recipe._id} className="recipe-card" onClick={() => handleCardClick(recipe._id)} style={{ cursor: 'pointer' }}>
               <div className="recipe-image">
                 <img
@@ -194,7 +151,6 @@ const Feculentproduct = () => {
 
                 <div className="recipe-actions" onClick={e => e.stopPropagation()}>
                   <img src={likeIcon} alt="Like" onClick={() => handleLike(recipe._id)} style={{ cursor: 'pointer' }} />
-                
                   <img src={commentIcon} alt="Comment" onClick={() => toggleCommentSection(recipe._id)} style={{ cursor: 'pointer' }} />
                   <img src={shareIcon} alt="Share" />
                 </div>
@@ -229,6 +185,27 @@ const Feculentproduct = () => {
           <p className="no-results">Aucune recette comfort food trouvée.</p>
         )}
       </div>
+
+    
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+            ◀ Précédent
+          </button>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={currentPage === index + 1 ? 'active' : ''}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+            Suivant ▶
+          </button>
+        </div>
+      )}
     </div>
   );
 };
