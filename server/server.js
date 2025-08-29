@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipes');
 const commentRoutes = require('./routes/comments');
@@ -24,17 +25,19 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error(`❌ CORS : accès refusé pour l’origine ${origin}`));
+      console.warn(`❌ CORS : origine non autorisée -> ${origin}`);
+      callback(new Error(`CORS : accès refusé`));
     }
   },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
 // 📦 Middleware JSON
 app.use(express.json());
 
-// 🖼️ Fichiers statiques pour les images
-app.use('/uploads', express.static('uploads'));
+// 🖼️ Fichiers statiques (images)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 📄 Logger simple
 app.use((req, res, next) => {
@@ -46,8 +49,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/comments', commentRoutes);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/api/admin', adminRoutes); // ✅ corrigé ici
+app.use('/api/admin', adminRoutes);
 
 // 🧪 Route test
 app.get('/', (req, res) => {
