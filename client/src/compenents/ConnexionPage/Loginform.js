@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import './Loginform.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -21,20 +20,29 @@ const Loginform = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        'https://cookneat-server.onrender.com/api/auth/login',
-        { email, password },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
+      const response = await fetch('https://cookneat-server.onrender.com/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
 
-      const { token, user, message: serverMessage } = response.data;
+      const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.message || 'Erreur lors de la connexion.');
+      }
+
+      const { token, user, message: serverMessage } = data;
+
+      // Stockage et contexte d'authentification
       login({
         token,
         user: {
-          username: user.username, // Vérifie si le backend renvoie "username"
+          username: user.username,
           role: user.role,
-          id: user._id,
+          id: user.id, // Pas user._id car ton back renvoie "id" dans la réponse JSON
           image: user.image || null
         }
       });
@@ -42,10 +50,9 @@ const Loginform = () => {
       setMessage(serverMessage || 'Connexion réussie');
       setEmail('');
       setPassword('');
-      setTimeout(() => navigate('/profilpage'), 1500); // Petite attente avant la redirection
+      setTimeout(() => navigate('/profilpage'), 1500);
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Erreur lors de la connexion.';
-      setMessage(errorMessage);
+      setMessage(err.message);
       setIsError(true);
     } finally {
       setLoading(false);
