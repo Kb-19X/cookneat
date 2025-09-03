@@ -6,10 +6,10 @@ const router = express.Router();
 const Comment = require('../models/Comment');
 const verifyToken = require('../middleware/verifyToken');
 
-// ✅ Configuration Multer (stockage des images)
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/comments'); // Dossier où stocker
+    cb(null, 'uploads/comments'); 
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -18,7 +18,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// ✅ POST /api/comments — avec image optionnelle et rating optionnel
 router.post('/', verifyToken, upload.single('image'), async (req, res) => {
   try {
     const { recipeId, text, rating } = req.body;

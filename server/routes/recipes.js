@@ -9,7 +9,6 @@ require('dotenv').config();
 
 const API_URL = process.env.API_URL;
 
-// ✅ GET toutes les recettes
 router.get('/', async (req, res) => {
   try {
     const recipes = await Recipe.find().sort({ createdAt: -1 });
@@ -20,7 +19,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ GET recettes filtrées par catégorie : healthy
 router.get('/healthy', async (req, res) => {
   try {
     const recipes = await Recipe.find({ category: 'healthy' }).sort({ createdAt: -1 });
@@ -31,7 +29,6 @@ router.get('/healthy', async (req, res) => {
   }
 });
 
-// ✅ GET recettes filtrées par catégorie : proteine
 router.get('/proteine', async (req, res) => {
   try {
     const recipes = await Recipe.find({ category: 'proteine' }).sort({ createdAt: -1 });
@@ -42,7 +39,6 @@ router.get('/proteine', async (req, res) => {
   }
 });
 
-// 🔐 Voir ses propres recettes (protégé)
 router.get('/mes-recettes', auth, async (req, res) => {
   try {
     const recettes = await Recipe.find({ userId: req.user.id });
@@ -52,7 +48,6 @@ router.get('/mes-recettes', auth, async (req, res) => {
   }
 });
 
-// 🔐 Voir ses propres commentaires (protégé)
 router.get('/mine', auth, async (req, res) => {
   try {
     const comments = await Comment.find({ user: req.user.id })
@@ -67,7 +62,6 @@ router.get('/mine', auth, async (req, res) => {
   }
 });
 
-// 🔐 Récupérer les recettes likées par l’utilisateur connecté (protégé)
 router.get('/liked', auth, async (req, res) => {
   try {
     const recipes = await Recipe.find({ likes: req.user.id }).sort({ createdAt: -1 });
@@ -78,7 +72,6 @@ router.get('/liked', auth, async (req, res) => {
   }
 });
 
-// ✅ POST nouvelle recette (avec image ou URL) - protégé
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { title, description, imageUrl, ingredients, steps } = req.body;
@@ -105,7 +98,6 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// ✅ PUT mettre à jour une recette - (Optionnel: tu peux aussi protéger cette route avec auth)
 router.put('/:id', auth, async (req, res) => {
   try {
     const updateData = { ...req.body };
@@ -127,7 +119,6 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-// ✅ DELETE toutes les recettes sans images locales (protégé, car destructif)
 router.delete('/deleteNonLocalImages', auth, async (req, res) => {
   try {
     const result = await Recipe.deleteMany({
@@ -139,7 +130,6 @@ router.delete('/deleteNonLocalImages', auth, async (req, res) => {
   }
 });
 
-// ❤️ Liker ou unliker une recette (protégé)
 router.post('/:id/like', auth, async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);
@@ -167,7 +157,6 @@ router.post('/:id/like', auth, async (req, res) => {
   }
 });
 
-// ✅ GET une recette par ID (mettre en dernier pour éviter conflits avec autres routes statiques)
 router.get('/:id', async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);

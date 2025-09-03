@@ -23,10 +23,10 @@ const recipeSchema = new mongoose.Schema({
       note: String,
     },
   ],
-  steps: [stepSchema], // Tableau d’objets stepSchema
+  steps: [stepSchema],
   isChefRecipe: Boolean,
   category: {
-    type: String, // ✅ enum supprimé
+    type: String,
     required: true,
   },
 });

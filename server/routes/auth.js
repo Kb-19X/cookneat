@@ -9,7 +9,6 @@ require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'cookneat123';
 
-// Middleware d'authentification
 const authMiddleware = (req, res, next) => {
   const authHeader = req.header('Authorization');
   const token = authHeader && authHeader.split(' ')[1];
@@ -22,7 +21,6 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-// ====================== ROUTE REGISTER ======================
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -53,12 +51,10 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// ====================== ROUTE LOGIN ======================
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 🔹 Logs pour debug
     console.log("=== LOGIN DEBUG ===");
     console.log("Email reçu :", email);
     console.log("Password reçu :", password);
@@ -94,7 +90,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// ====================== ROUTE PROFILE ======================
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
@@ -106,7 +101,6 @@ router.get('/profile', authMiddleware, async (req, res) => {
   }
 });
 
-// ====================== ROUTE FORGOT PASSWORD ======================
 router.post('/forgot-password', async (req, res) => {
   const { email, username } = req.body;
 
@@ -156,7 +150,6 @@ router.post('/forgot-password', async (req, res) => {
   }
 });
 
-// ====================== ROUTE RESET PASSWORD ======================
 router.post('/reset-password/:token', async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
@@ -164,7 +157,7 @@ router.post('/reset-password/:token', async (req, res) => {
   try {
     const user = await User.findOne({
       resetPasswordToken: token,
-      resetPasswordExpire: { $gt: Date.now() } // token non expiré
+      resetPasswordExpire: { $gt: Date.now() }
     });
 
     if (!user) return res.status(400).json({ message: 'Token invalide ou expiré.' });

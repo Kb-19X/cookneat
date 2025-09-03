@@ -12,14 +12,13 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Origines autorisées
+
 const allowedOrigins = [
   'https://cookneat.x75.form.efp.be',
   'https://cookneat.onrender.com',
   'http://localhost:3000'
 ];
 
-// 🛡️ Middleware CORS
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -33,30 +32,30 @@ app.use(cors({
   credentials: true
 }));
 
-// 📦 Middleware JSON
+
 app.use(express.json());
 
-// 🖼️ Fichiers statiques (images)
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// 📄 Logger simple
+
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
-// 🚦 Routes API
+
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/admin', adminRoutes);
 
-// 🧪 Route test
+
 app.get('/', (req, res) => {
   res.send('✅ API CookNeat opérationnelle');
 });
 
-// 📡 Connexion MongoDB
+
 const mongoUri = process.env.MONGO_URI;
 if (!mongoUri) {
   console.error("❌ Erreur : MONGO_URI non défini dans .env");

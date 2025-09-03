@@ -23,7 +23,7 @@ rating: {
   type: Number,
   min: 1,
   max: 5,
-  required: false // ✅ On enlève le required
+  required: false 
 },
 imageUrl: {
   type: String,

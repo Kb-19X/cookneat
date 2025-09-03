@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const LOCAL_URI = 'mongodb://localhost:27017/cookneatproject'; // ← adapte ce nom
+const LOCAL_URI = 'mongodb://localhost:27017/cookneatproject'; 
 const ATLAS_URI = 'mongodb+srv://DavDB:RTYetuMjOpNSTUTU@cookneat-db.anbbadf.mongodb.net/cookneat?retryWrites=true&w=majority';
 
-const modelName = 'Recipe'; // ou User, Comment, etc. – selon tes modèles
-const schema = new mongoose.Schema({}, { strict: false }); // Pour tout copier sans se soucier du schéma
+const modelName = 'Recipe'; 
+const schema = new mongoose.Schema({}, { strict: false }); 
 const LocalModel = mongoose.model(modelName, schema);
-const RemoteModel = mongoose.model(modelName, schema, modelName); // important: garder le nom
+const RemoteModel = mongoose.model(modelName, schema, modelName); 
 
 async function migrate() {
   try {
