@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
-import './Loginform.css';
-import { useNavigate, Link } from 'react-router-dom';
-import { AuthContext } from '../../contexts/AuthContext';
-import axios from 'axios';
+import React, { useState, useContext } from "react";
+import "./Loginform.css";
+import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
+import { login as loginApi } from "../../api/api"; // <-- utilisation de ton api.js
 
 const Loginform = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -16,38 +16,38 @@ const Loginform = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     setIsError(false);
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        'https://cookneat-server.onrender.com/api/auth/login',
-        {
-          email: email.trim().toLowerCase(),
-          password
-        }
-      );
+      const response = await loginApi({
+        email: email.trim().toLowerCase(),
+        password,
+      });
+
+      console.log("Réponse serveur:", response.data);
 
       const { token, user, message: serverMessage } = response.data;
 
-      // Stockage et contexte d'authentification
+      // Sauvegarde via ton AuthContext
       login({
         token,
         user: {
-          username: user.username,
-          role: user.role,
-          id: user.id,
-          image: user.image || null
-        }
+          username: user?.username || user?.name, // selon ce que ton backend renvoie
+          role: user?.role,
+          id: user?.id,
+          image: user?.image || null,
+        },
       });
 
-      setMessage(serverMessage || 'Connexion réussie');
-      setEmail('');
-      setPassword('');
-      setTimeout(() => navigate('/profilpage'), 1500);
+      setMessage(serverMessage || "Connexion réussie");
+      setEmail("");
+      setPassword("");
+      setTimeout(() => navigate("/profilpage"), 1500);
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Erreur lors de la connexion';
+      const errorMessage =
+        err.response?.data?.message || "Erreur lors de la connexion";
       setMessage(errorMessage);
       setIsError(true);
     } finally {
@@ -78,7 +78,7 @@ const Loginform = () => {
               disabled={loading}
             />
             <button className="login-btn" type="submit" disabled={loading}>
-              {loading ? 'Connexion...' : 'Se connecter'}
+              {loading ? "Connexion..." : "Se connecter"}
             </button>
 
             {loading && <div className="loader"></div>}
@@ -86,16 +86,16 @@ const Loginform = () => {
             {message && (
               <p
                 style={{
-                  marginTop: '10px',
-                  color: isError ? 'salmon' : 'lightgreen',
-                  fontWeight: 'bold'
+                  marginTop: "10px",
+                  color: isError ? "salmon" : "lightgreen",
+                  fontWeight: "bold",
                 }}
               >
                 {message}
               </p>
             )}
 
-            <p style={{ marginTop: '20px' }}>
+            <p style={{ marginTop: "20px" }}>
               Pas encore de compte ? <Link to="/register">S’inscrire</Link>
             </p>
           </div>

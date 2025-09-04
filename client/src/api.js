@@ -7,34 +7,40 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// Ajout automatique du token JWT dans les headers
+// Ajout automatique du token JWT dans les headers sauf pour login/register
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
-    if (token) {
+
+    // Vérifie que ce n’est pas une requête de login ou register
+    const isAuthRoute =
+      config.url.includes("/auth/login") || config.url.includes("/auth/register");
+
+    if (token && !isAuthRoute) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Auth
+// ================== Auth ==================
 export const getProfile = () => api.get("/auth/profile");
 export const login = (credentials) => api.post("/auth/login", credentials);
 export const register = (userInfo) => api.post("/auth/register", userInfo);
 
-// Recettes
+// ================== Recettes ==================
 export const getRecettes = () => api.get("/recipes");
 export const deleteRecette = (id) => api.delete(`/recipes/${id}`);
 
-// Users (admin)
+// ================== Users (admin) ==================
 export const getUsers = () => api.get("/admin/users");
 export const deleteUser = (id) => api.delete(`/admin/users/${id}`);
 export const changeUserRole = (userId, newRole) =>
   api.put(`/admin/users/${userId}/role`, { role: newRole });
 
-// Stats (admin)
+// ================== Stats (admin) ==================
 export const getStats = () => api.get("/admin/stats");
 
 export default api;
