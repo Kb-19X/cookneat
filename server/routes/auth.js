@@ -24,6 +24,9 @@ const authMiddleware = (req, res, next) => {
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    console.log('received paylod register', { username, email, password });
+
     if (!username || !email || !password) 
       return res.status(400).json({ message: 'Champs manquants.' });
 
@@ -31,6 +34,8 @@ router.post('/register', async (req, res) => {
     if (existing) return res.status(400).json({ message: 'Email déjà utilisé.' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('hashedPassword', hashedPassword);
+
     const newUser = new User({ 
       username: username.trim(), 
       email: email.trim().toLowerCase(), 
@@ -66,7 +71,10 @@ router.post('/login', async (req, res) => {
 
     if (!user) return res.status(400).json({ message: 'Email ou mot de passe incorrect.' });
 
+    console.log('user from db', user);
+
     const isMatch = await bcrypt.compare(password, user.password);
+    
     console.log("Mot de passe correct :", isMatch);
 
     if (!isMatch) return res.status(400).json({ message: 'Email ou mot de passe incorrect.' });
